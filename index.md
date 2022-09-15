@@ -3,7 +3,7 @@
 [[right]]
 
 작성자: 배현솔\
-최근 업데이트: 2022.09.14
+최근 업데이트: 2022.09.15
 
 [[/right]]
 
@@ -23,12 +23,14 @@ Coq 언어 자습 문서입니다. 원래는 영어로 쓰려고 했는데 한�
 - [Chapter 1-1: Basic Syntax](Chap1-1.html)
 - [Chapter 1-2: Natural Numbers](Chap1-2.html)
 - [Chapter 1-3: Proofs](Chap1-3.html)
+- [Chapter 2-1: Proofs by Induction](Chap2-1.html)
 
 ## Index by keyword
 
 - check : [chap1-1](Chap1-1.html#keywordcheck)
 - compute : [chap1-1](Chap1-1.html#keywordcompute)
 - definition : [chap1-1](Chap1-1.html#keyworddefinition)
+- destruct : [chap1-3](Chap1-3.html#keyworddestruct)
 - else : [chap1-1](Chap1-1.html#keywordif)
 - =? : [chap1-2](Chap1-2.html#operatoreqb)
 - example : [chap1-3](Chap1-3.html#keywordexample)
