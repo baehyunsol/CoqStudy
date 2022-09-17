@@ -63,16 +63,16 @@ CSS variables (`var(--black)`) are affected by scripts. (Everywhere else.)
 }
 
 :root {
-  --horiz-padding: 96px;
+  --horiz-padding: 0px;
 }
 
 @media screen and (orientation: landscape) {
   article {
     margin-top: 3.999rem;
     margin-bottom: 0px;
-    margin-left: 3%;
-    margin-right: 3%;
-    max-width: 94%;
+    margin-left: 8%;
+    margin-right: 8%;
+    max-width: 84%;
   }
 }
 @media screen and (orientation: portrait) {

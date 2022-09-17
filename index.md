@@ -3,7 +3,7 @@
 [[right]]
 
 작성자: 배현솔\
-최근 업데이트: 2022.09.15
+최근 업데이트: 2022.09.17
 
 [[/right]]
 
@@ -24,9 +24,11 @@ Coq 언어 자습 문서입니다. 원래는 영어로 쓰려고 했는데 한�
 - [Chapter 1-2: Natural Numbers](Chap1-2.html)
 - [Chapter 1-3: Proofs](Chap1-3.html)
 - [Chapter 2-1: Proofs by Induction](Chap2-1.html)
+- [Chapter 2-2: Proofs within proofs](Chap2-2.html)
 
 ## Index by keyword
 
+- assert : [chap2-2](Chap2-2.html#keywordassert)
 - check : [chap1-1](Chap1-1.html#keywordcheck)
 - compute : [chap1-1](Chap1-1.html#keywordcompute)
 - definition : [chap1-1](Chap1-1.html#keyworddefinition)
@@ -37,6 +39,7 @@ Coq 언어 자습 문서입니다. 원래는 영어로 쓰려고 했는데 한�
 - fixpoint: [chap1-2](Chap1-2.html#keywordfixpoint)
 - >=? : [chap1-2](Chap1-2.html#operatorgeb)
 - if : [chap1-1](Chap1-1.html#keywordif)
+- induction : [chap2-1](Chap2-1.html#keywordinduction)
 - inductive : [chap1-1](Chap1-1.html#keywordinductive)
 - intro : [chap1-3](Chap1-3.html#keywordintro)
 - intros : [chap1-3](Chap1-3.html#keywordintros)

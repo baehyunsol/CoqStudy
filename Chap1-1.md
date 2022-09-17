@@ -213,17 +213,7 @@ Check (bits B1 B0 B1 B0)
   : nybble.
 ```
 
-위와 같이 `bit` type 4개로 이뤄진 `bits`라는 type을 정의했습니다. 다른 언어들과 달리 tuple을 이루는 원소들은 전부 동일한 type을 가져야하는 것 같습니다.
-
-[[box]]
-
-TODO:
-
-진짜 type이 다 동일해야하나? 그럴 거면 뭐하러 tuple을 쓰지?
-
-`(n m : nat)`와 `(n : nat) (m : nat)`가 동일한 의미라고 하는 걸로 봐서는 tuple의 표현방식도 다른 게 있을 거 같은데...
-
-[[/box]]
+위와 같이 `bit` type 4개로 이뤄진 `bits`라는 type을 정의했습니다.
 
 ```haskell, line_num
 Definition all_zero (nb : nybble) : bool :=
@@ -231,9 +221,23 @@ Definition all_zero (nb : nybble) : bool :=
   | (bits B0 B0 B0 B0) => true
   | (bits _ _ _ _) => false
   end.
+
+Compute all_zero (bits B0 B0 B0 B0). (*{- = true : bool -}*)
 ```
 
-Tuple을 패턴매칭하는 것도 위와 같이 어렵지 않습니다.
+Tuple을 패턴매칭하는 것도 위와 같이 어렵지 않습니다. 꼭 모든 원소들이 동일한 type일 필요는 없습니다. 아래의 예시를 보겠습니다.
+
+```haskell, line_num
+Inductive complex : Type :=
+  | nums (ny : nybble) (int : nat).
+
+Definition all_zero2 (compl: complex) : bool :=
+  match compl with
+  | nums n _ => all_zero n
+  end.
+```
+
+`nybble`과 `nat`을 하나씩 원소로 가지는 tuple을 만들었습니다. `nat`이 뭔지는 [다음 장](Chap1-2.html)에 나옵니다.
 
 ---
 
