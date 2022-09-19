@@ -87,6 +87,6 @@ Proof.
 
 [[right]]
 
-다음 글이 없습니다.
+[Chap2-3. Binary](Chap2-3.html) >>
 
 [[/right]]

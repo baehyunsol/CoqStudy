@@ -61,11 +61,14 @@ Theorem plus_1_neq_0 : forall n : nat,
 
 [[anchor, id=ex3]][[/anchor]]
 
-```line_num
+```haskell, line_num
 Proof.
-  intros n. destruct n as [| n'] eqn:E.
-  - reflexivity.
-  - reflexivity. Qed.
+  intros n. destruct n as [ | n'] eqn:E.
+  - (*{- n = 0 -}*)
+    reflexivity.
+  - (*{- n = S n' -}*)
+    reflexivity.
+  Qed.
 ```
 
 이제 `n`을 `O`와 `S n'`의 두 가지 경우로 나눠서 생각합니다. `[| n']`은 `n`을 어떻게 나눌지를 정합니다. `n`의 type은 `nat`이고, `nat`의 constructor는 2개가 있으므로 우리는 대괄호 안에 두 개의 원소를 줘야합니다. 각 원소는 `|`로 구분합니다. `O`는 인수가 필요없는 constructor이므로, 첫번째 원소는 null이고 (그래서 `|` 앞에 아무것도 쓰지 않았습니다.) 두번째 원소는 `n'`을 줬습니다. 이렇게 해서 subgoal이 2개가 생겼습니다.
@@ -73,6 +76,8 @@ Proof.
 그러면 Coq은 `n`을 `O`와 `S n'`의 두가지 경우로 나눠서 생각하고, 저희는 각 경우에 대해서 증명을 하면 됩니다. 뒤의 `eqn: E`로 인해 context에 `E`가 추가됐습니다. 각 경우별로 `E: n = 0`과 `E: n = S n'`으로 생성이 됩니다. 또한 저희가 증명해야할 문제는 `(0 + 1 =? 0) = false`과 `(S n' + 1 =? 0) = false`이 됩니다.
 
 그 다음의 `-`는 각 subgoal을 풀 tactic을 보여줍니다. 여기서는 각각 `reflexivity`만으로 증명이 되니까 상관이 없지만, 각 subgoal을 증명하는 과정이 길어질 경우 하나의 증명을 마치고 `-`를 쓰고 다음 증명을 시작하면 됩니다. 이렇게 2개의 subgoal을 풀고 나면 전체가 증명이 끝납니다. `-`은 쓰지 않아도 됩니다. 다만, 가독성을 위해서 쓰는 것을 권장합니다.
+
+`eqn: E`은 생략할 수 있습니다. 그 경우, context에 `E: n = 0`과 `E: n = S n'`이 포함되지 않습니다.
 
 ## 키워드 정리
 
@@ -90,9 +95,13 @@ Proof.
 Theorem negb_involutive : forall b : bool,
   negb (negb b) = b.
 Proof.
-  intros b. destruct b eqn:E.
-  - reflexivity.
-  - reflexivity. Qed.
+  intros b.
+  destruct b eqn: E.
+  - (*{- b = true -}*)
+    reflexivity.
+  - (*{- b = false -}*)
+    reflexivity.
+  Qed.
 ```
 
 `bool` type은 variant가 2개밖에 없습니다. 또한, 각 variant의 constructor는 인수가 0개라서 `as`와 대괄호를 쓸 필요가 없습니다. 위와 같은 방식으로 증명을 하면, Coq은 theorem에다가 `true`와 `false`를 각각 집어넣어서 식이 성립하는지 확인합니다.
@@ -107,17 +116,23 @@ Theorem andb_commutative : forall b c, andb b c = andb c b.
 
 ```haskell, line_num
 Proof.
-  intros b c. destruct b eqn:Eb.
-  - destruct c eqn:Ec.
-    + reflexivity.
-    + reflexivity.
-  - destruct c eqn:Ec.
-    + reflexivity.
-    + reflexivity.
+  intros b c. destruct b eqn: Eb.
+  - (*{- b = true -}*)
+    destruct c eqn: Ec.
+    + (*{- c = true -}*)
+      reflexivity.
+    + (*{- c = false -}*)
+      reflexivity.
+  - (*{- b = false -}*)
+    destruct c eqn: Ec.
+    + (*{- c = true -}*)
+      reflexivity.
+    + (*{- c = false -}*)
+      reflexivity.
 Qed.
 ```
 
-그래서 위와 같이 2번째 줄에서 `b`를 `true`와 `false`로 나눈 뒤, 각각의 경우에 대해 `c`를 destruct하여 (3, 6번 줄) 모든 경우의 수를 따졌습니다. `b`, `c`의 값이 각각 확정되면 `reflexivity` tactic만을 이용해서 손쉽게 증명할 수 있습니다. `andb`의 정의에 직접 대입하면 결과가 나오거든요.
+그래서 위와 같이 2번째 줄에서 `b`를 `true`와 `false`로 나눈 뒤, 각각의 경우에 대해 `c`를 destruct하여 (4, 10번 줄) 모든 경우의 수를 따졌습니다. `b`, `c`의 값이 각각 확정되면 `reflexivity` tactic만을 이용해서 손쉽게 증명할 수 있습니다. `andb`의 정의에 직접 대입하면 결과가 나오거든요.
 
 - [예시1](#ex3)
 

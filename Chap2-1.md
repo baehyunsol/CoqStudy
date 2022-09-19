@@ -16,13 +16,13 @@ Theorem add_0_r_firsttry : forall n: nat,
 
 [[anchor, id = keyword induction]][[/anchor]]
 
-```line_num
+```haskell, line_num
 Theorem add_0_r : forall n: nat, n + 0 = n.
 Proof.
-  intros n. induction n as [| n' IHn'].
-  - (* n = 0 *)
+  intros n. induction n as [ | n' IHn'].
+  - (*{- n = 0 -}*)
     reflexivity.
-  - (* n = S n' *)
+  - (*{- n = S n' -}*)
     simpl.
     rewrite -> IHn'.
     reflexivity.
@@ -43,14 +43,16 @@ Proof.
 
 ### mul_0_r
 
-```line_num
+```haskell, line_num
 Theorem mul_0_r : forall n: nat,
   n * 0 = 0.
 Proof.
   intros n.
-  induction n as [|n' IHn'].
-  - reflexivity.
-  - simpl.
+  induction n as [ |n' IHn'].
+  - (*{- n = 0 -}*)
+    reflexivity.
+  - (*{- n = S n' -}*)
+    simpl.
     rewrite -> IHn'.
     reflexivity.
   Qed.
@@ -58,16 +60,18 @@ Proof.
 
 ### plus_n_Sm
 
-```line_num
+```haskell, line_num
 Theorem plus_n_Sm : forall n m : nat,
   S (n + m) = n + (S m).
 Proof.
   intros n m.
-  induction n as [| n' IHn'].
-  - rewrite -> add_0.
+  induction n as [ | n' IHn'].
+  - (*{- n = 0 -}*)
+    rewrite -> add_0.
     rewrite -> add_0.
     reflexivity.
-  - simpl.
+  - (*{- n = S n' -}*)
+    simpl.
     rewrite IHn'.
     reflexivity.
   Qed.
@@ -75,7 +79,7 @@ Proof.
 
 참고로 `add_0`은 `0 + n = n`입니다.
 
-6번 줄에서 `S (0 + m) = 0 + S m`이 나오는데, 거기서 `rewrite -> add_0`를 2번 하면 `S m = S m`이 됩니다. 9번 줄에서 `simpl`을 하면 `S (S (n' + m)) = S (n' + S m)`이 되는데, `IHn': S (n' + m) = n' + S m`이므로, `rewrite IHn'`을 하면 식이 `S (n' + S m) = S (n' + S m)`로 깔끔해집니다.
+6번 줄에서 `S (0 + m) = 0 + S m`이 나오는데, 거기서 `rewrite -> add_0`를 2번 하면 `S m = S m`이 됩니다. 11번 줄에서 `simpl`을 하면 `S (S (n' + m)) = S (n' + S m)`이 되는데, `IHn': S (n' + m) = n' + S m`이므로, `rewrite IHn'`을 하면 식이 `S (n' + S m) = S (n' + S m)`로 깔끔해집니다.
 
 ### add_comm
 
@@ -83,16 +87,18 @@ Proof.
 
 이제 교환법칙을 증명해보겠습니다.
 
-```line_num
+```haskell, line_num
 Theorem add_comm : forall n m : nat,
   n + m = m + n.
 Proof.
   intros n m.
-  induction n as [|n' IHn'].
-  - rewrite -> add_0.
+  induction n as [ |n' IHn'].
+  - (*{- n = 0 -}*)
+    rewrite -> add_0.
     rewrite -> add_0_r.
     reflexivity.
-  - simpl.
+  - (*{- n = S n' -}*)
+    simpl.
     rewrite IHn'.
     rewrite plus_n_Sm.
     reflexivity.
@@ -101,21 +107,23 @@ Proof.
 
 참고로 `add_0_r`은 `n + 0 = n`입니다.
 
-6번 줄의 `0 + m = m + 0`은 `add_0`와 `add_0_r`만으로 깔끔하게 `m = m` 꼴로 만들 수 있습니다. 9번 줄에서 `simpl`을 하면 `S (n' + m) = m + S n'`이 되는데, `IHn': n' + m = m + n'`이므로, `rewrite IHn'`으로 `n'`과 `m`의 순서를 바꾸고 아까 증명한 `plus_n_Sm`을 이용하면 깔끔하게 증명할 수 있습니다.
+6번 줄의 `0 + m = m + 0`은 `add_0`와 `add_0_r`만으로 깔끔하게 `m = m` 꼴로 만들 수 있습니다. 11번 줄에서 `simpl`을 하면 `S (n' + m) = m + S n'`이 되는데, `IHn': n' + m = m + n'`이므로, `rewrite IHn'`으로 `n'`과 `m`의 순서를 바꾸고 아까 증명한 `plus_n_Sm`을 이용하면 깔끔하게 증명할 수 있습니다.
 
 ### add_assoc
 
-```line_num
+```haskell, line_num
 Theorem add_assoc : forall n m p : nat,
   n + (m + p) = (n + m) + p.
 Proof.
   intros n m p.
   rewrite add_comm.
-  induction n as [|n' IHn'].
-  - rewrite add_0.
+  induction n as [ |n' IHn'].
+  - (*{- n = 0 -}*)
+    rewrite add_0.
     rewrite add_0_r.
     reflexivity.
-  - rewrite <- plus_n_Sm.
+  - (*{- n = S n' -}*)
+    rewrite <- plus_n_Sm.
     rewrite IHn'.
     reflexivity.
 Qed.
@@ -125,15 +133,17 @@ Qed.
 
 ### eqb_refl
 
-```line_num
+```haskell, line_num
 Theorem eqb_refl : forall n : nat,
   (n =? n) = true.
 Proof.
   intros n.
-  induction n as [|n' IHn'].
-  - simpl.
+  induction n as [ |n' IHn'].
+  - (*{- n = 0 -}*)
+    simpl.
     reflexivity.
-  - rewrite <- IHn'.
+  - (*{- n = S n' -}*)
+    rewrite <- IHn'.
     simpl.
     reflexivity.
   Qed.
