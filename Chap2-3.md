@@ -190,6 +190,6 @@ Proof.
 
 [[right]]
 
-다음 글이 없습니다.
+[Chap3-1. Pairs](Chap3-1.html) >>
 
 [[/right]]
