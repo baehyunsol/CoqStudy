@@ -1,0 +1,93 @@
+<!DOCTYPE html><html>
+
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width"/>
+    
+    <title>Chap4-2</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding&amp;display=swap" rel="stylesheet"/> 
+    
+    <link href="page.css" rel="stylesheet"/><link href="markdown.css" rel="stylesheet"/><link href="nav.css" rel="stylesheet"/><link href="header.css" rel="stylesheet"/><link href="footer.css" rel="stylesheet"/>
+    
+</head>
+
+<body>
+
+
+    <header>
+<p><a href="index.html">Home</a></p>
+    </header>
+
+
+
+    <nav>
+<p><a id="settingsopenbutton">&#9728;</a><a href="#top">&#9650;</a><a href="#bottom">&#9660;</a></p><div id="settingsmenubg"><p><div id="settingsmenu"> <a id="settingsclosebutton">&#10006;</a> <a id="changethemebutton">Set Light Theme</a> <a id="loosepaddingbutton">&#8592; &#8594;</a> <a id="tightpaddingbutton">&#8594; &#8592;</a> </div></p></div>
+    </nav>
+
+
+    <article class="markdown">
+        <a id="top"></a>
+<table><thead id="table-collapse-toggle-0" class="collapsible collapsed" onclick="collapse_table('0')"><tr><th> Table of Contents </th></tr></thead><tbody id="collapsible-table-0" class="invisible"><tr><td><div class="toc"><ol type="1"><li><a href="#higher-order-fuctions">Higher Order Fuctions</a><ol type="1"><li><a href="#function-as-argument">Function as argument</a></li><li><a href="#filter">filter</a></li><li><a href="#map">map</a></li><li><a href="#fold">fold</a></li><li><a href="#functions-that-return-other-functions">Functions that return other functions</a></li><li><a href="#currying">Currying</a></li></ol></li></ol></div></td></tr></tbody></table><h1 id="higher-order-fuctions">Higher Order Fuctions</h1><p>함수형 언어들의 가장 큰 특징 중 하나는 함수들이 일급시민<span class="footnote-ref" id="footnote-ref-0"><a href="#footnote-cite-0">[0]</a></span>이라는 겁니다. 즉, 함수를 다른 함수에게 인자로 주거나, 함수가 함수를 반환하는 등 함수를 다른 모든 type들과 동일하게 취급합니다. 이 개념은 function pointer와는 조금 다릅니다. Function pointer도 함수를 다른 함수의 인자로 넘길 수 있게 해주지만 C언어에서 함수와 정수가 동일하게 다뤄지나요? 잘 모르겠네요.</p><p>고차 함수<span class="footnote-ref" id="footnote-ref-1"><a href="#footnote-cite-1">[1]</a></span>는 아주 다양한 기술들을 구사할 수 있게 해줍니다. Python 혹은 Rust에서 map/reduce/filter를 사용해보셨을 겁니다. 또한 저 함수들을 쓰면서 람다함수를 정의한 적도 있으실 겁니다. Coq에서는 해당 함수들을 어떻게 정의하는지 살펴보겠습니다.</p><h2 id="function-as-argument">Function as argument</h2><pre class="fenced-code-block line-num-width-0"><code><span class="code-fence-row"><span class="code-fence-index">1</span><span class="code-fence-code"><span class="color-gold">Definition</span><span class="color-white"> doit3times {</span><span class="color-gold">X</span> <span class="color-white">:</span> <span class="color-gold">Type</span><span class="color-white">} (f </span><span class="color-white">:</span> <span class="color-gold">X</span> <span class="color-white">-&gt;</span> <span class="color-gold">X</span><span class="color-white">) (n </span><span class="color-white">:</span> <span class="color-gold">X</span><span class="color-white">) </span><span class="color-white">:</span> <span class="color-gold">X</span> <span class="color-white">:=</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">2</span><span class="code-fence-code"><span class="color-white">  f (f (f n))</span><span class="color-white">.</span></span></span>
+</code><button class="copy-fenced-code" onclick="copy_code_to_clipboard(0)">Copy</button></pre><p>함수 <code class="inline-code-span">f</code>와 값 <code class="inline-code-span">n</code>을 받아서 <code class="inline-code-span">f(f(f(n)))</code>을 반환하는 함수입니다. Type은 아래와 같습니다.</p><pre class="fenced-code-block line-num-width-0"><code><span class="code-fence-row"><span class="code-fence-index">1</span><span class="code-fence-code"><span class="color-gold">Check</span><span class="color-white"> doit3times </span><span class="color-white">:</span><span class="color-white"> (</span><span class="color-white">?</span><span class="color-gold">X</span> <span class="color-white">-&gt;</span> <span class="color-white">?</span><span class="color-gold">X</span><span class="color-white">) </span><span class="color-white">-&gt;</span> <span class="color-white">?</span><span class="color-gold">X</span> <span class="color-white">-&gt;</span><span class="color-white"> nat </span><span class="color-white">-&gt;</span> <span class="color-white">?</span><span class="color-gold">X</span> <span class="color-violet">where</span> <span class="color-white">?</span><span class="color-gold">X</span> <span class="color-white">:</span><span class="color-white"> [ </span><span class="color-white">|-</span> <span class="color-gold">Type</span><span class="color-white">]
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">2</span><span class="code-fence-code">
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">3</span><span class="code-fence-code"><span class="color-gold">Check</span><span class="color-white"> @doit3times </span><span class="color-white">:</span><span class="color-white"> forall </span><span class="color-gold">X</span> <span class="color-white">:</span> <span class="color-gold">Type</span><span class="color-white">,</span><span class="color-white"> (</span><span class="color-gold">X</span> <span class="color-white">-&gt;</span> <span class="color-gold">X</span><span class="color-white">) </span><span class="color-white">-&gt;</span> <span class="color-gold">X</span> <span class="color-white">-&gt;</span><span class="color-white"> nat </span><span class="color-white">-&gt;</span> <span class="color-gold">X</span></span></span>
+</code><button class="copy-fenced-code" onclick="copy_code_to_clipboard(1)">Copy</button></pre><p>Haskell에서 higher order function의 type 표현과 거의 비슷합니다.</p><h2 id="filter">filter</h2><pre class="fenced-code-block line-num-width-0"><code><span class="code-fence-row"><span class="code-fence-index">1</span><span class="code-fence-code"><span class="color-gold">Fixpoint</span><span class="color-white"> filter {</span><span class="color-gold">X</span> <span class="color-white">:</span> <span class="color-gold">Type</span><span class="color-white">} (test </span><span class="color-white">:</span> <span class="color-gold">X</span> <span class="color-white">-&gt;</span><span class="color-white"> bool) (l </span><span class="color-white">:</span><span class="color-white"> list </span><span class="color-gold">X</span><span class="color-white">) </span><span class="color-white">:</span><span class="color-white"> list </span><span class="color-gold">X</span> <span class="color-white">:=</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">2</span><span class="code-fence-code"><span class="color-white">  match l with
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">3</span><span class="code-fence-code">  <span class="color-white">|</span><span class="color-white"> nil </span><span class="color-white">=&gt;</span><span class="color-white"> nil
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">4</span><span class="code-fence-code">  <span class="color-white">|</span><span class="color-white"> h </span><span class="color-white">::</span><span class="color-white"> t </span><span class="color-white">=&gt;</span> <span class="color-violet">if</span><span class="color-white"> test h
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">5</span><span class="code-fence-code">    <span class="color-violet">then</span><span class="color-white"> h </span><span class="color-white">::</span><span class="color-white"> (filter test t)
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">6</span><span class="code-fence-code">    <span class="color-violet">else</span><span class="color-white"> filter test t
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">7</span><span class="code-fence-code"><span class="color-white">  end</span><span class="color-white">.</span></span></span>
+</code><button class="copy-fenced-code" onclick="copy_code_to_clipboard(2)">Copy</button></pre><p><code class="inline-code-span">filter</code> 구현입니다. 제대로 구현했는지 검사해보겠습니다.</p><pre class="fenced-code-block line-num-width-0"><code><span class="code-fence-row"><span class="code-fence-index">1</span><span class="code-fence-code"><span class="color-gold">Fixpoint</span><span class="color-white"> is_len1 {</span><span class="color-gold">X</span> <span class="color-white">:</span> <span class="color-gold">Type</span><span class="color-white">} (l </span><span class="color-white">:</span><span class="color-white"> list </span><span class="color-gold">X</span><span class="color-white">) </span><span class="color-white">:</span><span class="color-white"> bool </span><span class="color-white">:=</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">2</span><span class="code-fence-code"><span class="color-white">  (length l) </span><span class="color-white">=?</span> <span class="color-gold">1</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">3</span><span class="code-fence-code">
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">4</span><span class="code-fence-code"><span class="color-gold">Compute</span><span class="color-white"> filter is_len1 [</span><span class="color-gold">[]</span><span class="color-white">; [</span><span class="color-gold">1</span><span class="color-white">]; [</span><span class="color-gold">2</span><span class="color-white">; </span><span class="color-gold">3</span><span class="color-white">]; [</span><span class="color-gold">4</span><span class="color-white">]; [</span><span class="color-gold">5</span><span class="color-white">; </span><span class="color-gold">6</span><span class="color-white">; </span><span class="color-gold">7</span><span class="color-white">]]</span><span class="color-white">.</span></span></span>
+</code><button class="copy-fenced-code" onclick="copy_code_to_clipboard(3)">Copy</button></pre><p>결과가 <code class="inline-code-span">[[1]; [4]]</code>이 나옵니다. 제대로 구현이 됐군요. filter에만 단한번 쓰기 위해서 <code class="inline-code-span">is_len1</code>을 정의하는 건 불필요해보입니다. 다행히도 Coq는 익명함수를 지원합니다. 아래의 예시를 보겠습니다.</p><pre class="fenced-code-block"><code><span class="code-fence-row"><span class="code-fence-code"><span class="color-gold">Compute</span><span class="color-white"> filter (fun l </span><span class="color-white">=&gt;</span><span class="color-white"> (length l) </span><span class="color-white">=?</span> <span class="color-gold">1</span><span class="color-white">) [</span><span class="color-gold">[]</span><span class="color-white">; [</span><span class="color-gold">1</span><span class="color-white">]; [</span><span class="color-gold">2</span><span class="color-white">; </span><span class="color-gold">3</span><span class="color-white">]; [</span><span class="color-gold">4</span><span class="color-white">]; [</span><span class="color-gold">5</span><span class="color-white">; </span><span class="color-gold">6</span><span class="color-white">; </span><span class="color-gold">7</span><span class="color-white">]]</span><span class="color-white">.</span></span></span>
+</code></pre><p><a id="keywordfun"></a></p><p>번거롭게 함수를 정의할 필요없이 <code class="inline-code-span">fun</code> 키워드를 통해서 익명함수를 정의하는 걸 볼 수 있습니다.</p><h2 id="map">map</h2><p>함수형 언어의 꽃인 <code class="inline-code-span">map</code>입니다.</p><pre class="fenced-code-block line-num-width-0"><code><span class="code-fence-row"><span class="code-fence-index">1</span><span class="code-fence-code"><span class="color-gold">Fixpoint</span><span class="color-white"> map {</span><span class="color-gold">X</span> <span class="color-gold">Y</span> <span class="color-white">:</span> <span class="color-gold">Type</span><span class="color-white">} (f </span><span class="color-white">:</span> <span class="color-gold">X</span> <span class="color-white">-&gt;</span> <span class="color-gold">Y</span><span class="color-white">) (l </span><span class="color-white">:</span><span class="color-white"> list </span><span class="color-gold">X</span><span class="color-white">) </span><span class="color-white">:</span><span class="color-white"> list </span><span class="color-gold">Y</span> <span class="color-white">:=</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">2</span><span class="code-fence-code"><span class="color-white">  match l with
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">3</span><span class="code-fence-code">  <span class="color-white">|</span> <span class="color-gold">[]</span> <span class="color-white">=&gt;</span> <span class="color-gold">[]</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">4</span><span class="code-fence-code">  <span class="color-white">|</span><span class="color-white"> h </span><span class="color-white">::</span><span class="color-white"> t </span><span class="color-white">=&gt;</span><span class="color-white"> (f h) </span><span class="color-white">::</span><span class="color-white"> (map f t)
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">5</span><span class="code-fence-code"><span class="color-white">  end</span><span class="color-white">.</span></span></span>
+</code><button class="copy-fenced-code" onclick="copy_code_to_clipboard(5)">Copy</button></pre><h2 id="fold">fold</h2><h2 id="functions-that-return-other-functions">Functions that return other functions</h2><h2 id="currying">Currying</h2><hr/><div class="align-center"><p><a href="index.html">메인으로 돌아가기</a></p></div><div class="align-left"><p>&lt;&lt; <a href="Chap4-1.html">Chap4-1. Polymorphism</a></p></div><div class="align-right"><p>다음 글이 없습니다.</p></div><hr class="footnote-hr"/><div class="mdxt-footnote-cites"><p><div class="footnote-cite"><a id="footnote-cite-0"></a>0. <a href="#footnote-ref-0"> [0]</a> 보통 first-class citizen을 일급시민이라고 번역하더군요. 썩 마음에 들진 않습니다.</div><div class="footnote-cite"><a id="footnote-cite-1"></a>1. <a href="#footnote-ref-1"> [1]</a> 보통 higher-order function을 고차함수라고 번역하더군요. 그럭저럭 마음에 듭니다.</div></p></div><script>/*<![CDATA[*/
+const fenced_code_block_contents = ["Definition doit3times {X : Type} (f : X -> X) (n : X) : X :=\n  f (f (f n)).", "Check doit3times : (?X -> ?X) -> ?X -> nat -> ?X where ?X : [ |- Type]\n\nCheck @doit3times : forall X : Type, (X -> X) -> X -> nat -> X", "Fixpoint filter {X : Type} (test : X -> bool) (l : list X) : list X :=\n  match l with\n  | nil => nil\n  | h :: t => if test h\n    then h :: (filter test t)\n    else filter test t\n  end.", "Fixpoint is_len1 {X : Type} (l : list X) : bool :=\n  (length l) =? 1.\n\nCompute filter is_len1 [[]; [1]; [2; 3]; [4]; [5; 6; 7]].", "", "Fixpoint map {X Y : Type} (f : X -> Y) (l : list X) : list Y :=\n  match l with\n  | [] => []\n  | h :: t => (f h) :: (map f t)\n  end."];
+
+function copy_code_to_clipboard(index) {
+    navigator.clipboard.writeText(fenced_code_block_contents[index]);
+}/*]]>*/</script>
+        <a id="bottom"></a>
+    </article>
+
+
+
+
+    <footer class="markdown">
+<p><br/></p><p><br/></p><hr/><div class="align-center"><p>2021 ~ 2022 (c) Baehyunsol</p></div>
+    </footer>
+
+
+    <script src="colors.js"></script>
+
+    
+    <script src="nav.js"></script>
+    
+<script src="collapsible_tables.js"></script></body>
+
+</html>

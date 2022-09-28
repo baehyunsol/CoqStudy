@@ -96,6 +96,13 @@ body .markdown img {
   margin-top: 1rem;
   margin-bottom: 1rem;
 }
+.markdown span.footnote-ref {
+  vertical-align: super;
+  font-size: 0.762rem;
+}
+.markdown span.footnote-ref a {
+  border: none;
+}
 
 /* Blockquote */
 .markdown blockquote {

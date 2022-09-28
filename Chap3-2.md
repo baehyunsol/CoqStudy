@@ -32,6 +32,8 @@ Notation도 몇가지 정의했습니다. `::`는 Haskell에서 보던 `:`과 �
 
 ### Repeat
 
+[[anchor, id = definition repeat]][[/anchor]]
+
 ```haskell, line_num
 Fixpoint repeat (n count : nat) : natlist :=
   match count with
@@ -70,7 +72,7 @@ Fixpoint get (l: natlist) (idx: nat) : nat :=
   end.
 ```
 
-주어진 list의 `n`번째 원소를 찾는 함수입니다. 책에는 없고 제가 짜본 함수입니다. index error를 나타낼 방법이 없어서 index error가 나면 `O`를 반환하도록 했습니다.
+주어진 list의 `n`번째 원소를 찾는 함수입니다. 책에는 없고 제가 짜본 함수입니다. Index error를 나타낼 방법이 없어서 index error가 나면 `O`를 반환하도록 했습니다. Index error와 관련된 부분은 [다음 장](Chap3-3.html)에서 다루겠습니다.
 
 ### Append
 

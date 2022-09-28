@@ -4,7 +4,7 @@
 
 작성자: 배현솔\
 최초 작성일: 2022.09.02\
-최근 업데이트: 2022.09.22
+최근 업데이트: 2022.09.28
 
 [[/right]]
 
@@ -18,6 +18,7 @@ Coq 언어 자습 문서입니다. 원래는 영어로 쓰려고 했는데 한�
   - 다만, 순수 번역본은 아닙니다. 제가 자습한 내용을 한글로 정리한 정리본에 가깝습니다. 원본과 순서가 다른 내용도 있고, 생략/추가된 내용도 조금씩 있습니다.
   - [Coq 공식 문서](https://coq.inria.fr/refman/index.html)와 [다른 책](http://adam.chlipala.net/cpdt/)에서 참고한 내용도 간혹 있습니다.
 - Coq를 웹 상에서 실행시켜보고 싶으면 [jscoq](https://coq.vercel.app/scratchpad.html)를 방문하시면 됩니다.
+- 이 책을 쓰는 현재 제가 사용중인 Coq는 CoqIDE, version 8.15.2입니다.
 
 ## Index By Chapter
 
@@ -34,14 +35,19 @@ Coq 언어 자습 문서입니다. 원래는 영어로 쓰려고 했는데 한�
   - [Chapter 3-2: Lists](Chap3-2.html)
   - [Chapter 3-3: Options](Chap3-3.html)
   - [Chapter 3-4: Maps](Chap3-4.html)
-- Chapter 4. 
+- Chapter 4. More Functional Programming 
   - [Chapter 4-1. Polymorphism](Chap4-1.html)
+  - [Chapter 4-2. Higher Order Functions](Chap4-2.html)
+- Chapter 5. More Tactics
+- Chapter 6. Logic
+- Chapter 7. Inductively defined Propositions
 
 ## Index by keyword
 
 [A](#indexa) [C](#indexc) [D](#indexd) [E](#indexe) [F](#indexf) [G](#indexg) [I](#indexi) [L](#indexl) [M](#indexm) [N](#indexn) [R](#indexr) [S](#indexs) [T](#indext)
 
 - A[[anchor, id = index a]][[/anchor]]
+  - arguments: [chap4-1](Chap4-1.html#keywordarguments)
   - assert : [chap2-2](Chap2-2.html#keywordassert)
 - C[[anchor, id = index c]][[/anchor]]
   - check : [chap1-1](Chap1-1.html#keywordcheck)
@@ -55,6 +61,7 @@ Coq 언어 자습 문서입니다. 원래는 영어로 쓰려고 했는데 한�
   - example : [chap1-3](Chap1-3.html#keywordexample), [chap2-3](Chap2-3.html#keywordexample)
 - F[[anchor, id = index f]][[/anchor]]
   - fixpoint: [chap1-2](Chap1-2.html#keywordfixpoint)
+  - fun: [chap4-2](Chap4-2.html#keywordfun)
 - G[[anchor, id = index g]][[/anchor]]
   - >=? : [chap1-2](Chap1-2.html#operatorgeb)
 - I[[anchor, id = index i]][[/anchor]]
@@ -74,6 +81,7 @@ Coq 언어 자습 문서입니다. 원래는 영어로 쓰려고 했는데 한�
   - reflexivity : [chap1-3](Chap1-3.html#keywordreflexivity)
   - rewrite : [chap1-3](Chap1-3.html#keywordrewrite)
 - S[[anchor, id = index s]][[/anchor]]
+  - search: [chap3-3](Chap3-3.html#keywordsearch)
   - simpl : [chap1-3](Chap1-3.html#keywordsimpl)
 - T[[anchor, id = index t]][[/anchor]]
   - then : [chap1-1](Chap1-1.html#keywordif)
