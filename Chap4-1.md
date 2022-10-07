@@ -136,6 +136,8 @@ Implicit argument를 응용하기는 아직 이른 것 같고 polymorphism을 �
 
 ## Explicit Type Arguments
 
+[[anchor, id = keyword at]][[/anchor]]
+
 방금 봤던 중괄호 표시를 이용하면 Coq가 항상 type parameter를 추론하게 할 수 있습니다. 하지만, Coq가 type을 추론할 수 없는 상황도 있습니다. 그런 상황에선 어떻게 해야할까요? Type을 명시해줘야 하지만 type을 명시하지 않겠다고 이미 선언을 했는데요? Implicit argument 선언을 뒤집을 수 있는 문법이 있습니다. 아래의 예시를 보겠습니다.
 
 ```haskell, line_num

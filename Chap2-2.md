@@ -67,7 +67,7 @@ Proof.
   rewrite H. reflexivity. Qed.
 ```
 
-`assert` 안에 등장하는 `n`과 `m`은 아까 `intros`에서 언급했던 그 `n`과 `m`입니다. 실제로 `H`를 `H: x + y = y + x`라고 쓰면 실행이 되지 않습니다. 똑같은 식처럼 보이지만 context 안에 `x`와 `y`가 없거든요.
+`assert` 안에 등장하는 `n`과 `m`은 아까 `intros`에서 언급했던 그 `n`과 `m`입니다. 실제로 `H`를 `H: x + y = y + x`라고 쓰면 실행이 되지 않습니다. 똑같은 식처럼 보이지만 context 안에 `x`와 `y`가 없거든요. `Theorem`에서 하던 것처럼 일반적인 변수를 만들고 싶으면 `forall`을 사용하여야 합니다.
 
 이 방법으로 `add_comm`을 어떤 덧셈에 적용시킬지 정확히 정할 수 있습니다.
 
