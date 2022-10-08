@@ -103,12 +103,14 @@ Proof.
 
 [[box]]
 
+### transitivity
+
 [[anchor, id = keyword transitivity]][[/anchor]]
 
 위에서본 `trans_eq`는 워낙 자주 등장하는 성질이라 Coq에 기본적으로 정의돼 있습니다. 바로 `transitivity` tactic입니다.
 
 ```
-Example trans_eq_example'' : forall (a b c d e f : nat),
+Theorem trans_eq_example : forall (a b c d e f : nat),
      [a;b] = [c;d] ->
      [c;d] = [e;f] ->
      [a;b] = [e;f].
@@ -121,6 +123,36 @@ Proof.
 ```
 
 위의 증명에서 `transitivity`는 `apply trans_eq with`와 같습니다.
+
+[[/box]]
+
+[[box]]
+
+### symmetry
+
+[[anchor, id = keyword symmetry]][[/anchor]]
+
+또 황당한 예시를 하나 갖고 왔습니다.
+
+```haskell, line_num
+Theorem another_ridiculous : forall (n m : nat),
+  n = m -> m = n.
+Proof.
+  intros n m H.
+  apply H.
+```
+
+위의 방식으로는 증명이 안됩니다. `H`를 쓰려고 했지만 `n`과 `m`의 위치가 다릅니다. 그럴 때 쓸 수 있는게 `symmetry` tactic입니다. `symmetry`는 `=` 좌우를 반전시킵니다. `n = m`이나 `m = n`이나 동일한 뜻이잖아요. 그래서 아래의 증명은 성공적으로 동작합니다.
+
+```haskell, line_num
+Theorem another_ridiculous : forall (n m : nat),
+  n = m -> m = n.
+Proof.
+  intros n m H.
+  symmetry.
+  apply H.
+  Qed.
+```
 
 [[/box]]
 
@@ -140,6 +172,6 @@ Proof.
 
 [[right]]
 
-[Chap5-2. 가제](Chap5-2.html) >>
+[Chap5-2. Injective and Disjoint](Chap5-2.html) >>
 
 [[/right]]

@@ -4,7 +4,7 @@
 
 작성자: 배현솔\
 최초 작성일: 2022.09.02\
-최근 업데이트: 2022.10.07
+최근 업데이트: 2022.10.08
 
 [[/right]]
 
@@ -40,14 +40,16 @@ Coq 언어 자습 문서입니다. 원래는 영어로 쓰려고 했는데 한�
   - [Chapter 4-2. Higher Order Functions](Chap4-2.html)
 - Chapter 5. More Tactics
   - [Chapter 5-1. Apply](Chap5-1.html)
-  - [Chapter 5-2. 가제](Chap5-2.html)
+  - [Chapter 5-2. Injective and Disjoint](Chap5-2.html)
+  - [Chapter 5-3. More tactics](Chap5-3.html)
 - Chapter 6. Logic
+  - [Chapter 6-1. 가제](Chap6-1.html)
 - Chapter 7. Inductively defined Propositions
 - [Appendix](Appendix.html)
 
 ## Index by keyword
 
-[A](#indexa) [C](#indexc) [D](#indexd) [E](#indexe) [F](#indexf) [G](#indexg) [I](#indexi) [L](#indexl) [M](#indexm) [N](#indexn) [R](#indexr) [S](#indexs) [T](#indext)
+[A](#indexa) [C](#indexc) [D](#indexd) [E](#indexe) [F](#indexf) [G](#indexg) [I](#indexi) [L](#indexl) [M](#indexm) [N](#indexn) [R](#indexr) [S](#indexs) [T](#indext) [U](#indexu)
 
 - A[[anchor, id = index a]][[/anchor]]
   - apply: [chap5-1](Chap5-1.html#keywordapply)
@@ -60,19 +62,21 @@ Coq 언어 자습 문서입니다. 원래는 영어로 쓰려고 했는데 한�
   - compute: [chap1-1](Chap1-1.html#keywordcompute)
 - D[[anchor, id = index d]][[/anchor]]
   - definition: [chap1-1](Chap1-1.html#keyworddefinition)
-  - destruct: [chap1-3](Chap1-3.html#keyworddestruct)
+  - destruct: [chap1-3](Chap1-3.html#keyworddestruct), [chap5-3](Chap5-3.html#keyworddestruct)
   - discriminate: [chap5-2](Chap5-2.html#keyworddiscriminate)
 - E[[anchor, id = index e]][[/anchor]]
   - else: [chap1-1](Chap1-1.html#keywordif)
   - =?: [chap1-2](Chap1-2.html#operatoreqb)
   - example: [chap1-3](Chap1-3.html#keywordexample), [chap2-3](Chap2-3.html#keywordexample)
 - F[[anchor, id = index f]][[/anchor]]
+  - f_equal: [chap5-2](Chap5-2.html#keywordfequal)
   - fixpoint: [chap1-2](Chap1-2.html#keywordfixpoint)
   - fun: [chap4-2](Chap4-2.html#keywordfun)
 - G[[anchor, id = index g]][[/anchor]]
   - >=?: [chap1-2](Chap1-2.html#operatorgeb)
 - I[[anchor, id = index i]][[/anchor]]
   - if: [chap1-1](Chap1-1.html#keywordif)
+  - in: [chap5-3](Chap5-3.html#keywordin)
   - induction: [chap2-1](Chap2-1.html#keywordinduction)
   - inductive: [chap1-1](Chap1-1.html#keywordinductive)
   - injection: [chap5-2](Chap5-2.html#keywordinjection)
@@ -91,8 +95,11 @@ Coq 언어 자습 문서입니다. 원래는 영어로 쓰려고 했는데 한�
 - S[[anchor, id = index s]][[/anchor]]
   - search: [chap3-3](Chap3-3.html#keywordsearch)
   - simpl: [chap1-3](Chap1-3.html#keywordsimpl)
+  - symmetry: [chap5-1](Chap5-1.html#keywordsymmetry)
 - T[[anchor, id = index t]][[/anchor]]
   - then: [chap1-1](Chap1-1.html#keywordif)
   - theorem: [chap1-3](Chap1-3.html#keywordtheorem)
   - transitivity: [chap5-1](Chap5-1.html#keywordtransitivity)
   - tuple: [chap1-1](Chap1-1.html#concepttuple)
+- U[[anchor, id = index u]][[/anchor]]
+  - unfold: [chap5-3](Chap5-3.html#keywordunfold)
