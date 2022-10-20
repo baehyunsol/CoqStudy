@@ -1,34 +1,4 @@
-<!DOCTYPE html><html>
-
-<head>
-    <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width"/>
-    
-    <title>Chap2-1</title>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding&amp;display=swap" rel="stylesheet"/> 
-    
-    <link href="page.css" rel="stylesheet"/><link href="markdown.css" rel="stylesheet"/><link href="nav.css" rel="stylesheet"/><link href="header.css" rel="stylesheet"/><link href="footer.css" rel="stylesheet"/>
-    
-</head>
-
-<body>
-
-
-    <header>
-<p><a href="index.html">Home</a></p>
-    </header>
-
-
-
-    <nav>
-<p><a id="settingsopenbutton">&#9728;</a><a href="#top">&#9650;</a><a href="#bottom">&#9660;</a></p><div id="settingsmenubg"><p><div id="settingsmenu"> <a id="settingsclosebutton">&#10006;</a> <a id="changethemebutton">Set Light Theme</a> <a id="loosepaddingbutton">&#8592; &#8594;</a> <a id="tightpaddingbutton">&#8594; &#8592;</a> </div></p></div>
-    </nav>
-
-
-    <article class="markdown">
-        <a id="top"></a>
-<table><thead id="table-collapse-toggle-0" class="collapsible collapsed" onclick="collapse_table('0')"><tr><th> Table of Contents </th></tr></thead><tbody id="collapsible-table-0" class="invisible"><tr><td><div class="toc"><ol type="1"><li><a href="#proofs-by-induction">Proofs by Induction</a><ol type="1"><li><a href="#examples">Examples</a><ol type="1"><li><a href="#mul_0_r">mul_0_r</a></li><li><a href="#plus_n_sm">plus_n_Sm</a></li><li><a href="#add_comm">add_comm</a></li><li><a href="#add_assoc">add_assoc</a></li><li><a href="#eqb_refl">eqb_refl</a></li></ol></li></ol></li></ol></div></td></tr></tbody></table><h1 id="proofs-by-induction">Proofs by Induction</h1><pre class="fenced-code-block line-num-width-0"><code><span class="code-fence-row"><span class="code-fence-index">1</span><span class="code-fence-code"><span class="color-gold">Theorem</span><span class="color-white"> add_0_r_firsttry </span><span class="color-white">:</span><span class="color-white"> forall n</span><span class="color-white">:</span><span class="color-white"> nat</span><span class="color-white">,</span>
+<table><thead id="table-collapse-toggle-0" class="collapsible collapsed" onclick ="collapse_table('0')"><tr><th> Table of Contents </th></tr></thead><tbody id="collapsible-table-0" class="invisible"><tr><td><div class="toc"><ol type="1"><li><a href="#proofs-by-induction">Proofs by Induction</a><ol type="1"><li><a href="#examples">Examples</a><ol type="1"><li><a href="#mul_0_r">mul_0_r</a></li><li><a href="#plus_n_sm">plus_n_Sm</a></li><li><a href="#add_comm">add_comm</a></li><li><a href="#add_assoc">add_assoc</a></li><li><a href="#eqb_refl">eqb_refl</a></li></ol></li></ol></li></ol></div></td></tr></tbody></table><h1 id="proofs-by-induction">Proofs by Induction</h1><pre class="fenced-code-block line-num-width-0"><code><span class="code-fence-row"><span class="code-fence-index">1</span><span class="code-fence-code"><span class="color-gold">Theorem</span><span class="color-white"> add_0_r_firsttry </span><span class="color-white">:</span><span class="color-white"> forall n</span><span class="color-white">:</span><span class="color-white"> nat</span><span class="color-white">,</span>
 </span></span>
 <span class="code-fence-row"><span class="code-fence-index">2</span><span class="code-fence-code"><span class="color-white">  n </span><span class="color-white">+</span> <span class="color-gold">0</span> <span class="color-white">=</span><span class="color-white"> n</span><span class="color-white">.</span></span></span>
 </code><button class="copy-fenced-code" onclick="copy_code_to_clipboard(0)">Copy</button></pre><p>위와 같은 theorem을 증명하려면 어떻게 해야할까요? 덧셈의 왼쪽 인자가 상수가 아니라서 <code class="inline-code-span">simpl</code>이나 <code class="inline-code-span">reflexivity</code>등의 tactic이 통하지 않습니다. <code class="inline-code-span">destruct</code>를 이용하면 <code class="inline-code-span">n</code>을 <code class="inline-code-span">S n&apos;</code>으로 바꿀 수 있지만 여전히 부족합니다.</p><p>이럴 때 필요한 것이 귀납법입니다. 고등학교 때 수학시간에 수학적 귀납법을 배운 기억이 나시나요? 바로 그 귀납법입니다.</p><p><a id="keywordinduction"></a></p><pre class="fenced-code-block line-num-width-1"><code><span class="code-fence-row"><span class="code-fence-index">1</span><span class="code-fence-code"><span class="color-gold">Theorem</span><span class="color-white"> add_0_r </span><span class="color-white">:</span><span class="color-white"> forall n</span><span class="color-white">:</span><span class="color-white"> nat</span><span class="color-white">,</span><span class="color-white"> n </span><span class="color-white">+</span> <span class="color-gold">0</span> <span class="color-white">=</span><span class="color-white"> n</span><span class="color-white">.</span>
@@ -189,22 +159,3 @@ const fenced_code_block_contents = ["Theorem add_0_r_firsttry : forall n: nat,\n
 function copy_code_to_clipboard(index) {
     navigator.clipboard.writeText(fenced_code_block_contents[index]);
 }/*]]>*/</script>
-        <a id="bottom"></a>
-    </article>
-
-
-
-
-    <footer class="markdown">
-<p><br/></p><p><br/></p><hr/><div class="align-center"><p>2021 ~ 2022 (c) Baehyunsol</p></div>
-    </footer>
-
-
-    <script src="colors.js"></script>
-
-    
-    <script src="nav.js"></script>
-    
-<script src="collapsible_tables.js"></script></body>
-
-</html>

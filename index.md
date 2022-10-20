@@ -4,7 +4,7 @@
 
 작성자: 배현솔\
 최초 작성일: 2022.09.02\
-최근 업데이트: 2022.10.08
+최근 업데이트: 2022.10.20
 
 [[/right]]
 
@@ -43,7 +43,9 @@ Coq 언어 자습 문서입니다. 원래는 영어로 쓰려고 했는데 한�
   - [Chapter 5-2. Injective and Disjoint](Chap5-2.html)
   - [Chapter 5-3. More tactics](Chap5-3.html)
 - Chapter 6. Logic
-  - [Chapter 6-1. 가제](Chap6-1.html)
+  - [Chapter 6-1. Conjunction and Disjunction](Chap6-1.html)
+  - [Chapter 6-2. True and False Propositions](Chap6-2.html)
+  - [Chapter 6-3. Existential Quantification](Chap6-3.html)
 - Chapter 7. Inductively defined Propositions
 - [Appendix](Appendix.html)
 
@@ -62,20 +64,24 @@ Coq 언어 자습 문서입니다. 원래는 영어로 쓰려고 했는데 한�
   - compute: [chap1-1](Chap1-1.html#keywordcompute)
 - D[[anchor, id = index d]][[/anchor]]
   - definition: [chap1-1](Chap1-1.html#keyworddefinition)
-  - destruct: [chap1-3](Chap1-3.html#keyworddestruct), [chap5-3](Chap5-3.html#keyworddestruct)
+  - destruct: [chap1-3](Chap1-3.html#keyworddestruct), [chap5-3](Chap5-3.html#keyworddestruct), [chap6-1](Chap6-1.html#keyworddestruct)
   - discriminate: [chap5-2](Chap5-2.html#keyworddiscriminate)
 - E[[anchor, id = index e]][[/anchor]]
   - else: [chap1-1](Chap1-1.html#keywordif)
-  - =?: [chap1-2](Chap1-2.html#operatoreqb)
+  - = (eq): [chap6-1](Chap6-1.html#notationeq)
+  - =? (eqb): [chap1-2](Chap1-2.html#operatoreqb)
   - example: [chap1-3](Chap1-3.html#keywordexample), [chap2-3](Chap2-3.html#keywordexample)
+  - exfalso: [chap6-2](Chap6-2.html#keywordexfalso)
 - F[[anchor, id = index f]][[/anchor]]
   - f_equal: [chap5-2](Chap5-2.html#keywordfequal)
   - fixpoint: [chap1-2](Chap1-2.html#keywordfixpoint)
   - fun: [chap4-2](Chap4-2.html#keywordfun)
 - G[[anchor, id = index g]][[/anchor]]
   - >=?: [chap1-2](Chap1-2.html#operatorgeb)
+  - generalize: [chap5-3](Chap5-3.html#keywordgeneralize)
 - I[[anchor, id = index i]][[/anchor]]
   - if: [chap1-1](Chap1-1.html#keywordif)
+  - ->: [chap6-1](Chap6-1.html#notationimplies)
   - in: [chap5-3](Chap5-3.html#keywordin)
   - induction: [chap2-1](Chap2-1.html#keywordinduction)
   - inductive: [chap1-1](Chap1-1.html#keywordinductive)
@@ -84,17 +90,21 @@ Coq 언어 자습 문서입니다. 원래는 영어로 쓰려고 했는데 한�
   - intros: [chap1-3](Chap1-3.html#keywordintros)
 - L[[anchor, id = index l]][[/anchor]]
   - <=?: [chap1-2](Chap1-2.html#operatorleb)
+  - left: [chap6-1](Chap6-1.html#keywordleft)
 - M[[anchor, id = index m]][[/anchor]]
   - match: [chap1-1](Chap1-1.html#keyworddefinition)
   - module: [chap1-1](Chap1-1.html#keywordmodule)
 - N[[anchor, id = index n]][[/anchor]]
   - notation: [chap1-1](Chap1-1.html#keywordnotation), [chap1-2](Chap1-2.html#keywordnotation2), [chap3-1](Chap3-1.html#keywordnotation2)
+  - <> (noteq): [chap6-2](Chap6-2.html#operatornoteq)
 - R[[anchor, id = index r]][[/anchor]]
   - reflexivity: [chap1-3](Chap1-3.html#keywordreflexivity)
   - rewrite: [chap1-3](Chap1-3.html#keywordrewrite)
+  - right: [chap6-1](Chap6-1.html#keywordright)
 - S[[anchor, id = index s]][[/anchor]]
   - search: [chap3-3](Chap3-3.html#keywordsearch)
   - simpl: [chap1-3](Chap1-3.html#keywordsimpl)
+  - split: [chap6-1](Chap6-1.html#keywordsplit)
   - symmetry: [chap5-1](Chap5-1.html#keywordsymmetry)
 - T[[anchor, id = index t]][[/anchor]]
   - then: [chap1-1](Chap1-1.html#keywordif)

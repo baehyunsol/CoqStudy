@@ -79,6 +79,8 @@ Proof.
 
 위의 예시에서 `discriminate` tactic이 그 역할을 합니다. Coq에게 `discriminate contra`라는 명령을 하면 Coq는 `contra`의 가정이 거짓인지 확인하고 (이 과정에서 아까 설명한 disjointness를 사용합니다.) 가정이 거짓이라면 `contra`가 참이라고 합니다.
 
+즉, context 안에 거짓인 명제 `A`가 있을 때 `discriminate A`를 하면 현재 진행 중인 증명이 완료됩니다.
+
 ## f_equal
 
 [[anchor, id = keyword fequal]][[/anchor]]

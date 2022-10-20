@@ -1,34 +1,4 @@
-<!DOCTYPE html><html>
-
-<head>
-    <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width"/>
-    
-    <title>Chap5-2</title>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding&amp;display=swap" rel="stylesheet"/> 
-    
-    <link href="page.css" rel="stylesheet"/><link href="markdown.css" rel="stylesheet"/><link href="nav.css" rel="stylesheet"/><link href="header.css" rel="stylesheet"/><link href="footer.css" rel="stylesheet"/>
-    
-</head>
-
-<body>
-
-
-    <header>
-<p><a href="index.html">Home</a></p>
-    </header>
-
-
-
-    <nav>
-<p><a id="settingsopenbutton">&#9728;</a><a href="#top">&#9650;</a><a href="#bottom">&#9660;</a></p><div id="settingsmenubg"><p><div id="settingsmenu"> <a id="settingsclosebutton">&#10006;</a> <a id="changethemebutton">Set Light Theme</a> <a id="loosepaddingbutton">&#8592; &#8594;</a> <a id="tightpaddingbutton">&#8594; &#8592;</a> </div></p></div>
-    </nav>
-
-
-    <article class="markdown">
-        <a id="top"></a>
-<table><thead id="table-collapse-toggle-0" class="collapsible collapsed" onclick="collapse_table('0')"><tr><th> Table of Contents </th></tr></thead><tbody id="collapsible-table-0" class="invisible"><tr><td><div class="toc"><ol type="1"><li><a href="#injective-and-disjoint">Injective and Disjoint</a><ol type="1"><li><a href="#injection">injection</a></li><li><a href="#discriminate">discriminate</a></li><li><a href="#f_equal">f_equal</a></li></ol></li></ol></div></td></tr></tbody></table><h1 id="injective-and-disjoint">Injective and Disjoint</h1><p>자연수의 정의를 다시 떠올려볼까요?</p><pre class="fenced-code-block line-num-width-0"><code><span class="code-fence-row"><span class="code-fence-index">1</span><span class="code-fence-code"><span class="color-gold">Inductive</span><span class="color-white"> nat </span><span class="color-white">:</span> <span class="color-gold">Type</span> <span class="color-white">:=</span>
+<table><thead id="table-collapse-toggle-0" class="collapsible collapsed" onclick ="collapse_table('0')"><tr><th> Table of Contents </th></tr></thead><tbody id="collapsible-table-0" class="invisible"><tr><td><div class="toc"><ol type="1"><li><a href="#injective-and-disjoint">Injective and Disjoint</a><ol type="1"><li><a href="#injection">injection</a></li><li><a href="#discriminate">discriminate</a></li><li><a href="#f_equal">f_equal</a></li></ol></li></ol></div></td></tr></tbody></table><h1 id="injective-and-disjoint">Injective and Disjoint</h1><p>자연수의 정의를 다시 떠올려볼까요?</p><pre class="fenced-code-block line-num-width-0"><code><span class="code-fence-row"><span class="code-fence-index">1</span><span class="code-fence-code"><span class="color-gold">Inductive</span><span class="color-white"> nat </span><span class="color-white">:</span> <span class="color-gold">Type</span> <span class="color-white">:=</span>
 </span></span>
 <span class="code-fence-row"><span class="code-fence-index">2</span><span class="code-fence-code">  <span class="color-white">|</span> <span class="color-gold">O</span>
 </span></span>
@@ -80,7 +50,7 @@
 <span class="code-fence-row"><span class="code-fence-index">6</span><span class="code-fence-code"><span class="color-white">  discriminate contra</span><span class="color-white">.</span>
 </span></span>
 <span class="code-fence-row"><span class="code-fence-index">7</span><span class="code-fence-code">  <span class="color-gold">Qed</span><span class="color-white">.</span></span></span>
-</code><button class="copy-fenced-code" onclick="copy_code_to_clipboard(3)">Copy</button></pre><p>위의 예시에서 <code class="inline-code-span">discriminate</code> tactic이 그 역할을 합니다. Coq에게 <code class="inline-code-span">discriminate contra</code>라는 명령을 하면 Coq는 <code class="inline-code-span">contra</code>의 가정이 거짓인지 확인하고 (이 과정에서 아까 설명한 disjointness를 사용합니다.) 가정이 거짓이라면 <code class="inline-code-span">contra</code>가 참이라고 합니다.</p><h2 id="f_equal">f_equal</h2><p><a id="keywordfequal"></a></p><p><a href="#ex1">위</a>에서 <code class="inline-code-span">S m = S m</code>이면 <code class="inline-code-span">n = m</code>임을 증명했습니다. 반대방향으로 하려면 어떻게 해야할까요?</p><pre class="fenced-code-block line-num-width-0"><code><span class="code-fence-row"><span class="code-fence-index">1</span><span class="code-fence-code"><span class="color-gold">Theorem</span><span class="color-white"> injection_rev </span><span class="color-white">:</span><span class="color-white"> forall (n m </span><span class="color-white">:</span><span class="color-white"> nat)</span><span class="color-white">,</span>
+</code><button class="copy-fenced-code" onclick="copy_code_to_clipboard(3)">Copy</button></pre><p>위의 예시에서 <code class="inline-code-span">discriminate</code> tactic이 그 역할을 합니다. Coq에게 <code class="inline-code-span">discriminate contra</code>라는 명령을 하면 Coq는 <code class="inline-code-span">contra</code>의 가정이 거짓인지 확인하고 (이 과정에서 아까 설명한 disjointness를 사용합니다.) 가정이 거짓이라면 <code class="inline-code-span">contra</code>가 참이라고 합니다.</p><p>즉, context 안에 거짓인 명제 <code class="inline-code-span">A</code>가 있을 때 <code class="inline-code-span">discriminate A</code>를 하면 현재 진행 중인 증명이 완료됩니다.</p><h2 id="f_equal">f_equal</h2><p><a id="keywordfequal"></a></p><p><a href="#ex1">위</a>에서 <code class="inline-code-span">S m = S m</code>이면 <code class="inline-code-span">n = m</code>임을 증명했습니다. 반대방향으로 하려면 어떻게 해야할까요?</p><pre class="fenced-code-block line-num-width-0"><code><span class="code-fence-row"><span class="code-fence-index">1</span><span class="code-fence-code"><span class="color-gold">Theorem</span><span class="color-white"> injection_rev </span><span class="color-white">:</span><span class="color-white"> forall (n m </span><span class="color-white">:</span><span class="color-white"> nat)</span><span class="color-white">,</span>
 </span></span>
 <span class="code-fence-row"><span class="code-fence-index">2</span><span class="code-fence-code"><span class="color-white">  n </span><span class="color-white">=</span><span class="color-white"> m </span><span class="color-white">-&gt;</span>
 </span></span>
@@ -124,22 +94,3 @@ const fenced_code_block_contents = ["Inductive nat : Type :=\n  | O\n  | S (n : 
 function copy_code_to_clipboard(index) {
     navigator.clipboard.writeText(fenced_code_block_contents[index]);
 }/*]]>*/</script>
-        <a id="bottom"></a>
-    </article>
-
-
-
-
-    <footer class="markdown">
-<p><br/></p><p><br/></p><hr/><div class="align-center"><p>2021 ~ 2022 (c) Baehyunsol</p></div>
-    </footer>
-
-
-    <script src="colors.js"></script>
-
-    
-    <script src="nav.js"></script>
-    
-<script src="collapsible_tables.js"></script></body>
-
-</html>

@@ -56,6 +56,35 @@ Definition prod_uncurry {X Y Z : Type}
   (f : X -> Y -> Z) (x : X * Y) : Z := f (fst x) (snd x).
 ```
 
+## Natural Numbers
+
+```haskell, line_num
+
+Fixpoint eqb (n m : nat) : bool :=
+  match n with
+  | O => match m with
+    | O => true
+    | _ => false
+    end
+  | S n' => match m with
+    | O => false
+    | S m' => eqb n' m'
+    end
+  end.
+
+Fixpoint leb (m n : nat) : bool :=
+  match m with
+  | O => true
+  | S m' => match n with
+    | O => false
+    | S n' => leb m' n'
+    end
+  end.
+
+Notation "x =? y" := (eqb x y) (at level 70) : nat_scope.
+Notation "x <=? y" := (leb x y) (at level 70) : nat_scope.
+```
+
 ## List
 
 ```haskell, line_num

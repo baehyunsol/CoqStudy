@@ -1,0 +1,23 @@
+<table><thead id="table-collapse-toggle-0" class="collapsible collapsed" onclick ="collapse_table('0')"><tr><th> Table of Contents </th></tr></thead><tbody id="collapsible-table-0" class="invisible"><tr><td><div class="toc"><p>1. <a href="#existential-quantification">Existential Quantification</a></p></div></td></tr></tbody></table><h1 id="existential-quantification">Existential Quantification</h1><p>지금까지는 모든 (forall) x에 대해서만 살펴봤는데 이번에는 어떤 (exists) x에 대해서도 살펴보겠습니다. 어떤 x에 대한 명제를 증명하는 것은 쉽습니다. 그 명제가 참이 되도록 하는 x가 하나 이상 있음을 보이면 되니까요. 아래의 예시를 통해서 자세히 보겠습니다.</p><pre class="fenced-code-block line-num-width-1"><code><span class="code-fence-row"><span class="code-fence-index">1</span><span class="code-fence-code"><span class="color-gold">Theorem</span><span class="color-white"> exists_example </span><span class="color-white">:</span><span class="color-white"> forall n</span><span class="color-white">,</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">2</span><span class="code-fence-code"><span class="color-white">  (exists m</span><span class="color-white">,</span><span class="color-white"> n </span><span class="color-white">=</span> <span class="color-gold">4</span> <span class="color-white">+</span><span class="color-white"> m) </span><span class="color-white">-&gt;</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">3</span><span class="code-fence-code"><span class="color-white">  (exists o</span><span class="color-white">,</span><span class="color-white"> n </span><span class="color-white">=</span> <span class="color-gold">2</span> <span class="color-white">+</span><span class="color-white"> o)</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">4</span><span class="code-fence-code"><span class="color-gold">Proof</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">5</span><span class="code-fence-code"><span class="color-white">  intros n </span><span class="color-gold">H</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">6</span><span class="code-fence-code"><span class="color-white">  destruct </span><span class="color-gold">H</span><span class="color-white"> as [m </span><span class="color-gold">Hm</span><span class="color-white">]</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">7</span><span class="code-fence-code"><span class="color-white">  exists (</span><span class="color-gold">2</span> <span class="color-white">+</span><span class="color-white"> m)</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">8</span><span class="code-fence-code"><span class="color-white">  apply </span><span class="color-gold">Hm</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">9</span><span class="code-fence-code">  <span class="color-gold">Qed</span><span class="color-white">.</span></span></span>
+</code><button class="copy-fenced-code" onclick="copy_code_to_clipboard(0)">Copy</button></pre><hr/><div class="align-center"><p><a href="index.html">메인으로 돌아가기</a></p></div><div class="align-left"><p>&lt;&lt; <a href="Chap6-2.html">Chap6-2. True and False Propositions</a></p></div><div class="align-right"><p>다음 글이 없습니다.</p></div><script>/*<![CDATA[*/
+const fenced_code_block_contents = ["Theorem exists_example : forall n,\n  (exists m, n = 4 + m) ->\n  (exists o, n = 2 + o).\nProof.\n  intros n H.\n  destruct H as [m Hm].\n  exists (2 + m).\n  apply Hm.\n  Qed."];
+
+function copy_code_to_clipboard(index) {
+    navigator.clipboard.writeText(fenced_code_block_contents[index]);
+}/*]]>*/</script>

@@ -1,34 +1,4 @@
-<!DOCTYPE html><html>
-
-<head>
-    <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width"/>
-    
-    <title>Chap3-4</title>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding&amp;display=swap" rel="stylesheet"/> 
-    
-    <link href="page.css" rel="stylesheet"/><link href="markdown.css" rel="stylesheet"/><link href="nav.css" rel="stylesheet"/><link href="header.css" rel="stylesheet"/><link href="footer.css" rel="stylesheet"/>
-    
-</head>
-
-<body>
-
-
-    <header>
-<p><a href="index.html">Home</a></p>
-    </header>
-
-
-
-    <nav>
-<p><a id="settingsopenbutton">&#9728;</a><a href="#top">&#9650;</a><a href="#bottom">&#9660;</a></p><div id="settingsmenubg"><p><div id="settingsmenu"> <a id="settingsclosebutton">&#10006;</a> <a id="changethemebutton">Set Light Theme</a> <a id="loosepaddingbutton">&#8592; &#8594;</a> <a id="tightpaddingbutton">&#8594; &#8592;</a> </div></p></div>
-    </nav>
-
-
-    <article class="markdown">
-        <a id="top"></a>
-<table><thead id="table-collapse-toggle-0" class="collapsible collapsed" onclick="collapse_table('0')"><tr><th> Table of Contents </th></tr></thead><tbody id="collapsible-table-0" class="invisible"><tr><td><div class="toc"><ol type="1"><li><a href="#maps">Maps</a><ol type="1"><li><a href="#update">update</a></li><li><a href="#find">find</a></li></ol></li></ol></div></td></tr></tbody></table><h1 id="maps">Maps</h1><p>Rust의 <code class="inline-code-span">HashMap</code>, Python의 <code class="inline-code-span">dict</code>에 대응되는 자료구조입니다. Key와 value를 모두 <code class="inline-code-span">nat</code>을 사용하지만 key는 특별히 <code class="inline-code-span">id</code>라는 wrapper type을 사용하겠습니다. Wrapper type을 사용함으로써 가독성도 좋아지고 나중의 refactoring에도 유리해집니다.</p><pre class="fenced-code-block line-num-width-0"><code><span class="code-fence-row"><span class="code-fence-index">1</span><span class="code-fence-code"><span class="color-gold">Definition</span><span class="color-white"> id </span><span class="color-white">:</span> <span class="color-gold">Type</span> <span class="color-white">:=</span>
+<table><thead id="table-collapse-toggle-0" class="collapsible collapsed" onclick ="collapse_table('0')"><tr><th> Table of Contents </th></tr></thead><tbody id="collapsible-table-0" class="invisible"><tr><td><div class="toc"><ol type="1"><li><a href="#maps">Maps</a><ol type="1"><li><a href="#update">update</a></li><li><a href="#find">find</a></li></ol></li></ol></div></td></tr></tbody></table><h1 id="maps">Maps</h1><p>Rust의 <code class="inline-code-span">HashMap</code>, Python의 <code class="inline-code-span">dict</code>에 대응되는 자료구조입니다. Key와 value를 모두 <code class="inline-code-span">nat</code>을 사용하지만 key는 특별히 <code class="inline-code-span">id</code>라는 wrapper type을 사용하겠습니다. Wrapper type을 사용함으로써 가독성도 좋아지고 나중의 refactoring에도 유리해집니다.</p><pre class="fenced-code-block line-num-width-0"><code><span class="code-fence-row"><span class="code-fence-index">1</span><span class="code-fence-code"><span class="color-gold">Definition</span><span class="color-white"> id </span><span class="color-white">:</span> <span class="color-gold">Type</span> <span class="color-white">:=</span>
 </span></span>
 <span class="code-fence-row"><span class="code-fence-index">2</span><span class="code-fence-code">  <span class="color-white">|</span> <span class="color-gold">Id</span><span class="color-white"> (n </span><span class="color-white">:</span><span class="color-white"> nat)</span><span class="color-white">.</span></span></span>
 </code><button class="copy-fenced-code" onclick="copy_code_to_clipboard(0)">Copy</button></pre><p>Partial map의 정의는 아래와 같습니다. 단순하군요.</p><pre class="fenced-code-block line-num-width-0"><code><span class="code-fence-row"><span class="code-fence-index">1</span><span class="code-fence-code"><span class="color-gold">Inductive</span><span class="color-white"> partial_map </span><span class="color-white">:</span> <span class="color-gold">Type</span> <span class="color-white">:=</span>
@@ -58,22 +28,3 @@ const fenced_code_block_contents = ["Definition id : Type :=\n  | Id (n : nat)."
 function copy_code_to_clipboard(index) {
     navigator.clipboard.writeText(fenced_code_block_contents[index]);
 }/*]]>*/</script>
-        <a id="bottom"></a>
-    </article>
-
-
-
-
-    <footer class="markdown">
-<p><br/></p><p><br/></p><hr/><div class="align-center"><p>2021 ~ 2022 (c) Baehyunsol</p></div>
-    </footer>
-
-
-    <script src="colors.js"></script>
-
-    
-    <script src="nav.js"></script>
-    
-<script src="collapsible_tables.js"></script></body>
-
-</html>

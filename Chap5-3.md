@@ -29,9 +29,44 @@ Proof.
 
 ## Varying the Induction Hypothesis
 
-TODO: 나중에 추가 ㄱㄱ
+```haskell, line_num
+Theorem double_injective : forall n m,
+  double n = double m -> n = m.
+```
 
-이 안에 `generalize dependent`도 나오는데 그것도 추가 ㄱㄱ
+위의 식을 증명해보겠습니다. 얼핏 보기엔 `intros n m`을 하고 `n`과 `m`에 대해 각각 `induction`을 쓰면 될 것 같지만 그렇지 않습니다. `n`과 `m` 중 `forall`이 하나라도 있어야하는데 그렇지 않아서 의미가 없는 귀납법이 나옵니다. 그걸 해결하기 위해선 둘 중 하나만 `intros`를 한 뒤, 따로 귀납법을 써야합니다. 아래처럼 말이죠.
+
+```haskell, line_num
+Proof.
+  intros n m.
+  generalize dependent n.
+  induction m as [ | m' IHm'].
+  - (*{- m = 0 -}*)
+    intros n eq.
+    induction n as [ | n' IHn'].
+    + (*{- n = 0 -}*)
+      reflexivity.
+    + (*{- n = S n' -}*)
+      discriminate eq.
+  - (*{- m = S m' -}*)
+    intros n eq.
+    induction n as [ | n' IHn'].
+    + (*{- n = 0 -}*)
+      discriminate eq.
+    + (*{- n = S n' -}*)
+      injection eq.
+      intros H.
+      apply IHm' in H.
+      rewrite H.
+      reflexivity.
+  Qed.
+```
+
+[[anchor, id = keyword generalize]][[/anchor]]
+
+`generalize dependent n`은 context에 있는 `n`을 다시 `forall n`으로 바꿔줍니다. 그 다음 `induction m`을 한 뒤 그 안에서 각각 `intros n`을 했습니다. 이러면 증명이 성공적으로 끝납니다.
+
+그럼 애초에 `intros n`만 한 다음에 `n`을 가지고 귀납법을 쓰면 되는 거 아니냐고 생각하시는 분들도 계실 겁니다. 사실 저도 그렇게 생각합니다. 이 예시에서는 `generalize dependent`라는 tactic을 소개하기 위해서 굳이 저렇게 한 거 같습니다.
 
 ## unfold
 
@@ -104,6 +139,6 @@ Proof.
 
 [[right]]
 
-[Chap6-1. 가제](Chap6-1.html) >>
+[Chap6-1. Conjunction and Disjunction](Chap6-1.html) >>
 
 [[/right]]
