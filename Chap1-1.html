@@ -1,4 +1,34 @@
-<table><thead id="table-collapse-toggle-0" class="collapsible collapsed" onclick ="collapse_table('0')"><tr><th> Table of Contents </th></tr></thead><tbody id="collapsible-table-0" class="invisible"><tr><td><div class="toc"><ol type="1"><li><a href="#coq">Coq</a><ol type="1"><li><a href="#inductive"><code class="inline-code-span">Inductive</code></a></li><li><a href="#definition"><code class="inline-code-span">Definition</code></a></li><li><a href="#notation"><code class="inline-code-span">Notation</code></a></li><li><a href="#if"><code class="inline-code-span">if</code></a></li><li><a href="#check"><code class="inline-code-span">Check</code></a></li><li><a href="#compute"><code class="inline-code-span">Compute</code></a></li><li><a href="#enums">Enums</a></li><li><a href="#modules">Modules</a></li><li><a href="#tuples">Tuples</a></li></ol></li></ol></div></td></tr></tbody></table><h1 id="coq">Coq</h1><p>Coq는 Gallina라는 함수형 언어로 이루어져 있습니다.<span class="footnote-ref" id="footnote-ref-0"><a href="#footnote-cite-0">[0]</a></span> Coq에 대해서 본격적으로 공부하기 전에, 함수형 언어로서의 Coq의 특징에 대해서 알아보겠습니다.</p><h2 id="inductive"><code class="inline-code-span">Inductive</code></h2><p><a id="keywordinductive"></a></p><p>Rust의 <code class="inline-code-span">enum</code>에 대응되는 개념으로 coq에는 <code class="inline-code-span">Inductive</code>가 있습니다. Coq의 primitive type들은 대부분 <code class="inline-code-span">Inductive</code>를 통해서 구현돼 있습니다. 즉, 정수형이나 Boolean등도 컴파일러 내부에 구현된 특별한 자료형이 아닌, 다른 모든 자료형과 동일하다는 뜻입니다.</p><p>Boolean이 어떻게 구현돼 있는지 살펴보겠습니다.</p><pre class="fenced-code-block line-num-width-0"><code><span class="code-fence-row"><span class="code-fence-index">1</span><span class="code-fence-code"><span class="color-gold">Inductive</span><span class="color-white"> bool </span><span class="color-white">:</span> <span class="color-gold">Type</span> <span class="color-white">:=</span>
+<!DOCTYPE html><html>
+
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width"/>
+    
+    <title>Chap1-1</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding&amp;display=swap" rel="stylesheet"/> 
+    
+    <link href="page.css" rel="stylesheet"/><link href="markdown.css" rel="stylesheet"/><link href="nav.css" rel="stylesheet"/><link href="header.css" rel="stylesheet"/><link href="footer.css" rel="stylesheet"/>
+    
+</head>
+
+<body>
+
+
+    <header>
+<p><a href="index.html">Home</a></p>
+    </header>
+
+
+
+    <nav>
+<p><a id="settingsopenbutton">&#9728;</a><a href="#top">&#9650;</a><a href="#bottom">&#9660;</a></p><div id="settingsmenubg"><p><div id="settingsmenu"> <a id="settingsclosebutton">&#10006;</a> <a id="changethemebutton">Set Light Theme</a> <a id="loosepaddingbutton">&#8592; &#8594;</a> <a id="tightpaddingbutton">&#8594; &#8592;</a> </div></p></div>
+    </nav>
+
+
+    <article class="markdown">
+        <a id="top"></a>
+<table><thead id="table-collapse-toggle-0" class="collapsible collapsed" onclick="collapse_table('0')"><tr><th> Table of Contents </th></tr></thead><tbody id="collapsible-table-0" class="invisible"><tr><td><div class="toc"><ol type="1"><li><a href="#coq">Coq</a><ol type="1"><li><a href="#inductive"><code class="inline-code-span">Inductive</code></a></li><li><a href="#definition"><code class="inline-code-span">Definition</code></a></li><li><a href="#notation"><code class="inline-code-span">Notation</code></a></li><li><a href="#if"><code class="inline-code-span">if</code></a></li><li><a href="#check"><code class="inline-code-span">Check</code></a></li><li><a href="#compute"><code class="inline-code-span">Compute</code></a></li><li><a href="#enums">Enums</a></li><li><a href="#modules">Modules</a></li><li><a href="#tuples">Tuples</a></li></ol></li></ol></div></td></tr></tbody></table><h1 id="coq">Coq</h1><p>Coq는 Gallina라는 함수형 언어로 이루어져 있습니다.<span class="footnote-ref" id="footnote-ref-0"><a href="#footnote-cite-0">[0]</a></span> Coq에 대해서 본격적으로 공부하기 전에, 함수형 언어로서의 Coq의 특징에 대해서 알아보겠습니다.</p><h2 id="inductive"><code class="inline-code-span">Inductive</code></h2><p><a id="keywordinductive"></a></p><p>Rust의 <code class="inline-code-span">enum</code>에 대응되는 개념으로 coq에는 <code class="inline-code-span">Inductive</code>가 있습니다. Coq의 primitive type들은 대부분 <code class="inline-code-span">Inductive</code>를 통해서 구현돼 있습니다. 즉, 정수형이나 Boolean등도 컴파일러 내부에 구현된 특별한 자료형이 아닌, 다른 모든 자료형과 동일하다는 뜻입니다.</p><p>Boolean이 어떻게 구현돼 있는지 살펴보겠습니다.</p><pre class="fenced-code-block line-num-width-0"><code><span class="code-fence-row"><span class="code-fence-index">1</span><span class="code-fence-code"><span class="color-gold">Inductive</span><span class="color-white"> bool </span><span class="color-white">:</span> <span class="color-gold">Type</span> <span class="color-white">:=</span>
 </span></span>
 <span class="code-fence-row"><span class="code-fence-index">2</span><span class="code-fence-code">  <span class="color-white">|</span><span class="color-white"> true
 </span></span></span>
@@ -182,3 +212,22 @@ const fenced_code_block_contents = ["Inductive bool : Type :=\n  | true\n  | fal
 function copy_code_to_clipboard(index) {
     navigator.clipboard.writeText(fenced_code_block_contents[index]);
 }/*]]>*/</script>
+        <a id="bottom"></a>
+    </article>
+
+
+
+
+    <footer class="markdown">
+<p><br/></p><p><br/></p><hr/><div class="align-center"><p>2021 ~ 2022 (c) Baehyunsol</p></div>
+    </footer>
+
+
+    <script src="colors.js"></script>
+
+    
+    <script src="nav.js"></script>
+    
+<script src="collapsible_tables.js"></script></body>
+
+</html>

@@ -1,4 +1,4 @@
-[[giant]][[red]]모든 문서는 PC 환경에 최적화 되어 있습니다! 모바일로는 읽기 불편해요...[[/red]][[/giant]]
+모든 문서는 PC 환경에 최적화 되어 있습니다! 모바일로는 읽기 불편해요... 또한, 이 블로그는 firefox에 가장 최적화돼 있습니다. 브라우저 관련된 내용을 자세히 보려면 [이 문서](https://baehyunsol.github.io/Browser-Compatibility)를 참고해주세요.
 
 [[right]]
 
