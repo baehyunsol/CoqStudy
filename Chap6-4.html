@@ -1,0 +1,214 @@
+<!DOCTYPE html><html>
+
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width"/>
+    
+    <title>Chap6-4</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding&amp;display=swap" rel="stylesheet"/> 
+    
+    <link href="page.css" rel="stylesheet"/><link href="markdown.css" rel="stylesheet"/><link href="nav.css" rel="stylesheet"/><link href="header.css" rel="stylesheet"/><link href="footer.css" rel="stylesheet"/>
+    
+</head>
+
+<body>
+
+
+    <header>
+<p><a href="index.html">Home</a></p>
+    </header>
+
+
+
+    <nav>
+<p><a id="settingsopenbutton">&#9728;</a><a href="#top">&#9650;</a><a href="#bottom">&#9660;</a></p><div id="settingsmenubg"><p><div id="settingsmenu"> <a id="settingsclosebutton">&#10006;</a> <a id="changethemebutton">Set Light Theme</a> <a id="loosepaddingbutton">&#8592; &#8594;</a> <a id="tightpaddingbutton">&#8594; &#8592;</a> </div></p></div>
+    </nav>
+
+
+    <article class="markdown">
+        <a id="top"></a>
+<table><thead id="table-collapse-toggle-0" class="collapsible collapsed" onclick="collapse_table('0')"><tr><th> Table of Contents </th></tr></thead><tbody id="collapsible-table-0" class="invisible"><tr><td><div class="toc"><p>1. <a href="#programming-with-propositions">Programming with Propositions</a></p></div></td></tr></tbody></table><h1 id="programming-with-propositions">Programming with Propositions</h1><p>Coq 프로그래밍은 재밌습니다. Coq에서는 명제 자체를 반환하는 함수와 명제를 인수로 받는 함수를 이용해서 다양한 것들을 할 수 있습니다. 아래의 예시를 보겠습니다.</p><pre class="fenced-code-block line-num-width-1"><code><span class="code-fence-row"><span class="code-fence-index">1</span><span class="code-fence-code"><span class="color-gold">Fixpoint</span> <span class="color-gold">In</span><span class="color-white"> {</span><span class="color-gold">A</span> <span class="color-white">:</span> <span class="color-gold">Type</span><span class="color-white">} (x </span><span class="color-white">:</span> <span class="color-gold">A</span><span class="color-white">) (l </span><span class="color-white">:</span><span class="color-white"> list </span><span class="color-gold">A</span><span class="color-white">) </span><span class="color-white">:</span> <span class="color-gold">Prop</span> <span class="color-white">:=</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">2</span><span class="code-fence-code"><span class="color-white">  match l with
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">3</span><span class="code-fence-code">  <span class="color-white">|</span> <span class="color-gold">[]</span> <span class="color-white">=&gt;</span> <span class="color-gold">False</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">4</span><span class="code-fence-code">  <span class="color-white">|</span><span class="color-white"> x&apos; </span><span class="color-white">::</span><span class="color-white"> l&apos; </span><span class="color-white">=&gt;</span><span class="color-white"> x&apos; </span><span class="color-white">=</span><span class="color-white"> x </span><span class="color-white">\/</span> <span class="color-gold">In</span><span class="color-white"> x l&apos;
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">5</span><span class="code-fence-code"><span class="color-white">  end</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">6</span><span class="code-fence-code">
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">7</span><span class="code-fence-code"><span class="color-gold">Fixpoint</span> <span class="color-gold">All</span><span class="color-white"> {</span><span class="color-gold">T</span> <span class="color-white">:</span> <span class="color-gold">Type</span><span class="color-white">} (</span><span class="color-gold">P</span> <span class="color-white">:</span> <span class="color-gold">T</span> <span class="color-white">-&gt;</span> <span class="color-gold">Prop</span><span class="color-white">) (l </span><span class="color-white">:</span><span class="color-white"> list </span><span class="color-gold">T</span><span class="color-white">) </span><span class="color-white">:</span> <span class="color-gold">Prop</span> <span class="color-white">:=</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">8</span><span class="code-fence-code"><span class="color-white">  match l with
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">9</span><span class="code-fence-code">  <span class="color-white">|</span> <span class="color-gold">[]</span> <span class="color-white">=&gt;</span> <span class="color-gold">True</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">10</span><span class="code-fence-code">  <span class="color-white">|</span><span class="color-white"> x&apos; </span><span class="color-white">::</span><span class="color-white"> l&apos; </span><span class="color-white">=&gt;</span> <span class="color-gold">P</span><span class="color-white"> x&apos; </span><span class="color-white">/\</span> <span class="color-gold">All</span> <span class="color-gold">P</span><span class="color-white"> l&apos;
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">11</span><span class="code-fence-code"><span class="color-white">  end</span><span class="color-white">.</span></span></span>
+</code><button class="copy-fenced-code" onclick="copy_code_to_clipboard(0)">Copy</button></pre><p>두 개의 함수를 정의했습니다. <code class="inline-code-span">In x l</code>은 <code class="inline-code-span">l</code> 안에 <code class="inline-code-span">x</code>가 있는지 없는지를 말하는 명제를 반환하는 함수이고, <code class="inline-code-span">All P l</code>은 <code class="inline-code-span">l</code>의 모든 원소가 <code class="inline-code-span">P</code>를 만족하는지 아닌지를 말하는 명제를 반환하는 함수입니다. 보통의 프로그래밍 언어는 위와 같은 상황에서 boolean 값을 반환하는 함수를 쓰지만 Coq에서는 명제 자체를 반환하는 함수를 씁니다.</p><p>저 함수를 이용해서 몇가지 증명을 해보겠습니다.</p><pre class="fenced-code-block line-num-width-1"><code><span class="code-fence-row"><span class="code-fence-index">1</span><span class="code-fence-code"><span class="color-gold">Theorem</span> <span class="color-gold">In_map</span> <span class="color-white">:</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">2</span><span class="code-fence-code"><span class="color-white">  forall (</span><span class="color-gold">A</span> <span class="color-gold">B</span> <span class="color-white">:</span> <span class="color-gold">Type</span><span class="color-white">) (f </span><span class="color-white">:</span> <span class="color-gold">A</span> <span class="color-white">-&gt;</span> <span class="color-gold">B</span><span class="color-white">) (l </span><span class="color-white">:</span><span class="color-white"> list </span><span class="color-gold">A</span><span class="color-white">) (x </span><span class="color-white">:</span> <span class="color-gold">A</span><span class="color-white">)</span><span class="color-white">,</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">3</span><span class="code-fence-code">         <span class="color-gold">In</span><span class="color-white"> x l </span><span class="color-white">-&gt;</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">4</span><span class="code-fence-code">         <span class="color-gold">In</span><span class="color-white"> (f x) (map f l)</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">5</span><span class="code-fence-code"><span class="color-gold">Proof</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">6</span><span class="code-fence-code"><span class="color-white">  intros </span><span class="color-gold">A</span> <span class="color-gold">B</span><span class="color-white"> f l x</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">7</span><span class="code-fence-code"><span class="color-white">  induction l as [ </span><span class="color-white">|</span><span class="color-white"> x&apos; l&apos; </span><span class="color-gold">IHl</span><span class="color-white">&apos;]</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">8</span><span class="code-fence-code">  <span class="color-white">-</span><span class="color-white"> (*</span><span class="color-gray">{-</span><span class="color-gray"> l = [] </span><span class="color-gray">-}</span><span class="color-white">*)
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">9</span><span class="code-fence-code"><span class="color-white">    simpl</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">10</span><span class="code-fence-code"><span class="color-white">    intros </span><span class="color-gold">H</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">11</span><span class="code-fence-code"><span class="color-white">    destruct </span><span class="color-gold">H</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">12</span><span class="code-fence-code">  <span class="color-white">-</span><span class="color-white"> (*</span><span class="color-gray">{-</span><span class="color-gray"> l = x&apos;::l&apos; </span><span class="color-gray">-}</span><span class="color-white">*)
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">13</span><span class="code-fence-code"><span class="color-white">    simpl</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">14</span><span class="code-fence-code"><span class="color-white">    intros </span><span class="color-gold">H</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">15</span><span class="code-fence-code"><span class="color-white">    destruct </span><span class="color-gold">H</span><span class="color-white"> as [</span><span class="color-gold">H1</span> <span class="color-white">|</span> <span class="color-gold">H2</span><span class="color-white">]</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">16</span><span class="code-fence-code"><span class="color-white">    * (*</span><span class="color-gray">{-</span><span class="color-gray"> x&apos; = x </span><span class="color-gray">-}</span><span class="color-white">*)
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">17</span><span class="code-fence-code"><span class="color-white">      left</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">18</span><span class="code-fence-code"><span class="color-white">      rewrite </span><span class="color-gold">H1</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">19</span><span class="code-fence-code"><span class="color-white">      reflexivity</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">20</span><span class="code-fence-code"><span class="color-white">    * (*</span><span class="color-gray">{-</span><span class="color-gray"> In x l&apos; </span><span class="color-gray">-}</span><span class="color-white">*)
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">21</span><span class="code-fence-code"><span class="color-white">      right</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">22</span><span class="code-fence-code"><span class="color-white">      apply </span><span class="color-gold">IHl</span><span class="color-white">&apos;</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">23</span><span class="code-fence-code"><span class="color-white">      apply </span><span class="color-gold">H2</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">24</span><span class="code-fence-code">  <span class="color-gold">Qed</span><span class="color-white">.</span></span></span>
+</code><button class="copy-fenced-code" onclick="copy_code_to_clipboard(1)">Copy</button></pre><p><code class="inline-code-span">l</code> 안에 <code class="inline-code-span">x</code>가 있으면 <code class="inline-code-span">l</code>과 <code class="inline-code-span">x</code>를 <code class="inline-code-span">f</code>라는 함수에 넣어도 여전히 <code class="inline-code-span">In</code>이 참이라고 말하는 명제입니다. <code class="inline-code-span">l</code>이 비었을 경우 가정이 거짓이므로 명제가 참이라고 증명하고, <code class="inline-code-span">l</code>이 비지 않았을 경우 수학적 귀납법으로 증명했습니다.</p><pre class="fenced-code-block line-num-width-1"><code><span class="code-fence-row"><span class="code-fence-index">1</span><span class="code-fence-code"><span class="color-gold">Theorem</span> <span class="color-gold">All_In</span> <span class="color-white">:</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">2</span><span class="code-fence-code"><span class="color-white">  forall </span><span class="color-gold">T</span><span class="color-white"> (</span><span class="color-gold">P</span> <span class="color-white">:</span> <span class="color-gold">T</span> <span class="color-white">-&gt;</span> <span class="color-gold">Prop</span><span class="color-white">) (l </span><span class="color-white">:</span><span class="color-white"> list </span><span class="color-gold">T</span><span class="color-white">)</span><span class="color-white">,</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">3</span><span class="code-fence-code"><span class="color-white">    (forall x</span><span class="color-white">,</span> <span class="color-gold">In</span><span class="color-white"> x l </span><span class="color-white">-&gt;</span> <span class="color-gold">P</span><span class="color-white"> x) </span><span class="color-white">&lt;-&gt;</span> <span class="color-gold">All</span> <span class="color-gold">P</span><span class="color-white"> l</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">4</span><span class="code-fence-code"><span class="color-gold">Proof</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">5</span><span class="code-fence-code"><span class="color-white">  intros </span><span class="color-gold">T</span> <span class="color-gold">P</span><span class="color-white"> l</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">6</span><span class="code-fence-code"><span class="color-white">  split</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">7</span><span class="code-fence-code">  <span class="color-white">-</span><span class="color-white"> (*</span><span class="color-gray">{-</span><span class="color-gray"> (forall x, In x l -&gt; P x) -&gt; All P l </span><span class="color-gray">-}</span><span class="color-white">*)
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">8</span><span class="code-fence-code"><span class="color-white">    induction l as [ </span><span class="color-white">|</span><span class="color-white"> x&apos; l&apos; </span><span class="color-gold">IHl</span><span class="color-white">&apos;]</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">9</span><span class="code-fence-code"><span class="color-white">    * (*</span><span class="color-gray">{-</span><span class="color-gray"> l = [] </span><span class="color-gray">-}</span><span class="color-white">*)
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">10</span><span class="code-fence-code"><span class="color-white">      simpl</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">11</span><span class="code-fence-code"><span class="color-white">      reflexivity</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">12</span><span class="code-fence-code"><span class="color-white">    * (*</span><span class="color-gray">{-</span><span class="color-gray"> l = x&apos;::l&apos; </span><span class="color-gray">-}</span><span class="color-white">*)
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">13</span><span class="code-fence-code"><span class="color-white">      simpl</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">14</span><span class="code-fence-code"><span class="color-white">      split</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">15</span><span class="code-fence-code">      <span class="color-white">+</span><span class="color-white"> (*</span><span class="color-gray">{-</span><span class="color-gray"> P x&apos; </span><span class="color-gray">-}</span><span class="color-white">*)
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">16</span><span class="code-fence-code"><span class="color-white">        apply </span><span class="color-gold">H</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">17</span><span class="code-fence-code"><span class="color-white">        left</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">18</span><span class="code-fence-code"><span class="color-white">        reflexivity</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">19</span><span class="code-fence-code">      <span class="color-white">+</span><span class="color-white"> (*</span><span class="color-gray">{-</span><span class="color-gray"> All P l&apos; </span><span class="color-gray">-}</span><span class="color-white">*)
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">20</span><span class="code-fence-code"><span class="color-white">        apply </span><span class="color-gold">IHl</span><span class="color-white">&apos;</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">21</span><span class="code-fence-code"><span class="color-white">        intros x </span><span class="color-gold">H2</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">22</span><span class="code-fence-code"><span class="color-white">        apply </span><span class="color-gold">H</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">23</span><span class="code-fence-code"><span class="color-white">        right</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">24</span><span class="code-fence-code"><span class="color-white">        apply </span><span class="color-gold">H2</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">25</span><span class="code-fence-code">  <span class="color-white">-</span><span class="color-white"> (*</span><span class="color-gray">{-</span><span class="color-gray"> All P l -&gt; forall x, In x l -&gt; P x </span><span class="color-gray">-}</span><span class="color-white">*)
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">26</span><span class="code-fence-code"><span class="color-white">    induction l as [ </span><span class="color-white">|</span><span class="color-white"> x&apos; l&apos; </span><span class="color-gold">IHl</span><span class="color-white">&apos;]</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">27</span><span class="code-fence-code"><span class="color-white">    * (*</span><span class="color-gray">{-</span><span class="color-gray"> l = [] </span><span class="color-gray">-}</span><span class="color-white">*)
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">28</span><span class="code-fence-code"><span class="color-white">      intros _ x </span><span class="color-gold">H</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">29</span><span class="code-fence-code"><span class="color-white">      unfold </span><span class="color-gold">In</span> <span class="color-violet">in</span> <span class="color-gold">H</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">30</span><span class="code-fence-code"><span class="color-white">      destruct </span><span class="color-gold">H</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">31</span><span class="code-fence-code"><span class="color-white">    * (*</span><span class="color-gray">{-</span><span class="color-gray"> l = x&apos;::l&apos; </span><span class="color-gray">-}</span><span class="color-white">*)
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">32</span><span class="code-fence-code"><span class="color-white">      simpl</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">33</span><span class="code-fence-code"><span class="color-white">      intros </span><span class="color-gold">H</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">34</span><span class="code-fence-code"><span class="color-white">      destruct </span><span class="color-gold">H</span><span class="color-white"> as [</span><span class="color-gold">H1</span> <span class="color-gold">H2</span><span class="color-white">]</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">35</span><span class="code-fence-code"><span class="color-white">      intros x </span><span class="color-gold">H3</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">36</span><span class="code-fence-code"><span class="color-white">      destruct </span><span class="color-gold">H3</span><span class="color-white"> as [</span><span class="color-gold">H4</span> <span class="color-white">|</span> <span class="color-gold">H5</span><span class="color-white">]</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">37</span><span class="code-fence-code">      <span class="color-white">+</span><span class="color-white"> (*</span><span class="color-gray">{-</span><span class="color-gray"> x&apos; = x </span><span class="color-gray">-}</span><span class="color-white">*)
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">38</span><span class="code-fence-code"><span class="color-white">        rewrite </span><span class="color-white">&lt;-</span> <span class="color-gold">H4</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">39</span><span class="code-fence-code"><span class="color-white">        apply </span><span class="color-gold">H1</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">40</span><span class="code-fence-code">      <span class="color-white">+</span><span class="color-white"> (*</span><span class="color-gray">{-</span><span class="color-gray"> In x l&apos; </span><span class="color-gray">-}</span><span class="color-white">*)
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">41</span><span class="code-fence-code"><span class="color-white">        apply </span><span class="color-gold">IHl</span><span class="color-white">&apos;</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">42</span><span class="code-fence-code"><span class="color-white">        ** (*</span><span class="color-gray">{-</span><span class="color-gray"> All P l&apos; </span><span class="color-gray">-}</span><span class="color-white">*)
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">43</span><span class="code-fence-code"><span class="color-white">           apply </span><span class="color-gold">H2</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">44</span><span class="code-fence-code"><span class="color-white">        ** (*</span><span class="color-gray">{-</span><span class="color-gray"> In x l&apos; </span><span class="color-gray">-}</span><span class="color-white">*)
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">45</span><span class="code-fence-code"><span class="color-white">           apply </span><span class="color-gold">H5</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">46</span><span class="code-fence-code">  <span class="color-gold">Qed</span><span class="color-white">.</span></span></span>
+</code><button class="copy-fenced-code" onclick="copy_code_to_clipboard(2)">Copy</button></pre><p><code class="inline-code-span">l</code>의 모든 원소가 <code class="inline-code-span">P</code>라는 성질을 만족하면 <code class="inline-code-span">All P l</code>이 참이라고 말하는 명제입니다. 즉, <code class="inline-code-span">All</code>을 다른 방식으로 정의하고 참이 되는지 확인하는 예제입니다.</p><p>하다보니까 새로운 걸 알게 됐습니다. context에 <code class="inline-code-span">H: p -&gt; q</code>가 있고 goal에 <code class="inline-code-span">q</code>가 있을 때 <code class="inline-code-span">apply H</code>를 하면 goal이 <code class="inline-code-span">p</code>로 바뀝니다. 생각해보니까 당연하네요.</p><hr/><div class="align-center"><p><a href="index.html">메인으로 돌아가기</a></p></div><div class="align-left"><p>&lt;&lt; <a href="Chap6-3.html">Chap6-3. Existential Quantification</a></p></div><div class="align-right"><p>다음 글이 없습니다.</p></div><script>/*<![CDATA[*/
+const fenced_code_block_contents = ["Fixpoint In {A : Type} (x : A) (l : list A) : Prop :=\n  match l with\n  | [] => False\n  | x' :: l' => x' = x \\/ In x l'\n  end.\n\nFixpoint All {T : Type} (P : T -> Prop) (l : list T) : Prop :=\n  match l with\n  | [] => True\n  | x' :: l' => P x' /\\ All P l'\n  end.", "Theorem In_map :\n  forall (A B : Type) (f : A -> B) (l : list A) (x : A),\n         In x l ->\n         In (f x) (map f l).\nProof.\n  intros A B f l x.\n  induction l as [ | x' l' IHl'].\n  - (*{- l = [] -}*)\n    simpl.\n    intros H.\n    destruct H.\n  - (*{- l = x'::l' -}*)\n    simpl.\n    intros H.\n    destruct H as [H1 | H2].\n    * (*{- x' = x -}*)\n      left.\n      rewrite H1.\n      reflexivity.\n    * (*{- In x l' -}*)\n      right.\n      apply IHl'.\n      apply H2.\n  Qed.", "Theorem All_In :\n  forall T (P : T -> Prop) (l : list T),\n    (forall x, In x l -> P x) <-> All P l.\nProof.\n  intros T P l.\n  split.\n  - (*{- (forall x, In x l -> P x) -> All P l -}*)\n    induction l as [ | x' l' IHl'].\n    * (*{- l = [] -}*)\n      simpl.\n      reflexivity.\n    * (*{- l = x'::l' -}*)\n      simpl.\n      split.\n      + (*{- P x' -}*)\n        apply H.\n        left.\n        reflexivity.\n      + (*{- All P l' -}*)\n        apply IHl'.\n        intros x H2.\n        apply H.\n        right.\n        apply H2.\n  - (*{- All P l -> forall x, In x l -> P x -}*)\n    induction l as [ | x' l' IHl'].\n    * (*{- l = [] -}*)\n      intros _ x H.\n      unfold In in H.\n      destruct H.\n    * (*{- l = x'::l' -}*)\n      simpl.\n      intros H.\n      destruct H as [H1 H2].\n      intros x H3.\n      destruct H3 as [H4 | H5].\n      + (*{- x' = x -}*)\n        rewrite <- H4.\n        apply H1.\n      + (*{- In x l' -}*)\n        apply IHl'.\n        ** (*{- All P l' -}*)\n           apply H2.\n        ** (*{- In x l' -}*)\n           apply H5.\n  Qed."];
+
+function copy_code_to_clipboard(index) {
+    navigator.clipboard.writeText(fenced_code_block_contents[index]);
+}/*]]>*/</script>
+        <a id="bottom"></a>
+    </article>
+
+
+
+
+    <footer class="markdown">
+<p><br/></p><p><br/></p><hr/><div class="align-center"><p>2021 ~ 2022 (c) Baehyunsol</p></div>
+    </footer>
+
+
+    <script src="colors.js"></script>
+
+    
+    <script src="nav.js"></script>
+    
+<script src="collapsible_tables.js"></script></body>
+
+</html>

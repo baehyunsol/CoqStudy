@@ -200,6 +200,6 @@ Qed.
 
 [[right]]
 
-[Chap6-2. True and False Propositions](Chap6-2.html)
+[Chap6-2. True and False Propositions](Chap6-2.html) >>
 
 [[/right]]

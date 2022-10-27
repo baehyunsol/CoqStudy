@@ -46,6 +46,7 @@ Coq 언어 자습 문서입니다. 원래는 영어로 쓰려고 했는데 한�
   - [Chapter 6-1. Conjunction and Disjunction](Chap6-1.html)
   - [Chapter 6-2. True and False Propositions](Chap6-2.html)
   - [Chapter 6-3. Existential Quantification](Chap6-3.html)
+  - [Chapter 6-4. Programming with Propositions](Chap6-4.html)
 - Chapter 7. Inductively defined Propositions
 - [Appendix](Appendix.html)
 
@@ -72,6 +73,7 @@ Coq 언어 자습 문서입니다. 원래는 영어로 쓰려고 했는데 한�
   - =? (eqb): [chap1-2](Chap1-2.html#operatoreqb)
   - example: [chap1-3](Chap1-3.html#keywordexample), [chap2-3](Chap2-3.html#keywordexample)
   - exfalso: [chap6-2](Chap6-2.html#keywordexfalso)
+  - exists: [chap6-3](Chap6-3.html#keywordexists)
 - F[[anchor, id = index f]][[/anchor]]
   - f_equal: [chap5-2](Chap5-2.html#keywordfequal)
   - fixpoint: [chap1-2](Chap1-2.html#keywordfixpoint)
