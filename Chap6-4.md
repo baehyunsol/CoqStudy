@@ -107,7 +107,61 @@ Proof.
 
 하다보니까 새로운 걸 알게 됐습니다. context에 `H: p -> q`가 있고 goal에 `q`가 있을 때 `apply H`를 하면 goal이 `p`로 바뀝니다. 생각해보니까 당연하네요.
 
-Applying Theorems to Arguments부터 ㄱㄱ
+## Applying Theorems to Arguments
+
+함수형 언어 얘기를 하면서 Coq에선 함수들이 일급 시민이라고 했던 걸 기억하시나요? Coq에선 함수뿐만 아니라 명제들도 일급입니다. 이를 이용해서 다양한 기술들을 구사할 수 있지만 여기선 `rewrite`와 관련된 걸 살펴보겠습니다.
+
+```haskell, line_num
+Theorem add_comm : forall n m : nat,
+  n + m = m + n.
+
+Lemma add_comm3 : forall x y z,
+  x + (y + z) = (z + y) + x.
+```
+
+`add_comm`을 이용해서 `add_comm3`를 증명해봅시다. 얼핏 보기에는 `add_comm`을 2번 쓰면 될 것 같습니다. 하지만 그렇게하면 똑같은 부분에 `add_comm`이 2번 적용돼서 원점으로 돌아옵니다. `add_comm`을 어디에 적용할지 정하려면 어떤 방법을 써야할까요? [옛날](Chap2-2.html#keywordassert)에 봤던 것처럼 `assert`를 쓸 수도 있지만 그것보다 더 간편한 방법이 있습니다. 아래를 봅시다.
+
+[[anchor, id = keyword rewrite]][[/anchor]]
+
+```haskell, line_num
+Lemma add_comm3 : forall x y z,
+  x + (y + z) = (z + y) + x.
+Proof.
+  intros x y z.
+  rewrite add_comm.
+  rewrite (add_comm y z).
+  reflexivity.
+  Qed.
+```
+
+마치 함수에 인수를 주듯 `add_comm`에 `y`와 `z`라는 인수를 줬습니다. 그 결과 `add_comm`이 어느 덧셈에 적용될지 정할 수 있게 됐습니다.
+
+이 예시에선 그럴 일이 없지만 증명을 하다보면 일부 인수만 사용하고 싶을 때도 있습니다. 예를 들면 방금 전의 상황에서 `add_comm`을 `z`에만 적용하고 싶으면 어떻게 할까요? `rewrite (add_comm _ z)`처럼 하면 됩니다.
+
+### `apply ... with ...` tactics
+
+방금 `rewrite`에 인수를 줬던 것처럼 이번엔 `apply`에 인수를 줘보겠습니다. 예시에 쓰일 함수와 명제들을 먼저 정의하겠습니다.
+
+```haskell, line_num
+Theorem in_not_nil :
+  forall A (x : A) (l : list A), In x l -> l <> [].
+```
+
+`x`가 `l`에 포함되면 `l`은 빈 list가 아니라는 명제입니다. 저걸 이용해서 42가 `l`에 포함되면 `l`은 빈 list가 아니라는 명제를 증명해보겠습니다.
+
+[[anchor, id = keyword apply with]][[/anchor]]
+
+```haskell, line_num
+Theorem in_not_nil_42 :
+  forall (l : list nat), In 42 l -> l <> [].
+Proof.
+  intros l H.
+  apply in_not_nil with ( x := 42).
+  apply H.
+  Qed.
+```
+
+증명은 간단합니다. goal에는 `l <> []`가 있고, context에는 `In 42 l`이 있는 상황입니다. 또한, `in_not_nil with ( x := 42 )`는 `In 42 l -> l <> []`가 참이라고 말해줍니다. `In 42 l -> l <> []`가 참이므로 goal의 `l <> []`가 참임을 보이는 것은 `In 42 l`이 참임을 보이는 것과 동치입니다. 그럼 context에 `In 42 l`이 있으므로 증명이 끝나네요.
 
 ---
 
@@ -125,6 +179,6 @@ Applying Theorems to Arguments부터 ㄱㄱ
 
 [[right]]
 
-다음 글이 없습니다.
+[Chap6-5. Axioms](Chap6-5.html) >>
 
 [[/right]]

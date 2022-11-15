@@ -1,10 +1,10 @@
-모든 문서는 PC 환경에 최적화 되어 있습니다! 모바일로는 읽기 불편해요... 또한, 이 블로그는 firefox에 가장 최적화돼 있습니다. 브라우저 관련된 내용을 자세히 보려면 [이 문서](https://baehyunsol.github.io/Browser-Compatibility)를 참고해주세요.
+모든 문서는 PC 환경에 최적화 되어 있습니다! 모바일로는 읽기 불편해요... 또한, 이 블로그는 firefox에 가장 최적화돼 있습니다. 브라우저 관련된 내용을 자세히 보려면 [이 문서](https://baehyunsol.github.io/Browser-Compatibility)를 참고해주세요. 오타 혹은 지적사항은 [여기](https://github.com/baehyunsol/CoqStudy/issues)에 이슈를 남겨주세요!
 
 [[right]]
 
 작성자: 배현솔\
 최초 작성일: 2022.09.02\
-최근 업데이트: 2022.10.20
+최근 업데이트: 2022.11.15
 
 [[/right]]
 
@@ -47,7 +47,9 @@ Coq 언어 자습 문서입니다. 원래는 영어로 쓰려고 했는데 한�
   - [Chapter 6-2. True and False Propositions](Chap6-2.html)
   - [Chapter 6-3. Existential Quantification](Chap6-3.html)
   - [Chapter 6-4. Programming with Propositions](Chap6-4.html)
+  - [Chapter 6-5. Axioms](Chap6-5.html)
 - Chapter 7. Inductively defined Propositions
+  - [Chapter 7-1. Inductively defined Propositions](Chap7-1.html)
 - [Appendix](Appendix.html)
 
 ## Index by keyword
@@ -56,10 +58,11 @@ Coq 언어 자습 문서입니다. 원래는 영어로 쓰려고 했는데 한�
 
 - A[[anchor, id = index a]][[/anchor]]
   - apply: [chap5-1](Chap5-1.html#keywordapply)
-  - apply with: [chap5-1](Chap5-1.html#keywordapplywith)
+  - apply with: [chap5-1](Chap5-1.html#keywordapplywith), [chap6-4](Chap6-4.html#keywordapplywith)
   - arguments: [chap4-1](Chap4-1.html#keywordarguments)
   - assert: [chap2-2](Chap2-2.html#keywordassert)
   - @: [char4-1](Chap4-1.html#keywordat)
+  - axiom: [char6-5](Chap6-5.html#keywordaxiom)
 - C[[anchor, id = index c]][[/anchor]]
   - check: [chap1-1](Chap1-1.html#keywordcheck)
   - compute: [chap1-1](Chap1-1.html#keywordcompute)
@@ -101,7 +104,7 @@ Coq 언어 자습 문서입니다. 원래는 영어로 쓰려고 했는데 한�
   - <> (noteq): [chap6-2](Chap6-2.html#operatornoteq)
 - R[[anchor, id = index r]][[/anchor]]
   - reflexivity: [chap1-3](Chap1-3.html#keywordreflexivity)
-  - rewrite: [chap1-3](Chap1-3.html#keywordrewrite)
+  - rewrite: [chap1-3](Chap1-3.html#keywordrewrite), [chap6-4](Chap6-4.html#keywordrewrite)
   - right: [chap6-1](Chap6-1.html#keywordright)
 - S[[anchor, id = index s]][[/anchor]]
   - search: [chap3-3](Chap3-3.html#keywordsearch)

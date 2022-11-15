@@ -59,6 +59,45 @@ Definition prod_uncurry {X Y Z : Type}
 ## Natural Numbers
 
 ```haskell, line_num
+Fixpoint div2 (n : nat) :=
+  match n with
+  | 0 => 0
+  | 1 => 0
+  | S (S n) => S (div2 n)
+  end.
+
+Fixpoint even (n : nat) :=
+  match n with
+  | 0 => true
+  | S 0 => false
+  | S (S n) => even n
+  end.
+
+Theorem add_0_r : forall n : nat, n + 0 = n.
+Proof.
+  intros n. induction n as [ | n' IHn'].
+  - (*{- n = 0 -}*)
+    reflexivity.
+  - (*{- n = S n' -}*)
+    simpl.
+    rewrite -> IHn'.
+    reflexivity.
+  Qed.
+
+Theorem add_comm : forall n m : nat,
+  n + m = m + n.
+Proof.
+  induction n as [ | n'].
+  - (*{- n = O -}*)
+    intros m.
+    rewrite -> add_0_r.
+    reflexivity.
+  - (*{- n = S n' -}*)
+    intros m. simpl.
+    rewrite -> IHn'.
+    rewrite <- plus_n_Sm.
+    reflexivity.
+  Qed.
 
 Fixpoint eqb (n m : nat) : bool :=
   match n with

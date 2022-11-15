@@ -1,0 +1,69 @@
+<!DOCTYPE html><html>
+
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width"/>
+    
+    <title>Chap7-1</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding&amp;display=swap" rel="stylesheet"/> 
+    
+    <link href="page.css" rel="stylesheet"/><link href="markdown.css" rel="stylesheet"/><link href="nav.css" rel="stylesheet"/><link href="header.css" rel="stylesheet"/><link href="footer.css" rel="stylesheet"/>
+    
+</head>
+
+<body>
+
+
+    <header>
+<p><a href="index.html">Home</a></p>
+    </header>
+
+
+
+    <nav>
+<p><a id="settingsopenbutton">&#9728;</a><a href="#top">&#9650;</a><a href="#bottom">&#9660;</a></p><div id="settingsmenubg"><p><div id="settingsmenu"> <a id="settingsclosebutton">&#10006;</a> <a id="changethemebutton">Set Light Theme</a> <a id="loosepaddingbutton">&#8592; &#8594;</a> <a id="tightpaddingbutton">&#8594; &#8592;</a> </div></p></div>
+    </nav>
+
+
+    <article class="markdown">
+        <a id="top"></a>
+<table><thead id="table-collapse-toggle-0" class="collapsible collapsed" onclick="collapse_table('0')"><tr><th> Table of Contents </th></tr></thead><tbody id="collapsible-table-0" class="invisible"><tr><td><div class="toc"><ol type="1"><li><a href="#inductively-defined-propositions">Inductively defined Propositions</a><ol type="1"><li><a href="#콜라츠-추측">콜라츠 추측</a></li></ol></li></ol></div></td></tr></tbody></table><h1 id="inductively-defined-propositions">Inductively defined Propositions</h1><p>제목에서 알 수 있듯, 이번 장에서는 <code class="inline-code-span">Inductive</code> 키워드를 집중적으로 살펴볼 예정입니다.</p><h2 id="콜라츠-추측">콜라츠 추측</h2><p>책에서는 콜라츠 추측을 이용해서 예시를 듭니다. 콜라츠 추측은 아주 간단하니 설명은 생략하겠습니다. 혹시 콜라츠 수열이 뭔지 모르시는 분들은 <a href="https://en.wikipedia.org/wiki/Collatz_conjecture">인터넷</a>을 참고해주세요.</p><p>콜라츠 추측을 Coq로 표현하려면 어떻게 해야할까요? 먼저 콜라츠 함수를 아래와 같이 정의해보겠습니다.</p><pre class="fenced-code-block line-num-width-0"><code><span class="code-fence-row"><span class="code-fence-index">1</span><span class="code-fence-code"><span class="color-gold">Definition</span><span class="color-white"> f (n </span><span class="color-white">:</span><span class="color-white"> nat) </span><span class="color-white">:=</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">2</span><span class="code-fence-code">  <span class="color-violet">if</span><span class="color-white"> even n </span><span class="color-violet">then</span><span class="color-white"> div2 n
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">3</span><span class="code-fence-code">  <span class="color-violet">else</span><span class="color-white"> (</span><span class="color-gold">3</span><span class="color-white"> * n) </span><span class="color-white">+</span> <span class="color-gold">1</span><span class="color-white">.</span></span></span>
+</code><button class="copy-fenced-code" onclick="copy_code_to_clipboard(0)">Copy</button></pre><p>아주 간단하군요. 그럼 콜라츠 수열이 항상 1로 끝난다는 사실을 Coq로 표현하려면 어떻게 할까요?</p><pre class="fenced-code-block line-num-width-0"><code><span class="code-fence-row"><span class="code-fence-index">1</span><span class="code-fence-code"><span class="color-gold">Fixpoint</span><span class="color-white"> reaches_1 (n </span><span class="color-white">:</span><span class="color-white"> nat) </span><span class="color-white">:=</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">2</span><span class="code-fence-code">  <span class="color-violet">if</span><span class="color-white"> n </span><span class="color-white">=?</span> <span class="color-gold">1</span> <span class="color-violet">then</span><span class="color-white"> true
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">3</span><span class="code-fence-code">  <span class="color-violet">else</span><span class="color-white"> reaches_1 (f n)</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">4</span><span class="code-fence-code">
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">5</span><span class="code-fence-code"><span class="color-gold">Conjecture</span><span class="color-white"> collatz </span><span class="color-white">:</span><span class="color-white"> forall n</span><span class="color-white">,</span><span class="color-white"> reaches_1 n</span><span class="color-white">.</span></span></span>
+</code><button class="copy-fenced-code" onclick="copy_code_to_clipboard(1)">Copy</button></pre><p>아주 간단하게 써봤습니다. <code class="inline-code-span">n</code>이 1에 도달했으면 <code class="inline-code-span">true</code>를 반환하고 아직 1이 아니면 <code class="inline-code-span">f n</code>이 1인지 재귀적으로 확인합니다. 그렇게 해서 모든 <code class="inline-code-span">n</code>이 1에 도달하면 콜라츠 추측이 참이겠죠.</p><p>아쉽지만 위의 코드는 Coq가 허락해주지 않습니다. Coq는 <code class="inline-code-span">Fixpoint</code>를 쓸 때 재귀가 유한한지 확인합니다. 하지만 <code class="inline-code-span">reaches_1</code>의 재귀가 유한한지 확인하는 건 콜라츠 추측을 증명하는 것과 동치죠, Coq가 할 수 있을 리가 없습니다.</p><hr/><div class="align-center"><p><a href="index.html">메인으로 돌아가기</a></p></div><div class="align-left"><p>&lt;&lt; <a href="Chap6-5.html">Chap6-5. Axioms</a></p></div><div class="align-right"><p>다음 글이 없습니다.</p></div><script>/*<![CDATA[*/
+const fenced_code_block_contents = ["Definition f (n : nat) :=\n  if even n then div2 n\n  else (3 * n) + 1.", "Fixpoint reaches_1 (n : nat) :=\n  if n =? 1 then true\n  else reaches_1 (f n).\n\nConjecture collatz : forall n, reaches_1 n."];
+
+function copy_code_to_clipboard(index) {
+    navigator.clipboard.writeText(fenced_code_block_contents[index]);
+}/*]]>*/</script>
+        <a id="bottom"></a>
+    </article>
+
+
+
+
+    <footer class="markdown">
+<p><br/></p><p><br/></p><hr/><div class="align-center"><p>2021 ~ 2022 (c) Baehyunsol</p></div>
+    </footer>
+
+
+    <script src="colors.js"></script>
+
+    
+    <script src="nav.js"></script>
+    
+<script src="collapsible_tables.js"></script></body>
+
+</html>
