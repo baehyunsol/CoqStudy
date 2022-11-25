@@ -50,6 +50,7 @@ Coq 언어 자습 문서입니다. 원래는 영어로 쓰려고 했는데 한�
   - [Chapter 6-5. Axioms](Chap6-5.html)
 - Chapter 7. Inductively defined Propositions
   - [Chapter 7-1. Inductively defined Propositions](Chap7-1.html)
+  - [Chapter 7-2. Using Evidence in Proofs](Chap7-2.html)
 - [Appendix](Appendix.html)
 
 ## Index by keyword
@@ -89,10 +90,11 @@ Coq 언어 자습 문서입니다. 원래는 영어로 쓰려고 했는데 한�
   - ->: [chap6-1](Chap6-1.html#notationimplies)
   - in: [chap5-3](Chap5-3.html#keywordin)
   - induction: [chap2-1](Chap2-1.html#keywordinduction)
-  - inductive: [chap1-1](Chap1-1.html#keywordinductive)
+  - inductive: [chap1-1](Chap1-1.html#keywordinductive), [chap7-1](Chap7-1.html#keywordinductive)
   - injection: [chap5-2](Chap5-2.html#keywordinjection)
   - intro: [chap1-3](Chap1-3.html#keywordintro)
   - intros: [chap1-3](Chap1-3.html#keywordintros)
+  - inversion: [chap7-2](Chap7-2.html#keywordinversion)
 - L[[anchor, id = index l]][[/anchor]]
   - <=?: [chap1-2](Chap1-2.html#operatorleb)
   - left: [chap6-1](Chap6-1.html#keywordleft)

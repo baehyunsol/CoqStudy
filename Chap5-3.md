@@ -105,7 +105,7 @@ Theorem compound_false_false : forall (n : nat), compound_false n = false.
 
 위에서 정의한 `compound_false`는 항상 `false`입니다. 사람 눈으로 보기엔 그게 자명하지만 Coq가 봐도 그럴까요? 아쉽게도 그렇지 않습니다. Coq에게는 `destruct`를 이용해서 `n`이 3, 5, 나머지인 경우로 나눠줘야합니다. 아래처럼 말이죠.
 
-```
+```haskell, line_num
 Proof.
   intros n.
   unfold compound_false.

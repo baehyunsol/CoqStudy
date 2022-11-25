@@ -74,13 +74,12 @@ Fixpoint is_even (n: nat) : bool :=
 주어진 수가 짝수인지 홀수인지 판별하는 함수를 정의했습니다. 0은 짝수이고 1은 홀수이며, (n + 2)는 n과 동일한 결과를 반환하도록 했습니다.
 
 [[anchor, id=keyword fixpoint]][[/anchor]]
+
 이번에는 함수 정의에 `Definition`이 아닌 `Fixpoint`라는 키워드를 사용했습니다. 이는 `is_even`이 재귀함수이기 때문입니다. `Definition` 키워드를 사용하면 `is_even`이 정의가 덜 된 상태에서 함수 body 안에서 `is_even`을 만나게 되고, 컴파일러는 아직 정의되지 않은 이름을 만나서 당황하게 됩니다.
 
 [[box]]
 
-TODO:
-
-책의 Fixpoints and Structural Recursion (Optional)라는 파트를 보면, `Fixpoint`를 이용해서 정의된 함수들은 컴파일 타임에 "decreasing analysis"를 한다고 돼 있습니다. 즉, 이 함수가 무한 recursion을 할지 언젠가 terminate를 할지 검사를 한다는 건데, 그게 불가능하지 않나...요..? Halting problem이랑 다른 얘긴가?
+`Fixpoint`로 선언한 재귀함수는 반드시 무한재귀에 빠지지 않는다는 보장이 있어야합니다. 하지만 함수 선언만 보고 그 함수가 무한재귀에 빠질지 아닐지 판단하는 건 불가능합니다. 그건 [정지문제](https://en.wikipedia.org/wiki/Halting_problem)를 푸는 거랑 똑같거든요. 그래서 Coq는 좀 더 보수적인 접근법을 취합니다. 어떤 함수 `f(n)` 안에 `f(g(n))`이 들어있을 경우 `g(n)`이 `n`보다 작을 때만 `Fixpoint`의 정의가 가능합니다. 저 조건에서는 무한재귀에 빠지지 않는다는게 보장이 되거든요. 무한재귀에 빠지지 않지만 저 조건을 만족하지 않는 함수들은 `Fixpoint`로 정의가 불가능합니다.
 
 [[/box]]
 
