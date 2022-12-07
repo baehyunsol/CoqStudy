@@ -120,117 +120,133 @@
 </span></span>
 <span class="code-fence-row"><span class="code-fence-index">7</span><span class="code-fence-code">
 </span></span>
-<span class="code-fence-row"><span class="code-fence-index">8</span><span class="code-fence-code"><span class="color-gold">Fixpoint</span><span class="color-white"> even (n </span><span class="color-white">:</span><span class="color-white"> nat) </span><span class="color-white">:=</span>
+<span class="code-fence-row"><span class="code-fence-index">8</span><span class="code-fence-code"><span class="color-gold">Fixpoint</span><span class="color-white"> double (n</span><span class="color-white">:</span><span class="color-white">nat) </span><span class="color-white">:=</span>
 </span></span>
 <span class="code-fence-row"><span class="code-fence-index">9</span><span class="code-fence-code"><span class="color-white">  match n with
 </span></span></span>
-<span class="code-fence-row"><span class="code-fence-index">10</span><span class="code-fence-code">  <span class="color-white">|</span> <span class="color-gold">0</span> <span class="color-white">=&gt;</span><span class="color-white"> true
+<span class="code-fence-row"><span class="code-fence-index">10</span><span class="code-fence-code">  <span class="color-white">|</span> <span class="color-gold">O</span> <span class="color-white">=&gt;</span> <span class="color-gold">O</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">11</span><span class="code-fence-code">  <span class="color-white">|</span> <span class="color-gold">S</span><span class="color-white"> n&apos; </span><span class="color-white">=&gt;</span> <span class="color-gold">S</span><span class="color-white"> (</span><span class="color-gold">S</span><span class="color-white"> (double n&apos;))
 </span></span></span>
-<span class="code-fence-row"><span class="code-fence-index">11</span><span class="code-fence-code">  <span class="color-white">|</span> <span class="color-gold">S</span> <span class="color-gold">0</span> <span class="color-white">=&gt;</span><span class="color-white"> false
+<span class="code-fence-row"><span class="code-fence-index">12</span><span class="code-fence-code"><span class="color-white">  end</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">13</span><span class="code-fence-code">
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">14</span><span class="code-fence-code"><span class="color-gold">Definition</span> <span class="color-gold">Even</span><span class="color-white"> x </span><span class="color-white">:=</span><span class="color-white"> exists n </span><span class="color-white">:</span><span class="color-white"> nat</span><span class="color-white">,</span><span class="color-white"> x </span><span class="color-white">=</span><span class="color-white"> double n</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">15</span><span class="code-fence-code">
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">16</span><span class="code-fence-code"><span class="color-gold">Fixpoint</span><span class="color-white"> even (n </span><span class="color-white">:</span><span class="color-white"> nat) </span><span class="color-white">:=</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">17</span><span class="code-fence-code"><span class="color-white">  match n with
 </span></span></span>
-<span class="code-fence-row"><span class="code-fence-index">12</span><span class="code-fence-code">  <span class="color-white">|</span> <span class="color-gold">S</span><span class="color-white"> (</span><span class="color-gold">S</span><span class="color-white"> n) </span><span class="color-white">=&gt;</span><span class="color-white"> even n
+<span class="code-fence-row"><span class="code-fence-index">18</span><span class="code-fence-code">  <span class="color-white">|</span> <span class="color-gold">0</span> <span class="color-white">=&gt;</span><span class="color-white"> true
 </span></span></span>
-<span class="code-fence-row"><span class="code-fence-index">13</span><span class="code-fence-code"><span class="color-white">  end</span><span class="color-white">.</span>
-</span></span>
-<span class="code-fence-row"><span class="code-fence-index">14</span><span class="code-fence-code">
-</span></span>
-<span class="code-fence-row"><span class="code-fence-index">15</span><span class="code-fence-code"><span class="color-gold">Theorem</span><span class="color-white"> add_0_r </span><span class="color-white">:</span><span class="color-white"> forall n </span><span class="color-white">:</span><span class="color-white"> nat</span><span class="color-white">,</span><span class="color-white"> n </span><span class="color-white">+</span> <span class="color-gold">0</span> <span class="color-white">=</span><span class="color-white"> n</span><span class="color-white">.</span>
-</span></span>
-<span class="code-fence-row"><span class="code-fence-index">16</span><span class="code-fence-code"><span class="color-gold">Proof</span><span class="color-white">.</span>
-</span></span>
-<span class="code-fence-row"><span class="code-fence-index">17</span><span class="code-fence-code"><span class="color-white">  intros n</span><span class="color-white">.</span><span class="color-white"> induction n as [ </span><span class="color-white">|</span><span class="color-white"> n&apos; </span><span class="color-gold">IHn</span><span class="color-white">&apos;]</span><span class="color-white">.</span>
-</span></span>
-<span class="code-fence-row"><span class="code-fence-index">18</span><span class="code-fence-code">  <span class="color-white">-</span><span class="color-white"> (*</span><span class="color-gray">{-</span><span class="color-gray"> n = 0 </span><span class="color-gray">-}</span><span class="color-white">*)
+<span class="code-fence-row"><span class="code-fence-index">19</span><span class="code-fence-code">  <span class="color-white">|</span> <span class="color-gold">S</span> <span class="color-gold">0</span> <span class="color-white">=&gt;</span><span class="color-white"> false
 </span></span></span>
-<span class="code-fence-row"><span class="code-fence-index">19</span><span class="code-fence-code"><span class="color-white">    reflexivity</span><span class="color-white">.</span>
-</span></span>
-<span class="code-fence-row"><span class="code-fence-index">20</span><span class="code-fence-code">  <span class="color-white">-</span><span class="color-white"> (*</span><span class="color-gray">{-</span><span class="color-gray"> n = S n&apos; </span><span class="color-gray">-}</span><span class="color-white">*)
+<span class="code-fence-row"><span class="code-fence-index">20</span><span class="code-fence-code">  <span class="color-white">|</span> <span class="color-gold">S</span><span class="color-white"> (</span><span class="color-gold">S</span><span class="color-white"> n) </span><span class="color-white">=&gt;</span><span class="color-white"> even n
 </span></span></span>
-<span class="code-fence-row"><span class="code-fence-index">21</span><span class="code-fence-code"><span class="color-white">    simpl</span><span class="color-white">.</span>
+<span class="code-fence-row"><span class="code-fence-index">21</span><span class="code-fence-code"><span class="color-white">  end</span><span class="color-white">.</span>
 </span></span>
-<span class="code-fence-row"><span class="code-fence-index">22</span><span class="code-fence-code"><span class="color-white">    rewrite </span><span class="color-white">-&gt;</span> <span class="color-gold">IHn</span><span class="color-white">&apos;</span><span class="color-white">.</span>
+<span class="code-fence-row"><span class="code-fence-index">22</span><span class="code-fence-code">
 </span></span>
-<span class="code-fence-row"><span class="code-fence-index">23</span><span class="code-fence-code"><span class="color-white">    reflexivity</span><span class="color-white">.</span>
+<span class="code-fence-row"><span class="code-fence-index">23</span><span class="code-fence-code"><span class="color-gold">Theorem</span><span class="color-white"> add_0_r </span><span class="color-white">:</span><span class="color-white"> forall n </span><span class="color-white">:</span><span class="color-white"> nat</span><span class="color-white">,</span><span class="color-white"> n </span><span class="color-white">+</span> <span class="color-gold">0</span> <span class="color-white">=</span><span class="color-white"> n</span><span class="color-white">.</span>
 </span></span>
-<span class="code-fence-row"><span class="code-fence-index">24</span><span class="code-fence-code">  <span class="color-gold">Qed</span><span class="color-white">.</span>
+<span class="code-fence-row"><span class="code-fence-index">24</span><span class="code-fence-code"><span class="color-gold">Proof</span><span class="color-white">.</span>
 </span></span>
-<span class="code-fence-row"><span class="code-fence-index">25</span><span class="code-fence-code">
+<span class="code-fence-row"><span class="code-fence-index">25</span><span class="code-fence-code"><span class="color-white">  intros n</span><span class="color-white">.</span><span class="color-white"> induction n as [ </span><span class="color-white">|</span><span class="color-white"> n&apos; </span><span class="color-gold">IHn</span><span class="color-white">&apos;]</span><span class="color-white">.</span>
 </span></span>
-<span class="code-fence-row"><span class="code-fence-index">26</span><span class="code-fence-code"><span class="color-gold">Theorem</span><span class="color-white"> add_comm </span><span class="color-white">:</span><span class="color-white"> forall n m </span><span class="color-white">:</span><span class="color-white"> nat</span><span class="color-white">,</span>
-</span></span>
-<span class="code-fence-row"><span class="code-fence-index">27</span><span class="code-fence-code"><span class="color-white">  n </span><span class="color-white">+</span><span class="color-white"> m </span><span class="color-white">=</span><span class="color-white"> m </span><span class="color-white">+</span><span class="color-white"> n</span><span class="color-white">.</span>
-</span></span>
-<span class="code-fence-row"><span class="code-fence-index">28</span><span class="code-fence-code"><span class="color-gold">Proof</span><span class="color-white">.</span>
-</span></span>
-<span class="code-fence-row"><span class="code-fence-index">29</span><span class="code-fence-code"><span class="color-white">  induction n as [ </span><span class="color-white">|</span><span class="color-white"> n&apos;]</span><span class="color-white">.</span>
-</span></span>
-<span class="code-fence-row"><span class="code-fence-index">30</span><span class="code-fence-code">  <span class="color-white">-</span><span class="color-white"> (*</span><span class="color-gray">{-</span><span class="color-gray"> n = O </span><span class="color-gray">-}</span><span class="color-white">*)
+<span class="code-fence-row"><span class="code-fence-index">26</span><span class="code-fence-code">  <span class="color-white">-</span><span class="color-white"> (*</span><span class="color-gray">{-</span><span class="color-gray"> n = 0 </span><span class="color-gray">-}</span><span class="color-white">*)
 </span></span></span>
-<span class="code-fence-row"><span class="code-fence-index">31</span><span class="code-fence-code"><span class="color-white">    intros m</span><span class="color-white">.</span>
+<span class="code-fence-row"><span class="code-fence-index">27</span><span class="code-fence-code"><span class="color-white">    reflexivity</span><span class="color-white">.</span>
 </span></span>
-<span class="code-fence-row"><span class="code-fence-index">32</span><span class="code-fence-code"><span class="color-white">    rewrite </span><span class="color-white">-&gt;</span><span class="color-white"> add_0_r</span><span class="color-white">.</span>
+<span class="code-fence-row"><span class="code-fence-index">28</span><span class="code-fence-code">  <span class="color-white">-</span><span class="color-white"> (*</span><span class="color-gray">{-</span><span class="color-gray"> n = S n&apos; </span><span class="color-gray">-}</span><span class="color-white">*)
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">29</span><span class="code-fence-code"><span class="color-white">    simpl</span><span class="color-white">.</span>
 </span></span>
-<span class="code-fence-row"><span class="code-fence-index">33</span><span class="code-fence-code"><span class="color-white">    reflexivity</span><span class="color-white">.</span>
+<span class="code-fence-row"><span class="code-fence-index">30</span><span class="code-fence-code"><span class="color-white">    rewrite </span><span class="color-white">-&gt;</span> <span class="color-gold">IHn</span><span class="color-white">&apos;</span><span class="color-white">.</span>
 </span></span>
-<span class="code-fence-row"><span class="code-fence-index">34</span><span class="code-fence-code">  <span class="color-white">-</span><span class="color-white"> (*</span><span class="color-gray">{-</span><span class="color-gray"> n = S n&apos; </span><span class="color-gray">-}</span><span class="color-white">*)
-</span></span></span>
-<span class="code-fence-row"><span class="code-fence-index">35</span><span class="code-fence-code"><span class="color-white">    intros m</span><span class="color-white">.</span><span class="color-white"> simpl</span><span class="color-white">.</span>
+<span class="code-fence-row"><span class="code-fence-index">31</span><span class="code-fence-code"><span class="color-white">    reflexivity</span><span class="color-white">.</span>
 </span></span>
-<span class="code-fence-row"><span class="code-fence-index">36</span><span class="code-fence-code"><span class="color-white">    rewrite </span><span class="color-white">-&gt;</span> <span class="color-gold">IHn</span><span class="color-white">&apos;</span><span class="color-white">.</span>
+<span class="code-fence-row"><span class="code-fence-index">32</span><span class="code-fence-code">  <span class="color-gold">Qed</span><span class="color-white">.</span>
 </span></span>
-<span class="code-fence-row"><span class="code-fence-index">37</span><span class="code-fence-code"><span class="color-white">    rewrite </span><span class="color-white">&lt;-</span><span class="color-white"> plus_n_Sm</span><span class="color-white">.</span>
+<span class="code-fence-row"><span class="code-fence-index">33</span><span class="code-fence-code">
 </span></span>
-<span class="code-fence-row"><span class="code-fence-index">38</span><span class="code-fence-code"><span class="color-white">    reflexivity</span><span class="color-white">.</span>
+<span class="code-fence-row"><span class="code-fence-index">34</span><span class="code-fence-code"><span class="color-gold">Theorem</span><span class="color-white"> add_comm </span><span class="color-white">:</span><span class="color-white"> forall n m </span><span class="color-white">:</span><span class="color-white"> nat</span><span class="color-white">,</span>
 </span></span>
-<span class="code-fence-row"><span class="code-fence-index">39</span><span class="code-fence-code">  <span class="color-gold">Qed</span><span class="color-white">.</span>
+<span class="code-fence-row"><span class="code-fence-index">35</span><span class="code-fence-code"><span class="color-white">  n </span><span class="color-white">+</span><span class="color-white"> m </span><span class="color-white">=</span><span class="color-white"> m </span><span class="color-white">+</span><span class="color-white"> n</span><span class="color-white">.</span>
 </span></span>
-<span class="code-fence-row"><span class="code-fence-index">40</span><span class="code-fence-code">
+<span class="code-fence-row"><span class="code-fence-index">36</span><span class="code-fence-code"><span class="color-gold">Proof</span><span class="color-white">.</span>
 </span></span>
-<span class="code-fence-row"><span class="code-fence-index">41</span><span class="code-fence-code"><span class="color-gold">Fixpoint</span><span class="color-white"> eqb (n m </span><span class="color-white">:</span><span class="color-white"> nat) </span><span class="color-white">:</span><span class="color-white"> bool </span><span class="color-white">:=</span>
+<span class="code-fence-row"><span class="code-fence-index">37</span><span class="code-fence-code"><span class="color-white">  induction n as [ </span><span class="color-white">|</span><span class="color-white"> n&apos;]</span><span class="color-white">.</span>
 </span></span>
-<span class="code-fence-row"><span class="code-fence-index">42</span><span class="code-fence-code"><span class="color-white">  match n with
+<span class="code-fence-row"><span class="code-fence-index">38</span><span class="code-fence-code">  <span class="color-white">-</span><span class="color-white"> (*</span><span class="color-gray">{-</span><span class="color-gray"> n = O </span><span class="color-gray">-}</span><span class="color-white">*)
 </span></span></span>
-<span class="code-fence-row"><span class="code-fence-index">43</span><span class="code-fence-code">  <span class="color-white">|</span> <span class="color-gold">O</span> <span class="color-white">=&gt;</span><span class="color-white"> match m with
-</span></span></span>
-<span class="code-fence-row"><span class="code-fence-index">44</span><span class="code-fence-code">    <span class="color-white">|</span> <span class="color-gold">O</span> <span class="color-white">=&gt;</span><span class="color-white"> true
-</span></span></span>
-<span class="code-fence-row"><span class="code-fence-index">45</span><span class="code-fence-code">    <span class="color-white">|</span><span class="color-white"> _ </span><span class="color-white">=&gt;</span><span class="color-white"> false
-</span></span></span>
-<span class="code-fence-row"><span class="code-fence-index">46</span><span class="code-fence-code"><span class="color-white">    end
-</span></span></span>
-<span class="code-fence-row"><span class="code-fence-index">47</span><span class="code-fence-code">  <span class="color-white">|</span> <span class="color-gold">S</span><span class="color-white"> n&apos; </span><span class="color-white">=&gt;</span><span class="color-white"> match m with
-</span></span></span>
-<span class="code-fence-row"><span class="code-fence-index">48</span><span class="code-fence-code">    <span class="color-white">|</span> <span class="color-gold">O</span> <span class="color-white">=&gt;</span><span class="color-white"> false
-</span></span></span>
-<span class="code-fence-row"><span class="code-fence-index">49</span><span class="code-fence-code">    <span class="color-white">|</span> <span class="color-gold">S</span><span class="color-white"> m&apos; </span><span class="color-white">=&gt;</span><span class="color-white"> eqb n&apos; m&apos;
-</span></span></span>
-<span class="code-fence-row"><span class="code-fence-index">50</span><span class="code-fence-code"><span class="color-white">    end
-</span></span></span>
-<span class="code-fence-row"><span class="code-fence-index">51</span><span class="code-fence-code"><span class="color-white">  end</span><span class="color-white">.</span>
+<span class="code-fence-row"><span class="code-fence-index">39</span><span class="code-fence-code"><span class="color-white">    intros m</span><span class="color-white">.</span>
 </span></span>
-<span class="code-fence-row"><span class="code-fence-index">52</span><span class="code-fence-code">
+<span class="code-fence-row"><span class="code-fence-index">40</span><span class="code-fence-code"><span class="color-white">    rewrite </span><span class="color-white">-&gt;</span><span class="color-white"> add_0_r</span><span class="color-white">.</span>
 </span></span>
-<span class="code-fence-row"><span class="code-fence-index">53</span><span class="code-fence-code"><span class="color-gold">Fixpoint</span><span class="color-white"> leb (m n </span><span class="color-white">:</span><span class="color-white"> nat) </span><span class="color-white">:</span><span class="color-white"> bool </span><span class="color-white">:=</span>
+<span class="code-fence-row"><span class="code-fence-index">41</span><span class="code-fence-code"><span class="color-white">    reflexivity</span><span class="color-white">.</span>
 </span></span>
-<span class="code-fence-row"><span class="code-fence-index">54</span><span class="code-fence-code"><span class="color-white">  match m with
+<span class="code-fence-row"><span class="code-fence-index">42</span><span class="code-fence-code">  <span class="color-white">-</span><span class="color-white"> (*</span><span class="color-gray">{-</span><span class="color-gray"> n = S n&apos; </span><span class="color-gray">-}</span><span class="color-white">*)
 </span></span></span>
-<span class="code-fence-row"><span class="code-fence-index">55</span><span class="code-fence-code">  <span class="color-white">|</span> <span class="color-gold">O</span> <span class="color-white">=&gt;</span><span class="color-white"> true
-</span></span></span>
-<span class="code-fence-row"><span class="code-fence-index">56</span><span class="code-fence-code">  <span class="color-white">|</span> <span class="color-gold">S</span><span class="color-white"> m&apos; </span><span class="color-white">=&gt;</span><span class="color-white"> match n with
-</span></span></span>
-<span class="code-fence-row"><span class="code-fence-index">57</span><span class="code-fence-code">    <span class="color-white">|</span> <span class="color-gold">O</span> <span class="color-white">=&gt;</span><span class="color-white"> false
-</span></span></span>
-<span class="code-fence-row"><span class="code-fence-index">58</span><span class="code-fence-code">    <span class="color-white">|</span> <span class="color-gold">S</span><span class="color-white"> n&apos; </span><span class="color-white">=&gt;</span><span class="color-white"> leb m&apos; n&apos;
-</span></span></span>
-<span class="code-fence-row"><span class="code-fence-index">59</span><span class="code-fence-code"><span class="color-white">    end
-</span></span></span>
-<span class="code-fence-row"><span class="code-fence-index">60</span><span class="code-fence-code"><span class="color-white">  end</span><span class="color-white">.</span>
+<span class="code-fence-row"><span class="code-fence-index">43</span><span class="code-fence-code"><span class="color-white">    intros m</span><span class="color-white">.</span><span class="color-white"> simpl</span><span class="color-white">.</span>
 </span></span>
-<span class="code-fence-row"><span class="code-fence-index">61</span><span class="code-fence-code">
+<span class="code-fence-row"><span class="code-fence-index">44</span><span class="code-fence-code"><span class="color-white">    rewrite </span><span class="color-white">-&gt;</span> <span class="color-gold">IHn</span><span class="color-white">&apos;</span><span class="color-white">.</span>
 </span></span>
-<span class="code-fence-row"><span class="code-fence-index">62</span><span class="code-fence-code"><span class="color-gold">Notation</span> <span class="color-white">&quot;</span><span class="color-green">x =? y</span><span class="color-white">&quot;</span> <span class="color-white">:=</span><span class="color-white"> (eqb x y) (at level </span><span class="color-gold">70</span><span class="color-white">) </span><span class="color-white">:</span><span class="color-white"> nat_scope</span><span class="color-white">.</span>
+<span class="code-fence-row"><span class="code-fence-index">45</span><span class="code-fence-code"><span class="color-white">    rewrite </span><span class="color-white">&lt;-</span><span class="color-white"> plus_n_Sm</span><span class="color-white">.</span>
 </span></span>
-<span class="code-fence-row"><span class="code-fence-index">63</span><span class="code-fence-code"><span class="color-gold">Notation</span> <span class="color-white">&quot;</span><span class="color-green">x &lt;=? y</span><span class="color-white">&quot;</span> <span class="color-white">:=</span><span class="color-white"> (leb x y) (at level </span><span class="color-gold">70</span><span class="color-white">) </span><span class="color-white">:</span><span class="color-white"> nat_scope</span><span class="color-white">.</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">46</span><span class="code-fence-code"><span class="color-white">    reflexivity</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">47</span><span class="code-fence-code">  <span class="color-gold">Qed</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">48</span><span class="code-fence-code">
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">49</span><span class="code-fence-code"><span class="color-gold">Fixpoint</span><span class="color-white"> eqb (n m </span><span class="color-white">:</span><span class="color-white"> nat) </span><span class="color-white">:</span><span class="color-white"> bool </span><span class="color-white">:=</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">50</span><span class="code-fence-code"><span class="color-white">  match n with
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">51</span><span class="code-fence-code">  <span class="color-white">|</span> <span class="color-gold">O</span> <span class="color-white">=&gt;</span><span class="color-white"> match m with
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">52</span><span class="code-fence-code">    <span class="color-white">|</span> <span class="color-gold">O</span> <span class="color-white">=&gt;</span><span class="color-white"> true
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">53</span><span class="code-fence-code">    <span class="color-white">|</span><span class="color-white"> _ </span><span class="color-white">=&gt;</span><span class="color-white"> false
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">54</span><span class="code-fence-code"><span class="color-white">    end
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">55</span><span class="code-fence-code">  <span class="color-white">|</span> <span class="color-gold">S</span><span class="color-white"> n&apos; </span><span class="color-white">=&gt;</span><span class="color-white"> match m with
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">56</span><span class="code-fence-code">    <span class="color-white">|</span> <span class="color-gold">O</span> <span class="color-white">=&gt;</span><span class="color-white"> false
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">57</span><span class="code-fence-code">    <span class="color-white">|</span> <span class="color-gold">S</span><span class="color-white"> m&apos; </span><span class="color-white">=&gt;</span><span class="color-white"> eqb n&apos; m&apos;
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">58</span><span class="code-fence-code"><span class="color-white">    end
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">59</span><span class="code-fence-code"><span class="color-white">  end</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">60</span><span class="code-fence-code">
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">61</span><span class="code-fence-code"><span class="color-gold">Fixpoint</span><span class="color-white"> leb (m n </span><span class="color-white">:</span><span class="color-white"> nat) </span><span class="color-white">:</span><span class="color-white"> bool </span><span class="color-white">:=</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">62</span><span class="code-fence-code"><span class="color-white">  match m with
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">63</span><span class="code-fence-code">  <span class="color-white">|</span> <span class="color-gold">O</span> <span class="color-white">=&gt;</span><span class="color-white"> true
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">64</span><span class="code-fence-code">  <span class="color-white">|</span> <span class="color-gold">S</span><span class="color-white"> m&apos; </span><span class="color-white">=&gt;</span><span class="color-white"> match n with
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">65</span><span class="code-fence-code">    <span class="color-white">|</span> <span class="color-gold">O</span> <span class="color-white">=&gt;</span><span class="color-white"> false
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">66</span><span class="code-fence-code">    <span class="color-white">|</span> <span class="color-gold">S</span><span class="color-white"> n&apos; </span><span class="color-white">=&gt;</span><span class="color-white"> leb m&apos; n&apos;
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">67</span><span class="code-fence-code"><span class="color-white">    end
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">68</span><span class="code-fence-code"><span class="color-white">  end</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">69</span><span class="code-fence-code">
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">70</span><span class="code-fence-code"><span class="color-gold">Notation</span> <span class="color-white">&quot;</span><span class="color-green">x =? y</span><span class="color-white">&quot;</span> <span class="color-white">:=</span><span class="color-white"> (eqb x y) (at level </span><span class="color-gold">70</span><span class="color-white">) </span><span class="color-white">:</span><span class="color-white"> nat_scope</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">71</span><span class="code-fence-code"><span class="color-gold">Notation</span> <span class="color-white">&quot;</span><span class="color-green">x &lt;=? y</span><span class="color-white">&quot;</span> <span class="color-white">:=</span><span class="color-white"> (leb x y) (at level </span><span class="color-gold">70</span><span class="color-white">) </span><span class="color-white">:</span><span class="color-white"> nat_scope</span><span class="color-white">.</span></span></span>
 </code><button class="copy-fenced-code" onclick="copy_code_to_clipboard(2)">Copy</button></pre><h2 id="list">List</h2><pre class="fenced-code-block line-num-width-1"><code><span class="code-fence-row"><span class="code-fence-index">1</span><span class="code-fence-code"><span class="color-gold">Inductive</span><span class="color-white"> list (</span><span class="color-gold">X</span> <span class="color-white">:</span> <span class="color-gold">Type</span><span class="color-white">) </span><span class="color-white">:</span> <span class="color-gold">Type</span> <span class="color-white">:=</span>
 </span></span>
 <span class="code-fence-row"><span class="code-fence-index">2</span><span class="code-fence-code">  <span class="color-white">|</span><span class="color-white"> nil
@@ -271,7 +287,7 @@
 </span></span></span>
 <span class="code-fence-row"><span class="code-fence-index">20</span><span class="code-fence-code"><span class="color-white">                     (right associativity</span><span class="color-white">,</span><span class="color-white"> at level </span><span class="color-gold">60</span><span class="color-white">)</span><span class="color-white">.</span></span></span>
 </code><button class="copy-fenced-code" onclick="copy_code_to_clipboard(3)">Copy</button></pre><script>/*<![CDATA[*/
-const fenced_code_block_contents = ["Fixpoint filter {X : Type} (test : X -> bool) (l : list X) : list X :=\n  match l with\n  | nil => nil\n  | h :: t => if test h\n    then h :: (filter test t)\n    else filter test t\n  end.\n\nFixpoint map {X Y : Type} (f : X -> Y) (l : list X) : list Y :=\n  match l with\n  | [] => []\n  | h :: t => (f h) :: (map f t)\n  end.\n\nFixpoint fold {X Y: Type} (f : X -> Y -> Y) (l : list X) (b : Y) : Y :=\n  match l with\n  | [] => b\n  | h :: t => f h (fold f t b)\n  end.", "Inductive prod (X Y : Type) : Type :=\n| pair (x : X) (y : Y).\n\nArguments pair {X} {Y}.\nNotation \"( x , y )\" := (pair x y).\nNotation \"X * Y\" := (prod X Y) : type_scope.\n\nDefinition fst {X Y : Type} (p : X * Y) : X :=\n  match p with\n  | (x, y) => x\n  end.\nDefinition snd {X Y : Type} (p : X * Y) : Y :=\n  match p with\n  | (x, y) => y\n  end.\n\nDefinition prod_curry {X Y Z : Type}\n  (f : X * Y -> Z) (x : X) (y : Y) : Z := f (x, y).\n\nDefinition prod_uncurry {X Y Z : Type}\n  (f : X -> Y -> Z) (x : X * Y) : Z := f (fst x) (snd x).", "Fixpoint div2 (n : nat) :=\n  match n with\n  | 0 => 0\n  | 1 => 0\n  | S (S n) => S (div2 n)\n  end.\n\nFixpoint even (n : nat) :=\n  match n with\n  | 0 => true\n  | S 0 => false\n  | S (S n) => even n\n  end.\n\nTheorem add_0_r : forall n : nat, n + 0 = n.\nProof.\n  intros n. induction n as [ | n' IHn'].\n  - (*{- n = 0 -}*)\n    reflexivity.\n  - (*{- n = S n' -}*)\n    simpl.\n    rewrite -> IHn'.\n    reflexivity.\n  Qed.\n\nTheorem add_comm : forall n m : nat,\n  n + m = m + n.\nProof.\n  induction n as [ | n'].\n  - (*{- n = O -}*)\n    intros m.\n    rewrite -> add_0_r.\n    reflexivity.\n  - (*{- n = S n' -}*)\n    intros m. simpl.\n    rewrite -> IHn'.\n    rewrite <- plus_n_Sm.\n    reflexivity.\n  Qed.\n\nFixpoint eqb (n m : nat) : bool :=\n  match n with\n  | O => match m with\n    | O => true\n    | _ => false\n    end\n  | S n' => match m with\n    | O => false\n    | S m' => eqb n' m'\n    end\n  end.\n\nFixpoint leb (m n : nat) : bool :=\n  match m with\n  | O => true\n  | S m' => match n with\n    | O => false\n    | S n' => leb m' n'\n    end\n  end.\n\nNotation \"x =? y\" := (eqb x y) (at level 70) : nat_scope.\nNotation \"x <=? y\" := (leb x y) (at level 70) : nat_scope.", "Inductive list (X : Type) : Type :=\n  | nil\n  | cons (x : X) (l : list X).\n\nArguments nil {X}.\nArguments cons {X}.\n\nNotation \"x :: l\" := (cons x l)\n                     (at level 60, right associativity).\nNotation \"[ ]\" := nil.\nNotation \"[ x ; .. ; y ]\" := (cons x .. (cons y nil) ..).\n\nFixpoint append {X : Type} (l1 l2 : list X) : list X :=\n  match l1 with\n  | nil => l2\n  | h :: t => h :: (append t l2)\n  end.\n\nNotation \"x ++ y\" := (append x y)\n                     (right associativity, at level 60)."];
+const fenced_code_block_contents = ["Fixpoint filter {X : Type} (test : X -> bool) (l : list X) : list X :=\n  match l with\n  | nil => nil\n  | h :: t => if test h\n    then h :: (filter test t)\n    else filter test t\n  end.\n\nFixpoint map {X Y : Type} (f : X -> Y) (l : list X) : list Y :=\n  match l with\n  | [] => []\n  | h :: t => (f h) :: (map f t)\n  end.\n\nFixpoint fold {X Y: Type} (f : X -> Y -> Y) (l : list X) (b : Y) : Y :=\n  match l with\n  | [] => b\n  | h :: t => f h (fold f t b)\n  end.", "Inductive prod (X Y : Type) : Type :=\n| pair (x : X) (y : Y).\n\nArguments pair {X} {Y}.\nNotation \"( x , y )\" := (pair x y).\nNotation \"X * Y\" := (prod X Y) : type_scope.\n\nDefinition fst {X Y : Type} (p : X * Y) : X :=\n  match p with\n  | (x, y) => x\n  end.\nDefinition snd {X Y : Type} (p : X * Y) : Y :=\n  match p with\n  | (x, y) => y\n  end.\n\nDefinition prod_curry {X Y Z : Type}\n  (f : X * Y -> Z) (x : X) (y : Y) : Z := f (x, y).\n\nDefinition prod_uncurry {X Y Z : Type}\n  (f : X -> Y -> Z) (x : X * Y) : Z := f (fst x) (snd x).", "Fixpoint div2 (n : nat) :=\n  match n with\n  | 0 => 0\n  | 1 => 0\n  | S (S n) => S (div2 n)\n  end.\n\nFixpoint double (n:nat) :=\n  match n with\n  | O => O\n  | S n' => S (S (double n'))\n  end.\n\nDefinition Even x := exists n : nat, x = double n.\n\nFixpoint even (n : nat) :=\n  match n with\n  | 0 => true\n  | S 0 => false\n  | S (S n) => even n\n  end.\n\nTheorem add_0_r : forall n : nat, n + 0 = n.\nProof.\n  intros n. induction n as [ | n' IHn'].\n  - (*{- n = 0 -}*)\n    reflexivity.\n  - (*{- n = S n' -}*)\n    simpl.\n    rewrite -> IHn'.\n    reflexivity.\n  Qed.\n\nTheorem add_comm : forall n m : nat,\n  n + m = m + n.\nProof.\n  induction n as [ | n'].\n  - (*{- n = O -}*)\n    intros m.\n    rewrite -> add_0_r.\n    reflexivity.\n  - (*{- n = S n' -}*)\n    intros m. simpl.\n    rewrite -> IHn'.\n    rewrite <- plus_n_Sm.\n    reflexivity.\n  Qed.\n\nFixpoint eqb (n m : nat) : bool :=\n  match n with\n  | O => match m with\n    | O => true\n    | _ => false\n    end\n  | S n' => match m with\n    | O => false\n    | S m' => eqb n' m'\n    end\n  end.\n\nFixpoint leb (m n : nat) : bool :=\n  match m with\n  | O => true\n  | S m' => match n with\n    | O => false\n    | S n' => leb m' n'\n    end\n  end.\n\nNotation \"x =? y\" := (eqb x y) (at level 70) : nat_scope.\nNotation \"x <=? y\" := (leb x y) (at level 70) : nat_scope.", "Inductive list (X : Type) : Type :=\n  | nil\n  | cons (x : X) (l : list X).\n\nArguments nil {X}.\nArguments cons {X}.\n\nNotation \"x :: l\" := (cons x l)\n                     (at level 60, right associativity).\nNotation \"[ ]\" := nil.\nNotation \"[ x ; .. ; y ]\" := (cons x .. (cons y nil) ..).\n\nFixpoint append {X : Type} (l1 l2 : list X) : list X :=\n  match l1 with\n  | nil => l2\n  | h :: t => h :: (append t l2)\n  end.\n\nNotation \"x ++ y\" := (append x y)\n                     (right associativity, at level 60)."];
 
 function copy_code_to_clipboard(index) {
     navigator.clipboard.writeText(fenced_code_block_contents[index]);

@@ -66,6 +66,14 @@ Fixpoint div2 (n : nat) :=
   | S (S n) => S (div2 n)
   end.
 
+Fixpoint double (n:nat) :=
+  match n with
+  | O => O
+  | S n' => S (S (double n'))
+  end.
+
+Definition Even x := exists n : nat, x = double n.
+
 Fixpoint even (n : nat) :=
   match n with
   | 0 => true

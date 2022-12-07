@@ -125,6 +125,118 @@ Proof.
 
 1은 0도 될 수 없고 `S (S n)`도 될 수 없습니다. 따라서 `ev 1`에 `inversion`을 쓰면 모든 경우가 알아서 `discriminate`되고 증명이 끝납니다.
 
+## Induction on Evidence
+
+이번에는 귀납법을 해보겠습니다. [이전](Chap2-1.html#keywordinduction)에 `nat`에 귀납법을 사용했을 때와 비슷합니다. 아래의 예시를 보면서 설명하겠습니다.
+
+[[anchor, id=keyword induction]][[/anchor]]
+
+```haskell, line_num
+Lemma ev_Even : forall n,
+  ev n -> Even n.
+Proof.
+  intros n E.
+  induction E as [ | n' E' IH].
+  - (*{- E = ev_0 -}*)
+    unfold Even.
+    exists 0.
+    reflexivity.
+  - (*{- E = ev_SS n' E' with IH : Even E' -}*)
+    unfold Even in IH.
+    destruct IH as [k Hk].
+    rewrite Hk.
+    unfold Even.
+    exists (S k).
+    simpl.
+    reflexivity.
+Qed.
+```
+
+5번 줄을 보면, goal이 `Even 0`이고 context에 `E: ev n`이 있는 상황에서 `induction E`를 했습니다. 그럼 goal이 `Even 0`와 `Even (S (S n'))`으로 나눠집니다. 또한 두번째 subgoal에서는 context에 `E: ev n'`과 `IH: Even n'`이 추가됐습니다.
+
+```haskell, line_num
+Theorem ev_sum : forall n m, ev n -> ev m -> ev (n + m).
+Proof.
+  intros n m E1 E2.
+  induction E1 as [ | n' E1' IH1].
+  - (*{- ev (0 + m) -}*)
+    simpl.
+    apply E2.
+  - (*{- ev (S (S n') + m) -}*)
+    simpl.
+    apply ev_SS.
+    apply IH1.
+  Qed.
+```
+
+`induction` tactic을 이용해서 또다른 재밌는 증명을 해봤습니다. `simpl` tactic이 생각보다 강력해서 신기하네요.
+
+## Inductive Relations
+
+`ev`는 `nat`을 하나 받아서 `Prop`을 내놓습니다. 즉, `ev`는 자연수의 *성질* (*property*)이라고 생각할 수 있죠. 비슷하게 생각을 하면, `le`는 `nat` 2개를 받아서 `Prop`을 내놓으므로 `le`는 자연수들의 *관계* (*relation*)이라고 생각할 수 있습니다.
+
+```haskell, line_num
+Inductive le : nat -> nat -> Prop :=
+  | le_n (n : nat) : le n n
+  | le_S (n m : nat) (H : le n m) : le n (S m).
+
+Notation "n <= m" := (le n m).
+```
+
+`le`의 정의를 다시 써 보았습니다. 이전에는 `<=` 기호를 Fixpoint를 이용해서 정의했지만 이제는 Inductive로 정의했습니다. 이렇게하면 `inversion` tactic을 사용할 수 있기 때문에 더 강력한 증명들을 할 수 있습니다.
+
+```haskell, line_num
+Theorem silly1 : 5 <= 2 -> 2 + 2 = 5.
+Proof.
+  intros H.
+  inversion H as [ | n' m' H' H2].
+  inversion H' as [ | n'' m'' H'' H3].
+  inversion H''.
+  Qed.
+```
+
+`inversion`을 다시 연습할 겸 예제를 만들어보았습니다. 4번 줄의 `inversion`은 `H: 5 <= 2`를 `le_n`과 `le_S`로 나눕니다. 5와 2는 다르므로 `le_n`은 자동으로 버려지고 `le_S`에 의해 `H': 5 <= 1`이 생깁니다. `H'`에 `inversion`을 다시 쓰면 `H'': 5 <= 0`이 나오고 거기에 다시 `inversion`을 하면 가정이 거짓이 되므로 증명이 끝납니다.
+
+[[box]]
+
+[[giant]] Type 표기법 [[/giant]]
+
+아래의 세 표기법은 전부 동일합니다.
+
+```haskell, line_num
+Inductive bin : Type :=
+  | Z
+  | B0 (n : bin)
+  | B1 (n : bin).
+```
+
+- `bin`의 type은 항상 `bin`이므로 생략했습니다.
+- `le` 혹은 `ev`처럼 `Prop`을 반환하는 경우 이런 표기법을 쓸 수 없습니다.
+
+[[br]]
+
+```haskell, line_num
+Inductive bin : Type :=
+  | Z : bin
+  | B0 (n : bin) : bin
+  | B1 (n : bin) : bin.
+```
+
+- `bin`의 type이 `bin`이라는 것을 ':' 뒤에 표시했습니다.
+
+[[br]]
+
+```haskell, line_num
+Inductive bin : Type :=
+  | Z : bin
+  | B0 : bin -> bin
+  | B1 : bin -> bin.
+```
+
+- `bin`의 인수들의 type도 ':' 뒤에 표시했습니다.
+
+[[/box]]
+
 ---
 
 [[center]]
@@ -141,6 +253,6 @@ Proof.
 
 [[right]]
 
-다음 글이 없습니다.
+[Chap7-3. Regular Expressions](Chap7-3.html) >>
 
 [[/right]]

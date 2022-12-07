@@ -195,7 +195,7 @@ Theorem plus_O_n : forall n : nat, 0 + n = n.
 
 [[giant]]reflexivity[[/giant]]
 
-등식의 양변이 동일한 값을 갖고 있는지 확인합니다.
+등식의 양변이 동일한 값을 갖고 있는지 확인합니다. goal에서 등식의 양변이 동일한 값을 가질 경우 증명이 끝납니다.
 
 - [예시1](#ex1)
 
@@ -229,15 +229,23 @@ Coq 인터프리터에 `forall n : nat, 1 + n = S n`을 넣고 `simpl` tactic을
 
 [[/box]]
 
----
+[[box]]
 
-아직 정리 안된 친구들!
+[[anchor, id=keyword admitted]][[/anchor]]
+
+[[giant]]Admitted[[/giant]]
+
+원래는 `Theorem` 뒤에 바로 `Proof`가 나와서 `Qed`로 마무리를 해야하는데, 증명을 나중으로 미루고 싶을 경우 `Admitted` 키워드를 사용할 수 있습니다. `Admitted`를 이용해서 증명한 `Theorem`도 다른 증명에 사용 가능합니다. 다만, 그렇게 증명할 경우 Coq는 증명이 불완전하다고 투덜거립니다.
+
+[[/box]]
 
 [[box]]
 
-Admitted
+[[anchor, id=keyword abort]][[/anchor]]
 
-원래는 `Theorem` 뒤에 바로 `Proof`가 나와서 `Qed`로 마무리를 해야하는데, 증명을 나중으로 미루고 싶을 경우 `Admitted` 키워드를 사용할 수 있습니다.
+[[giant]]Abort[[/giant]]
+
+증명을 그만둡니다.
 
 [[/box]]
 

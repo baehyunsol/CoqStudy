@@ -4,7 +4,7 @@
 
 작성자: 배현솔\
 최초 작성일: 2022.09.02\
-최근 업데이트: 2022.11.25
+최근 업데이트: 2022.12.07
 
 [[/right]]
 
@@ -13,7 +13,6 @@
 Coq 언어 자습 문서입니다. 원래는 영어로 쓰려고 했는데 한글로된 Coq 문서가 하나도 없는 것 같아 블루오션인 것 같아서 한글로 작성하였습니다.
 
 - Coq를 처음 공부하면서 작성한 문서이기 때문에 틀린 부분이 있을 확률이 매우 높습니다.
-- 문서 중간중간에 Rust나 Haskell을 아주 자주 언급합니다. Rust나 Haskell을 몰라도 별 지장이 없기는 하지만 알면 더욱 좋습니다.
 - 문서의 모든 내용은 [Software Foundations](https://softwarefoundations.cis.upenn.edu/)의 내용에 기반합니다.
   - 다만, 순수 번역본은 아닙니다. 제가 자습한 내용을 한글로 정리한 정리본에 가깝습니다. 원본과 순서가 다른 내용도 있고, 생략/추가된 내용도 조금씩 있습니다.
   - 이 블로그의 99% 정도의 내용은 Software Foundations에 기반하지만 [Coq 공식 문서](https://coq.inria.fr/refman/index.html)와 [다른 책](http://adam.chlipala.net/cpdt/)에서 참고한 내용도 간혹 있습니다.
@@ -51,6 +50,7 @@ Coq 언어 자습 문서입니다. 원래는 영어로 쓰려고 했는데 한�
 - Chapter 7. Inductively defined Propositions
   - [Chapter 7-1. Inductively defined Propositions](Chap7-1.html)
   - [Chapter 7-2. Using Evidence in Proofs](Chap7-2.html)
+  - [Chapter 7-3. Regular Expressions](Chap7-3.html)
 - [Appendix](Appendix.html)
 
 ## Index by keyword
@@ -58,6 +58,8 @@ Coq 언어 자습 문서입니다. 원래는 영어로 쓰려고 했는데 한�
 [A](#indexa) [C](#indexc) [D](#indexd) [E](#indexe) [F](#indexf) [G](#indexg) [I](#indexi) [L](#indexl) [M](#indexm) [N](#indexn) [R](#indexr) [S](#indexs) [T](#indext) [U](#indexu)
 
 - A[[anchor, id = index a]][[/anchor]]
+  - abort: [chap1-3](Chap1-3.html#keywordabort)
+  - admitted: [chap1-3](Chap1-3.html#keywordadmitted)
   - apply: [chap5-1](Chap5-1.html#keywordapply)
   - apply with: [chap5-1](Chap5-1.html#keywordapplywith), [chap6-4](Chap6-4.html#keywordapplywith)
   - arguments: [chap4-1](Chap4-1.html#keywordarguments)
@@ -89,7 +91,7 @@ Coq 언어 자습 문서입니다. 원래는 영어로 쓰려고 했는데 한�
   - if: [chap1-1](Chap1-1.html#keywordif)
   - ->: [chap6-1](Chap6-1.html#notationimplies)
   - in: [chap5-3](Chap5-3.html#keywordin)
-  - induction: [chap2-1](Chap2-1.html#keywordinduction)
+  - induction: [chap2-1](Chap2-1.html#keywordinduction), [chap7-2](Chap7-2.html#keywordinduction)
   - inductive: [chap1-1](Chap1-1.html#keywordinductive), [chap7-1](Chap7-1.html#keywordinductive)
   - injection: [chap5-2](Chap5-2.html#keywordinjection)
   - intro: [chap1-3](Chap1-3.html#keywordintro)
@@ -106,6 +108,7 @@ Coq 언어 자습 문서입니다. 원래는 영어로 쓰려고 했는데 한�
   - <> (noteq): [chap6-2](Chap6-2.html#operatornoteq)
 - R[[anchor, id = index r]][[/anchor]]
   - reflexivity: [chap1-3](Chap1-3.html#keywordreflexivity)
+  - reserved: [chap7-3](Chap7-3.html#keywordreserved)
   - rewrite: [chap1-3](Chap1-3.html#keywordrewrite), [chap6-4](Chap6-4.html#keywordrewrite)
   - right: [chap6-1](Chap6-1.html#keywordright)
 - S[[anchor, id = index s]][[/anchor]]
