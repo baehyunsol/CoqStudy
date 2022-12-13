@@ -22,9 +22,9 @@ Definition doit3times {X : Type} (f : X -> X) (n : X) : X :=
 함수 `f`와 값 `n`을 받아서 `f(f(f(n)))`을 반환하는 함수입니다. Type은 아래와 같습니다.
 
 ```haskell, line_num
-Check doit3times : (?X -> ?X) -> ?X -> nat -> ?X where ?X : [ |- Type]
+Check doit3times. (*{- (?X -> ?X) -> ?X -> ?X where ?X : [ |- Type] -}*)
 
-Check @doit3times : forall X : Type, (X -> X) -> X -> nat -> X
+Check @doit3times. (*{- forall X : Type, (X -> X) -> X -> X -}*)
 ```
 
 Haskell에서 고차함수의 type 표현과 거의 비슷합니다.
@@ -138,7 +138,9 @@ Definition adder (n : nat) : nat -> nat :=
 Definition add3 : nat -> nat := adder 3.
 ```
 
-`adder` 함수는 `n`을 더하는 함수를 반환합니다. 즉, `adder 3`은 자연수 값이 아니고 3을 더하는 함수입니다. 위의 코드에서 정의된 `add3`을 이용해서 `add3 4`를 하면 7이 나옵니다. 함수형 언어에서는 이를 partial application이라고 부릅니다.
+`adder` 함수는 `n`을 더하는 함수를 반환합니다. 즉, `adder 3`은 자연수 값이 아니고 3을 더하는 함수입니다. 위의 코드에서 정의된 `add3`을 이용해서 `add3 4`를 하면 7이 나옵니다.
+
+함수형 언어에서는 이를 partial application이라고 부릅니다. `plus`는 인수를 2개 받는 함수인데 `adder` 안에서는 인수를 하나만 줬죠? 나머지 한 인수는 `adder`의 인수로 들어옵니다. 이런 식으로 인수를 따로 주기 때문에 partial application이라고 부릅니다.
 
 ## Currying
 
@@ -219,8 +221,9 @@ Theorem curry_uncurry : forall (X Y Z : Type)
   prod_uncurry (prod_curry f) p = f p.
 Proof.
   intros X Y Z f p.
-  induction p.
-  - assert (H: (prod_curry f) (x) (y) = f (x, y)).
+  induction p as [x y].
+  - (*{- x : X, y : Y -}*)
+    assert (H: (prod_curry f) (x) (y) = f (x, y)).
       { reflexivity. }
     rewrite <- H.
     assert (H2: forall f2 : X -> Y -> Z, (prod_uncurry f2) (x, y) = f2 x y).
@@ -230,7 +233,7 @@ Proof.
   Qed.
 ```
 
-그 다음은 uncurry curry가 identity라는 걸 증명했습니다. 증명이 아까보다 긴데 더 짧은게 있을지 모르겠습니다. `induction p`를 하니까 `p`가 `(x, y)` 형태로 쪼개지는게 신기하더군요.
+그 다음은 uncurry curry가 identity라는 걸 증명했습니다. 증명이 아까보다 긴데 더 짧은게 있을지 모르겠습니다. 6번 줄에서 `induction p`를 이용해서 `f p` 꼴의 형태들을 전부 `f (x, y)`의 꼴로 바꿨습니다.
 
 ---
 

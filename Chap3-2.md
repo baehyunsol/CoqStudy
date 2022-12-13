@@ -145,7 +145,7 @@ Fixpoint count_odd_members (l : natlist) : nat :=
   end.
 ```
 
-책에서는 `Fixpoint`가 아닌 `Definition`을 이용해서 정의하도록 시켰습니다. `odd_members`[^odmb]라는 함수를 만들고 [위](#length)에서 정의한 `length`와 묶어서 쓰라는 의도인 거 같은데, 저는 좀 더 어려운 방법으로 했습니다.
+책에서는 `Fixpoint`가 아닌 `Definition`을 이용해서 정의하도록 시켰습니다. `odd_members`[^odmb]라는 함수를 만들고 [위](#length)에서 정의한 `length`와 묶어서 쓰라는 의도인 거 같은데, 저는 이 방법이 좀 더 마음에 드네요.
 
 [^odmb]: 주어진 list에서 홀수들만 남기는 함수입니다. Python으로 쓰면 `[n for n in l if n % 2 == 1]` 정도가 되겠군요.
 

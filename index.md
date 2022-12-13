@@ -4,7 +4,7 @@
 
 작성자: 배현솔\
 최초 작성일: 2022.09.02\
-최근 업데이트: 2022.12.07
+최근 업데이트: 2022.12.13
 
 [[/right]]
 
@@ -18,6 +18,8 @@ Coq 언어 자습 문서입니다. 원래는 영어로 쓰려고 했는데 한�
   - 이 블로그의 99% 정도의 내용은 Software Foundations에 기반하지만 [Coq 공식 문서](https://coq.inria.fr/refman/index.html)와 [다른 책](http://adam.chlipala.net/cpdt/)에서 참고한 내용도 간혹 있습니다.
 - Coq를 웹 상에서 실행시켜보고 싶으면 [jscoq](https://coq.vercel.app/scratchpad.html)를 방문하시면 됩니다.
 - 이 책을 쓰는 현재 제가 사용중인 Coq는 CoqIDE, version 8.15.2입니다.
+- [단원별 목차](#index-by-chapter)
+- [키워드별 목차](#index-by-keyword)
 
 ## Index By Chapter
 
@@ -51,6 +53,11 @@ Coq 언어 자습 문서입니다. 원래는 영어로 쓰려고 했는데 한�
   - [Chapter 7-1. Inductively defined Propositions](Chap7-1.html)
   - [Chapter 7-2. Using Evidence in Proofs](Chap7-2.html)
   - [Chapter 7-3. Regular Expressions](Chap7-3.html)
+- Chapter 8. Total and Partial Maps
+  - [Chapter 8-1. Total Maps](Chap8-1.html)
+  - [Chapter 8-2. Partial Maps](Chap8-2.html)
+- Chapter 9. The Curry-Howard Correspondence
+  - [Chapter 9-1. ??](Chap9-1.html)
 - [Appendix](Appendix.html)
 
 ## Index by keyword
@@ -108,6 +115,7 @@ Coq 언어 자습 문서입니다. 원래는 영어로 쓰려고 했는데 한�
   - <> (noteq): [chap6-2](Chap6-2.html#operatornoteq)
 - R[[anchor, id = index r]][[/anchor]]
   - reflexivity: [chap1-3](Chap1-3.html#keywordreflexivity)
+  - remember: [chap7-3](Chap7-3.html#keywordremember)
   - reserved: [chap7-3](Chap7-3.html#keywordreserved)
   - rewrite: [chap1-3](Chap1-3.html#keywordrewrite), [chap6-4](Chap6-4.html#keywordrewrite)
   - right: [chap6-1](Chap6-1.html#keywordright)

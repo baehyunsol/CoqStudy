@@ -61,7 +61,7 @@ Fixpoint minus (n m : nat) : nat :=
   end.
 ```
 
-위의 코드도 유효합니다. pair 안쪽도 pattern matching이 되는게 신기하네요.
+위의 코드도 유효합니다. pair 안쪽도 pattern matching을 할 수 있습니다.
 
 ```haskell, line_num
 Fixpoint minus (n m : nat) : nat :=

@@ -86,6 +86,7 @@ Example trans_eq_example : forall (a b c d e f : nat),
 Proof.
   intros a b c d e f eq1 eq2.
   apply trans_eq.
+  Abort.
 ```
 
 이게 웬걸? 위의 코드는 에러가 납니다. `apply trans_eq`를 하면 Coq는 주어진 조건들에서 `m`을 찾으려고 시도합니다. 하지만 지금 증명하려는 식에는 `m`이 없습니다. `m`이 뭔지 알려주려면 어떻게 해야할까요? 아래와 같이 증명하면 됩니다.
@@ -109,7 +110,7 @@ Proof.
 
 위에서본 `trans_eq`는 워낙 자주 등장하는 성질이라 Coq에 기본적으로 정의돼 있습니다. 바로 `transitivity` tactic입니다.
 
-```
+```haskell, line_num
 Theorem trans_eq_example : forall (a b c d e f : nat),
      [a;b] = [c;d] ->
      [c;d] = [e;f] ->

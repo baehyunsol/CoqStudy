@@ -139,9 +139,9 @@ Theorem iff_sym : forall P Q : Prop,
 Proof.
   intros P Q [HPQ HQP].
   split.
-  - (* Q -> P *)
+  - (*{- Q -> P -}*)
     apply HQP.
-  - (* P -> Q *)
+  - (*{- P -> Q -}*)
     apply HPQ.
   Qed.
 ```

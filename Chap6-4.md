@@ -145,6 +145,18 @@ Proof.
 ```haskell, line_num
 Theorem in_not_nil :
   forall A (x : A) (l : list A), In x l -> l <> [].
+Proof.
+  intros A x l H.
+  unfold not.
+  induction l as [ | h' t' IHl'].
+  - (*{- l = [] -}*)
+    simpl in H.
+    destruct H.
+  - (*{- l = h' :: t' -}*)
+    intros H2.
+    rewrite H2 in H.
+    destruct H.
+  Qed.
 ```
 
 `x`가 `l`에 포함되면 `l`은 빈 list가 아니라는 명제입니다. 저걸 이용해서 42가 `l`에 포함되면 `l`은 빈 list가 아니라는 명제를 증명해보겠습니다.

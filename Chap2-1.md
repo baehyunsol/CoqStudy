@@ -19,7 +19,8 @@ Theorem add_0_r_firsttry : forall n: nat,
 ```haskell, line_num
 Theorem add_0_r : forall n: nat, n + 0 = n.
 Proof.
-  intros n. induction n as [ | n' IHn'].
+  intros n.
+  induction n as [ | n' IHn'].
   - (*{- n = 0 -}*)
     reflexivity.
   - (*{- n = S n' -}*)
@@ -48,7 +49,7 @@ Theorem mul_0_r : forall n: nat,
   n * 0 = 0.
 Proof.
   intros n.
-  induction n as [ |n' IHn'].
+  induction n as [ | n' IHn'].
   - (*{- n = 0 -}*)
     reflexivity.
   - (*{- n = S n' -}*)

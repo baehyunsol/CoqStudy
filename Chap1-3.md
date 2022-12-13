@@ -14,7 +14,10 @@ Coq는 *theorem prover*입니다. 즉, 증명이 핵심입니다. 아쉽게도 C
 ```haskell, line_num
 Theorem plus_O_n : forall n : nat, 0 + n = n.
 Proof.
-  intros n. simpl. reflexivity. Qed.
+  intros n.
+  simpl.
+  reflexivity.
+  Qed.
 ```
 
 위의 코드는 Coq를 이용한 간단한 증명과정을 나타냅니다.
@@ -63,7 +66,8 @@ Theorem plus_1_neq_0 : forall n : nat,
 
 ```haskell, line_num
 Proof.
-  intros n. destruct n as [ | n'] eqn:E.
+  intros n.
+  destruct n as [ | n'] eqn:E.
   - (*{- n = 0 -}*)
     reflexivity.
   - (*{- n = S n' -}*)
@@ -71,7 +75,7 @@ Proof.
   Qed.
 ```
 
-이제 `n`을 `O`와 `S n'`의 두 가지 경우로 나눠서 생각합니다. `[| n']`은 `n`을 어떻게 나눌지를 정합니다. `n`의 type은 `nat`이고, `nat`의 constructor는 2개가 있으므로 우리는 대괄호 안에 두 개의 원소를 줘야합니다. 각 원소는 `|`로 구분합니다. `O`는 인수가 필요없는 constructor이므로, 첫번째 원소는 null이고 (그래서 `|` 앞에 아무것도 쓰지 않았습니다.) 두번째 원소는 `n'`을 줬습니다. 이렇게 해서 subgoal이 2개가 생겼습니다.
+이제 `n`을 `O`와 `S n'`의 두 가지 경우로 나눠서 생각합니다. `[ | n']`은 `n`을 어떻게 나눌지를 정합니다. `n`의 type은 `nat`이고, `nat`의 constructor는 2개가 있으므로 우리는 대괄호 안에 두 개의 원소를 줘야합니다. 각 원소는 `|`로 구분합니다. `O`는 인수가 필요없는 constructor이므로, 첫번째 원소는 null이고 (그래서 `|` 앞에 아무것도 쓰지 않았습니다.) 두번째 원소는 `n'`을 줬습니다. 이렇게 해서 subgoal이 2개가 생겼습니다.
 
 그러면 Coq은 `n`을 `O`와 `S n'`의 두가지 경우로 나눠서 생각하고, 저희는 각 경우에 대해서 증명을 하면 됩니다. 뒤의 `eqn: E`로 인해 context에 `E`가 추가됐습니다. 각 경우별로 `E: n = 0`과 `E: n = S n'`으로 생성이 됩니다. 또한 저희가 증명해야할 문제는 `(0 + 1 =? 0) = false`과 `(S n' + 1 =? 0) = false`이 됩니다.
 
@@ -116,7 +120,8 @@ Theorem andb_commutative : forall b c, andb b c = andb c b.
 
 ```haskell, line_num
 Proof.
-  intros b c. destruct b eqn: Eb.
+  intros b c.
+  destruct b eqn: Eb.
   - (*{- b = true -}*)
     destruct c eqn: Ec.
     + (*{- c = true -}*)
@@ -132,7 +137,7 @@ Proof.
 Qed.
 ```
 
-그래서 위와 같이 2번째 줄에서 `b`를 `true`와 `false`로 나눈 뒤, 각각의 경우에 대해 `c`를 destruct하여 (4, 10번 줄) 모든 경우의 수를 따졌습니다. `b`, `c`의 값이 각각 확정되면 `reflexivity` tactic만을 이용해서 손쉽게 증명할 수 있습니다. `andb`의 정의에 직접 대입하면 결과가 나오거든요.
+그래서 위와 같이 3번째 줄에서 `b`를 `true`와 `false`로 나눈 뒤, 각각의 경우에 대해 `c`를 destruct하여 (5, 11번 줄) 모든 경우의 수를 따졌습니다. `b`, `c`의 값이 각각 확정되면 `reflexivity` tactic만을 이용해서 손쉽게 증명할 수 있습니다. `andb`의 정의에 직접 대입하면 결과가 나오거든요.
 
 - [예시1](#ex3)
 
@@ -177,6 +182,8 @@ Theorem plus_O_n : forall n : nat, 0 + n = n.
 `n = m -> n + n = m + m` 같은 경우, `n = m`이라는 명제도 context에 넣어야 증명이 가능합니다. 저 상황에서 `intros H`를 하면 context에 `H: n = m`이 들어간 것을 확인할 수 있습니다. 그럼 `rewrite H`와 같은 방식으로 `n = m`을 증명에 사용할 수 있습니다.
 
 [[box]]
+
+Todo
 
 `intros`를 하면 `forall`을 없어지고 context에 들어온다는 설명을 봤는데, `forall`이 없어진다는게 정확히 무슨 의미인지 아직 모르겠습니다.
 
@@ -245,7 +252,7 @@ Coq 인터프리터에 `forall n : nat, 1 + n = S n`을 넣고 `simpl` tactic을
 
 [[giant]]Abort[[/giant]]
 
-증명을 그만둡니다.
+증명을 그만둡니다. `Admitted`를 이용해서 마무리한 정리는 다른 증명에 사용할 수 있지만, `Abort`로 마무리한 정리는 다른 증명에 사용할 수 없습니다.
 
 [[/box]]
 

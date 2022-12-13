@@ -88,6 +88,14 @@ Theorem square_mult : forall (n m : nat), square (n * m) = square n * square m.
 
 [^jgu]: 제 개인적인 의견입니다.
 
+[[box]]
+
+Todo
+
+`simpl`과 `unfold`는 정확히 어떤 차이가 있을까요...
+
+[[/box]]
+
 ## destruct on compound expressions
 
 [[anchor, id = keyword destruct]][[/anchor]]

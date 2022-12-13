@@ -39,7 +39,8 @@ Proof.
   assert (H: n + 0 + 0 = n).
     { rewrite add_comm. simpl. rewrite add_comm. reflexivity. }
   rewrite -> H.
-  reflexivity. Qed.
+  reflexivity.
+  Qed.
 ```
 
 `assert`라는 tactic을 이용해서 sub-theorem 하나를 정의했습니다. `assert` 뒤의 중괄호에는 해당 sub-theorem의 증명이 들어갑니다. 이렇게 하면 context에 `H: n + 0 + 0 = n`이 들어갑니다.
@@ -64,7 +65,9 @@ Proof.
   intros n m p q.
   assert (H: n + m = m + n).
   { rewrite add_comm. reflexivity. }
-  rewrite H. reflexivity. Qed.
+  rewrite H.
+  reflexivity.
+  Qed.
 ```
 
 `assert` 안에 등장하는 `n`과 `m`은 아까 `intros`에서 언급했던 그 `n`과 `m`입니다. 실제로 `H`를 `H: x + y = y + x`라고 쓰면 실행이 되지 않습니다. 똑같은 식처럼 보이지만 context 안에 `x`와 `y`가 없거든요. `Theorem`에서 하던 것처럼 일반적인 변수를 만들고 싶으면 `forall`을 사용하여야 합니다.

@@ -13,7 +13,7 @@
 
 [이전](Chap4-2.html#higher-order-functions)에 Coq에서 함수가 일급시민이라고 언급했습니다. 그것과 마찬가지로, 모든 명제들도 일급시민입니다. 모든 명제들은 `Prop`이라는 type을 가지며, 함수의 인자로 쓰거나 반환값으로 쓰는 등 다양한 연산[^fc]을 할 수 있습니다.
 
-[^fc]: `nat`, `bool`등이 할 수 있는 걸 `Prop`도 전부 할 수 있습니다.
+[^fc]: 즉, `nat`이나 `bool`등이 할 수 있는 걸 `Prop`도 전부 할 수 있습니다.
 
 ```haskell, line_num
 Check 2 = 2.     (*{- : Prop -}*)
@@ -88,7 +88,7 @@ Proof.
 Qed.
 ```
 
-`3 + 4 = 7`이라는 `Prop`과 `2 * 2 = 4`라는 `Prop`을 and로 묶었습니다. ~_A and B_~라는 명제를 증명하기 위해선 A와 B를 따로 증명해야하죠? 그럴 때 `split`이란 tactic을 사용합니다. 그럼 context에 `3 + 4 = 7`과 `2 * 2 = 4`가 따로 등록됩니다.
+`3 + 4 = 7`이라는 `Prop`과 `2 * 2 = 4`라는 `Prop`을 and로 묶었습니다. ~_A and B_~라는 명제를 증명하기 위해선 A와 B를 따로 증명해야하죠? 그럴 때 `split`이란 tactic을 사용합니다. 그럼 `3 + 4 = 7`과 `2 * 2 = 4`의 subgoal이 따로 등록됩니다.
 
 [[anchor, id = keyword destruct]][[/anchor]]
 

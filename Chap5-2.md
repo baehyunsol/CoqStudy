@@ -85,7 +85,7 @@ Proof.
 
 [[anchor, id = keyword fequal]][[/anchor]]
 
-[위](#ex1)에서 `S m = S m`이면 `n = m`임을 증명했습니다. 반대방향으로 하려면 어떻게 해야할까요?
+[위](#ex1)에서 `S n = S m`이면 `n = m`임을 증명했습니다. 반대방향으로 하려면 어떻게 해야할까요?
 
 ```haskell, line_num
 Theorem injection_rev : forall (n m : nat),
@@ -133,6 +133,6 @@ Proof.
 
 [[right]]
 
-[Chap5-3. More tactics](Chap5-3.html)
+[Chap5-3. More tactics](Chap5-3.html) >>
 
 [[/right]]

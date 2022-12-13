@@ -125,7 +125,7 @@ Implicit argument가 어떤 식으로 구현돼 있는지 궁금해서 더 실�
   - 앞에 있는 `(x : X)`의 `X`가 정의되지 않았다고 에러가 뜹니다.
 - `{X : Type} {x : X} (count : nat)`
   - `x`의 선언을 implicit하게 바꾸어보았습니다.
-  -  [[red]]The term "x" has type "X" while it is expected to have type "nat".[[red]]라는 에러가 뜹니다.
+  -  [[red]]The term "x" has type "X" while it is expected to have type "nat".[[/red]]라는 에러가 뜹니다.
 - `{X : Type} (x : X) {count : nat}`
   - `count`의 선언을 implicit하게 바꾸어보았습니다.
   - 에러가 뜹니다.
