@@ -17,6 +17,8 @@ Inductive ev : nat -> Prop :=
 
 `ev`는 주어진 자연수가 짝수인지 아닌지 `Prop`으로 알려주는 `Inductive`입니다. 0은 짝수고, `n + 2`가 짝수면 `n`도 짝수라고 재귀적으로 정의했습니다.
 
+[[anchor, id = ref evidence]][[/anchor]]
+
 저기서 `ev_0`와 `ev_SS`는 evidence라고 부르고, 다른 증명을 할 때 이미 증명된 명제처럼 사용할 수 있습니다. 이전 챕터에서 `Inductive`를 이용한 증명을 조금 살펴 보았으니 이번에는 제대로 살펴보겠습니다.
 
 ```haskell, line_num

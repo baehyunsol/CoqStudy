@@ -16,6 +16,8 @@ Example function_equality :
 
 `x => x + 1`과 `x => 1 + x`는 동일한 함수입니다! 하지만 Coq의 논리 체계 안에선 저 둘이 동일한 함수란 걸 증명할 방법이 없습니다. 이런 경우엔 `Axiom`이란 명령어를 사용해서 새로운 공리를 만들면 됩니다.
 
+[[anchor, id = funcext]][[/anchor]]
+
 ```haskell, line_num
 Axiom functional_extensionality :
   forall {X Y: Type} {f g : X -> Y},

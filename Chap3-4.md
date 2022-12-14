@@ -5,7 +5,7 @@
 
 # Maps
 
-Rust의 `HashMap`, Python의 `dict`에 대응되는 자료구조입니다. Key와 value를 모두 `nat`을 사용하지만 key는 특별히 `id`라는 wrapper type을 사용하겠습니다. Wrapper type을 사용함으로써 가독성도 좋아지고 나중의 refactoring에도 유리해집니다.
+Rust의 `HashMap`, Python의 `dict`에 대응되는 자료구조입니다. 키와 값을 모두 `nat`을 사용하지만 key는 특별히 `id`라는 wrapper type을 사용하겠습니다. Wrapper type을 사용함으로써 가독성도 좋아지고 나중의 refactoring에도 유리해집니다.
 
 ```haskell, line_num
 Definition id : Type :=
@@ -20,7 +20,7 @@ Inductive partial_map : Type :=
   | record (i : id) (v : nat) (m : partial_map).
 ```
 
-[이전](Chap3-2.html)에 봤던 list의 정의와 동일한 형태입니다. 기존의 record에 (key, value) 쌍을 하나씩 cons하는 형태입니다. 기본적인 함수의 구현도 아주 간단합니다. 아래에서 자세히 보겠습니다.
+[이전](Chap3-2.html)에 봤던 list의 정의와 동일한 형태입니다. 기존의 record에 (키, 값) 쌍을 하나씩 cons하는 형태입니다. 기본적인 함수의 구현도 아주 간단합니다. 아래에서 자세히 보겠습니다.
 
 ## update
 

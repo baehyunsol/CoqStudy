@@ -4,14 +4,15 @@
 
 작성자: 배현솔\
 최초 작성일: 2022.09.02\
-최근 업데이트: 2022.12.13
+최근 업데이트: 2022.12.14
 
 [[/right]]
 
 # Coq Tutorial
 
-Coq 언어 자습 문서입니다. 원래는 영어로 쓰려고 했는데 한글로된 Coq 문서가 하나도 없는 것 같아 블루오션인 것 같아서 한글로 작성하였습니다.
+Coq 언어 자습 문서입니다.
 
+- 최대한 한글로 쓰려고 노력했습니다. 다만, 제가 한국어로는 아는데 영어로는 모르는 용어나, 영어로만 아는 용어들이 섞여있어서 한국어와 영어가 섞여있습니다.
 - Coq를 처음 공부하면서 작성한 문서이기 때문에 틀린 부분이 있을 확률이 매우 높습니다.
 - 문서의 모든 내용은 [Software Foundations](https://softwarefoundations.cis.upenn.edu/)의 내용에 기반합니다.
   - 다만, 순수 번역본은 아닙니다. 제가 자습한 내용을 한글로 정리한 정리본에 가깝습니다. 원본과 순서가 다른 내용도 있고, 생략/추가된 내용도 조금씩 있습니다.
@@ -57,7 +58,11 @@ Coq 언어 자습 문서입니다. 원래는 영어로 쓰려고 했는데 한�
   - [Chapter 8-1. Total Maps](Chap8-1.html)
   - [Chapter 8-2. Partial Maps](Chap8-2.html)
 - Chapter 9. The Curry-Howard Correspondence
-  - [Chapter 9-1. ??](Chap9-1.html)
+  - [Chapter 9-1. Proof Objects](Chap9-1.html)
+  - [Chapter 9-2. ??](Chap9-2.html)
+  - [Chapter 9-3. ??](Chap9-3.html)
+- Chapter 10. Induction Principles
+- Chapter 11. Properties of Relations
 - [Appendix](Appendix.html)
 
 ## Index by keyword
@@ -107,6 +112,7 @@ Coq 언어 자습 문서입니다. 원래는 영어로 쓰려고 했는데 한�
 - L[[anchor, id = index l]][[/anchor]]
   - <=?: [chap1-2](Chap1-2.html#operatorleb)
   - left: [chap6-1](Chap6-1.html#keywordleft)
+  - locate: [chap8-1](Chap8-1.html#keywordlocate)
 - M[[anchor, id = index m]][[/anchor]]
   - match: [chap1-1](Chap1-1.html#keyworddefinition)
   - module: [chap1-1](Chap1-1.html#keywordmodule)
