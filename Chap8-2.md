@@ -42,6 +42,6 @@ Notation "x '|->' v" := (update empty x v)
 
 [[right]]
 
-[Chap9-1. Proof Objects](Chap9-1.html) >>
+[Chap9-1. Curry Howard Correspondence](Chap9-1.html) >>
 
 [[/right]]

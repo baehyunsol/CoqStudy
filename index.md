@@ -58,7 +58,7 @@ Coq 언어 자습 문서입니다.
   - [Chapter 8-1. Total Maps](Chap8-1.html)
   - [Chapter 8-2. Partial Maps](Chap8-2.html)
 - Chapter 9. The Curry-Howard Correspondence
-  - [Chapter 9-1. Proof Objects](Chap9-1.html)
+  - [Chapter 9-1. Curry Howard Correspondence](Chap9-1.html)
   - [Chapter 9-2. ??](Chap9-2.html)
   - [Chapter 9-3. ??](Chap9-3.html)
 - Chapter 10. Induction Principles
@@ -127,6 +127,7 @@ Coq 언어 자습 문서입니다.
   - right: [chap6-1](Chap6-1.html#keywordright)
 - S[[anchor, id = index s]][[/anchor]]
   - search: [chap3-3](Chap3-3.html#keywordsearch)
+  - show proof: [chap9-1](Chap9-1.html#keywordshowproof)
   - simpl: [chap1-3](Chap1-3.html#keywordsimpl)
   - split: [chap6-1](Chap6-1.html#keywordsplit)
   - symmetry: [chap5-1](Chap5-1.html#keywordsymmetry)
