@@ -4,7 +4,7 @@
 
 작성자: 배현솔\
 최초 작성일: 2022.09.02\
-최근 업데이트: 2022.12.14
+최근 업데이트: 2022.12.28
 
 [[/right]]
 
@@ -59,9 +59,11 @@ Coq 언어 자습 문서입니다.
   - [Chapter 8-2. Partial Maps](Chap8-2.html)
 - Chapter 9. The Curry-Howard Correspondence
   - [Chapter 9-1. Curry Howard Correspondence](Chap9-1.html)
-  - [Chapter 9-2. ??](Chap9-2.html)
+  - [Chapter 9-2. Logical Connectives as Inductive Types](Chap9-2.html)
   - [Chapter 9-3. ??](Chap9-3.html)
 - Chapter 10. Induction Principles
+  - [Chapter 10-1. Induction Principles](Chap10-1.html)
+  - [Chapter 10-2. ??](Chap10-2.html)
 - Chapter 11. Properties of Relations
 - [Appendix](Appendix.html)
 
@@ -83,7 +85,7 @@ Coq 언어 자습 문서입니다.
   - compute: [chap1-1](Chap1-1.html#keywordcompute)
 - D[[anchor, id = index d]][[/anchor]]
   - definition: [chap1-1](Chap1-1.html#keyworddefinition)
-  - destruct: [chap1-3](Chap1-3.html#keyworddestruct), [chap5-3](Chap5-3.html#keyworddestruct), [chap6-1](Chap6-1.html#keyworddestruct)
+  - destruct: [chap1-3](Chap1-3.html#keyworddestruct), [chap5-3](Chap5-3.html#keyworddestruct), [chap6-1](Chap6-1.html#keyworddestruct), [chap9-2](Chap9-2.html#keyworddestruct)
   - discriminate: [chap5-2](Chap5-2.html#keyworddiscriminate)
 - E[[anchor, id = index e]][[/anchor]]
   - else: [chap1-1](Chap1-1.html#keywordif)
@@ -129,7 +131,7 @@ Coq 언어 자습 문서입니다.
   - search: [chap3-3](Chap3-3.html#keywordsearch)
   - show proof: [chap9-1](Chap9-1.html#keywordshowproof)
   - simpl: [chap1-3](Chap1-3.html#keywordsimpl)
-  - split: [chap6-1](Chap6-1.html#keywordsplit)
+  - split: [chap6-1](Chap6-1.html#keywordsplit), [chap9-2](Chap9-2.html#keywordsplit)
   - symmetry: [chap5-1](Chap5-1.html#keywordsymmetry)
 - T[[anchor, id = index t]][[/anchor]]
   - then: [chap1-1](Chap1-1.html#keywordif)

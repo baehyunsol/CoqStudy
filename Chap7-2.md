@@ -19,7 +19,9 @@ Inductive ev : nat -> Prop :=
 
 [[anchor, id = ref evidence]][[/anchor]]
 
-저기서 `ev_0`와 `ev_SS`는 evidence라고 부르고, 다른 증명을 할 때 이미 증명된 명제처럼 사용할 수 있습니다. 이전 챕터에서 `Inductive`를 이용한 증명을 조금 살펴 보았으니 이번에는 제대로 살펴보겠습니다.
+저기서 `ev_0`와 `ev_SS`는 증거[^ev]라고 부르고, 다른 증명을 할 때 이미 증명된 명제처럼 사용할 수 있습니다. 이전 챕터에서 `Inductive`를 이용한 증명을 조금 살펴 보았으니 이번에는 제대로 살펴보겠습니다.
+
+[^ev]: 책에서는 *evidence*라는 용어를 사용합니다. 앞으로 이 문서에선 전부 *증거*라고 번역하겠습니다.
 
 ```haskell, line_num
 Theorem ev_4 : ev 4.
@@ -55,7 +57,7 @@ Proof.
 
 ## Inversion on Evidence
 
-만약 `E`가 `ev n`의 evidence라면 `E`는 반드시 `ev_0` 혹은 `ev_SS` 중 하나입니다. 이는 `Induction`이라는 이름에서도 잘 알 수 있죠. 이 사실을 inversion이라고 부르며 증명에 다양한 방법으로 활용할 수 있습니다. Inversion을 활용한 증명을 보기 전에 inversion 자체를 먼저 증명해보겠습니다.
+만약 `E`가 `ev n`의 증거라면 `E`는 반드시 `ev_0` 혹은 `ev_SS` 중 하나입니다. 이는 `Induction`이라는 이름에서도 잘 알 수 있죠. 이 사실을 inversion이라고 부르며 증명에 다양한 방법으로 활용할 수 있습니다. Inversion을 활용한 증명을 보기 전에 inversion 자체를 먼저 증명해보겠습니다.
 
 ```haskell, line_num
 Theorem ev_inversion : forall (n : nat),

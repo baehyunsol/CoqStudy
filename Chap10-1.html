@@ -1,0 +1,98 @@
+<!DOCTYPE html><html>
+
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width"/>
+    
+    <title>Chap10-1</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding&amp;display=swap" rel="stylesheet"/> 
+    
+    <link href="page.css" rel="stylesheet"/><link href="markdown.css" rel="stylesheet"/><link href="nav.css" rel="stylesheet"/><link href="header.css" rel="stylesheet"/><link href="footer.css" rel="stylesheet"/>
+    
+</head>
+
+<body>
+
+
+    <header>
+<p><a href="index.html">Home</a></p>
+    </header>
+
+
+
+    <nav>
+<p><a id="settingsopenbutton">&#9728;</a><a href="#top">&#9650;</a><a href="#bottom">&#9660;</a></p><div id="settingsmenubg"><p><div id="settingsmenu"> <a id="settingsclosebutton">&#10006;</a> <a id="changethemebutton">Set Light Theme</a> <a id="loosepaddingbutton">&#8592; &#8594;</a> <a id="tightpaddingbutton">&#8594; &#8592;</a> </div></p></div>
+    </nav>
+
+
+    <article class="markdown">
+        <a id="top"></a>
+<table><thead id="table-collapse-toggle-0" class="collapsible collapsed" onclick="collapse_table('0')"><tr><th> Table of Contents </th></tr></thead><tbody id="collapsible-table-0" class="invisible"><tr><td><div class="toc"><p>1. <a href="#induction-principles">Induction Principles</a></p></div></td></tr></tbody></table><h1 id="induction-principles">Induction Principles</h1><p>지금까지 보았듯 Coq는 아주 작고 간단한 언어로 이뤄져 있고 그 언어를 이용해서 <code class="inline-code-span">\/</code>, <code class="inline-code-span">exists</code>, <code class="inline-code-span">True</code>, <code class="inline-code-span">False</code>,... 등등 수많은 걸 정의했습니다. <code class="inline-code-span">induction</code> tactic도 마찬가지입니다. <code class="inline-code-span">induction</code> tactic을 위한 특별한 기능이 Coq에 내장돼 있는 것이 <em><strong>아니고</strong></em>, <code class="inline-code-span">apply</code>만을 이용해서 정의돼 있습니다. 그 정의를 살펴보겠습니다.</p><p><code class="inline-code-span">nat</code> type을 이용해서 설명하겠습니다. <code class="inline-code-span">Inductive</code>를 이용해서 <code class="inline-code-span">nat</code>을 정의하면 <code class="inline-code-span">nat_rect</code>, <code class="inline-code-span">nat_ind</code>, <code class="inline-code-span">nat_rec</code>, <code class="inline-code-span">nat_sind</code>가 자동으로 같이 정의됩니다. 이 중 <code class="inline-code-span">induction</code>에 쓰이는 것은 <code class="inline-code-span">nat_ind</code>입니다. <code class="inline-code-span">nat_ind</code>의 모양은 아래와 같습니다.</p><pre class="fenced-code-block line-num-width-1"><code><span class="code-fence-row"><span class="code-fence-index">1</span><span class="code-fence-code"><span class="color-white">(*</span><span class="color-gray">{-</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">2</span><span class="code-fence-code"><span class="color-gray">nat_ind = 
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">3</span><span class="code-fence-code"><span class="color-gray">fun (P : nat -&gt; Prop) (f : P O) (f0 : forall n : nat, P n -&gt; P (S n)) =&gt;
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">4</span><span class="code-fence-code"><span class="color-gray">fix F (n : nat) : P n :=
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">5</span><span class="code-fence-code"><span class="color-gray">  match n as n0 return (P n0) with
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">6</span><span class="code-fence-code"><span class="color-gray">  | O =&gt; f
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">7</span><span class="code-fence-code"><span class="color-gray">  | S n0 =&gt; f0 n0 (F n0)
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">8</span><span class="code-fence-code"><span class="color-gray">  end
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">9</span><span class="code-fence-code"><span class="color-gray">     : forall P : nat -&gt; Prop,
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">10</span><span class="code-fence-code"><span class="color-gray">       P O -&gt; (forall n : nat, P n -&gt; P (S n)) -&gt; forall n : nat, P n
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">11</span><span class="code-fence-code">
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">12</span><span class="code-fence-code"><span class="color-gray">Arguments nat_ind P%function_scope f f0%function_scope n
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">13</span><span class="code-fence-code"><span class="color-gray">-}</span><span class="color-white">*)
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">14</span><span class="code-fence-code"><span class="color-gold">Print</span><span class="color-white"> nat_ind</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">15</span><span class="code-fence-code">
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">16</span><span class="code-fence-code">
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">17</span><span class="code-fence-code"><span class="color-white">(*</span><span class="color-gray">{-</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">18</span><span class="code-fence-code"><span class="color-gray">nat_ind
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">19</span><span class="code-fence-code"><span class="color-gray">     : forall P : nat -&gt; Prop,
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">20</span><span class="code-fence-code"><span class="color-gray">       P O -&gt; (forall n : nat, P n -&gt; P (S n)) -&gt; forall n : nat, P n
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">21</span><span class="code-fence-code"><span class="color-gray">-}</span><span class="color-white">*)
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">22</span><span class="code-fence-code"><span class="color-gold">Check</span><span class="color-white"> nat_ind</span><span class="color-white">.</span></span></span>
+</code><button class="copy-fenced-code" onclick="copy_code_to_clipboard(0)">Copy</button></pre><p>생긴 건 무섭지만 type을 보면 이해가 쉽습니다. 어떤 <code class="inline-code-span">P</code>에 대해서 <code class="inline-code-span">P O</code>가 성립하고, <code class="inline-code-span">P n -&gt; P (S n)</code>이면 <code class="inline-code-span">P n</code>이 항상 성립한다고 돼 있습니다. 즉, 수학적 귀납법을 그대로 정의해놨습니다. 즉, 우리가 증명을 하면서 <code class="inline-code-span">induction</code>을 쓰는게 결국은 <code class="inline-code-span">apply nat_ind</code>를 쓰는 것과 거의 동일합니다.</p><hr/><div class="align-center"><p><a href="index.html">메인으로 돌아가기</a></p></div><div class="align-left"><p>&lt;&lt; <a href="Chap9-3.html">Chap9-3. ??</a></p></div><div class="align-right"><p><a href="Chap10-2.html">Chap10-2. ??</a> &gt;&gt;</p></div><script>/*<![CDATA[*/
+const fenced_code_block_contents = ["(*{-\nnat_ind = \nfun (P : nat -> Prop) (f : P O) (f0 : forall n : nat, P n -> P (S n)) =>\nfix F (n : nat) : P n :=\n  match n as n0 return (P n0) with\n  | O => f\n  | S n0 => f0 n0 (F n0)\n  end\n     : forall P : nat -> Prop,\n       P O -> (forall n : nat, P n -> P (S n)) -> forall n : nat, P n\n\nArguments nat_ind P%function_scope f f0%function_scope n\n-}*)\nPrint nat_ind.\n\n\n(*{-\nnat_ind\n     : forall P : nat -> Prop,\n       P O -> (forall n : nat, P n -> P (S n)) -> forall n : nat, P n\n-}*)\nCheck nat_ind."];
+
+function copy_code_to_clipboard(index) {
+    navigator.clipboard.writeText(fenced_code_block_contents[index]);
+}/*]]>*/</script>
+        <a id="bottom"></a>
+    </article>
+
+
+
+
+    <footer class="markdown">
+<p><br/></p><p><br/></p><hr/><div class="align-center"><p>2021 ~ 2022 (c) Baehyunsol</p></div>
+    </footer>
+
+
+    <script src="colors.js"></script>
+
+    
+    <script src="nav.js"></script>
+    
+<script src="collapsible_tables.js"></script></body>
+
+</html>
