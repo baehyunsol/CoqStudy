@@ -71,8 +71,90 @@
 <span class="code-fence-row"><span class="code-fence-index">21</span><span class="code-fence-code"><span class="color-gray">-}</span><span class="color-white">*)
 </span></span></span>
 <span class="code-fence-row"><span class="code-fence-index">22</span><span class="code-fence-code"><span class="color-gold">Check</span><span class="color-white"> nat_ind</span><span class="color-white">.</span></span></span>
-</code><button class="copy-fenced-code" onclick="copy_code_to_clipboard(0)">Copy</button></pre><p>생긴 건 무섭지만 type을 보면 이해가 쉽습니다. 어떤 <code class="inline-code-span">P</code>에 대해서 <code class="inline-code-span">P O</code>가 성립하고, <code class="inline-code-span">P n -&gt; P (S n)</code>이면 <code class="inline-code-span">P n</code>이 항상 성립한다고 돼 있습니다. 즉, 수학적 귀납법을 그대로 정의해놨습니다. 즉, 우리가 증명을 하면서 <code class="inline-code-span">induction</code>을 쓰는게 결국은 <code class="inline-code-span">apply nat_ind</code>를 쓰는 것과 거의 동일합니다.</p><hr/><div class="align-center"><p><a href="index.html">메인으로 돌아가기</a></p></div><div class="align-left"><p>&lt;&lt; <a href="Chap9-3.html">Chap9-3. ??</a></p></div><div class="align-right"><p><a href="Chap10-2.html">Chap10-2. ??</a> &gt;&gt;</p></div><script>/*<![CDATA[*/
-const fenced_code_block_contents = ["(*{-\nnat_ind = \nfun (P : nat -> Prop) (f : P O) (f0 : forall n : nat, P n -> P (S n)) =>\nfix F (n : nat) : P n :=\n  match n as n0 return (P n0) with\n  | O => f\n  | S n0 => f0 n0 (F n0)\n  end\n     : forall P : nat -> Prop,\n       P O -> (forall n : nat, P n -> P (S n)) -> forall n : nat, P n\n\nArguments nat_ind P%function_scope f f0%function_scope n\n-}*)\nPrint nat_ind.\n\n\n(*{-\nnat_ind\n     : forall P : nat -> Prop,\n       P O -> (forall n : nat, P n -> P (S n)) -> forall n : nat, P n\n-}*)\nCheck nat_ind."];
+</code><button class="copy-fenced-code" onclick="copy_code_to_clipboard(0)">Copy</button></pre><p>생긴 건 무섭지만 type을 보면 이해가 쉽습니다. 어떤 <code class="inline-code-span">P</code>에 대해서 <code class="inline-code-span">P O</code>가 성립하고, <code class="inline-code-span">P n -&gt; P (S n)</code>이면 <code class="inline-code-span">P n</code>이 항상 성립한다고 돼 있습니다. 즉, 수학적 귀납법을 그대로 정의해놨습니다. 즉, 우리가 증명을 하면서 <code class="inline-code-span">induction</code>을 쓰는게 결국은 <code class="inline-code-span">apply nat_ind</code>를 쓰는 것과 거의 동일합니다.</p><p>그렇다면 <code class="inline-code-span">list</code>처럼 polymorphic한 자료구조는 어떻게 될까요? <code class="inline-code-span">list nat</code>을 위한 <code class="inline-code-span">list_ind</code>와 <code class="inline-code-span">list bool</code>을 위한 <code class="inline-code-span">list_ind</code>가 별개로 정의될까요? 확인해보겠습니다.</p><pre class="fenced-code-block line-num-width-1"><code><span class="code-fence-row"><span class="code-fence-index">1</span><span class="code-fence-code"><span class="color-gold">Inductive</span><span class="color-white"> list (</span><span class="color-gold">X</span><span class="color-white">:</span><span class="color-gold">Type</span><span class="color-white">) </span><span class="color-white">:</span> <span class="color-gold">Type</span> <span class="color-white">:=</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">2</span><span class="code-fence-code">  <span class="color-white">|</span><span class="color-white"> nil </span><span class="color-white">:</span><span class="color-white"> list </span><span class="color-gold">X</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">3</span><span class="code-fence-code">  <span class="color-white">|</span><span class="color-white"> cons </span><span class="color-white">:</span> <span class="color-gold">X</span> <span class="color-white">-&gt;</span><span class="color-white"> list </span><span class="color-gold">X</span> <span class="color-white">-&gt;</span><span class="color-white"> list </span><span class="color-gold">X</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">4</span><span class="code-fence-code">
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">5</span><span class="code-fence-code">
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">6</span><span class="code-fence-code"><span class="color-white">(*</span><span class="color-gray">{-</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">7</span><span class="code-fence-code"><span class="color-gray">list_ind = 
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">8</span><span class="code-fence-code"><span class="color-gray">fun (X : Type) (P : list X -&gt; Prop) (f : P (nil X))
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">9</span><span class="code-fence-code"><span class="color-gray">  (f0 : forall (x : X) (l : list X), P l -&gt; P (cons X x l)) =&gt;
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">10</span><span class="code-fence-code"><span class="color-gray">fix F (l : list X) : P l :=
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">11</span><span class="code-fence-code"><span class="color-gray">  match l as l0 return (P l0) with
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">12</span><span class="code-fence-code"><span class="color-gray">  | nil _ =&gt; f
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">13</span><span class="code-fence-code"><span class="color-gray">  | cons _ y l0 =&gt; f0 y l0 (F l0)
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">14</span><span class="code-fence-code"><span class="color-gray">  end
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">15</span><span class="code-fence-code"><span class="color-gray">     : forall (X : Type) (P : list X -&gt; Prop),
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">16</span><span class="code-fence-code"><span class="color-gray">       P (nil X) -&gt;
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">17</span><span class="code-fence-code"><span class="color-gray">       (forall (x : X) (l : list X), P l -&gt; P (cons X x l)) -&gt; forall l : list X, P l
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">18</span><span class="code-fence-code">
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">19</span><span class="code-fence-code"><span class="color-gray">Arguments list_ind X%type_scope P%function_scope f f0%function_scope l
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">20</span><span class="code-fence-code"><span class="color-gray">-}</span><span class="color-white">*)
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">21</span><span class="code-fence-code"><span class="color-gold">Print</span><span class="color-white"> list_ind</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">22</span><span class="code-fence-code">
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">23</span><span class="code-fence-code">
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">24</span><span class="code-fence-code"><span class="color-white">(*</span><span class="color-gray">{-</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">25</span><span class="code-fence-code"><span class="color-gray">list_ind
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">26</span><span class="code-fence-code"><span class="color-gray">     : forall (X : Type) (P : list X -&gt; Prop),
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">27</span><span class="code-fence-code"><span class="color-gray">       P (nil X) -&gt;
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">28</span><span class="code-fence-code"><span class="color-gray">       (forall (x : X) (l : list X), P l -&gt; P (cons X x l)) -&gt; forall l : list X, P l
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">29</span><span class="code-fence-code"><span class="color-gray">-}</span><span class="color-white">*)
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">30</span><span class="code-fence-code"><span class="color-gold">Check</span><span class="color-white"> list_ind</span><span class="color-white">.</span></span></span>
+</code><button class="copy-fenced-code" onclick="copy_code_to_clipboard(1)">Copy</button></pre><p>위에서 확인했듯이 각 type마다 <code class="inline-code-span">list_ind</code>가 따로 정의되는 것이 아니고 그 자체로 polymorphic하게 정의됩니다.</p><p>한번만 더 연습을 해보겠습니다.</p><pre class="fenced-code-block line-num-width-1"><code><span class="code-fence-row"><span class="code-fence-index">1</span><span class="code-fence-code"><span class="color-gold">Inductive</span><span class="color-white"> tree (</span><span class="color-gold">X</span><span class="color-white">:</span><span class="color-gold">Type</span><span class="color-white">) </span><span class="color-white">:</span> <span class="color-gold">Type</span> <span class="color-white">:=</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">2</span><span class="code-fence-code">  <span class="color-white">|</span><span class="color-white"> leaf (x </span><span class="color-white">:</span> <span class="color-gold">X</span><span class="color-white">)
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">3</span><span class="code-fence-code">  <span class="color-white">|</span><span class="color-white"> node (t1 t2 </span><span class="color-white">:</span><span class="color-white"> tree </span><span class="color-gold">X</span><span class="color-white">)</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">4</span><span class="code-fence-code">
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">5</span><span class="code-fence-code"><span class="color-white">(*</span><span class="color-gray">{-</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">6</span><span class="code-fence-code"><span class="color-gray">tree_ind
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">7</span><span class="code-fence-code"><span class="color-gray">     : forall (X : Type) (P : tree X -&gt; Prop),
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">8</span><span class="code-fence-code"><span class="color-gray">       (forall x : X, P (leaf X x)) -&gt;
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">9</span><span class="code-fence-code"><span class="color-gray">       (forall t1 : tree X, P t1 -&gt; forall t2 : tree X, P t2 -&gt; P (node X t1 t2)) -&gt;
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">10</span><span class="code-fence-code"><span class="color-gray">       forall t : tree X, P t
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">11</span><span class="code-fence-code"><span class="color-gray">-}</span><span class="color-white">*)
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">12</span><span class="code-fence-code"><span class="color-gold">Check</span><span class="color-white"> tree_ind</span><span class="color-white">.</span></span></span>
+</code><button class="copy-fenced-code" onclick="copy_code_to_clipboard(2)">Copy</button></pre><p>이진트리 구조를 만든 뒤 <code class="inline-code-span">tree_ind</code>가 어떻게 생겼는지 확인해보았습니다.</p><ol type="1"><li>모든 <code class="inline-code-span">leaf</code>에 대해 <code class="inline-code-span">P</code>가 성립한다.</li><li><code class="inline-code-span">t1</code>과 <code class="inline-code-span">t2</code>에 대해 <code class="inline-code-span">P</code>가 성립하면 <code class="inline-code-span">t1</code>, <code class="inline-code-span">t2</code>로 이뤄진 <code class="inline-code-span">tree</code>에 대해서도 <code class="inline-code-span">P</code>가 성립한다.</li></ol><p>1과 2를 만족하면 모든 <code class="inline-code-span">tree</code>에 대해서 <code class="inline-code-span">P</code>가 성립한다는게 <code class="inline-code-span">tree_ind</code>의 내용입니다.</p><hr/><div class="align-center"><p><a href="index.html">메인으로 돌아가기</a></p></div><div class="align-left"><p>&lt;&lt; <a href="Chap9-3.html">Chap9-3. ??</a></p></div><div class="align-right"><p><a href="Chap10-2.html">Chap10-2. ??</a> &gt;&gt;</p></div><script>/*<![CDATA[*/
+const fenced_code_block_contents = ["(*{-\nnat_ind = \nfun (P : nat -> Prop) (f : P O) (f0 : forall n : nat, P n -> P (S n)) =>\nfix F (n : nat) : P n :=\n  match n as n0 return (P n0) with\n  | O => f\n  | S n0 => f0 n0 (F n0)\n  end\n     : forall P : nat -> Prop,\n       P O -> (forall n : nat, P n -> P (S n)) -> forall n : nat, P n\n\nArguments nat_ind P%function_scope f f0%function_scope n\n-}*)\nPrint nat_ind.\n\n\n(*{-\nnat_ind\n     : forall P : nat -> Prop,\n       P O -> (forall n : nat, P n -> P (S n)) -> forall n : nat, P n\n-}*)\nCheck nat_ind.", "Inductive list (X:Type) : Type :=\n  | nil : list X\n  | cons : X -> list X -> list X.\n\n\n(*{-\nlist_ind = \nfun (X : Type) (P : list X -> Prop) (f : P (nil X))\n  (f0 : forall (x : X) (l : list X), P l -> P (cons X x l)) =>\nfix F (l : list X) : P l :=\n  match l as l0 return (P l0) with\n  | nil _ => f\n  | cons _ y l0 => f0 y l0 (F l0)\n  end\n     : forall (X : Type) (P : list X -> Prop),\n       P (nil X) ->\n       (forall (x : X) (l : list X), P l -> P (cons X x l)) -> forall l : list X, P l\n\nArguments list_ind X%type_scope P%function_scope f f0%function_scope l\n-}*)\nPrint list_ind.\n\n\n(*{-\nlist_ind\n     : forall (X : Type) (P : list X -> Prop),\n       P (nil X) ->\n       (forall (x : X) (l : list X), P l -> P (cons X x l)) -> forall l : list X, P l\n-}*)\nCheck list_ind.", "Inductive tree (X:Type) : Type :=\n  | leaf (x : X)\n  | node (t1 t2 : tree X).\n\n(*{-\ntree_ind\n     : forall (X : Type) (P : tree X -> Prop),\n       (forall x : X, P (leaf X x)) ->\n       (forall t1 : tree X, P t1 -> forall t2 : tree X, P t2 -> P (node X t1 t2)) ->\n       forall t : tree X, P t\n-}*)\nCheck tree_ind."];
 
 function copy_code_to_clipboard(index) {
     navigator.clipboard.writeText(fenced_code_block_contents[index]);

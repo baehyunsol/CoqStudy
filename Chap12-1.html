@@ -1,0 +1,196 @@
+<!DOCTYPE html><html>
+
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width"/>
+    
+    <title>Chap12-1</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding&amp;display=swap" rel="stylesheet"/> 
+    
+    <link href="page.css" rel="stylesheet"/><link href="markdown.css" rel="stylesheet"/><link href="nav.css" rel="stylesheet"/><link href="header.css" rel="stylesheet"/><link href="footer.css" rel="stylesheet"/>
+    
+</head>
+
+<body>
+
+
+    <header>
+<p><a href="index.html">Home</a></p>
+    </header>
+
+
+
+    <nav>
+<p><a id="settingsopenbutton">&#9728;</a><a href="#top">&#9650;</a><a href="#bottom">&#9660;</a></p><div id="settingsmenubg"><p><div id="settingsmenu"> <a id="settingsclosebutton">&#10006;</a> <a id="changethemebutton">Set Light Theme</a> <a id="loosepaddingbutton">&#8592; &#8594;</a> <a id="tightpaddingbutton">&#8594; &#8592;</a> </div></p></div>
+    </nav>
+
+
+    <article class="markdown">
+        <a id="top"></a>
+<table><thead id="table-collapse-toggle-0" class="collapsible collapsed" onclick="collapse_table('0')"><tr><th> Table of Contents </th></tr></thead><tbody id="collapsible-table-0" class="invisible"><tr><td><div class="toc"><ol type="1"><li><a href="#arithmetic-and-boolean-expressions">Arithmetic and Boolean Expressions</a><ol type="1"><li><a href="#optimizations">Optimizations</a></li></ol></li></ol></div></td></tr></tbody></table><h1 id="arithmetic-and-boolean-expressions">Arithmetic and Boolean Expressions</h1><p>이제부터는 Coq를 이용해서 간단한 프로그래밍 언어를 만들어보겠습니다. 이번 단원에서는 간단한 문법과 의미만 정의하고, 뒷 단원에서 언어를 요리조리 뜯어볼 계획입니다.</p><pre class="fenced-code-block line-num-width-1"><code><span class="code-fence-row"><span class="code-fence-index">1</span><span class="code-fence-code"><span class="color-gold">Inductive</span><span class="color-white"> aexp </span><span class="color-white">:</span> <span class="color-gold">Type</span> <span class="color-white">:=</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">2</span><span class="code-fence-code">  <span class="color-white">|</span> <span class="color-gold">ANum</span><span class="color-white"> (n </span><span class="color-white">:</span><span class="color-white"> nat)
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">3</span><span class="code-fence-code">  <span class="color-white">|</span> <span class="color-gold">APlus</span><span class="color-white"> (a1 a2 </span><span class="color-white">:</span><span class="color-white"> aexp)
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">4</span><span class="code-fence-code">  <span class="color-white">|</span> <span class="color-gold">AMinus</span><span class="color-white"> (a1 a2 </span><span class="color-white">:</span><span class="color-white"> aexp)
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">5</span><span class="code-fence-code">  <span class="color-white">|</span> <span class="color-gold">AMult</span><span class="color-white"> (a1 a2 </span><span class="color-white">:</span><span class="color-white"> aexp)</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">6</span><span class="code-fence-code">
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">7</span><span class="code-fence-code"><span class="color-gold">Inductive</span><span class="color-white"> bexp </span><span class="color-white">:</span> <span class="color-gold">Type</span> <span class="color-white">:=</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">8</span><span class="code-fence-code">  <span class="color-white">|</span> <span class="color-gold">BTrue</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">9</span><span class="code-fence-code">  <span class="color-white">|</span> <span class="color-gold">BFalse</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">10</span><span class="code-fence-code">  <span class="color-white">|</span> <span class="color-gold">BEq</span><span class="color-white"> (a1 a2 </span><span class="color-white">:</span><span class="color-white"> aexp)
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">11</span><span class="code-fence-code">  <span class="color-white">|</span> <span class="color-gold">BNeq</span><span class="color-white"> (a1 a2 </span><span class="color-white">:</span><span class="color-white"> aexp)
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">12</span><span class="code-fence-code">  <span class="color-white">|</span> <span class="color-gold">BLe</span><span class="color-white"> (a1 a2 </span><span class="color-white">:</span><span class="color-white"> aexp)
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">13</span><span class="code-fence-code">  <span class="color-white">|</span> <span class="color-gold">BGt</span><span class="color-white"> (a1 a2 </span><span class="color-white">:</span><span class="color-white"> aexp)
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">14</span><span class="code-fence-code">  <span class="color-white">|</span> <span class="color-gold">BNot</span><span class="color-white"> (b </span><span class="color-white">:</span><span class="color-white"> bexp)
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">15</span><span class="code-fence-code">  <span class="color-white">|</span> <span class="color-gold">BAnd</span><span class="color-white"> (b1 b2 </span><span class="color-white">:</span><span class="color-white"> bexp)</span><span class="color-white">.</span></span></span>
+</code><button class="copy-fenced-code" onclick="copy_code_to_clipboard(0)">Copy</button></pre><p>언어의 가장 기본이 되는 <code class="inline-code-span">Inductive</code> 2가지를 정의했습니다. <code class="inline-code-span">aexp</code>는 숫자와 관련된 식(expression)들이고, <code class="inline-code-span">bexp</code>는 숫자 비교와 boolean과 관련된 식들을 정의합니다. 식을 정의했으면 그 식들을 계산하는 것도 정의해야겠죠? 아래의 코드를 봅시다.</p><pre class="fenced-code-block line-num-width-1"><code><span class="code-fence-row"><span class="code-fence-index">1</span><span class="code-fence-code"><span class="color-gold">Fixpoint</span><span class="color-white"> aeval (a </span><span class="color-white">:</span><span class="color-white"> aexp) </span><span class="color-white">:</span><span class="color-white"> nat </span><span class="color-white">:=</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">2</span><span class="code-fence-code"><span class="color-white">  match a with
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">3</span><span class="code-fence-code">  <span class="color-white">|</span> <span class="color-gold">ANum</span><span class="color-white"> n </span><span class="color-white">=&gt;</span><span class="color-white"> n
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">4</span><span class="code-fence-code">  <span class="color-white">|</span> <span class="color-gold">APlus</span><span class="color-white"> a1 a2 </span><span class="color-white">=&gt;</span><span class="color-white"> (aeval a1) </span><span class="color-white">+</span><span class="color-white"> (aeval a2)
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">5</span><span class="code-fence-code">  <span class="color-white">|</span> <span class="color-gold">AMinus</span><span class="color-white"> a1 a2 </span><span class="color-white">=&gt;</span><span class="color-white"> (aeval a1) </span><span class="color-white">-</span><span class="color-white"> (aeval a2)
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">6</span><span class="code-fence-code">  <span class="color-white">|</span> <span class="color-gold">AMult</span><span class="color-white"> a1 a2 </span><span class="color-white">=&gt;</span><span class="color-white"> (aeval a1) * (aeval a2)
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">7</span><span class="code-fence-code"><span class="color-white">  end</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">8</span><span class="code-fence-code">
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">9</span><span class="code-fence-code"><span class="color-gold">Fixpoint</span><span class="color-white"> beval (b </span><span class="color-white">:</span><span class="color-white"> bexp) </span><span class="color-white">:</span><span class="color-white"> bool </span><span class="color-white">:=</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">10</span><span class="code-fence-code"><span class="color-white">  match b with
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">11</span><span class="code-fence-code">  <span class="color-white">|</span> <span class="color-gold">BTrue</span> <span class="color-white">=&gt;</span><span class="color-white"> true
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">12</span><span class="code-fence-code">  <span class="color-white">|</span> <span class="color-gold">BFalse</span> <span class="color-white">=&gt;</span><span class="color-white"> false
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">13</span><span class="code-fence-code">  <span class="color-white">|</span> <span class="color-gold">BEq</span><span class="color-white"> a1 a2 </span><span class="color-white">=&gt;</span><span class="color-white"> (aeval a1) </span><span class="color-white">=?</span><span class="color-white"> (aeval a2)
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">14</span><span class="code-fence-code">  <span class="color-white">|</span> <span class="color-gold">BNeq</span><span class="color-white"> a1 a2 </span><span class="color-white">=&gt;</span><span class="color-white"> negb ((aeval a1) </span><span class="color-white">=?</span><span class="color-white"> (aeval a2))
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">15</span><span class="code-fence-code">  <span class="color-white">|</span> <span class="color-gold">BLe</span><span class="color-white"> a1 a2 </span><span class="color-white">=&gt;</span><span class="color-white"> (aeval a1) </span><span class="color-white">&lt;=?</span><span class="color-white"> (aeval a2)
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">16</span><span class="code-fence-code">  <span class="color-white">|</span> <span class="color-gold">BGt</span><span class="color-white"> a1 a2 </span><span class="color-white">=&gt;</span><span class="color-white"> negb ((aeval a1) </span><span class="color-white">&lt;=?</span><span class="color-white"> (aeval a2))
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">17</span><span class="code-fence-code">  <span class="color-white">|</span> <span class="color-gold">BNot</span><span class="color-white"> b1 </span><span class="color-white">=&gt;</span><span class="color-white"> negb (beval b1)
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">18</span><span class="code-fence-code">  <span class="color-white">|</span> <span class="color-gold">BAnd</span><span class="color-white"> b1 b2 </span><span class="color-white">=&gt;</span><span class="color-white"> andb (beval b1) (beval b2)
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">19</span><span class="code-fence-code"><span class="color-white">  end</span><span class="color-white">.</span></span></span>
+</code><button class="copy-fenced-code" onclick="copy_code_to_clipboard(1)">Copy</button></pre><p>코드는 아주 간단합니다. 이미 Coq에서 정의해 놓은 연산들이니 그걸 각 식들에 대응시키기만 하면 되거든요. 7장에서 열심히 공부한 <code class="inline-code-span">Inductive</code>를 이용해서도 정의를 해보겠습니다. 아래를 봅시다.</p><pre class="fenced-code-block line-num-width-1"><code><span class="code-fence-row"><span class="code-fence-index">1</span><span class="code-fence-code"><span class="color-gold">Inductive</span><span class="color-white"> aevalR </span><span class="color-white">:</span><span class="color-white"> aexp </span><span class="color-white">-&gt;</span><span class="color-white"> nat </span><span class="color-white">-&gt;</span> <span class="color-gold">Prop</span> <span class="color-white">:=</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">2</span><span class="code-fence-code">  <span class="color-white">|</span> <span class="color-gold">E_ANum</span><span class="color-white"> (n </span><span class="color-white">:</span><span class="color-white"> nat) </span><span class="color-white">:</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">3</span><span class="code-fence-code"><span class="color-white">      aevalR (</span><span class="color-gold">ANum</span><span class="color-white"> n) n
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">4</span><span class="code-fence-code">  <span class="color-white">|</span> <span class="color-gold">E_APlus</span><span class="color-white"> (e1 e2 </span><span class="color-white">:</span><span class="color-white"> aexp) (n1 n2 </span><span class="color-white">:</span><span class="color-white"> nat)
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">5</span><span class="code-fence-code"><span class="color-white">      (</span><span class="color-gold">H1</span> <span class="color-white">:</span><span class="color-white"> aevalR e1 n1)
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">6</span><span class="code-fence-code"><span class="color-white">      (</span><span class="color-gold">H2</span> <span class="color-white">:</span><span class="color-white"> aevalR e2 n2) </span><span class="color-white">:</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">7</span><span class="code-fence-code"><span class="color-white">      aevalR (</span><span class="color-gold">APlus</span><span class="color-white"> e1 e2) (n1 </span><span class="color-white">+</span><span class="color-white"> n2)
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">8</span><span class="code-fence-code">  <span class="color-white">|</span> <span class="color-gold">E_AMinus</span><span class="color-white"> (e1 e2 </span><span class="color-white">:</span><span class="color-white"> aexp) (n1 n2 </span><span class="color-white">:</span><span class="color-white"> nat)
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">9</span><span class="code-fence-code"><span class="color-white">      (</span><span class="color-gold">H1</span> <span class="color-white">:</span><span class="color-white"> aevalR e1 n1)
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">10</span><span class="code-fence-code"><span class="color-white">      (</span><span class="color-gold">H2</span> <span class="color-white">:</span><span class="color-white"> aevalR e2 n2) </span><span class="color-white">:</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">11</span><span class="code-fence-code"><span class="color-white">      aevalR (</span><span class="color-gold">AMinus</span><span class="color-white"> e1 e2) (n1 </span><span class="color-white">-</span><span class="color-white"> n2)
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">12</span><span class="code-fence-code">  <span class="color-white">|</span> <span class="color-gold">E_AMult</span><span class="color-white"> (e1 e2 </span><span class="color-white">:</span><span class="color-white"> aexp) (n1 n2 </span><span class="color-white">:</span><span class="color-white"> nat)
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">13</span><span class="code-fence-code"><span class="color-white">      (</span><span class="color-gold">H1</span> <span class="color-white">:</span><span class="color-white"> aevalR e1 n1)
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">14</span><span class="code-fence-code"><span class="color-white">      (</span><span class="color-gold">H2</span> <span class="color-white">:</span><span class="color-white"> aevalR e2 n2) </span><span class="color-white">:</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">15</span><span class="code-fence-code"><span class="color-white">      aevalR (</span><span class="color-gold">AMult</span><span class="color-white"> e1 e2) (n1 * n2)</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">16</span><span class="code-fence-code">
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">17</span><span class="code-fence-code"><span class="color-gold">Notation</span> <span class="color-white">&quot;</span><span class="color-green">e &apos;==&gt;&apos; n</span><span class="color-white">&quot;</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">18</span><span class="code-fence-code">         <span class="color-white">:=</span><span class="color-white"> (aevalR e n)
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">19</span><span class="code-fence-code"><span class="color-white">            (at level </span><span class="color-gold">90</span><span class="color-white">,</span><span class="color-white"> left associativity)
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">20</span><span class="code-fence-code">         <span class="color-white">:</span><span class="color-white"> type_scope</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">21</span><span class="code-fence-code">
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">22</span><span class="code-fence-code"><span class="color-gold">Theorem</span><span class="color-white"> eval_practice </span><span class="color-white">:</span><span class="color-white"> (</span><span class="color-gold">APlus</span><span class="color-white"> (</span><span class="color-gold">ANum</span> <span class="color-gold">4</span><span class="color-white">) (</span><span class="color-gold">ANum</span> <span class="color-gold">5</span><span class="color-white">)) </span><span class="color-white">==&gt;</span> <span class="color-gold">9</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">23</span><span class="code-fence-code"><span class="color-gold">Proof</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">24</span><span class="code-fence-code"><span class="color-white">  apply (</span><span class="color-gold">E_APlus</span><span class="color-white"> (</span><span class="color-gold">ANum</span> <span class="color-gold">4</span><span class="color-white">) (</span><span class="color-gold">ANum</span> <span class="color-gold">5</span><span class="color-white">) </span><span class="color-gold">4</span> <span class="color-gold">5</span><span class="color-white">)</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">25</span><span class="code-fence-code">  <span class="color-white">-</span><span class="color-white"> (*</span><span class="color-gray">{-</span><span class="color-gray"> ANum 4 ==&gt; 4 </span><span class="color-gray">-}</span><span class="color-white">*)
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">26</span><span class="code-fence-code"><span class="color-white">    apply (</span><span class="color-gold">E_ANum</span> <span class="color-gold">4</span><span class="color-white">)</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">27</span><span class="code-fence-code">  <span class="color-white">-</span><span class="color-white"> (*</span><span class="color-gray">{-</span><span class="color-gray"> ANum 5 ==&gt; 5 </span><span class="color-gray">-}</span><span class="color-white">*)
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">28</span><span class="code-fence-code"><span class="color-white">    apply (</span><span class="color-gold">E_ANum</span> <span class="color-gold">5</span><span class="color-white">)</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">29</span><span class="code-fence-code">  <span class="color-gold">Qed</span><span class="color-white">.</span></span></span>
+</code><button class="copy-fenced-code" onclick="copy_code_to_clipboard(2)">Copy</button></pre><p>Notation 정의한 김에 사용예제도 하나 추가해봤습니다.</p><h2 id="optimizations">Optimizations</h2><pre class="fenced-code-block line-num-width-0"><code><span class="code-fence-row"><span class="code-fence-index">1</span><span class="code-fence-code"><span class="color-gold">Fixpoint</span><span class="color-white"> optimize_0plus (a</span><span class="color-white">:</span><span class="color-white">aexp) </span><span class="color-white">:</span><span class="color-white"> aexp </span><span class="color-white">:=</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">2</span><span class="code-fence-code"><span class="color-white">  match a with
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">3</span><span class="code-fence-code">  <span class="color-white">|</span> <span class="color-gold">ANum</span><span class="color-white"> n </span><span class="color-white">=&gt;</span> <span class="color-gold">ANum</span><span class="color-white"> n
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">4</span><span class="code-fence-code">  <span class="color-white">|</span> <span class="color-gold">APlus</span><span class="color-white"> (</span><span class="color-gold">ANum</span> <span class="color-gold">0</span><span class="color-white">) e2 </span><span class="color-white">=&gt;</span><span class="color-white"> optimize_0plus e2
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">5</span><span class="code-fence-code">  <span class="color-white">|</span> <span class="color-gold">APlus</span><span class="color-white"> e1 e2 </span><span class="color-white">=&gt;</span> <span class="color-gold">APlus</span><span class="color-white"> (optimize_0plus e1) (optimize_0plus e2)
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">6</span><span class="code-fence-code">  <span class="color-white">|</span> <span class="color-gold">AMinus</span><span class="color-white"> e1 e2 </span><span class="color-white">=&gt;</span> <span class="color-gold">AMinus</span><span class="color-white"> (optimize_0plus e1) (optimize_0plus e2)
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">7</span><span class="code-fence-code">  <span class="color-white">|</span> <span class="color-gold">AMult</span><span class="color-white"> e1 e2 </span><span class="color-white">=&gt;</span> <span class="color-gold">AMult</span><span class="color-white"> (optimize_0plus e1) (optimize_0plus e2)
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">8</span><span class="code-fence-code"><span class="color-white">  end</span><span class="color-white">.</span></span></span>
+</code><button class="copy-fenced-code" onclick="copy_code_to_clipboard(3)">Copy</button></pre><p>책에서 아주 간단한 최적화도 소개하길래 저도 소개해봤습니다. <code class="inline-code-span">aexp</code>가 있으면 그 안을 샅샅이 뒤져서 <code class="inline-code-span">0+n</code>의 꼴을 전부 찾아내서 <code class="inline-code-span">n</code>으로 바꿔주는 최적화입니다. 심심하신 분들은 아래의 정리도 증명해보세요!</p><pre class="fenced-code-block line-num-width-0"><code><span class="code-fence-row"><span class="code-fence-index">1</span><span class="code-fence-code"><span class="color-gold">Theorem</span><span class="color-white"> optimize_0plus_sound</span><span class="color-white">:</span><span class="color-white"> forall a</span><span class="color-white">,</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">2</span><span class="code-fence-code"><span class="color-white">  aeval (optimize_0plus a) </span><span class="color-white">=</span><span class="color-white"> aeval a</span><span class="color-white">.</span></span></span>
+</code><button class="copy-fenced-code" onclick="copy_code_to_clipboard(4)">Copy</button></pre><p>최적화를 하든 안하든 결과가 항상 같다는 정리입니다. 사소해보이지만 아주 중요한 정리입니다. Coq로 컴파일러 최적화를 검증할 수 있는데 (실제로 그렇게 많이 쓰입니다), 저희가 방금 한게 컴파일러 최적화 검증의 첫걸음이거든요.</p><hr/><div class="align-center"><p><a href="index.html">메인으로 돌아가기</a></p></div><div class="align-left"><p>&lt;&lt; <a href="Chap11-?.html">Chapter 11-?. ??</a></p></div><div class="align-right"><p><a href="Chap12-2.html">Chapter 12-2. Coq Automation</a> &gt;&gt;</p></div><script>/*<![CDATA[*/
+const fenced_code_block_contents = ["Inductive aexp : Type :=\n  | ANum (n : nat)\n  | APlus (a1 a2 : aexp)\n  | AMinus (a1 a2 : aexp)\n  | AMult (a1 a2 : aexp).\n\nInductive bexp : Type :=\n  | BTrue\n  | BFalse\n  | BEq (a1 a2 : aexp)\n  | BNeq (a1 a2 : aexp)\n  | BLe (a1 a2 : aexp)\n  | BGt (a1 a2 : aexp)\n  | BNot (b : bexp)\n  | BAnd (b1 b2 : bexp).", "Fixpoint aeval (a : aexp) : nat :=\n  match a with\n  | ANum n => n\n  | APlus a1 a2 => (aeval a1) + (aeval a2)\n  | AMinus a1 a2 => (aeval a1) - (aeval a2)\n  | AMult a1 a2 => (aeval a1) * (aeval a2)\n  end.\n\nFixpoint beval (b : bexp) : bool :=\n  match b with\n  | BTrue => true\n  | BFalse => false\n  | BEq a1 a2 => (aeval a1) =? (aeval a2)\n  | BNeq a1 a2 => negb ((aeval a1) =? (aeval a2))\n  | BLe a1 a2 => (aeval a1) <=? (aeval a2)\n  | BGt a1 a2 => negb ((aeval a1) <=? (aeval a2))\n  | BNot b1 => negb (beval b1)\n  | BAnd b1 b2 => andb (beval b1) (beval b2)\n  end.", "Inductive aevalR : aexp -> nat -> Prop :=\n  | E_ANum (n : nat) :\n      aevalR (ANum n) n\n  | E_APlus (e1 e2 : aexp) (n1 n2 : nat)\n      (H1 : aevalR e1 n1)\n      (H2 : aevalR e2 n2) :\n      aevalR (APlus e1 e2) (n1 + n2)\n  | E_AMinus (e1 e2 : aexp) (n1 n2 : nat)\n      (H1 : aevalR e1 n1)\n      (H2 : aevalR e2 n2) :\n      aevalR (AMinus e1 e2) (n1 - n2)\n  | E_AMult (e1 e2 : aexp) (n1 n2 : nat)\n      (H1 : aevalR e1 n1)\n      (H2 : aevalR e2 n2) :\n      aevalR (AMult e1 e2) (n1 * n2).\n\nNotation \"e '==>' n\"\n         := (aevalR e n)\n            (at level 90, left associativity)\n         : type_scope.\n\nTheorem eval_practice : (APlus (ANum 4) (ANum 5)) ==> 9.\nProof.\n  apply (E_APlus (ANum 4) (ANum 5) 4 5).\n  - (*{- ANum 4 ==> 4 -}*)\n    apply (E_ANum 4).\n  - (*{- ANum 5 ==> 5 -}*)\n    apply (E_ANum 5).\n  Qed.", "Fixpoint optimize_0plus (a:aexp) : aexp :=\n  match a with\n  | ANum n => ANum n\n  | APlus (ANum 0) e2 => optimize_0plus e2\n  | APlus e1 e2 => APlus (optimize_0plus e1) (optimize_0plus e2)\n  | AMinus e1 e2 => AMinus (optimize_0plus e1) (optimize_0plus e2)\n  | AMult e1 e2 => AMult (optimize_0plus e1) (optimize_0plus e2)\n  end.", "Theorem optimize_0plus_sound: forall a,\n  aeval (optimize_0plus a) = aeval a."];
+
+function copy_code_to_clipboard(index) {
+    navigator.clipboard.writeText(fenced_code_block_contents[index]);
+}/*]]>*/</script>
+        <a id="bottom"></a>
+    </article>
+
+
+
+
+    <footer class="markdown">
+<p><br/></p><p><br/></p><hr/><div class="align-center"><p>2021 ~ 2022 (c) Baehyunsol</p></div>
+    </footer>
+
+
+    <script src="colors.js"></script>
+
+    
+    <script src="nav.js"></script>
+    
+<script src="collapsible_tables.js"></script></body>
+
+</html>

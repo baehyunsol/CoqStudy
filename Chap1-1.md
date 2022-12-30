@@ -78,7 +78,7 @@ Notation "x || y" := (orb x y).
 
 [[anchor, id=keyword if]][[/anchor]]
 
-함수형 패러다임을 지원하는 최신 언어들이 대부분 그러하듯, Coq의 `if` 또한 expression으로 취급됩니다. 위에서 방금 정의했던 함수들은 아래와 같이 다시 정의할 수 있습니다.
+함수형 패러다임을 지원하는 최신 언어들이 대부분 그러하듯, Coq의 `if` 또한 식(expression)으로 취급됩니다. 위에서 방금 정의했던 함수들은 아래와 같이 다시 정의할 수 있습니다.
 
 ```haskell, line_num
 Definition negb (b:bool) : bool :=

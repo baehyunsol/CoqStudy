@@ -65,6 +65,12 @@ Coq 언어 자습 문서입니다.
   - [Chapter 10-1. Induction Principles](Chap10-1.html)
   - [Chapter 10-2. ??](Chap10-2.html)
 - Chapter 11. Properties of Relations
+- Chapter 12. Simple Imperative Programs
+  - [Chapter 12-1. Arithmetic and Boolean Expressions](Chap12-1.html)
+  - [Chpater 12-2. Coq Automation](Chap12-2.html)
+  - [Chpater 12-3. States and Commands](Chap12-3.html)
+- Chapter 13. Program Equivalence
+- Chapter 14. Hoare Logic
 - [Appendix](Appendix.html)
 
 ## Index by keyword
@@ -129,6 +135,7 @@ Coq 언어 자습 문서입니다.
   - right: [chap6-1](Chap6-1.html#keywordright)
 - S[[anchor, id = index s]][[/anchor]]
   - search: [chap3-3](Chap3-3.html#keywordsearch)
+  - ;: [chap12-2](Chap12-2.html#keywordsemicolon)
   - show proof: [chap9-1](Chap9-1.html#keywordshowproof)
   - simpl: [chap1-3](Chap1-3.html#keywordsimpl)
   - split: [chap6-1](Chap6-1.html#keywordsplit), [chap9-2](Chap9-2.html#keywordsplit)
@@ -137,6 +144,7 @@ Coq 언어 자습 문서입니다.
   - then: [chap1-1](Chap1-1.html#keywordif)
   - theorem: [chap1-3](Chap1-3.html#keywordtheorem)
   - transitivity: [chap5-1](Chap5-1.html#keywordtransitivity)
+  - try: [chap12-2](Chap12-2.html#keywordtry)
   - tuple: [chap1-1](Chap1-1.html#concepttuple)
 - U[[anchor, id = index u]][[/anchor]]
   - unfold: [chap5-3](Chap5-3.html#keywordunfold)
