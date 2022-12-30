@@ -6,9 +6,10 @@
     
     <title>Chap2-2</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding&amp;display=swap" rel="stylesheet"/> 
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding&amp;display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'"/>
+    <!--<link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding&amp;display=swap" rel="stylesheet"/> -->
     
-    <link href="page.css" rel="stylesheet"/><link href="markdown.css" rel="stylesheet"/><link href="nav.css" rel="stylesheet"/><link href="header.css" rel="stylesheet"/><link href="footer.css" rel="stylesheet"/>
+    <link href="page.css" rel="stylesheet"/><link href="markdown.css" rel="stylesheet"/><link href="nav.css" rel="stylesheet"/><link href="header.css" rel="stylesheet"/>
     
 </head>
 
@@ -16,19 +17,19 @@
 
 
     <header>
-<p><a href="index.html">Home</a></p>
+<p><div class="topmenu deactivated"><a href="index.html">Home</a> <a href="index.html#index-by-chapter">단원별 목차</a> <a href="index.html#index-by-keyword">키워드 목차</a> <a href="Appendix.html">부록</a></div><div class="mobileview"><a id="navbutton">&#9776;</a></div></p>
     </header>
 
 
 
     <nav>
-<p><a id="settingsopenbutton">&#9728;</a><a href="#top">&#9650;</a><a href="#bottom">&#9660;</a></p><div id="settingsmenubg"><p><div id="settingsmenu"> <a id="settingsclosebutton">&#10006;</a> <a id="changethemebutton">Set Light Theme</a> <a id="loosepaddingbutton">&#8592; &#8594;</a> <a id="tightpaddingbutton">&#8594; &#8592;</a> </div></p></div>
+<p><a id="settingsopenbutton">&#9728;</a><a href="#top">&#9650;</a><a href="#bottom">&#9660;</a></p><div id="settingsmenubg"><p><div id="settingsmenu"> <a id="settingsclosebutton">&#10006;</a> <a id="changethemebutton">Set Light Theme</a> <a id="growhorizontalbutton">Grow Horizontally</a> <a id="shrinkhorizontalbutton">Shrink Horizontally</a> <a id="growfontbutton">Grow Font</a> <a id="shrinkfontbutton">Shrink Font</a> </div></p></div>
     </nav>
 
 
     <article class="markdown">
         <a id="top"></a>
-<table><thead id="table-collapse-toggle-0" class="collapsible collapsed" onclick="collapse_table('0')"><tr><th> Table of Contents </th></tr></thead><tbody id="collapsible-table-0" class="invisible"><tr><td><div class="toc"><ol type="1"><li><a href="#proofs-within-proofs">Proofs within proofs</a><ol type="1"><li><a href="#smarter-rewrite">Smarter <code class="inline-code-span">rewrite</code></a></li></ol></li></ol></div></td></tr></tbody></table><h1 id="proofs-within-proofs">Proofs within proofs</h1><p>Rust 코드 예시로 시작하겠습니다. 아래의 두 코드를 비교해봅시다.</p><pre class="fenced-code-block line-num-width-0"><code><span class="code-fence-row"><span class="code-fence-index">1</span><span class="code-fence-code"><span class="color-violet">fn</span> <span class="color-aqua">main</span><span class="color-white">(</span><span class="color-white">)</span> <span class="color-white">{</span>
+<table><thead id="table-collapse-toggle-0" class="collapsible collapsed" onclick="collapse_table('0')"><tr><th>목차</th></tr></thead><tbody id="collapsible-table-0" class="invisible"><tr><td><div class="toc"><ol type="1"><li><a href="#proofs-within-proofs">Proofs within proofs</a><ol type="1"><li><a href="#smarter-rewrite">Smarter <code class="inline-code-span">rewrite</code></a></li></ol></li></ol></div></td></tr></tbody></table><h1 id="proofs-within-proofs">Proofs within proofs</h1><p>Rust 코드 예시로 시작하겠습니다. 아래의 두 코드를 비교해봅시다.</p><pre class="fenced-code-block line-num-width-0"><code><span class="code-fence-row"><span class="code-fence-index">1</span><span class="code-fence-code"><span class="color-violet">fn</span> <span class="color-aqua">main</span><span class="color-white">(</span><span class="color-white">)</span> <span class="color-white">{</span>
 </span></span>
 <span class="code-fence-row"><span class="code-fence-index">2</span><span class="code-fence-code">    <span class="color-white">(</span><span class="color-gold">0</span><span class="color-white">..</span><span class="color-gold">100</span><span class="color-white">)</span><span class="color-white">.</span><span class="color-emerald">map</span><span class="color-white">(</span><span class="color-white">|</span><span class="color-red">n</span><span class="color-white">|</span> <span class="color-white">n </span><span class="color-white">+</span> <span class="color-gold">1</span><span class="color-white">)</span><span class="color-white">;</span>
 </span></span>
@@ -79,7 +80,7 @@
 <span class="code-fence-row"><span class="code-fence-index">6</span><span class="code-fence-code"><span class="color-white">  reflexivity</span><span class="color-white">.</span>
 </span></span>
 <span class="code-fence-row"><span class="code-fence-index">7</span><span class="code-fence-code">  <span class="color-gold">Qed</span><span class="color-white">.</span></span></span>
-</code><button class="copy-fenced-code" onclick="copy_code_to_clipboard(4)">Copy</button></pre><p><code class="inline-code-span">assert</code> 안에 등장하는 <code class="inline-code-span">n</code>과 <code class="inline-code-span">m</code>은 아까 <code class="inline-code-span">intros</code>에서 언급했던 그 <code class="inline-code-span">n</code>과 <code class="inline-code-span">m</code>입니다. 실제로 <code class="inline-code-span">H</code>를 <code class="inline-code-span">H: x + y = y + x</code>라고 쓰면 실행이 되지 않습니다. 똑같은 식처럼 보이지만 context 안에 <code class="inline-code-span">x</code>와 <code class="inline-code-span">y</code>가 없거든요. <code class="inline-code-span">Theorem</code>에서 하던 것처럼 일반적인 변수를 만들고 싶으면 <code class="inline-code-span">forall</code>을 사용하여야 합니다.</p><p>이 방법으로 <code class="inline-code-span">add_comm</code>을 어떤 덧셈에 적용시킬지 정확히 정할 수 있습니다.</p><hr/><div class="align-center"><p><a href="index.html">메인으로 돌아가기</a></p></div><div class="align-left"><p>&lt;&lt; <a href="Chap2-1.html">Chap2-1. Proofs by induction</a></p></div><div class="align-right"><p><a href="Chap2-3.html">Chap2-3. Binary</a> &gt;&gt;</p></div><hr class="footnote-hr"/><div class="mdxt-footnote-cites"><p><div class="footnote-cite"><a id="footnote-cite-0"></a>0. <a href="#footnote-ref-0"> [0]</a> 책에 있는 예제를 그대로 갖고 왔는데 예제를 위한 예제라는 느낌이 강하게 드네요.</div></p></div><script>/*<![CDATA[*/
+</code><button class="copy-fenced-code" onclick="copy_code_to_clipboard(4)">Copy</button></pre><p><code class="inline-code-span">assert</code> 안에 등장하는 <code class="inline-code-span">n</code>과 <code class="inline-code-span">m</code>은 아까 <code class="inline-code-span">intros</code>에서 언급했던 그 <code class="inline-code-span">n</code>과 <code class="inline-code-span">m</code>입니다. 실제로 <code class="inline-code-span">H</code>를 <code class="inline-code-span">H: x + y = y + x</code>라고 쓰면 실행이 되지 않습니다. 똑같은 식처럼 보이지만 context 안에 <code class="inline-code-span">x</code>와 <code class="inline-code-span">y</code>가 없거든요. <code class="inline-code-span">Theorem</code>에서 하던 것처럼 일반적인 변수를 만들고 싶으면 <code class="inline-code-span">forall</code>을 사용하여야 합니다.</p><p>이 방법으로 <code class="inline-code-span">add_comm</code>을 어떤 덧셈에 적용시킬지 정확히 정할 수 있습니다.</p><hr/><div class="align-center"><p><a href="index.html">메인으로 돌아가기</a></p></div><div class="align-left"><p>&lt;&lt; <a href="Chap2-1.html">Chap2-1. Proofs by induction</a></p></div><div class="align-right"><p><a href="Chap2-3.html">Chap2-3. Binary</a> &gt;&gt;</p></div><hr class="footnote-hr"/><div class="mdxt-footnote-cites"><p><div class="footnote-cite"><a id="footnote-cite-0"></a><a href="#footnote-ref-0"> [0]</a> 책에 있는 예제를 그대로 갖고 왔는데 예제를 위한 예제라는 느낌이 강하게 드네요.</div></p></div><script>/*<![CDATA[*/
 const fenced_code_block_contents = ["fn main() {\n    (0..100).map(|n| n + 1);\n}", "fn add1(n: usize) -> usize {\n    n + 1\n}\n\nfn main() {\n    (0..100).map(add1);\n}", "Theorem mult_0_plus : forall n m : nat,\n  (n + 0 + 0) * m = n * m.\nProof.\n  intros n m.\n  assert (H: n + 0 + 0 = n).\n    { rewrite add_comm. simpl. rewrite add_comm. reflexivity. }\n  rewrite -> H.\n  reflexivity.\n  Qed.", "Theorem plus_rearrange_firsttry : forall n m p q : nat,\n  (n + m) + (p + q) = (m + n) + (p + q).", "Proof.\n  intros n m p q.\n  assert (H: n + m = m + n).\n  { rewrite add_comm. reflexivity. }\n  rewrite H.\n  reflexivity.\n  Qed."];
 
 function copy_code_to_clipboard(index) {
@@ -92,7 +93,7 @@ function copy_code_to_clipboard(index) {
 
 
     <footer class="markdown">
-<p><br/></p><p><br/></p><hr/><div class="align-center"><p>2021 ~ 2022 (c) Baehyunsol</p></div>
+<p><br/></p><p><br/></p><hr/><div class="align-center"><p>2021 ~ 2023 &copy; Baehyunsol</p></div>
     </footer>
 
 
@@ -100,6 +101,10 @@ function copy_code_to_clipboard(index) {
 
     
     <script src="nav.js"></script>
+    
+    
+    
+    <script src="header.js"></script>
     
 <script src="collapsible_tables.js"></script></body>
 

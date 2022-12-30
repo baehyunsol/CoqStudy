@@ -6,9 +6,10 @@
     
     <title>Chap4-1</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding&amp;display=swap" rel="stylesheet"/> 
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding&amp;display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'"/>
+    <!--<link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding&amp;display=swap" rel="stylesheet"/> -->
     
-    <link href="page.css" rel="stylesheet"/><link href="markdown.css" rel="stylesheet"/><link href="nav.css" rel="stylesheet"/><link href="header.css" rel="stylesheet"/><link href="footer.css" rel="stylesheet"/>
+    <link href="page.css" rel="stylesheet"/><link href="markdown.css" rel="stylesheet"/><link href="nav.css" rel="stylesheet"/><link href="header.css" rel="stylesheet"/>
     
 </head>
 
@@ -16,19 +17,19 @@
 
 
     <header>
-<p><a href="index.html">Home</a></p>
+<p><div class="topmenu deactivated"><a href="index.html">Home</a> <a href="index.html#index-by-chapter">단원별 목차</a> <a href="index.html#index-by-keyword">키워드 목차</a> <a href="Appendix.html">부록</a></div><div class="mobileview"><a id="navbutton">&#9776;</a></div></p>
     </header>
 
 
 
     <nav>
-<p><a id="settingsopenbutton">&#9728;</a><a href="#top">&#9650;</a><a href="#bottom">&#9660;</a></p><div id="settingsmenubg"><p><div id="settingsmenu"> <a id="settingsclosebutton">&#10006;</a> <a id="changethemebutton">Set Light Theme</a> <a id="loosepaddingbutton">&#8592; &#8594;</a> <a id="tightpaddingbutton">&#8594; &#8592;</a> </div></p></div>
+<p><a id="settingsopenbutton">&#9728;</a><a href="#top">&#9650;</a><a href="#bottom">&#9660;</a></p><div id="settingsmenubg"><p><div id="settingsmenu"> <a id="settingsclosebutton">&#10006;</a> <a id="changethemebutton">Set Light Theme</a> <a id="growhorizontalbutton">Grow Horizontally</a> <a id="shrinkhorizontalbutton">Shrink Horizontally</a> <a id="growfontbutton">Grow Font</a> <a id="shrinkfontbutton">Shrink Font</a> </div></p></div>
     </nav>
 
 
     <article class="markdown">
         <a id="top"></a>
-<table><thead id="table-collapse-toggle-0" class="collapsible collapsed" onclick="collapse_table('0')"><tr><th> Table of Contents </th></tr></thead><tbody id="collapsible-table-0" class="invisible"><tr><td><div class="toc"><ol type="1"><li><a href="#polymorphism">Polymorphism</a><ol type="1"><li><a href="#repeat">repeat</a></li><li><a href="#type-inference">Type Inference</a></li><li><a href="#type-inference-with-holes">Type inference with holes</a></li><li><a href="#implicit-arguments">Implicit Arguments</a></li><li><a href="#explicit-type-arguments">Explicit Type Arguments</a></li></ol></li></ol></div></td></tr></tbody></table><h1 id="polymorphism">Polymorphism</h1><div class="box"><p>Polymorphism이 뭔지 이미 아신다고 가정하고 설명하겠습니다. Polymorphism의 개념을 알고 싶으신 분들은 아래 링크의 글들을 읽어주시기 바랍니다.</p><ul><li><a href="">Wikipedia: Polymorphism</a><ul><li>In programming language theory and type theory, polymorphism is the provision of a single interface to entities of different types or the use of a single symbol to represent multiple different types.</li><li>현재 엔진 오류로 위의 링크가 동작하지 않습니다. 빠른 시일내로 고치겠습니다.</li></ul></li><li><a href="https://en.wikipedia.org/wiki/Generic_programming">Wikipedia: Generic programming</a><ul><li>Generic programming is a style of computer programming in which algorithms are written in terms of types <em>to-be-specified-later</em> that are then instantiated when needed for specific types provided as parameters.</li></ul></li></ul></div><p>오래 기다리셨습니다. 드디어 polymorphic list를 구현해볼 시간입니다. 아래의 정의를 봅시다.</p><pre class="fenced-code-block line-num-width-0"><code><span class="code-fence-row"><span class="code-fence-index">1</span><span class="code-fence-code"><span class="color-gold">Inductive</span><span class="color-white"> list (</span><span class="color-gold">X</span> <span class="color-white">:</span> <span class="color-gold">Type</span><span class="color-white">) </span><span class="color-white">:</span> <span class="color-gold">Type</span> <span class="color-white">:=</span>
+<table><thead id="table-collapse-toggle-0" class="collapsible collapsed" onclick="collapse_table('0')"><tr><th>목차</th></tr></thead><tbody id="collapsible-table-0" class="invisible"><tr><td><div class="toc"><ol type="1"><li><a href="#polymorphism">Polymorphism</a><ol type="1"><li><a href="#repeat">repeat</a></li><li><a href="#type-inference">Type Inference</a></li><li><a href="#type-inference-with-holes">Type inference with holes</a></li><li><a href="#implicit-arguments">Implicit Arguments</a></li><li><a href="#explicit-type-arguments">Explicit Type Arguments</a></li></ol></li></ol></div></td></tr></tbody></table><h1 id="polymorphism">Polymorphism</h1><div class="box"><p>Polymorphism이 뭔지 이미 아신다고 가정하고 설명하겠습니다. Polymorphism의 개념을 알고 싶으신 분들은 아래 링크의 글들을 읽어주시기 바랍니다.</p><ul><li><a href="">Wikipedia: Polymorphism</a><ul><li>In programming language theory and type theory, polymorphism is the provision of a single interface to entities of different types or the use of a single symbol to represent multiple different types.</li><li>현재 엔진 오류로 위의 링크가 동작하지 않습니다. 빠른 시일내로 고치겠습니다.</li></ul></li><li><a href="https://en.wikipedia.org/wiki/Generic_programming">Wikipedia: Generic programming</a><ul><li>Generic programming is a style of computer programming in which algorithms are written in terms of types <em>to-be-specified-later</em> that are then instantiated when needed for specific types provided as parameters.</li></ul></li></ul></div><p>오래 기다리셨습니다. 드디어 polymorphic list를 구현해볼 시간입니다. 아래의 정의를 봅시다.</p><pre class="fenced-code-block line-num-width-0"><code><span class="code-fence-row"><span class="code-fence-index">1</span><span class="code-fence-code"><span class="color-gold">Inductive</span><span class="color-white"> list (</span><span class="color-gold">X</span> <span class="color-white">:</span> <span class="color-gold">Type</span><span class="color-white">) </span><span class="color-white">:</span> <span class="color-gold">Type</span> <span class="color-white">:=</span>
 </span></span>
 <span class="code-fence-row"><span class="code-fence-index">2</span><span class="code-fence-code">  <span class="color-white">|</span><span class="color-white"> nil
 </span></span></span>
@@ -99,7 +100,7 @@
 <span class="code-fence-row"><span class="code-fence-index">2</span><span class="code-fence-code">
 </span></span>
 <span class="code-fence-row"><span class="code-fence-index">3</span><span class="code-fence-code"><span class="color-gold">Check</span><span class="color-white"> nil </span><span class="color-white">:</span><span class="color-white"> list </span><span class="color-violet">where</span> <span class="color-white">?</span><span class="color-gold">X</span> <span class="color-white">:</span><span class="color-white"> [ </span><span class="color-white">|-</span> <span class="color-gold">Type</span><span class="color-white">]</span></span></span>
-</code><button class="copy-fenced-code" onclick="copy_code_to_clipboard(8)">Copy</button></pre><p><code class="inline-code-span">nil</code>과 <code class="inline-code-span">@nil</code>의 type은 위와 같습니다. <code class="inline-code-span">nil</code>의 type은 무슨 뜻인지 아직 잘 모르겠네요.</p><hr/><div class="align-center"><p><a href="index.html">메인으로 돌아가기</a></p></div><div class="align-left"><p>&lt;&lt; <a href="Chap3-4.html">Chap3-4. Maps</a></p></div><div class="align-right"><p><a href="Chap4-2.html">Chap4-2. Higher Order Functions</a> &gt;&gt;</p></div><hr class="footnote-hr"/><div class="mdxt-footnote-cites"><p><div class="footnote-cite"><a id="footnote-cite-0"></a>0. <a href="#footnote-ref-0"> [0]</a> Coq는 맞는 추론만 하니까 걱정 안하셔도 됩니다.</div></p></div><script>/*<![CDATA[*/
+</code><button class="copy-fenced-code" onclick="copy_code_to_clipboard(8)">Copy</button></pre><p><code class="inline-code-span">nil</code>과 <code class="inline-code-span">@nil</code>의 type은 위와 같습니다. <code class="inline-code-span">nil</code>의 type은 무슨 뜻인지 아직 잘 모르겠네요.</p><hr/><div class="align-center"><p><a href="index.html">메인으로 돌아가기</a></p></div><div class="align-left"><p>&lt;&lt; <a href="Chap3-4.html">Chap3-4. Maps</a></p></div><div class="align-right"><p><a href="Chap4-2.html">Chap4-2. Higher Order Functions</a> &gt;&gt;</p></div><hr class="footnote-hr"/><div class="mdxt-footnote-cites"><p><div class="footnote-cite"><a id="footnote-cite-0"></a><a href="#footnote-ref-0"> [0]</a> Coq는 맞는 추론만 하니까 걱정 안하셔도 됩니다.</div></p></div><script>/*<![CDATA[*/
 const fenced_code_block_contents = ["Inductive list (X : Type) : Type :=\n  | nil\n  | cons (x : X) (l : list X).", "Fixpoint repeat (X : Type) (x : X) (count : nat) : list X :=\n  match count with\n  | O => nil X\n  | S count' => cons X x (repeat X x count')\n  end.", "Fixpoint repeat X x count : list X :=\n  match count with\n  | O => nil X\n  | S count' => cons X x (repeat X x count')\n  end.", "Fixpoint repeat X (x : X) count : list X :=\n  match count with\n  | O => nil X\n  | S count' => cons X x (repeat X x count')\n  end.", "Fixpoint repeat X (x : X) count : list X :=\n  match count with\n  | O => nil _\n  | S count' => cons _ x (repeat _ x count')\n  end.", "Arguments nil {X}.\nArguments cons {X}.\nArguments repeat {X}.", "Inductive list {X : Type} : Type :=\n  | nil\n  | cons (x : X) (l : list).\n\nFixpoint repeat {X : Type} (x : X) (count : nat) : list :=\n  match count with\n  | 0 => nil\n  | S count' => cons x (repeat x count')\n  end.", "Fail Definition mynil_fail := nil.\nDefinition mynil := @nil nat.", "Check @nil : forall X : Type, list X\n\nCheck nil : list where ?X : [ |- Type]"];
 
 function copy_code_to_clipboard(index) {
@@ -112,7 +113,7 @@ function copy_code_to_clipboard(index) {
 
 
     <footer class="markdown">
-<p><br/></p><p><br/></p><hr/><div class="align-center"><p>2021 ~ 2022 (c) Baehyunsol</p></div>
+<p><br/></p><p><br/></p><hr/><div class="align-center"><p>2021 ~ 2023 &copy; Baehyunsol</p></div>
     </footer>
 
 
@@ -120,6 +121,10 @@ function copy_code_to_clipboard(index) {
 
     
     <script src="nav.js"></script>
+    
+    
+    
+    <script src="header.js"></script>
     
 <script src="collapsible_tables.js"></script></body>
 

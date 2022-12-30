@@ -4,7 +4,7 @@
 
 작성자: 배현솔\
 최초 작성일: 2022.09.02\
-최근 업데이트: 2022.12.28
+최근 업데이트: 2022.12.30
 
 [[/right]]
 
@@ -73,7 +73,7 @@ Coq 언어 자습 문서입니다.
 - Chapter 14. Hoare Logic
 - [Appendix](Appendix.html)
 
-## Index by keyword
+## Index by Keyword
 
 [A](#indexa) [C](#indexc) [D](#indexd) [E](#indexe) [F](#indexf) [G](#indexg) [I](#indexi) [L](#indexl) [M](#indexm) [N](#indexn) [R](#indexr) [S](#indexs) [T](#indext) [U](#indexu)
 

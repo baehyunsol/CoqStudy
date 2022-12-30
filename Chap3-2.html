@@ -6,9 +6,10 @@
     
     <title>Chap3-2</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding&amp;display=swap" rel="stylesheet"/> 
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding&amp;display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'"/>
+    <!--<link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding&amp;display=swap" rel="stylesheet"/> -->
     
-    <link href="page.css" rel="stylesheet"/><link href="markdown.css" rel="stylesheet"/><link href="nav.css" rel="stylesheet"/><link href="header.css" rel="stylesheet"/><link href="footer.css" rel="stylesheet"/>
+    <link href="page.css" rel="stylesheet"/><link href="markdown.css" rel="stylesheet"/><link href="nav.css" rel="stylesheet"/><link href="header.css" rel="stylesheet"/>
     
 </head>
 
@@ -16,19 +17,19 @@
 
 
     <header>
-<p><a href="index.html">Home</a></p>
+<p><div class="topmenu deactivated"><a href="index.html">Home</a> <a href="index.html#index-by-chapter">단원별 목차</a> <a href="index.html#index-by-keyword">키워드 목차</a> <a href="Appendix.html">부록</a></div><div class="mobileview"><a id="navbutton">&#9776;</a></div></p>
     </header>
 
 
 
     <nav>
-<p><a id="settingsopenbutton">&#9728;</a><a href="#top">&#9650;</a><a href="#bottom">&#9660;</a></p><div id="settingsmenubg"><p><div id="settingsmenu"> <a id="settingsclosebutton">&#10006;</a> <a id="changethemebutton">Set Light Theme</a> <a id="loosepaddingbutton">&#8592; &#8594;</a> <a id="tightpaddingbutton">&#8594; &#8592;</a> </div></p></div>
+<p><a id="settingsopenbutton">&#9728;</a><a href="#top">&#9650;</a><a href="#bottom">&#9660;</a></p><div id="settingsmenubg"><p><div id="settingsmenu"> <a id="settingsclosebutton">&#10006;</a> <a id="changethemebutton">Set Light Theme</a> <a id="growhorizontalbutton">Grow Horizontally</a> <a id="shrinkhorizontalbutton">Shrink Horizontally</a> <a id="growfontbutton">Grow Font</a> <a id="shrinkfontbutton">Shrink Font</a> </div></p></div>
     </nav>
 
 
     <article class="markdown">
         <a id="top"></a>
-<table><thead id="table-collapse-toggle-0" class="collapsible collapsed" onclick="collapse_table('0')"><tr><th> Table of Contents </th></tr></thead><tbody id="collapsible-table-0" class="invisible"><tr><td><div class="toc"><ol type="1"><li><a href="#lists">Lists</a><ol type="1"><li><a href="#implementation">Implementation</a><ol type="1"><li><a href="#repeat">Repeat</a></li><li><a href="#length">Length</a></li><li><a href="#get">Get</a></li><li><a href="#append">Append</a></li><li><a href="#reverse">Reverse</a></li><li><a href="#head-and-tail">head and tail</a></li><li><a href="#nonzeros">nonzeros</a></li><li><a href="#count_odd_numbers">count_odd_numbers</a></li><li><a href="#alternate">alternate</a></li></ol></li><li><a href="#reasonings">Reasonings</a></li></ol></li></ol></div></td></tr></tbody></table><h1 id="lists">Lists</h1><p>두번째 자료구조로 List에 대해서 알아보겠습니다. List의 구현은 Haskell 혹은 다른 순수함수형 언어의 list와 아주 비슷합니다. 아래의 정의를 보겠습니다.</p><pre class="fenced-code-block line-num-width-0"><code><span class="code-fence-row"><span class="code-fence-index">1</span><span class="code-fence-code"><span class="color-gold">Inductive</span><span class="color-white"> natlist </span><span class="color-white">:</span> <span class="color-gold">Type</span> <span class="color-white">:=</span>
+<table><thead id="table-collapse-toggle-0" class="collapsible collapsed" onclick="collapse_table('0')"><tr><th>목차</th></tr></thead><tbody id="collapsible-table-0" class="invisible"><tr><td><div class="toc"><ol type="1"><li><a href="#lists">Lists</a><ol type="1"><li><a href="#implementation">Implementation</a><ol type="1"><li><a href="#repeat">Repeat</a></li><li><a href="#length">Length</a></li><li><a href="#get">Get</a></li><li><a href="#append">Append</a></li><li><a href="#reverse">Reverse</a></li><li><a href="#head-and-tail">head and tail</a></li><li><a href="#nonzeros">nonzeros</a></li><li><a href="#count_odd_numbers">count_odd_numbers</a></li><li><a href="#alternate">alternate</a></li></ol></li><li><a href="#reasonings">Reasonings</a></li></ol></li></ol></div></td></tr></tbody></table><h1 id="lists">Lists</h1><p>두번째 자료구조로 List에 대해서 알아보겠습니다. List의 구현은 Haskell 혹은 다른 순수함수형 언어의 list와 아주 비슷합니다. 아래의 정의를 보겠습니다.</p><pre class="fenced-code-block line-num-width-0"><code><span class="code-fence-row"><span class="code-fence-index">1</span><span class="code-fence-code"><span class="color-gold">Inductive</span><span class="color-white"> natlist </span><span class="color-white">:</span> <span class="color-gold">Type</span> <span class="color-white">:=</span>
 </span></span>
 <span class="code-fence-row"><span class="code-fence-index">2</span><span class="code-fence-code">  <span class="color-white">|</span><span class="color-white"> nil
 </span></span></span>
@@ -183,7 +184,7 @@
 <span class="code-fence-row"><span class="code-fence-index">9</span><span class="code-fence-code"><span class="color-white">    reflexivity</span><span class="color-white">.</span>
 </span></span>
 <span class="code-fence-row"><span class="code-fence-index">10</span><span class="code-fence-code">  <span class="color-gold">Qed</span><span class="color-white">.</span></span></span>
-</code><button class="copy-fenced-code" onclick="copy_code_to_clipboard(12)">Copy</button></pre><p>자연수에 귀납법을 쓰던 것과 매우 비슷합니다. <code class="inline-code-span">l1</code>이 <code class="inline-code-span">nil</code>인 경우와 <code class="inline-code-span">n :: l1&apos;</code>인 경우로 나눕니다.</p><p><code class="inline-code-span">nil</code>인 경우, <code class="inline-code-span">nil ++ l2</code>는 아주 간단한 형태로 정리가 되므로 <code class="inline-code-span">reflexivity</code> 한 번으로 증명이 끝납니다.</p><p><code class="inline-code-span">l1 = n :: l1&apos;</code>인 경우, 방금 <code class="inline-code-span">IHl1&apos;: (l1&apos; ++ l2) ++ l3 = l1&apos; ++ l2 ++ l3</code>를 증명했으므로 저 형태로 만들기만 하면 증명이 끝납니다.</p><p>쉽죠?</p><hr/><div class="align-center"><p><a href="index.html">메인으로 돌아가기</a></p></div><div class="align-left"><p>&lt;&lt; <a href="Chap3-1.html">Chap3-1. Pairs</a></p></div><div class="align-right"><p><a href="Chap3-3.html">Chap3-3. Options</a> &gt;&gt;</p></div><hr class="footnote-hr"/><div class="mdxt-footnote-cites"><p><div class="footnote-cite"><a id="footnote-cite-0"></a>0. <a href="#footnote-ref-0"> [0]</a> 이렇게 정의해도 <code class="inline-code-span">[1; 2; 3; 4]</code>같은 문법을 알아듣는다는게 신기하네요.</div><div class="footnote-cite"><a id="footnote-cite-1"></a>1. <a href="#footnote-ref-1"> [1]</a> 주어진 list에서 홀수들만 남기는 함수입니다. Python으로 쓰면 <code class="inline-code-span">[n for n in l if n % 2 == 1]</code> 정도가 되겠군요.</div></p></div><script>/*<![CDATA[*/
+</code><button class="copy-fenced-code" onclick="copy_code_to_clipboard(12)">Copy</button></pre><p>자연수에 귀납법을 쓰던 것과 매우 비슷합니다. <code class="inline-code-span">l1</code>이 <code class="inline-code-span">nil</code>인 경우와 <code class="inline-code-span">n :: l1&apos;</code>인 경우로 나눕니다.</p><p><code class="inline-code-span">nil</code>인 경우, <code class="inline-code-span">nil ++ l2</code>는 아주 간단한 형태로 정리가 되므로 <code class="inline-code-span">reflexivity</code> 한 번으로 증명이 끝납니다.</p><p><code class="inline-code-span">l1 = n :: l1&apos;</code>인 경우, 방금 <code class="inline-code-span">IHl1&apos;: (l1&apos; ++ l2) ++ l3 = l1&apos; ++ l2 ++ l3</code>를 증명했으므로 저 형태로 만들기만 하면 증명이 끝납니다.</p><p>쉽죠?</p><hr/><div class="align-center"><p><a href="index.html">메인으로 돌아가기</a></p></div><div class="align-left"><p>&lt;&lt; <a href="Chap3-1.html">Chap3-1. Pairs</a></p></div><div class="align-right"><p><a href="Chap3-3.html">Chap3-3. Options</a> &gt;&gt;</p></div><hr class="footnote-hr"/><div class="mdxt-footnote-cites"><p><div class="footnote-cite"><a id="footnote-cite-0"></a><a href="#footnote-ref-0"> [0]</a> 이렇게 정의해도 <code class="inline-code-span">[1; 2; 3; 4]</code>같은 문법을 알아듣는다는게 신기하네요.</div><div class="footnote-cite"><a id="footnote-cite-1"></a><a href="#footnote-ref-1"> [1]</a> 주어진 list에서 홀수들만 남기는 함수입니다. Python으로 쓰면 <code class="inline-code-span">[n for n in l if n % 2 == 1]</code> 정도가 되겠군요.</div></p></div><script>/*<![CDATA[*/
 const fenced_code_block_contents = ["Inductive natlist : Type :=\n  | nil\n  | cons (n : nat) (l : natlist).", "Notation \"x :: l\" := (cons x l)\n                     (at level 60, right associativity).\nNotation \"[ ]\" := nil.\nNotation \"[ x ; .. ; y ]\" := (cons x .. (cons y nil) ..).", "Fixpoint repeat (n count : nat) : natlist :=\n  match count with\n  | O => nil\n  | S count' => n :: (repeat n count')\n  end.", "Fixpoint length (l : natlist) : nat :=\n  match l with\n  | nil => O\n  | h :: t => S (length t)\n  end.", "Fixpoint get (l: natlist) (idx: nat) : nat :=\n  match idx with\n  | O => match l with\n    | nil => O\n    | h :: t => h\n    end\n  | S n' => match l with\n    | nil => O\n    | h :: t => get t n'\n    end\n  end.", "Fixpoint append (l1 l2 : natlist) : natlist :=\n  match l1 with\n  | nil => l2\n  | h :: t => h :: (append t l2)\n  end.\n\nNotation \"x ++ y\" := (append x y)\n                     (right associativity, at level 60).", "Fixpoint rev (l : natlist) : natlist :=\n  match l with\n  | nil => nil\n  | h :: t => rev t ++ [h]\n  end.", "Definition head (default : nat) (l : natlist) : nat :=\n  match l with\n  | nil => default\n  | h :: t => h\n  end.\nDefinition tail (l : natlist) : natlist :=\n  match l with\n  | nil => nil\n  | h :: t => t\n  end.", "Fixpoint nonzeros (l : natlist) : natlist :=\n  match l with\n  | nil => nil\n  | h :: t => match h with\n    | O => nonzeros t\n    | h' => h' :: nonzeros t\n    end\n  end.", "Fixpoint count_odd_members (l : natlist) : nat :=\n  match l with\n  | nil => O\n  | h :: t => if is_odd h\n    then S (count_odd_members t)\n    else count_odd_members t\n  end.", "Fixpoint alternate (l1 l2 : natlist) : natlist :=\n  match l1, l2 with\n  | h :: t, _ => h :: (alternate l2 t)\n  | nil, h :: t => h :: (alternate t l1)\n  | nil, nil => nil\n  end.", "Theorem app_assoc : forall l1 l2 l3 : natlist,\n  (l1 ++ l2) ++ l3 = l1 ++ (l2 ++ l3).", "Proof.\n  intros l1 l2 l3.\n  induction l1 as [ | n l1' IHl1'].\n  - (*{- l1 = [] -}*)\n    reflexivity.\n  - (*{- l1 = n :: l1' -}*)\n    simpl.\n    rewrite IHl1'.\n    reflexivity.\n  Qed."];
 
 function copy_code_to_clipboard(index) {
@@ -196,7 +197,7 @@ function copy_code_to_clipboard(index) {
 
 
     <footer class="markdown">
-<p><br/></p><p><br/></p><hr/><div class="align-center"><p>2021 ~ 2022 (c) Baehyunsol</p></div>
+<p><br/></p><p><br/></p><hr/><div class="align-center"><p>2021 ~ 2023 &copy; Baehyunsol</p></div>
     </footer>
 
 
@@ -204,6 +205,10 @@ function copy_code_to_clipboard(index) {
 
     
     <script src="nav.js"></script>
+    
+    
+    
+    <script src="header.js"></script>
     
 <script src="collapsible_tables.js"></script></body>
 

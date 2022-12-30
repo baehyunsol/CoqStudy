@@ -6,9 +6,10 @@
     
     <title>Chap6-5</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding&amp;display=swap" rel="stylesheet"/> 
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding&amp;display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'"/>
+    <!--<link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding&amp;display=swap" rel="stylesheet"/> -->
     
-    <link href="page.css" rel="stylesheet"/><link href="markdown.css" rel="stylesheet"/><link href="nav.css" rel="stylesheet"/><link href="header.css" rel="stylesheet"/><link href="footer.css" rel="stylesheet"/>
+    <link href="page.css" rel="stylesheet"/><link href="markdown.css" rel="stylesheet"/><link href="nav.css" rel="stylesheet"/><link href="header.css" rel="stylesheet"/>
     
 </head>
 
@@ -16,19 +17,19 @@
 
 
     <header>
-<p><a href="index.html">Home</a></p>
+<p><div class="topmenu deactivated"><a href="index.html">Home</a> <a href="index.html#index-by-chapter">단원별 목차</a> <a href="index.html#index-by-keyword">키워드 목차</a> <a href="Appendix.html">부록</a></div><div class="mobileview"><a id="navbutton">&#9776;</a></div></p>
     </header>
 
 
 
     <nav>
-<p><a id="settingsopenbutton">&#9728;</a><a href="#top">&#9650;</a><a href="#bottom">&#9660;</a></p><div id="settingsmenubg"><p><div id="settingsmenu"> <a id="settingsclosebutton">&#10006;</a> <a id="changethemebutton">Set Light Theme</a> <a id="loosepaddingbutton">&#8592; &#8594;</a> <a id="tightpaddingbutton">&#8594; &#8592;</a> </div></p></div>
+<p><a id="settingsopenbutton">&#9728;</a><a href="#top">&#9650;</a><a href="#bottom">&#9660;</a></p><div id="settingsmenubg"><p><div id="settingsmenu"> <a id="settingsclosebutton">&#10006;</a> <a id="changethemebutton">Set Light Theme</a> <a id="growhorizontalbutton">Grow Horizontally</a> <a id="shrinkhorizontalbutton">Shrink Horizontally</a> <a id="growfontbutton">Grow Font</a> <a id="shrinkfontbutton">Shrink Font</a> </div></p></div>
     </nav>
 
 
     <article class="markdown">
         <a id="top"></a>
-<table><thead id="table-collapse-toggle-0" class="collapsible collapsed" onclick="collapse_table('0')"><tr><th> Table of Contents </th></tr></thead><tbody id="collapsible-table-0" class="invisible"><tr><td><div class="toc"><ol type="1"><li><a href="#axioms">Axioms</a><ol type="1"><li><a href="#excluded-middle">Excluded Middle</a></li></ol></li></ol></div></td></tr></tbody></table><h1 id="axioms">Axioms</h1><p><a id="keywordaxiom"></a></p><p>공리는 증명 없이 참이라고 받아들여지는 명제를 말합니다. 어떤 체계의 공리가 잘못되면 그 체계 전체의 기반이 무너지므로 공리를 다룰 때는 항상 매우 조심해야합니다. Coq에서는 공리를 어떻게 다룰까요? 아래의 예시를 보겠습니다.</p><pre class="fenced-code-block line-num-width-0"><code><span class="code-fence-row"><span class="code-fence-index">1</span><span class="code-fence-code"><span class="color-gold">Example</span><span class="color-white"> function_equality </span><span class="color-white">:</span>
+<table><thead id="table-collapse-toggle-0" class="collapsible collapsed" onclick="collapse_table('0')"><tr><th>목차</th></tr></thead><tbody id="collapsible-table-0" class="invisible"><tr><td><div class="toc"><ol type="1"><li><a href="#axioms">Axioms</a><ol type="1"><li><a href="#excluded-middle">Excluded Middle</a></li></ol></li></ol></div></td></tr></tbody></table><h1 id="axioms">Axioms</h1><p><a id="keywordaxiom"></a></p><p>공리는 증명 없이 참이라고 받아들여지는 명제를 말합니다. 어떤 체계의 공리가 잘못되면 그 체계 전체의 기반이 무너지므로 공리를 다룰 때는 항상 매우 조심해야합니다. Coq에서는 공리를 어떻게 다룰까요? 아래의 예시를 보겠습니다.</p><pre class="fenced-code-block line-num-width-0"><code><span class="code-fence-row"><span class="code-fence-index">1</span><span class="code-fence-code"><span class="color-gold">Example</span><span class="color-white"> function_equality </span><span class="color-white">:</span>
 </span></span>
 <span class="code-fence-row"><span class="code-fence-index">2</span><span class="code-fence-code"><span class="color-white">  (fun x </span><span class="color-white">=&gt;</span><span class="color-white"> plus x </span><span class="color-gold">1</span><span class="color-white">) </span><span class="color-white">=</span><span class="color-white"> (fun x </span><span class="color-white">=&gt;</span><span class="color-white"> plus </span><span class="color-gold">1</span><span class="color-white"> x)</span><span class="color-white">.</span></span></span>
 </code><button class="copy-fenced-code" onclick="copy_code_to_clipboard(0)">Copy</button></pre><p><code class="inline-code-span">x =&gt; x + 1</code>과 <code class="inline-code-span">x =&gt; 1 + x</code>는 동일한 함수입니다! 하지만 Coq의 논리 체계 안에선 저 둘이 동일한 함수란 걸 증명할 방법이 없습니다. 이런 경우엔 <code class="inline-code-span">Axiom</code>이란 명령어를 사용해서 새로운 공리를 만들면 됩니다.</p><p><a id="funcext"></a></p><pre class="fenced-code-block line-num-width-0"><code><span class="code-fence-row"><span class="code-fence-index">1</span><span class="code-fence-code"><span class="color-gold">Axiom</span><span class="color-white"> functional_extensionality </span><span class="color-white">:</span>
@@ -63,7 +64,7 @@ function copy_code_to_clipboard(index) {
 
 
     <footer class="markdown">
-<p><br/></p><p><br/></p><hr/><div class="align-center"><p>2021 ~ 2022 (c) Baehyunsol</p></div>
+<p><br/></p><p><br/></p><hr/><div class="align-center"><p>2021 ~ 2023 &copy; Baehyunsol</p></div>
     </footer>
 
 
@@ -71,6 +72,10 @@ function copy_code_to_clipboard(index) {
 
     
     <script src="nav.js"></script>
+    
+    
+    
+    <script src="header.js"></script>
     
 <script src="collapsible_tables.js"></script></body>
 

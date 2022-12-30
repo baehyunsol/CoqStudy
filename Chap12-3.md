@@ -1,4 +1,4 @@
-| Table of Contents |
+| 목차 |
 |-------------------|
 |!![[collapsible, default=hidden]]  |
 |[[toc]]|

@@ -6,9 +6,10 @@
     
     <title>Chap1-1</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding&amp;display=swap" rel="stylesheet"/> 
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding&amp;display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'"/>
+    <!--<link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding&amp;display=swap" rel="stylesheet"/> -->
     
-    <link href="page.css" rel="stylesheet"/><link href="markdown.css" rel="stylesheet"/><link href="nav.css" rel="stylesheet"/><link href="header.css" rel="stylesheet"/><link href="footer.css" rel="stylesheet"/>
+    <link href="page.css" rel="stylesheet"/><link href="markdown.css" rel="stylesheet"/><link href="nav.css" rel="stylesheet"/><link href="header.css" rel="stylesheet"/>
     
 </head>
 
@@ -16,19 +17,19 @@
 
 
     <header>
-<p><a href="index.html">Home</a></p>
+<p><div class="topmenu deactivated"><a href="index.html">Home</a> <a href="index.html#index-by-chapter">단원별 목차</a> <a href="index.html#index-by-keyword">키워드 목차</a> <a href="Appendix.html">부록</a></div><div class="mobileview"><a id="navbutton">&#9776;</a></div></p>
     </header>
 
 
 
     <nav>
-<p><a id="settingsopenbutton">&#9728;</a><a href="#top">&#9650;</a><a href="#bottom">&#9660;</a></p><div id="settingsmenubg"><p><div id="settingsmenu"> <a id="settingsclosebutton">&#10006;</a> <a id="changethemebutton">Set Light Theme</a> <a id="loosepaddingbutton">&#8592; &#8594;</a> <a id="tightpaddingbutton">&#8594; &#8592;</a> </div></p></div>
+<p><a id="settingsopenbutton">&#9728;</a><a href="#top">&#9650;</a><a href="#bottom">&#9660;</a></p><div id="settingsmenubg"><p><div id="settingsmenu"> <a id="settingsclosebutton">&#10006;</a> <a id="changethemebutton">Set Light Theme</a> <a id="growhorizontalbutton">Grow Horizontally</a> <a id="shrinkhorizontalbutton">Shrink Horizontally</a> <a id="growfontbutton">Grow Font</a> <a id="shrinkfontbutton">Shrink Font</a> </div></p></div>
     </nav>
 
 
     <article class="markdown">
         <a id="top"></a>
-<table><thead id="table-collapse-toggle-0" class="collapsible collapsed" onclick="collapse_table('0')"><tr><th> Table of Contents </th></tr></thead><tbody id="collapsible-table-0" class="invisible"><tr><td><div class="toc"><ol type="1"><li><a href="#coq">Coq</a><ol type="1"><li><a href="#inductive"><code class="inline-code-span">Inductive</code></a></li><li><a href="#definition"><code class="inline-code-span">Definition</code></a></li><li><a href="#notation"><code class="inline-code-span">Notation</code></a></li><li><a href="#if"><code class="inline-code-span">if</code></a></li><li><a href="#check"><code class="inline-code-span">Check</code></a></li><li><a href="#compute"><code class="inline-code-span">Compute</code></a></li><li><a href="#enums">Enums</a></li><li><a href="#modules">Modules</a></li><li><a href="#tuples">Tuples</a></li></ol></li></ol></div></td></tr></tbody></table><h1 id="coq">Coq</h1><p>Coq는 Gallina라는 함수형 언어로 이루어져 있습니다.<span class="footnote-ref" id="footnote-ref-0"><a href="#footnote-cite-0">[0]</a></span> Coq에 대해서 본격적으로 공부하기 전에, 함수형 언어로서의 Coq의 특징에 대해서 알아보겠습니다.</p><h2 id="inductive"><code class="inline-code-span">Inductive</code></h2><p><a id="keywordinductive"></a></p><p>Rust의 <code class="inline-code-span">enum</code>에 대응되는 개념으로 coq에는 <code class="inline-code-span">Inductive</code>가 있습니다. Coq의 primitive type들은 대부분 <code class="inline-code-span">Inductive</code>를 통해서 구현돼 있습니다. 즉, 정수형이나 Boolean등도 컴파일러 내부에 구현된 특별한 자료형이 아닌, 다른 모든 자료형과 동일하다는 뜻입니다.</p><p>Boolean이 어떻게 구현돼 있는지 살펴보겠습니다.</p><pre class="fenced-code-block line-num-width-0"><code><span class="code-fence-row"><span class="code-fence-index">1</span><span class="code-fence-code"><span class="color-gold">Inductive</span><span class="color-white"> bool </span><span class="color-white">:</span> <span class="color-gold">Type</span> <span class="color-white">:=</span>
+<table><thead id="table-collapse-toggle-0" class="collapsible collapsed" onclick="collapse_table('0')"><tr><th>목차</th></tr></thead><tbody id="collapsible-table-0" class="invisible"><tr><td><div class="toc"><ol type="1"><li><a href="#coq">Coq</a><ol type="1"><li><a href="#inductive"><code class="inline-code-span">Inductive</code></a></li><li><a href="#definition"><code class="inline-code-span">Definition</code></a></li><li><a href="#notation"><code class="inline-code-span">Notation</code></a></li><li><a href="#if"><code class="inline-code-span">if</code></a></li><li><a href="#check"><code class="inline-code-span">Check</code></a></li><li><a href="#compute"><code class="inline-code-span">Compute</code></a></li><li><a href="#enums">Enums</a></li><li><a href="#modules">Modules</a></li><li><a href="#tuples">Tuples</a></li></ol></li></ol></div></td></tr></tbody></table><h1 id="coq">Coq</h1><p>Coq는 Gallina라는 함수형 언어로 이루어져 있습니다.<span class="footnote-ref" id="footnote-ref-0"><a href="#footnote-cite-0">[0]</a></span> Coq에 대해서 본격적으로 공부하기 전에, 함수형 언어로서의 Coq의 특징에 대해서 알아보겠습니다.</p><h2 id="inductive"><code class="inline-code-span">Inductive</code></h2><p><a id="keywordinductive"></a></p><p>Rust의 <code class="inline-code-span">enum</code>에 대응되는 개념으로 coq에는 <code class="inline-code-span">Inductive</code>가 있습니다. Coq의 primitive type들은 대부분 <code class="inline-code-span">Inductive</code>를 통해서 구현돼 있습니다. 즉, 정수형이나 Boolean등도 컴파일러 내부에 구현된 특별한 자료형이 아닌, 다른 모든 자료형과 동일하다는 뜻입니다.</p><p>Boolean이 어떻게 구현돼 있는지 살펴보겠습니다.</p><pre class="fenced-code-block line-num-width-0"><code><span class="code-fence-row"><span class="code-fence-index">1</span><span class="code-fence-code"><span class="color-gold">Inductive</span><span class="color-white"> bool </span><span class="color-white">:</span> <span class="color-gold">Type</span> <span class="color-white">:=</span>
 </span></span>
 <span class="code-fence-row"><span class="code-fence-index">2</span><span class="code-fence-code">  <span class="color-white">|</span><span class="color-white"> true
 </span></span></span>
@@ -206,7 +207,7 @@
 <span class="code-fence-row"><span class="code-fence-index">6</span><span class="code-fence-code">  <span class="color-white">|</span><span class="color-white"> nums n _ </span><span class="color-white">=&gt;</span><span class="color-white"> all_zero n
 </span></span></span>
 <span class="code-fence-row"><span class="code-fence-index">7</span><span class="code-fence-code"><span class="color-white">  end</span><span class="color-white">.</span></span></span>
-</code><button class="copy-fenced-code" onclick="copy_code_to_clipboard(13)">Copy</button></pre><p><code class="inline-code-span">nybble</code>과 <code class="inline-code-span">nat</code>을 하나씩 원소로 가지는 tuple을 만들었습니다. <code class="inline-code-span">nat</code>이 뭔지는 <a href="Chap1-2.html">다음 장</a>에 나옵니다.</p><hr/><div class="align-center"><p><a href="index.html">메인으로 돌아가기</a></p></div><div class="align-left"><p>이전 글이 없습니다.</p></div><div class="align-right"><p><a href="Chap1-2.html">Chap1-2. Natural Numbers</a> &gt;&gt;</p></div><hr class="footnote-hr"/><div class="mdxt-footnote-cites"><p><div class="footnote-cite"><a id="footnote-cite-0"></a>0. <a href="#footnote-ref-0"> [0]</a> 막상 책에서는 <em>Coq 언어</em>라고 지칭을 할 때가 많아서 어디까지가 무슨 언어인지 사실 저도 잘 모르겠어요. 이 문서에는 Gallina는 더 이상 언급하지 않고, 전부 Coq라는 표현만 썼습니다.</div><div class="footnote-cite"><a id="footnote-cite-1"></a>1. <a href="#footnote-ref-1"> [1]</a> <code class="inline-code-span">Check</code>는 일반적인 함수가 아닙니다. 아래에서 자세히 설명하겠습니다. <br/><em>function</em>이라는 용어는 전부 <em>함수</em>로 번역했고, <em>command</em>는 전부 <em>명령어</em>로 번역했습니다. 문서에서 두 용어를 완전히 구분해서 사용할테니 읽는데 혼동이 없으시길 바라겠습니다.</div></p></div><script>/*<![CDATA[*/
+</code><button class="copy-fenced-code" onclick="copy_code_to_clipboard(13)">Copy</button></pre><p><code class="inline-code-span">nybble</code>과 <code class="inline-code-span">nat</code>을 하나씩 원소로 가지는 tuple을 만들었습니다. <code class="inline-code-span">nat</code>이 뭔지는 <a href="Chap1-2.html">다음 장</a>에 나옵니다.</p><hr/><div class="align-center"><p><a href="index.html">메인으로 돌아가기</a></p></div><div class="align-left"><p>이전 글이 없습니다.</p></div><div class="align-right"><p><a href="Chap1-2.html">Chap1-2. Natural Numbers</a> &gt;&gt;</p></div><hr class="footnote-hr"/><div class="mdxt-footnote-cites"><p><div class="footnote-cite"><a id="footnote-cite-0"></a><a href="#footnote-ref-0"> [0]</a> 막상 책에서는 <em>Coq 언어</em>라고 지칭을 할 때가 많아서 어디까지가 무슨 언어인지 사실 저도 잘 모르겠어요. 이 문서에는 Gallina는 더 이상 언급하지 않고, 전부 Coq라는 표현만 썼습니다.</div><div class="footnote-cite"><a id="footnote-cite-1"></a><a href="#footnote-ref-1"> [1]</a> <code class="inline-code-span">Check</code>는 일반적인 함수가 아닙니다. 아래에서 자세히 설명하겠습니다. <br/><em>function</em>이라는 용어는 전부 <em>함수</em>로 번역했고, <em>command</em>는 전부 <em>명령어</em>로 번역했습니다. 문서에서 두 용어를 완전히 구분해서 사용할테니 읽는데 혼동이 없으시길 바라겠습니다.</div></p></div><script>/*<![CDATA[*/
 const fenced_code_block_contents = ["Inductive bool : Type :=\n  | true\n  | false.", "Definition negb (b: bool) : bool :=\n  match b with\n  | true => false\n  | false => true\n  end.\n\nDefinition andb (b1:bool) (b2:bool) : bool :=\n  match b1 with\n  | true => b2\n  | false => false\n  end.\n\nDefinition orb (b1:bool) (b2:bool) : bool :=\n  match b1 with\n  | true => true\n  | false => b2\n  end.", "Notation \"x && y\" := (andb x y).\nNotation \"x || y\" := (orb x y).", "Definition negb (b:bool) : bool :=\n  if b then false\n  else true.\nDefinition andb (b1:bool) (b2:bool) : bool :=\n  if b1 then b2\n  else false.\nDefinition orb (b1:bool) (b2:bool) : bool :=\n  if b1 then true\n  else b2.", "(*{-\nCoq의 주석은\n(* .. 주석 .. *)\n와 같은 형태로 씁니다. 하지만 Coq의 문법을 지원하는 syntax highlighter를 찾지 못하여 부득이하게\nHaskell 스타일로 주석을 썼습니다.\n-}*)\n\nCheck true.   (*{- true : bool -}*)\nCheck (andb true true).   (*{- true : bool -}*)\n\n(*{- Coq에서는 함수도 first class object입니다. -}*)\nCheck andb.   (*{- andb : bool -> bool -}*)\n\n(*{- `Check`는 일반적인 함수가 아니기에 type이 없습니다. -}*)\nCheck Check.  (*{- error -}*)", "", "Check true.  (*{- true : bool -}*)\nCheck bool.  (*{- bool : Set  -}*)\nCheck Set.   (*{- Set : Type  -}*)\nCheck Type.  (*{- Type : Type -}*)", "", "Inductive rgb : Type :=\n  | red\n  | green\n  | blue.\nInductive color : Type :=\n  | black\n  | white\n  | primary (p : rgb).", "Definition is_red_or_black(c: color) : bool :=\n  match c with\n  | black => true\n  | white => false\n  | primary red => true\n  | primary _ => false\n  end.", "Module Playground.\n  Definition b : rgb := blue.\nEnd Playground.\n\nDefinition b : bool := true.\n\nCheck Playground.b : rgb.\nCheck b : bool.", "Inductive bit : Type :=\n  | B0\n  | B1.\nInductive nybble : Type :=\n  | bits (b0 b1 b2 b3 : bit).\nCheck (bits B1 B0 B1 B0)\n  : nybble.", "Definition all_zero (nb : nybble) : bool :=\n  match nb with\n  | (bits B0 B0 B0 B0) => true\n  | (bits _ _ _ _) => false\n  end.\n\nCompute all_zero (bits B0 B0 B0 B0). (*{- = true : bool -}*)", "Inductive complex : Type :=\n  | nums (ny : nybble) (int : nat).\n\nDefinition all_zero2 (compl: complex) : bool :=\n  match compl with\n  | nums n _ => all_zero n\n  end."];
 
 function copy_code_to_clipboard(index) {
@@ -219,7 +220,7 @@ function copy_code_to_clipboard(index) {
 
 
     <footer class="markdown">
-<p><br/></p><p><br/></p><hr/><div class="align-center"><p>2021 ~ 2022 (c) Baehyunsol</p></div>
+<p><br/></p><p><br/></p><hr/><div class="align-center"><p>2021 ~ 2023 &copy; Baehyunsol</p></div>
     </footer>
 
 
@@ -227,6 +228,10 @@ function copy_code_to_clipboard(index) {
 
     
     <script src="nav.js"></script>
+    
+    
+    
+    <script src="header.js"></script>
     
 <script src="collapsible_tables.js"></script></body>
 

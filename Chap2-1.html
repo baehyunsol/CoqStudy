@@ -6,9 +6,10 @@
     
     <title>Chap2-1</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding&amp;display=swap" rel="stylesheet"/> 
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding&amp;display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'"/>
+    <!--<link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding&amp;display=swap" rel="stylesheet"/> -->
     
-    <link href="page.css" rel="stylesheet"/><link href="markdown.css" rel="stylesheet"/><link href="nav.css" rel="stylesheet"/><link href="header.css" rel="stylesheet"/><link href="footer.css" rel="stylesheet"/>
+    <link href="page.css" rel="stylesheet"/><link href="markdown.css" rel="stylesheet"/><link href="nav.css" rel="stylesheet"/><link href="header.css" rel="stylesheet"/>
     
 </head>
 
@@ -16,19 +17,19 @@
 
 
     <header>
-<p><a href="index.html">Home</a></p>
+<p><div class="topmenu deactivated"><a href="index.html">Home</a> <a href="index.html#index-by-chapter">단원별 목차</a> <a href="index.html#index-by-keyword">키워드 목차</a> <a href="Appendix.html">부록</a></div><div class="mobileview"><a id="navbutton">&#9776;</a></div></p>
     </header>
 
 
 
     <nav>
-<p><a id="settingsopenbutton">&#9728;</a><a href="#top">&#9650;</a><a href="#bottom">&#9660;</a></p><div id="settingsmenubg"><p><div id="settingsmenu"> <a id="settingsclosebutton">&#10006;</a> <a id="changethemebutton">Set Light Theme</a> <a id="loosepaddingbutton">&#8592; &#8594;</a> <a id="tightpaddingbutton">&#8594; &#8592;</a> </div></p></div>
+<p><a id="settingsopenbutton">&#9728;</a><a href="#top">&#9650;</a><a href="#bottom">&#9660;</a></p><div id="settingsmenubg"><p><div id="settingsmenu"> <a id="settingsclosebutton">&#10006;</a> <a id="changethemebutton">Set Light Theme</a> <a id="growhorizontalbutton">Grow Horizontally</a> <a id="shrinkhorizontalbutton">Shrink Horizontally</a> <a id="growfontbutton">Grow Font</a> <a id="shrinkfontbutton">Shrink Font</a> </div></p></div>
     </nav>
 
 
     <article class="markdown">
         <a id="top"></a>
-<table><thead id="table-collapse-toggle-0" class="collapsible collapsed" onclick="collapse_table('0')"><tr><th> Table of Contents </th></tr></thead><tbody id="collapsible-table-0" class="invisible"><tr><td><div class="toc"><ol type="1"><li><a href="#proofs-by-induction">Proofs by Induction</a><ol type="1"><li><a href="#examples">Examples</a><ol type="1"><li><a href="#mul_0_r">mul_0_r</a></li><li><a href="#plus_n_sm">plus_n_Sm</a></li><li><a href="#add_comm">add_comm</a></li><li><a href="#add_assoc">add_assoc</a></li><li><a href="#eqb_refl">eqb_refl</a></li></ol></li></ol></li></ol></div></td></tr></tbody></table><h1 id="proofs-by-induction">Proofs by Induction</h1><pre class="fenced-code-block line-num-width-0"><code><span class="code-fence-row"><span class="code-fence-index">1</span><span class="code-fence-code"><span class="color-gold">Theorem</span><span class="color-white"> add_0_r_firsttry </span><span class="color-white">:</span><span class="color-white"> forall n</span><span class="color-white">:</span><span class="color-white"> nat</span><span class="color-white">,</span>
+<table><thead id="table-collapse-toggle-0" class="collapsible collapsed" onclick="collapse_table('0')"><tr><th>목차</th></tr></thead><tbody id="collapsible-table-0" class="invisible"><tr><td><div class="toc"><ol type="1"><li><a href="#proofs-by-induction">Proofs by Induction</a><ol type="1"><li><a href="#examples">Examples</a><ol type="1"><li><a href="#mul_0_r">mul_0_r</a></li><li><a href="#plus_n_sm">plus_n_Sm</a></li><li><a href="#add_comm">add_comm</a></li><li><a href="#add_assoc">add_assoc</a></li><li><a href="#eqb_refl">eqb_refl</a></li></ol></li></ol></li></ol></div></td></tr></tbody></table><h1 id="proofs-by-induction">Proofs by Induction</h1><pre class="fenced-code-block line-num-width-0"><code><span class="code-fence-row"><span class="code-fence-index">1</span><span class="code-fence-code"><span class="color-gold">Theorem</span><span class="color-white"> add_0_r_firsttry </span><span class="color-white">:</span><span class="color-white"> forall n</span><span class="color-white">:</span><span class="color-white"> nat</span><span class="color-white">,</span>
 </span></span>
 <span class="code-fence-row"><span class="code-fence-index">2</span><span class="code-fence-code"><span class="color-white">  n </span><span class="color-white">+</span> <span class="color-gold">0</span> <span class="color-white">=</span><span class="color-white"> n</span><span class="color-white">.</span></span></span>
 </code><button class="copy-fenced-code" onclick="copy_code_to_clipboard(0)">Copy</button></pre><p>위와 같은 theorem을 증명하려면 어떻게 해야할까요? 덧셈의 왼쪽 인자가 상수가 아니라서 <code class="inline-code-span">simpl</code>이나 <code class="inline-code-span">reflexivity</code>등의 tactic이 통하지 않습니다. <code class="inline-code-span">destruct</code>를 이용하면 <code class="inline-code-span">n</code>을 <code class="inline-code-span">S n&apos;</code>으로 바꿀 수 있지만 여전히 부족합니다.</p><p>이럴 때 필요한 것이 귀납법입니다. 고등학교 때 수학시간에 수학적 귀납법을 배운 기억이 나시나요? 바로 그 귀납법입니다.</p><p><a id="keywordinduction"></a></p><pre class="fenced-code-block line-num-width-1"><code><span class="code-fence-row"><span class="code-fence-index">1</span><span class="code-fence-code"><span class="color-gold">Theorem</span><span class="color-white"> add_0_r </span><span class="color-white">:</span><span class="color-white"> forall n</span><span class="color-white">:</span><span class="color-white"> nat</span><span class="color-white">,</span><span class="color-white"> n </span><span class="color-white">+</span> <span class="color-gold">0</span> <span class="color-white">=</span><span class="color-white"> n</span><span class="color-white">.</span>
@@ -185,7 +186,7 @@
 <span class="code-fence-row"><span class="code-fence-index">12</span><span class="code-fence-code"><span class="color-white">    reflexivity</span><span class="color-white">.</span>
 </span></span>
 <span class="code-fence-row"><span class="code-fence-index">13</span><span class="code-fence-code">  <span class="color-gold">Qed</span><span class="color-white">.</span></span></span>
-</code><button class="copy-fenced-code" onclick="copy_code_to_clipboard(6)">Copy</button></pre><p>위의 증명에서 <code class="inline-code-span">simpl</code>을 전부 제거해도 증명이 됩니다. <code class="inline-code-span">simpl</code>하고 <code class="inline-code-span">reflexivity</code>가 정확히 어떻게 동작하는지 잘 모르겠네요.</p><hr/><div class="align-center"><p><a href="index.html">메인으로 돌아가기</a></p></div><div class="align-left"><p>&lt;&lt; <a href="Chap1-3.html">Chap1-3. Proofs</a></p></div><div class="align-right"><p><a href="Chap2-2.html">Chap2-2. Proofs within proofs</a> &gt;&gt;</p></div><hr class="footnote-hr"/><div class="mdxt-footnote-cites"><p><div class="footnote-cite"><a id="footnote-cite-0"></a>0. <a href="#footnote-ref-0"> [0]</a> 책에서는 <em>Induction Hypothesis for n&apos;</em>의 줄임말로 IHn&apos;이라고 명명했습니다.</div></p></div><script>/*<![CDATA[*/
+</code><button class="copy-fenced-code" onclick="copy_code_to_clipboard(6)">Copy</button></pre><p>위의 증명에서 <code class="inline-code-span">simpl</code>을 전부 제거해도 증명이 됩니다. <code class="inline-code-span">simpl</code>하고 <code class="inline-code-span">reflexivity</code>가 정확히 어떻게 동작하는지 잘 모르겠네요.</p><hr/><div class="align-center"><p><a href="index.html">메인으로 돌아가기</a></p></div><div class="align-left"><p>&lt;&lt; <a href="Chap1-3.html">Chap1-3. Proofs</a></p></div><div class="align-right"><p><a href="Chap2-2.html">Chap2-2. Proofs within proofs</a> &gt;&gt;</p></div><hr class="footnote-hr"/><div class="mdxt-footnote-cites"><p><div class="footnote-cite"><a id="footnote-cite-0"></a><a href="#footnote-ref-0"> [0]</a> 책에서는 <em>Induction Hypothesis for n&apos;</em>의 줄임말로 IHn&apos;이라고 명명했습니다.</div></p></div><script>/*<![CDATA[*/
 const fenced_code_block_contents = ["Theorem add_0_r_firsttry : forall n: nat,\n  n + 0 = n.", "Theorem add_0_r : forall n: nat, n + 0 = n.\nProof.\n  intros n.\n  induction n as [ | n' IHn'].\n  - (*{- n = 0 -}*)\n    reflexivity.\n  - (*{- n = S n' -}*)\n    simpl.\n    rewrite -> IHn'.\n    reflexivity.\n  Qed.", "Theorem mul_0_r : forall n: nat,\n  n * 0 = 0.\nProof.\n  intros n.\n  induction n as [ | n' IHn'].\n  - (*{- n = 0 -}*)\n    reflexivity.\n  - (*{- n = S n' -}*)\n    simpl.\n    rewrite -> IHn'.\n    reflexivity.\n  Qed.", "Theorem plus_n_Sm : forall n m : nat,\n  S (n + m) = n + (S m).\nProof.\n  intros n m.\n  induction n as [ | n' IHn'].\n  - (*{- n = 0 -}*)\n    rewrite -> add_0.\n    rewrite -> add_0.\n    reflexivity.\n  - (*{- n = S n' -}*)\n    simpl.\n    rewrite IHn'.\n    reflexivity.\n  Qed.", "Theorem add_comm : forall n m : nat,\n  n + m = m + n.\nProof.\n  intros n m.\n  induction n as [ |n' IHn'].\n  - (*{- n = 0 -}*)\n    rewrite -> add_0.\n    rewrite -> add_0_r.\n    reflexivity.\n  - (*{- n = S n' -}*)\n    simpl.\n    rewrite IHn'.\n    rewrite plus_n_Sm.\n    reflexivity.\n  Qed.", "Theorem add_assoc : forall n m p : nat,\n  n + (m + p) = (n + m) + p.\nProof.\n  intros n m p.\n  rewrite add_comm.\n  induction n as [ |n' IHn'].\n  - (*{- n = 0 -}*)\n    rewrite add_0.\n    rewrite add_0_r.\n    reflexivity.\n  - (*{- n = S n' -}*)\n    rewrite <- plus_n_Sm.\n    rewrite IHn'.\n    reflexivity.\nQed.", "Theorem eqb_refl : forall n : nat,\n  (n =? n) = true.\nProof.\n  intros n.\n  induction n as [ |n' IHn'].\n  - (*{- n = 0 -}*)\n    simpl.\n    reflexivity.\n  - (*{- n = S n' -}*)\n    rewrite <- IHn'.\n    simpl.\n    reflexivity.\n  Qed."];
 
 function copy_code_to_clipboard(index) {
@@ -198,7 +199,7 @@ function copy_code_to_clipboard(index) {
 
 
     <footer class="markdown">
-<p><br/></p><p><br/></p><hr/><div class="align-center"><p>2021 ~ 2022 (c) Baehyunsol</p></div>
+<p><br/></p><p><br/></p><hr/><div class="align-center"><p>2021 ~ 2023 &copy; Baehyunsol</p></div>
     </footer>
 
 
@@ -206,6 +207,10 @@ function copy_code_to_clipboard(index) {
 
     
     <script src="nav.js"></script>
+    
+    
+    
+    <script src="header.js"></script>
     
 <script src="collapsible_tables.js"></script></body>
 

@@ -6,9 +6,10 @@
     
     <title>Chap5-3</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding&amp;display=swap" rel="stylesheet"/> 
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding&amp;display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'"/>
+    <!--<link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding&amp;display=swap" rel="stylesheet"/> -->
     
-    <link href="page.css" rel="stylesheet"/><link href="markdown.css" rel="stylesheet"/><link href="nav.css" rel="stylesheet"/><link href="header.css" rel="stylesheet"/><link href="footer.css" rel="stylesheet"/>
+    <link href="page.css" rel="stylesheet"/><link href="markdown.css" rel="stylesheet"/><link href="nav.css" rel="stylesheet"/><link href="header.css" rel="stylesheet"/>
     
 </head>
 
@@ -16,19 +17,19 @@
 
 
     <header>
-<p><a href="index.html">Home</a></p>
+<p><div class="topmenu deactivated"><a href="index.html">Home</a> <a href="index.html#index-by-chapter">단원별 목차</a> <a href="index.html#index-by-keyword">키워드 목차</a> <a href="Appendix.html">부록</a></div><div class="mobileview"><a id="navbutton">&#9776;</a></div></p>
     </header>
 
 
 
     <nav>
-<p><a id="settingsopenbutton">&#9728;</a><a href="#top">&#9650;</a><a href="#bottom">&#9660;</a></p><div id="settingsmenubg"><p><div id="settingsmenu"> <a id="settingsclosebutton">&#10006;</a> <a id="changethemebutton">Set Light Theme</a> <a id="loosepaddingbutton">&#8592; &#8594;</a> <a id="tightpaddingbutton">&#8594; &#8592;</a> </div></p></div>
+<p><a id="settingsopenbutton">&#9728;</a><a href="#top">&#9650;</a><a href="#bottom">&#9660;</a></p><div id="settingsmenubg"><p><div id="settingsmenu"> <a id="settingsclosebutton">&#10006;</a> <a id="changethemebutton">Set Light Theme</a> <a id="growhorizontalbutton">Grow Horizontally</a> <a id="shrinkhorizontalbutton">Shrink Horizontally</a> <a id="growfontbutton">Grow Font</a> <a id="shrinkfontbutton">Shrink Font</a> </div></p></div>
     </nav>
 
 
     <article class="markdown">
         <a id="top"></a>
-<table><thead id="table-collapse-toggle-0" class="collapsible collapsed" onclick="collapse_table('0')"><tr><th> Table of Contents </th></tr></thead><tbody id="collapsible-table-0" class="invisible"><tr><td><div class="toc"><ol type="1"><li><a href="#more-tactics">More tactics</a><ol type="1"><li><a href="#tactics-on-hypothesis">Tactics on Hypothesis</a></li><li><a href="#varying-the-induction-hypothesis">Varying the Induction Hypothesis</a></li><li><a href="#unfold">unfold</a></li><li><a href="#destruct-on-compound-expressions">destruct on compound expressions</a></li></ol></li></ol></div></td></tr></tbody></table><h1 id="more-tactics">More tactics</h1><h2 id="tactics-on-hypothesis">Tactics on Hypothesis</h2><p><a id="keywordin"></a></p><p>Context 안에 있는 가정들을 대상으로 tactic을 사용하려면 어떻게 해야할까요? Context 안에 <code class="inline-code-span">H: m = n</code>가 있는데 저걸 <code class="inline-code-span">H: n = m</code>으로 바꾸려면 어떻게 해야할까요? <code class="inline-code-span">in</code>이라는 키워드를 쓰면 됩니다. 아래의 예시를 보겠습니다.</p><pre class="fenced-code-block line-num-width-1"><code><span class="code-fence-row"><span class="code-fence-index">1</span><span class="code-fence-code"><span class="color-gold">Theorem</span><span class="color-white"> ridiculous </span><span class="color-white">:</span><span class="color-white"> forall (n m p q </span><span class="color-white">:</span><span class="color-white"> nat)</span><span class="color-white">,</span>
+<table><thead id="table-collapse-toggle-0" class="collapsible collapsed" onclick="collapse_table('0')"><tr><th>목차</th></tr></thead><tbody id="collapsible-table-0" class="invisible"><tr><td><div class="toc"><ol type="1"><li><a href="#more-tactics">More tactics</a><ol type="1"><li><a href="#tactics-on-hypothesis">Tactics on Hypothesis</a></li><li><a href="#varying-the-induction-hypothesis">Varying the Induction Hypothesis</a></li><li><a href="#unfold">unfold</a></li><li><a href="#destruct-on-compound-expressions">destruct on compound expressions</a></li></ol></li></ol></div></td></tr></tbody></table><h1 id="more-tactics">More tactics</h1><h2 id="tactics-on-hypothesis">Tactics on Hypothesis</h2><p><a id="keywordin"></a></p><p>Context 안에 있는 가정들을 대상으로 tactic을 사용하려면 어떻게 해야할까요? Context 안에 <code class="inline-code-span">H: m = n</code>가 있는데 저걸 <code class="inline-code-span">H: n = m</code>으로 바꾸려면 어떻게 해야할까요? <code class="inline-code-span">in</code>이라는 키워드를 쓰면 됩니다. 아래의 예시를 보겠습니다.</p><pre class="fenced-code-block line-num-width-1"><code><span class="code-fence-row"><span class="code-fence-index">1</span><span class="code-fence-code"><span class="color-gold">Theorem</span><span class="color-white"> ridiculous </span><span class="color-white">:</span><span class="color-white"> forall (n m p q </span><span class="color-white">:</span><span class="color-white"> nat)</span><span class="color-white">,</span>
 </span></span>
 <span class="code-fence-row"><span class="code-fence-index">2</span><span class="code-fence-code"><span class="color-white">  (n </span><span class="color-white">=</span><span class="color-white"> m </span><span class="color-white">-&gt;</span><span class="color-white"> p </span><span class="color-white">=</span><span class="color-white"> q) </span><span class="color-white">-&gt;</span>
 </span></span>
@@ -138,7 +139,7 @@
 <span class="code-fence-row"><span class="code-fence-index">12</span><span class="code-fence-code"><span class="color-white">      reflexivity</span><span class="color-white">.</span>
 </span></span>
 <span class="code-fence-row"><span class="code-fence-index">13</span><span class="code-fence-code">  <span class="color-gold">Qed</span><span class="color-white">.</span></span></span>
-</code><button class="copy-fenced-code" onclick="copy_code_to_clipboard(5)">Copy</button></pre><p>위의 식은 <code class="inline-code-span">n</code>에다가 3을 대입하는게 아니고 <code class="inline-code-span">n =? 3</code>에다가 <code class="inline-code-span">true</code>를 대입합니다. 그러면 if문이 통째로 날아가서 <code class="inline-code-span">false</code>와 <code class="inline-code-span">if n =? 5 then ...</code>으로 쪼개집니다. 그렇게되면 저희가 증명하려는 식도 <code class="inline-code-span">false = false</code>의 형태가 되어서 <code class="inline-code-span">reflexivity</code>만으로 증명이 가능해집니다.</p><hr/><div class="align-center"><p><a href="index.html">메인으로 돌아가기</a></p></div><div class="align-left"><p>&lt;&lt; <a href="Chap5-2.html">Chap5-2. Injective and Disjoint</a></p></div><div class="align-right"><p><a href="Chap6-1.html">Chap6-1. Conjunction and Disjunction</a> &gt;&gt;</p></div><hr class="footnote-hr"/><div class="mdxt-footnote-cites"><p><div class="footnote-cite"><a id="footnote-cite-0"></a>0. <a href="#footnote-ref-0"> [0]</a> 제 개인적인 의견입니다.</div></p></div><script>/*<![CDATA[*/
+</code><button class="copy-fenced-code" onclick="copy_code_to_clipboard(5)">Copy</button></pre><p>위의 식은 <code class="inline-code-span">n</code>에다가 3을 대입하는게 아니고 <code class="inline-code-span">n =? 3</code>에다가 <code class="inline-code-span">true</code>를 대입합니다. 그러면 if문이 통째로 날아가서 <code class="inline-code-span">false</code>와 <code class="inline-code-span">if n =? 5 then ...</code>으로 쪼개집니다. 그렇게되면 저희가 증명하려는 식도 <code class="inline-code-span">false = false</code>의 형태가 되어서 <code class="inline-code-span">reflexivity</code>만으로 증명이 가능해집니다.</p><hr/><div class="align-center"><p><a href="index.html">메인으로 돌아가기</a></p></div><div class="align-left"><p>&lt;&lt; <a href="Chap5-2.html">Chap5-2. Injective and Disjoint</a></p></div><div class="align-right"><p><a href="Chap6-1.html">Chap6-1. Conjunction and Disjunction</a> &gt;&gt;</p></div><hr class="footnote-hr"/><div class="mdxt-footnote-cites"><p><div class="footnote-cite"><a id="footnote-cite-0"></a><a href="#footnote-ref-0"> [0]</a> 제 개인적인 의견입니다.</div></p></div><script>/*<![CDATA[*/
 const fenced_code_block_contents = ["Theorem ridiculous : forall (n m p q : nat),\n  (n = m -> p = q) ->\n  m = n ->\n  q = p.\nProof.\n  intros n m p q EQ H.\n  symmetry in H.\n  apply EQ in H.\n  symmetry in H.\n  apply H.\n  Qed.", "Theorem double_injective : forall n m,\n  double n = double m -> n = m.", "Proof.\n  intros n m.\n  generalize dependent n.\n  induction m as [ | m' IHm'].\n  - (*{- m = 0 -}*)\n    intros n eq.\n    induction n as [ | n' IHn'].\n    + (*{- n = 0 -}*)\n      reflexivity.\n    + (*{- n = S n' -}*)\n      discriminate eq.\n  - (*{- m = S m' -}*)\n    intros n eq.\n    induction n as [ | n' IHn'].\n    + (*{- n = 0 -}*)\n      discriminate eq.\n    + (*{- n = S n' -}*)\n      injection eq.\n      intros H.\n      apply IHm' in H.\n      rewrite H.\n      reflexivity.\n  Qed.", "Definition square (n : nat) := n * n.\n\nTheorem square_mult : forall (n m : nat), square (n * m) = square n * square m.", "Definition compound_false (n : nat) : bool :=\n  if n =? 3 then false\n  else if n =? 5 then false\n  else false.\n\nTheorem compound_false_false : forall (n : nat), compound_false n = false.", "Proof.\n  intros n.\n  unfold compound_false.\n  destruct (n =? 3).\n  - (*{- n =? 3 = true -}*)\n    reflexivity.\n  - (*{- n =? 3 = false -}*)\n    destruct (n =? 5).\n    + (*{- n =? 5 = true -}*)\n      reflexivity.\n    + (*{- n =? 5 = false -}*)\n      reflexivity.\n  Qed."];
 
 function copy_code_to_clipboard(index) {
@@ -151,7 +152,7 @@ function copy_code_to_clipboard(index) {
 
 
     <footer class="markdown">
-<p><br/></p><p><br/></p><hr/><div class="align-center"><p>2021 ~ 2022 (c) Baehyunsol</p></div>
+<p><br/></p><p><br/></p><hr/><div class="align-center"><p>2021 ~ 2023 &copy; Baehyunsol</p></div>
     </footer>
 
 
@@ -159,6 +160,10 @@ function copy_code_to_clipboard(index) {
 
     
     <script src="nav.js"></script>
+    
+    
+    
+    <script src="header.js"></script>
     
 <script src="collapsible_tables.js"></script></body>
 

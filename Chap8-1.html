@@ -6,9 +6,10 @@
     
     <title>Chap8-1</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding&amp;display=swap" rel="stylesheet"/> 
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding&amp;display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'"/>
+    <!--<link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding&amp;display=swap" rel="stylesheet"/> -->
     
-    <link href="page.css" rel="stylesheet"/><link href="markdown.css" rel="stylesheet"/><link href="nav.css" rel="stylesheet"/><link href="header.css" rel="stylesheet"/><link href="footer.css" rel="stylesheet"/>
+    <link href="page.css" rel="stylesheet"/><link href="markdown.css" rel="stylesheet"/><link href="nav.css" rel="stylesheet"/><link href="header.css" rel="stylesheet"/>
     
 </head>
 
@@ -16,19 +17,19 @@
 
 
     <header>
-<p><a href="index.html">Home</a></p>
+<p><div class="topmenu deactivated"><a href="index.html">Home</a> <a href="index.html#index-by-chapter">단원별 목차</a> <a href="index.html#index-by-keyword">키워드 목차</a> <a href="Appendix.html">부록</a></div><div class="mobileview"><a id="navbutton">&#9776;</a></div></p>
     </header>
 
 
 
     <nav>
-<p><a id="settingsopenbutton">&#9728;</a><a href="#top">&#9650;</a><a href="#bottom">&#9660;</a></p><div id="settingsmenubg"><p><div id="settingsmenu"> <a id="settingsclosebutton">&#10006;</a> <a id="changethemebutton">Set Light Theme</a> <a id="loosepaddingbutton">&#8592; &#8594;</a> <a id="tightpaddingbutton">&#8594; &#8592;</a> </div></p></div>
+<p><a id="settingsopenbutton">&#9728;</a><a href="#top">&#9650;</a><a href="#bottom">&#9660;</a></p><div id="settingsmenubg"><p><div id="settingsmenu"> <a id="settingsclosebutton">&#10006;</a> <a id="changethemebutton">Set Light Theme</a> <a id="growhorizontalbutton">Grow Horizontally</a> <a id="shrinkhorizontalbutton">Shrink Horizontally</a> <a id="growfontbutton">Grow Font</a> <a id="shrinkfontbutton">Shrink Font</a> </div></p></div>
     </nav>
 
 
     <article class="markdown">
         <a id="top"></a>
-<table><thead id="table-collapse-toggle-0" class="collapsible collapsed" onclick="collapse_table('0')"><tr><th> Table of Contents </th></tr></thead><tbody id="collapsible-table-0" class="invisible"><tr><td><div class="toc"><ol type="1"><li><a href="#total-maps">Total Maps</a><ol type="1"><li><a href="#string">string</a></li><li><a href="#구현">구현</a></li></ol></li></ol></div></td></tr></tbody></table><h1 id="total-maps">Total Maps</h1><p><a href="Chap3-4.html">예전</a>에 map을 구현했습니다. 그때는 아직 Coq을 잘 모를 때라 아주 간단하게 구현하고 넘어갔는데, 이젠 좀 더 제대로 구현해보겠습니다.</p><p>이번 단원에선 total map과 partial map을 구현할 건데 그 중 total map을 먼저 구현하겠습니다. 둘의 차이는 map에 없는 원소를 찾으려고 할 때의 결과입니다. total map은 존재하지 않는 원소를 찾으려고 하면 처음에 지정된 기본값을 반환하지만, partial map은 <code class="inline-code-span">None</code>을 반환합니다.</p><p>Rust로 비유하자면 <code class="inline-code-span">TotalMap::get(k: K) -&gt; V</code>, <code class="inline-code-span">PartialMap::get(k: K) -&gt; Option&lt;V&gt;</code>입니다.</p><div class="box"><p><span class="size-giant"> imports </span></p><p>책에선 지금까지 Coq Standard Library를 사용하지 않고 설명을 했습니다. 만약 자연수 대소비교가 필요하다면 이전 단원에서 정의했던 함수를 사용하는 방식으로요. 그래서 저도 import와 관련된 언급을 하지 않고 진행했습니다. 하지만 이제부터는 std lib에서 import를 해서 진행을 한다네요. 여기서부터는 이 문서의 코드들을 실행시킬 때 아래의 library들을 import하고 진행하시면 됩니다!</p><pre class="fenced-code-block line-num-width-0"><code><span class="code-fence-row"><span class="code-fence-index">1</span><span class="code-fence-code"><span class="color-gold">From</span> <span class="color-gold">Coq</span> <span class="color-gold">Require</span> <span class="color-gold">Import</span> <span class="color-gold">Arith</span><span class="color-white">.</span><span class="color-gold">Arith</span><span class="color-white">.</span>
+<table><thead id="table-collapse-toggle-0" class="collapsible collapsed" onclick="collapse_table('0')"><tr><th>목차</th></tr></thead><tbody id="collapsible-table-0" class="invisible"><tr><td><div class="toc"><ol type="1"><li><a href="#total-maps">Total Maps</a><ol type="1"><li><a href="#string">string</a></li><li><a href="#구현">구현</a></li></ol></li></ol></div></td></tr></tbody></table><h1 id="total-maps">Total Maps</h1><p><a href="Chap3-4.html">예전</a>에 map을 구현했습니다. 그때는 아직 Coq을 잘 모를 때라 아주 간단하게 구현하고 넘어갔는데, 이젠 좀 더 제대로 구현해보겠습니다.</p><p>이번 단원에선 total map과 partial map을 구현할 건데 그 중 total map을 먼저 구현하겠습니다. 둘의 차이는 map에 없는 원소를 찾으려고 할 때의 결과입니다. total map은 존재하지 않는 원소를 찾으려고 하면 처음에 지정된 기본값을 반환하지만, partial map은 <code class="inline-code-span">None</code>을 반환합니다.</p><p>Rust로 비유하자면 <code class="inline-code-span">TotalMap::get(k: K) -&gt; V</code>, <code class="inline-code-span">PartialMap::get(k: K) -&gt; Option&lt;V&gt;</code>입니다.</p><div class="box"><p><span class="size-giant"> imports </span></p><p>책에선 지금까지 Coq Standard Library를 사용하지 않고 설명을 했습니다. 만약 자연수 대소비교가 필요하다면 이전 단원에서 정의했던 함수를 사용하는 방식으로요. 그래서 저도 import와 관련된 언급을 하지 않고 진행했습니다. 하지만 이제부터는 std lib에서 import를 해서 진행을 한다네요. 여기서부터는 이 문서의 코드들을 실행시킬 때 아래의 library들을 import하고 진행하시면 됩니다!</p><pre class="fenced-code-block line-num-width-0"><code><span class="code-fence-row"><span class="code-fence-index">1</span><span class="code-fence-code"><span class="color-gold">From</span> <span class="color-gold">Coq</span> <span class="color-gold">Require</span> <span class="color-gold">Import</span> <span class="color-gold">Arith</span><span class="color-white">.</span><span class="color-gold">Arith</span><span class="color-white">.</span>
 </span></span>
 <span class="code-fence-row"><span class="code-fence-index">2</span><span class="code-fence-code"><span class="color-gold">From</span> <span class="color-gold">Coq</span> <span class="color-gold">Require</span> <span class="color-gold">Import</span> <span class="color-gold">Bool</span><span class="color-white">.</span><span class="color-gold">Bool</span><span class="color-white">.</span>
 </span></span>
@@ -162,7 +163,7 @@ function copy_code_to_clipboard(index) {
 
 
     <footer class="markdown">
-<p><br/></p><p><br/></p><hr/><div class="align-center"><p>2021 ~ 2022 (c) Baehyunsol</p></div>
+<p><br/></p><p><br/></p><hr/><div class="align-center"><p>2021 ~ 2023 &copy; Baehyunsol</p></div>
     </footer>
 
 
@@ -170,6 +171,10 @@ function copy_code_to_clipboard(index) {
 
     
     <script src="nav.js"></script>
+    
+    
+    
+    <script src="header.js"></script>
     
 <script src="collapsible_tables.js"></script></body>
 

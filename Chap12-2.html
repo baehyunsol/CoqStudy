@@ -6,9 +6,10 @@
     
     <title>Chap12-2</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding&amp;display=swap" rel="stylesheet"/> 
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding&amp;display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'"/>
+    <!--<link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding&amp;display=swap" rel="stylesheet"/> -->
     
-    <link href="page.css" rel="stylesheet"/><link href="markdown.css" rel="stylesheet"/><link href="nav.css" rel="stylesheet"/><link href="header.css" rel="stylesheet"/><link href="footer.css" rel="stylesheet"/>
+    <link href="page.css" rel="stylesheet"/><link href="markdown.css" rel="stylesheet"/><link href="nav.css" rel="stylesheet"/><link href="header.css" rel="stylesheet"/>
     
 </head>
 
@@ -16,19 +17,19 @@
 
 
     <header>
-<p><a href="index.html">Home</a></p>
+<p><div class="topmenu deactivated"><a href="index.html">Home</a> <a href="index.html#index-by-chapter">단원별 목차</a> <a href="index.html#index-by-keyword">키워드 목차</a> <a href="Appendix.html">부록</a></div><div class="mobileview"><a id="navbutton">&#9776;</a></div></p>
     </header>
 
 
 
     <nav>
-<p><a id="settingsopenbutton">&#9728;</a><a href="#top">&#9650;</a><a href="#bottom">&#9660;</a></p><div id="settingsmenubg"><p><div id="settingsmenu"> <a id="settingsclosebutton">&#10006;</a> <a id="changethemebutton">Set Light Theme</a> <a id="loosepaddingbutton">&#8592; &#8594;</a> <a id="tightpaddingbutton">&#8594; &#8592;</a> </div></p></div>
+<p><a id="settingsopenbutton">&#9728;</a><a href="#top">&#9650;</a><a href="#bottom">&#9660;</a></p><div id="settingsmenubg"><p><div id="settingsmenu"> <a id="settingsclosebutton">&#10006;</a> <a id="changethemebutton">Set Light Theme</a> <a id="growhorizontalbutton">Grow Horizontally</a> <a id="shrinkhorizontalbutton">Shrink Horizontally</a> <a id="growfontbutton">Grow Font</a> <a id="shrinkfontbutton">Shrink Font</a> </div></p></div>
     </nav>
 
 
     <article class="markdown">
         <a id="top"></a>
-<table><thead id="table-collapse-toggle-0" class="collapsible collapsed" onclick="collapse_table('0')"><tr><th> Table of Contents </th></tr></thead><tbody id="collapsible-table-0" class="invisible"><tr><td><div class="toc"><ol type="1"><li><a href="#coq-automation">Coq Automation</a><ol type="1"><li><a href="#try">try</a></li><li><a href="#-tactical">; tactical</a></li></ol></li></ol></div></td></tr></tbody></table><h1 id="coq-automation">Coq Automation</h1><p>이번 장에서는 Coq의 증명 노가다를 도와줄 tactic들을 소개합니다. 이번에 소개할 tactic들은 tactic에 쓰는 tactic입니다. 책의 표현을 빌리자면 higher-order tactic이죠.</p><h2 id="try">try</h2><p><a id="keywordtry"></a></p><p>원래 Coq에서 tactic이 실패를 하면 (ex. 똑같지 않은데 <code class="inline-code-span">reflexivity</code>를 쓰면) 증명 전체가 실패합니다. 하지만 <code class="inline-code-span">try</code> 뒤에 있는 tactic은 실패를 하더라도 아무 영향이 없습니다. 즉,</p><ul><li><code class="inline-code-span">try</code> 뒤의 tactic이 성공하면<ul><li>그 tactic이 context에 반영됩니다.</li></ul></li><li><code class="inline-code-span">try</code>뒤의 tactic이 실패하면<ul><li>그 tactic을 통째로 무시하고 다음으로 넘어갑니다.</li></ul></li></ul><p>얼핏 보면 저런게 왜 필요한가 싶습니다. 실패하는 tactic은 애초에 안 쓸텐데 말이죠... 손으로 증명을 할 때는 그렇습니다. 하지만 증명 자체를 자동화하는 경우에는 다릅니다. 증명을 위한 스크립트를 쓰면 실패하는 tactic이 섞여 있을 수도 있습니다. 이따가 예시와 함께 설명하겠습니다.</p><h2 id="-tactical">; tactical</h2><p><a id="keywordsemicolon"></a></p><p><code class="inline-code-span">destruct</code>나 <code class="inline-code-span">induction</code> 등등을 사용하면 여러 subgoal이 생깁니다. subgoal의 개수가 많은데 각 subgoal에 동일한 tactic을 적용하고 싶으면 어떻게 할까요? 아래의 예시를 보겠습니다.</p><pre class="fenced-code-block line-num-width-1"><code><span class="code-fence-row"><span class="code-fence-index">1</span><span class="code-fence-code"><span class="color-gold">Lemma</span><span class="color-white"> foo </span><span class="color-white">:</span><span class="color-white"> forall n</span><span class="color-white">,</span> <span class="color-gold">0</span> <span class="color-white">&lt;=?</span><span class="color-white"> n </span><span class="color-white">=</span><span class="color-white"> true</span><span class="color-white">.</span>
+<table><thead id="table-collapse-toggle-0" class="collapsible collapsed" onclick="collapse_table('0')"><tr><th>목차</th></tr></thead><tbody id="collapsible-table-0" class="invisible"><tr><td><div class="toc"><ol type="1"><li><a href="#coq-automation">Coq Automation</a><ol type="1"><li><a href="#try">try</a></li><li><a href="#-tactical">; tactical</a></li></ol></li></ol></div></td></tr></tbody></table><h1 id="coq-automation">Coq Automation</h1><p>이번 장에서는 Coq의 증명 노가다를 도와줄 tactic들을 소개합니다. 이번에 소개할 tactic들은 tactic에 쓰는 tactic입니다. 책의 표현을 빌리자면 higher-order tactic이죠.</p><h2 id="try">try</h2><p><a id="keywordtry"></a></p><p>원래 Coq에서 tactic이 실패를 하면 (ex. 똑같지 않은데 <code class="inline-code-span">reflexivity</code>를 쓰면) 증명 전체가 실패합니다. 하지만 <code class="inline-code-span">try</code> 뒤에 있는 tactic은 실패를 하더라도 아무 영향이 없습니다. 즉,</p><ul><li><code class="inline-code-span">try</code> 뒤의 tactic이 성공하면<ul><li>그 tactic이 context에 반영됩니다.</li></ul></li><li><code class="inline-code-span">try</code>뒤의 tactic이 실패하면<ul><li>그 tactic을 통째로 무시하고 다음으로 넘어갑니다.</li></ul></li></ul><p>얼핏 보면 저런게 왜 필요한가 싶습니다. 실패하는 tactic은 애초에 안 쓸텐데 말이죠... 손으로 증명을 할 때는 그렇습니다. 하지만 증명 자체를 자동화하는 경우에는 다릅니다. 증명을 위한 스크립트를 쓰면 실패하는 tactic이 섞여 있을 수도 있습니다. 이따가 예시와 함께 설명하겠습니다.</p><h2 id="-tactical">; tactical</h2><p><a id="keywordsemicolon"></a></p><p><code class="inline-code-span">destruct</code>나 <code class="inline-code-span">induction</code> 등등을 사용하면 여러 subgoal이 생깁니다. subgoal의 개수가 많은데 각 subgoal에 동일한 tactic을 적용하고 싶으면 어떻게 할까요? 아래의 예시를 보겠습니다.</p><pre class="fenced-code-block line-num-width-1"><code><span class="code-fence-row"><span class="code-fence-index">1</span><span class="code-fence-code"><span class="color-gold">Lemma</span><span class="color-white"> foo </span><span class="color-white">:</span><span class="color-white"> forall n</span><span class="color-white">,</span> <span class="color-gold">0</span> <span class="color-white">&lt;=?</span><span class="color-white"> n </span><span class="color-white">=</span><span class="color-white"> true</span><span class="color-white">.</span>
 </span></span>
 <span class="code-fence-row"><span class="code-fence-index">2</span><span class="code-fence-code"><span class="color-gold">Proof</span><span class="color-white">.</span>
 </span></span>
@@ -75,7 +76,7 @@ function copy_code_to_clipboard(index) {
 
 
     <footer class="markdown">
-<p><br/></p><p><br/></p><hr/><div class="align-center"><p>2021 ~ 2022 (c) Baehyunsol</p></div>
+<p><br/></p><p><br/></p><hr/><div class="align-center"><p>2021 ~ 2023 &copy; Baehyunsol</p></div>
     </footer>
 
 
@@ -83,6 +84,10 @@ function copy_code_to_clipboard(index) {
 
     
     <script src="nav.js"></script>
+    
+    
+    
+    <script src="header.js"></script>
     
 <script src="collapsible_tables.js"></script></body>
 

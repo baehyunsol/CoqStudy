@@ -6,9 +6,10 @@
     
     <title>Chap5-2</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding&amp;display=swap" rel="stylesheet"/> 
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding&amp;display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'"/>
+    <!--<link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding&amp;display=swap" rel="stylesheet"/> -->
     
-    <link href="page.css" rel="stylesheet"/><link href="markdown.css" rel="stylesheet"/><link href="nav.css" rel="stylesheet"/><link href="header.css" rel="stylesheet"/><link href="footer.css" rel="stylesheet"/>
+    <link href="page.css" rel="stylesheet"/><link href="markdown.css" rel="stylesheet"/><link href="nav.css" rel="stylesheet"/><link href="header.css" rel="stylesheet"/>
     
 </head>
 
@@ -16,19 +17,19 @@
 
 
     <header>
-<p><a href="index.html">Home</a></p>
+<p><div class="topmenu deactivated"><a href="index.html">Home</a> <a href="index.html#index-by-chapter">단원별 목차</a> <a href="index.html#index-by-keyword">키워드 목차</a> <a href="Appendix.html">부록</a></div><div class="mobileview"><a id="navbutton">&#9776;</a></div></p>
     </header>
 
 
 
     <nav>
-<p><a id="settingsopenbutton">&#9728;</a><a href="#top">&#9650;</a><a href="#bottom">&#9660;</a></p><div id="settingsmenubg"><p><div id="settingsmenu"> <a id="settingsclosebutton">&#10006;</a> <a id="changethemebutton">Set Light Theme</a> <a id="loosepaddingbutton">&#8592; &#8594;</a> <a id="tightpaddingbutton">&#8594; &#8592;</a> </div></p></div>
+<p><a id="settingsopenbutton">&#9728;</a><a href="#top">&#9650;</a><a href="#bottom">&#9660;</a></p><div id="settingsmenubg"><p><div id="settingsmenu"> <a id="settingsclosebutton">&#10006;</a> <a id="changethemebutton">Set Light Theme</a> <a id="growhorizontalbutton">Grow Horizontally</a> <a id="shrinkhorizontalbutton">Shrink Horizontally</a> <a id="growfontbutton">Grow Font</a> <a id="shrinkfontbutton">Shrink Font</a> </div></p></div>
     </nav>
 
 
     <article class="markdown">
         <a id="top"></a>
-<table><thead id="table-collapse-toggle-0" class="collapsible collapsed" onclick="collapse_table('0')"><tr><th> Table of Contents </th></tr></thead><tbody id="collapsible-table-0" class="invisible"><tr><td><div class="toc"><ol type="1"><li><a href="#injective-and-disjoint">Injective and Disjoint</a><ol type="1"><li><a href="#injection">injection</a></li><li><a href="#discriminate">discriminate</a></li><li><a href="#f_equal">f_equal</a></li></ol></li></ol></div></td></tr></tbody></table><h1 id="injective-and-disjoint">Injective and Disjoint</h1><p>자연수의 정의를 다시 떠올려볼까요?</p><pre class="fenced-code-block line-num-width-0"><code><span class="code-fence-row"><span class="code-fence-index">1</span><span class="code-fence-code"><span class="color-gold">Inductive</span><span class="color-white"> nat </span><span class="color-white">:</span> <span class="color-gold">Type</span> <span class="color-white">:=</span>
+<table><thead id="table-collapse-toggle-0" class="collapsible collapsed" onclick="collapse_table('0')"><tr><th>목차</th></tr></thead><tbody id="collapsible-table-0" class="invisible"><tr><td><div class="toc"><ol type="1"><li><a href="#injective-and-disjoint">Injective and Disjoint</a><ol type="1"><li><a href="#injection">injection</a></li><li><a href="#discriminate">discriminate</a></li><li><a href="#f_equal">f_equal</a></li></ol></li></ol></div></td></tr></tbody></table><h1 id="injective-and-disjoint">Injective and Disjoint</h1><p>자연수의 정의를 다시 떠올려볼까요?</p><pre class="fenced-code-block line-num-width-0"><code><span class="code-fence-row"><span class="code-fence-index">1</span><span class="code-fence-code"><span class="color-gold">Inductive</span><span class="color-white"> nat </span><span class="color-white">:</span> <span class="color-gold">Type</span> <span class="color-white">:=</span>
 </span></span>
 <span class="code-fence-row"><span class="code-fence-index">2</span><span class="code-fence-code">  <span class="color-white">|</span> <span class="color-gold">O</span>
 </span></span>
@@ -118,7 +119,7 @@
 <span class="code-fence-row"><span class="code-fence-index">11</span><span class="code-fence-code"><span class="color-white">  apply </span><span class="color-gold">H</span><span class="color-white">.</span>
 </span></span>
 <span class="code-fence-row"><span class="code-fence-index">12</span><span class="code-fence-code">  <span class="color-gold">Qed</span><span class="color-white">.</span></span></span>
-</code><button class="copy-fenced-code" onclick="copy_code_to_clipboard(5)">Copy</button></pre><p>원소 3개짜리 list여서 <code class="inline-code-span">f_equal</code>을 총 3번 사용했습니다. <code class="inline-code-span">[n;n;n] = [m;m;m]</code>에 <code class="inline-code-span">f_equal</code>을 쓰면 <code class="inline-code-span">[n;n] = [m;m]</code>과 <code class="inline-code-span">n = m</code>으로 분리됩니다. 이런 식으로 <code class="inline-code-span">f_equal</code>을 한번 쓸 때마다 원소를 하나씩 분리할 수 있습니다.</p><hr/><div class="align-center"><p><a href="index.html">메인으로 돌아가기</a></p></div><div class="align-left"><p>&lt;&lt; <a href="Chap5-1.html">Chap5-1. Apply</a></p></div><div class="align-right"><p><a href="Chap5-3.html">Chap5-3. More tactics</a> &gt;&gt;</p></div><hr class="footnote-hr"/><div class="mdxt-footnote-cites"><p><div class="footnote-cite"><a id="footnote-cite-0"></a>0. <a href="#footnote-ref-0"> [0]</a> 한국말로는 단사라고 합니다. 글에선 그냥 영어로 쓰겠습니다.</div><div class="footnote-cite"><a id="footnote-cite-1"></a>1. <a href="#footnote-ref-1"> [1]</a> 한국말로 뭐라고 하는지 기억이 안 나네요. 글에선 그냥 영어로 쓰겠습니다.</div></p></div><script>/*<![CDATA[*/
+</code><button class="copy-fenced-code" onclick="copy_code_to_clipboard(5)">Copy</button></pre><p>원소 3개짜리 list여서 <code class="inline-code-span">f_equal</code>을 총 3번 사용했습니다. <code class="inline-code-span">[n;n;n] = [m;m;m]</code>에 <code class="inline-code-span">f_equal</code>을 쓰면 <code class="inline-code-span">[n;n] = [m;m]</code>과 <code class="inline-code-span">n = m</code>으로 분리됩니다. 이런 식으로 <code class="inline-code-span">f_equal</code>을 한번 쓸 때마다 원소를 하나씩 분리할 수 있습니다.</p><hr/><div class="align-center"><p><a href="index.html">메인으로 돌아가기</a></p></div><div class="align-left"><p>&lt;&lt; <a href="Chap5-1.html">Chap5-1. Apply</a></p></div><div class="align-right"><p><a href="Chap5-3.html">Chap5-3. More tactics</a> &gt;&gt;</p></div><hr class="footnote-hr"/><div class="mdxt-footnote-cites"><p><div class="footnote-cite"><a id="footnote-cite-0"></a><a href="#footnote-ref-0"> [0]</a> 한국말로는 단사라고 합니다. 글에선 그냥 영어로 쓰겠습니다.</div><div class="footnote-cite"><a id="footnote-cite-1"></a><a href="#footnote-ref-1"> [1]</a> 한국말로 뭐라고 하는지 기억이 안 나네요. 글에선 그냥 영어로 쓰겠습니다.</div></p></div><script>/*<![CDATA[*/
 const fenced_code_block_contents = ["Inductive nat : Type :=\n  | O\n  | S (n : nat).", "Theorem injection_ex1 : forall (n m o : nat),\n  [n;m] = [o;o] ->\n  n = m.\nProof.\n  intros n m o H.\n  injection H as H1 H2.\n  rewrite H1.\n  rewrite H2.\n  reflexivity.\nQed.", "Theorem injection_S : forall (n m : nat),\n  S n = S m ->\n  n = m.\nProof.\n  intros n m H.\n  injection H as Hnm.\n  apply Hnm.\n  Qed.", "Theorem discriminate_ex1 : forall (n m : nat),\n  false = true ->\n  n = m.\nProof.\n  intros n m contra.\n  discriminate contra.\n  Qed.", "Theorem injection_rev : forall (n m : nat),\n  n = m ->\n  S n = S m.\nProof.\n  intros n m H.\n  f_equal.\n  apply H.\n  Qed.", "Theorem injection_rev2 : forall (n m : nat),\n  n = m ->\n  [n;n;n] = [m;m;m].\nProof.\n  intros n m H.\n  f_equal.\n  apply H.\n  f_equal.\n  apply H.\n  f_equal.\n  apply H.\n  Qed."];
 
 function copy_code_to_clipboard(index) {
@@ -131,7 +132,7 @@ function copy_code_to_clipboard(index) {
 
 
     <footer class="markdown">
-<p><br/></p><p><br/></p><hr/><div class="align-center"><p>2021 ~ 2022 (c) Baehyunsol</p></div>
+<p><br/></p><p><br/></p><hr/><div class="align-center"><p>2021 ~ 2023 &copy; Baehyunsol</p></div>
     </footer>
 
 
@@ -139,6 +140,10 @@ function copy_code_to_clipboard(index) {
 
     
     <script src="nav.js"></script>
+    
+    
+    
+    <script src="header.js"></script>
     
 <script src="collapsible_tables.js"></script></body>
 

@@ -6,9 +6,10 @@
     
     <title>Chap7-3</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding&amp;display=swap" rel="stylesheet"/> 
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding&amp;display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'"/>
+    <!--<link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding&amp;display=swap" rel="stylesheet"/> -->
     
-    <link href="page.css" rel="stylesheet"/><link href="markdown.css" rel="stylesheet"/><link href="nav.css" rel="stylesheet"/><link href="header.css" rel="stylesheet"/><link href="footer.css" rel="stylesheet"/>
+    <link href="page.css" rel="stylesheet"/><link href="markdown.css" rel="stylesheet"/><link href="nav.css" rel="stylesheet"/><link href="header.css" rel="stylesheet"/>
     
 </head>
 
@@ -16,19 +17,19 @@
 
 
     <header>
-<p><a href="index.html">Home</a></p>
+<p><div class="topmenu deactivated"><a href="index.html">Home</a> <a href="index.html#index-by-chapter">단원별 목차</a> <a href="index.html#index-by-keyword">키워드 목차</a> <a href="Appendix.html">부록</a></div><div class="mobileview"><a id="navbutton">&#9776;</a></div></p>
     </header>
 
 
 
     <nav>
-<p><a id="settingsopenbutton">&#9728;</a><a href="#top">&#9650;</a><a href="#bottom">&#9660;</a></p><div id="settingsmenubg"><p><div id="settingsmenu"> <a id="settingsclosebutton">&#10006;</a> <a id="changethemebutton">Set Light Theme</a> <a id="loosepaddingbutton">&#8592; &#8594;</a> <a id="tightpaddingbutton">&#8594; &#8592;</a> </div></p></div>
+<p><a id="settingsopenbutton">&#9728;</a><a href="#top">&#9650;</a><a href="#bottom">&#9660;</a></p><div id="settingsmenubg"><p><div id="settingsmenu"> <a id="settingsclosebutton">&#10006;</a> <a id="changethemebutton">Set Light Theme</a> <a id="growhorizontalbutton">Grow Horizontally</a> <a id="shrinkhorizontalbutton">Shrink Horizontally</a> <a id="growfontbutton">Grow Font</a> <a id="shrinkfontbutton">Shrink Font</a> </div></p></div>
     </nav>
 
 
     <article class="markdown">
         <a id="top"></a>
-<table><thead id="table-collapse-toggle-0" class="collapsible collapsed" onclick="collapse_table('0')"><tr><th> Table of Contents </th></tr></thead><tbody id="collapsible-table-0" class="invisible"><tr><td><div class="toc"><ol type="1"><li><a href="#regular-expressions">Regular Expressions</a><ol type="1"><li><a href="#reg_exp">reg_exp</a></li><li><a href="#exp_match">exp_match</a></li><li><a href="#활용">활용</a><ol type="1"><li><a href="#간단한-정규식-대응">간단한 정규식 대응</a></li><li><a href="#emptyset">EmptySet</a></li><li><a href="#remember"><code class="inline-code-span">remember</code></a></li></ol></li></ol></li></ol></div></td></tr></tbody></table><h1 id="regular-expressions">Regular Expressions</h1><p>지금까지 봤던 <code class="inline-code-span">Inductive</code> 예제들은 너무 시시했습니다. <code class="inline-code-span">Fixpoint</code>로 정의한 <code class="inline-code-span">le</code>, <code class="inline-code-span">ev</code>와 큰 차이가 없었어요. 그래서 이번에는 <code class="inline-code-span">Inductive</code>를 이용해서 정규표현식을 정의해보겠습니다.</p><blockquote>정규표현식이 뭔지 모르시는 분들은 이 단원은 넘어가도 무방합니다. </blockquote><h2 id="reg_exp">reg_exp</h2><pre class="fenced-code-block line-num-width-1"><code><span class="code-fence-row"><span class="code-fence-index">1</span><span class="code-fence-code"><span class="color-gold">Inductive</span><span class="color-white"> reg_exp (</span><span class="color-gold">T</span> <span class="color-white">:</span> <span class="color-gold">Type</span><span class="color-white">) </span><span class="color-white">:</span> <span class="color-gold">Type</span> <span class="color-white">:=</span>
+<table><thead id="table-collapse-toggle-0" class="collapsible collapsed" onclick="collapse_table('0')"><tr><th>목차</th></tr></thead><tbody id="collapsible-table-0" class="invisible"><tr><td><div class="toc"><ol type="1"><li><a href="#regular-expressions">Regular Expressions</a><ol type="1"><li><a href="#reg_exp">reg_exp</a></li><li><a href="#exp_match">exp_match</a></li><li><a href="#활용">활용</a><ol type="1"><li><a href="#간단한-정규식-대응">간단한 정규식 대응</a></li><li><a href="#emptyset">EmptySet</a></li><li><a href="#remember"><code class="inline-code-span">remember</code></a></li></ol></li></ol></li></ol></div></td></tr></tbody></table><h1 id="regular-expressions">Regular Expressions</h1><p>지금까지 봤던 <code class="inline-code-span">Inductive</code> 예제들은 너무 시시했습니다. <code class="inline-code-span">Fixpoint</code>로 정의한 <code class="inline-code-span">le</code>, <code class="inline-code-span">ev</code>와 큰 차이가 없었어요. 그래서 이번에는 <code class="inline-code-span">Inductive</code>를 이용해서 정규표현식을 정의해보겠습니다.</p><blockquote>정규표현식이 뭔지 모르시는 분들은 이 단원은 넘어가도 무방합니다. </blockquote><h2 id="reg_exp">reg_exp</h2><pre class="fenced-code-block line-num-width-1"><code><span class="code-fence-row"><span class="code-fence-index">1</span><span class="code-fence-code"><span class="color-gold">Inductive</span><span class="color-white"> reg_exp (</span><span class="color-gold">T</span> <span class="color-white">:</span> <span class="color-gold">Type</span><span class="color-white">) </span><span class="color-white">:</span> <span class="color-gold">Type</span> <span class="color-white">:=</span>
 </span></span>
 <span class="code-fence-row"><span class="code-fence-index">2</span><span class="code-fence-code">  <span class="color-white">|</span> <span class="color-gold">EmptySet</span>
 </span></span>
@@ -261,7 +262,7 @@ function copy_code_to_clipboard(index) {
 
 
     <footer class="markdown">
-<p><br/></p><p><br/></p><hr/><div class="align-center"><p>2021 ~ 2022 (c) Baehyunsol</p></div>
+<p><br/></p><p><br/></p><hr/><div class="align-center"><p>2021 ~ 2023 &copy; Baehyunsol</p></div>
     </footer>
 
 
@@ -269,6 +270,10 @@ function copy_code_to_clipboard(index) {
 
     
     <script src="nav.js"></script>
+    
+    
+    
+    <script src="header.js"></script>
     
 <script src="collapsible_tables.js"></script></body>
 
