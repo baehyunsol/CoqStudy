@@ -83,9 +83,16 @@ Fixpoint is_even (n: nat) : bool :=
 
 ```haskell, line_num
 Example test_even1: is_even 2 = true.
-Proof. simpl. reflexivity. Qed.
+Proof.
+  simpl.
+  reflexivity.
+  Qed.
+
 Example test_even2: is_even 5 = false.
-Proof. simpl. reflexivity. Qed.
+Proof.
+  simpl.
+  reflexivity.
+  Qed.
 ```
 
 방금 만든 함수들이 제대로 동작하는지 검사하는 코드입니다.[^unittest] 저기서 나오는 키워드들이 무슨 뜻인지는 [다음 장](Chap1-3.html)에 자세히 설명돼 있습니다.

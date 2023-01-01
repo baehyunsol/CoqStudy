@@ -4,7 +4,7 @@
 
 작성자: 배현솔\
 최초 작성일: 2022.09.02\
-최근 업데이트: 2022.12.30
+최근 업데이트: 2023.01.02
 
 [[/right]]
 
@@ -130,6 +130,7 @@ Coq 언어 자습 문서입니다.
 - R[[anchor, id = index r]][[/anchor]]
   - reflexivity: [chap1-3](Chap1-3.html#keywordreflexivity)
   - remember: [chap7-3](Chap7-3.html#keywordremember)
+  - repeat: [chap12-2](Chap12-2.html#keywordrepeat)
   - reserved: [chap7-3](Chap7-3.html#keywordreserved)
   - rewrite: [chap1-3](Chap1-3.html#keywordrewrite), [chap6-4](Chap6-4.html#keywordrewrite)
   - right: [chap6-1](Chap6-1.html#keywordright)
