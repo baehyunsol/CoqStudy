@@ -66,12 +66,17 @@ html {
   scroll-padding: 3.142rem;
 }
 
+@media print {
+  header {
+    display: none;
+  }
+}
 @media screen and (orientation: portrait) {
   header .topmenu.activated {
     display: block;
   }
   header .topmenu.deactivated {
-    display: none;
+    border-bottom: none;
   }
   header .topmenu {
     position: fixed;
@@ -81,6 +86,9 @@ html {
     top: 2.642rem;
     background-color: var(--black);
     border-bottom: 0.143rem solid var(--white);
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.5s ease-out;
   }
   header .topmenu a {
     padding: 0.857rem;
