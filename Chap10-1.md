@@ -107,7 +107,7 @@ Check tree_ind.
 
 [[left]]
 
-<< [Chap9-3. ??](Chap9-3.html)
+<< [Chap9-4. Inversion, Again](Chap9-4.html)
 
 [[/left]]
 

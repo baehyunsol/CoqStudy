@@ -64,8 +64,8 @@ CSS variables (`var(--black)`) are affected by scripts. (Everywhere else.)
 
 :root {
   --horiz-padding: 0px;
-  --font-size-landscape: 21px;
-  --font-size-portrait: 16px;
+  --font-size-landscape: 17px;
+  --font-size-portrait: 14px;
 }
 
 @media screen and (orientation: landscape) {

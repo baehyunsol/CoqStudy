@@ -37,8 +37,8 @@ function shrink_horiz() {
 document.getElementById("growhorizontalbutton").addEventListener("click", grow_horiz);
 document.getElementById("shrinkhorizontalbutton").addEventListener("click", shrink_horiz);
 
-var font_size_landscape = 21;
-var font_size_portrait = 16;
+var font_size_landscape = 17;
+var font_size_portrait = 14;
 
 function shrink_font() {
     font_size_landscape -= 1;

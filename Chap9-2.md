@@ -103,21 +103,6 @@ Notation "P \/ Q" := (or P Q) : type_scope.
 
 이번에도 마찬가지로 `left` tactic은 첫번째 constructor를 나타내고 `right`는 두번째 constructor를 나타낸다고 생각할 수 있습니다.
 
-## Existential Quantification
-
-Coq에서 자주 쓰이는 `exists`는 어떻게 정의돼 있는지 살펴봅시다.
-
-```haskell, line_num
-Inductive ex {A : Type} (P : A -> Prop) : Prop :=
-  | ex_intro : forall x : A, P x -> ex P.
-
-Notation "'exists' x , p" :=
-  (ex (fun x => p))
-    (at level 200, right associativity) : type_scope.
-```
-
-TODO
-
 ---
 
 [[center]]
@@ -134,6 +119,6 @@ TODO
 
 [[right]]
 
-[Chap9-3. ??](Chap9-3.html) >>
+[Chap9-3. More Inductives](Chap9-3.html) >>
 
 [[/right]]

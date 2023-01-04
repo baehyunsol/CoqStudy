@@ -4,7 +4,7 @@
 
 작성자: 배현솔\
 최초 작성일: 2022.09.02\
-최근 업데이트: 2023.01.02
+최근 업데이트: 2023.01.04
 
 [[/right]]
 
@@ -60,7 +60,8 @@ Coq 언어 자습 문서입니다.
 - Chapter 9. The Curry-Howard Correspondence
   - [Chapter 9-1. Curry Howard Correspondence](Chap9-1.html)
   - [Chapter 9-2. Logical Connectives as Inductive Types](Chap9-2.html)
-  - [Chapter 9-3. ??](Chap9-3.html)
+  - [Chapter 9-3. More Inductives](Chap9-3.html)
+  - [Chapter 9-4. Inversion, Again](Chap9-4.html)
 - Chapter 10. Induction Principles
   - [Chapter 10-1. Induction Principles](Chap10-1.html)
   - [Chapter 10-2. ??](Chap10-2.html)
@@ -116,7 +117,7 @@ Coq 언어 자습 문서입니다.
   - injection: [chap5-2](Chap5-2.html#keywordinjection)
   - intro: [chap1-3](Chap1-3.html#keywordintro)
   - intros: [chap1-3](Chap1-3.html#keywordintros)
-  - inversion: [chap7-2](Chap7-2.html#keywordinversion)
+  - inversion: [chap7-2](Chap7-2.html#keywordinversion), [Chap9-4](Chap9-4.html)
 - L[[anchor, id = index l]][[/anchor]]
   - <=?: [chap1-2](Chap1-2.html#operatorleb)
   - left: [chap6-1](Chap6-1.html#keywordleft)
