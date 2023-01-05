@@ -48,6 +48,26 @@ Theorem excluded_middle :
 
 모든 명제는 참 혹은 거짓이니까 당연히 저것도 성립하지 않겠냐 싶겠지만 Coq에선 저걸 증명할 수 없습니다. 책에선 ~_Coq가 classical logic이 아닌 constructive logic을 사용하기 때문에 의도적으로 빼놓았다_~고 했는데 필요하시면 Axiom으로 추가해서 사용해도 됩니다.
 
+저 명제가 없기 때문에 아래와 같은 귀류법도 Coq에서는 사용불가능합니다.
+
+```haskell, line_num
+Lemma double_negation : forall P : Prop, ~(~P) -> P.
+Proof.
+Abort.
+
+Lemma not_impl_or : forall P Q : Prop, (~P -> Q) -> P \/ Q.
+Proof.
+Abort.
+```
+
+[[box]]
+
+만약 `excluded_middle`이 증명 가능했다면 어떻게 될까요? Coq에서 `Compute P : Prop.`을 하면 `P`의 증명과정(Proof object라고 합니다. 9장에서 다룹니다)을 다 보여줍니다. 그래서 `P`에다가 풀리지않은 난제 (콜라츠 추측, P-NP 가설, 리만가설 등등)을 넣으면 Coq이 알아서 해당 난제의 증명과정을 보여줍니다. 즉, 모든 명제를 다 증명할 수 있게 됩니다!!
+
+그래서 Coq은 명제를 참/거짓으로 분류하는게 아니고 참/거짓/모름으로 분류하나 봅니다.
+
+[[/box]]
+
 ---
 
 [[center]]

@@ -60,6 +60,26 @@ Compute filter (fun l => (length l) =? 1) [[]; [1]; [2; 3]; [4]; [5; 6; 7]].
 
 번거롭게 함수를 정의할 필요없이 `fun` 키워드를 통해서 익명함수를 정의하는 걸 볼 수 있습니다.
 
+### `fix` keyword
+
+[[anchor, id = keyword fix]][[/anchor]]
+
+`fun`으로 재귀함수를 정의하려면 어떻게 해야할까요? `fun`으로 정의한 건 익명이어서 자기자신을 호출하기 힘들어 보입니다. 그럴 땐 `fix`라는 키워드를 사용할 수 있습니다. 아래와 같이 재귀함수를 `Fixpoint`가 아닌 `Definition`을 이용해서 정의할 수도 있고 `fix`를 곧바로 사용할 수도 있습니다.
+
+```haskell, line_num
+Definition is_even : nat -> bool := fix f n := match n with
+  | O => true
+  | S O => false
+  | S (S n') => f n'
+  end.
+
+Compute (fix f n := match n with
+  | O => true
+  | S O => false
+  | S (S n') => f n'
+  end) 4.  (*{- true -}*)
+```
+
 ## map
 
 함수형 언어의 꽃인 `map`입니다.

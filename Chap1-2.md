@@ -11,7 +11,7 @@ Coq에서는 정수형을 아주 특이한 방식으로 다룹니다. 이번 장
 
 ## 정의
 
-Boolean이 그러했듯, 자연수도 특별한 컴파일러 내장함수를 쓰지 않고 Coq의 문법으로 정의할 수 있습니다. 지금까지 봤던 type들과 달리, 자연수는 무한히 많으므로 특별한 방식의 정의를 사용합니다.
+Boolean이 그러했듯, 자연수도 특별한 내장함수를 쓰지 않고 Coq의 문법으로 정의할 수 있습니다. 지금까지 봤던 type들과 달리, 자연수는 무한히 많으므로 특별한 방식의 정의를 사용합니다.
 
 ```haskell, line_num
 Inductive nat : Type :=
@@ -71,7 +71,7 @@ Fixpoint is_even (n: nat) : bool :=
 
 [[anchor, id=keyword fixpoint]][[/anchor]]
 
-이번에는 함수 정의에 `Definition`이 아닌 `Fixpoint`라는 키워드를 사용했습니다. 이는 `is_even`이 재귀함수이기 때문입니다. `Definition` 키워드를 사용하면 `is_even`이 정의가 덜 된 상태에서 함수 body 안에서 `is_even`을 만나게 되고, 컴파일러는 아직 정의되지 않은 이름을 만나서 당황하게 됩니다.
+이번에는 함수 정의에 `Definition`이 아닌 `Fixpoint`라는 키워드를 사용했습니다. 이는 `is_even`이 재귀함수이기 때문입니다. `Definition` 키워드를 사용하면 `is_even`이 정의가 덜 된 상태에서 함수 body 안에서 `is_even`을 만나게 되고, Coq는 아직 정의되지 않은 이름을 만나서 당황하게 됩니다. 그래서 `Fixpoint`라는 특별한 키워드를 사용해서 Coq에게 이 함수가 재귀적이라고 미리 알려줍니다.
 
 [[box]]
 

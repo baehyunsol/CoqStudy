@@ -13,7 +13,7 @@ Coq는 Gallina라는 함수형 언어로 이루어져 있습니다.[^Gal] Coq에
 
 [[anchor, id=keyword inductive]][[/anchor]]
 
-Rust의 `enum`에 대응되는 개념으로 coq에는 `Inductive`가 있습니다. Coq의 primitive type들은 대부분 `Inductive`를 통해서 구현돼 있습니다. 즉, 정수형이나 Boolean등도 컴파일러 내부에 구현된 특별한 자료형이 아닌, 다른 모든 자료형과 동일하다는 뜻입니다.
+Rust의 `enum`에 대응되는 개념으로 Coq에는 `Inductive`가 있습니다. Coq의 primitive type들은 대부분 `Inductive`를 통해서 구현돼 있습니다. 즉, 정수형이나 Boolean등도 Coq 내부에 구현된 특별한 자료형이 아닌, 다른 모든 자료형과 동일하다는 뜻입니다.
 
 Boolean이 어떻게 구현돼 있는지 살펴보겠습니다.
 

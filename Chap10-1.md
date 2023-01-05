@@ -113,6 +113,6 @@ Check tree_ind.
 
 [[right]]
 
-[Chap10-2. ??](Chap10-2.html) >>
+[Chap10-2. TODO](Chap10-2.html) >>
 
 [[/right]]

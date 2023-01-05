@@ -130,6 +130,8 @@ Definition ev_plus4'' (n : nat) (H : ev n)
 
 ### `forall`과 `->`
 
+[[anchor, id = forall func]][[/anchor]]
+
 방금 본 예제에서 (`ev_plus4'`와 `ev_plus4''`), `->`과 `forall`의 관계에 주목해봅시다. 얼핏 생각해보면 두 표현은 관련이 있어 보입니다. ~_모든 자연수에 대해, P이다_~라는 표현과 ~_자연수이면 P이다_~라는 표현은 같은 말 같거든요. 실제로도 그렇습니다. 아래에서 구체적인 예시를 보겠습니다.
 
 ```haskell, line_num

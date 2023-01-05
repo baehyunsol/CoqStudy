@@ -1,0 +1,191 @@
+<!DOCTYPE html><html>
+
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width"/>
+    
+    <title>lectures</title>
+    
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding&amp;display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'"/>
+    <!--<link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding&amp;display=swap" rel="stylesheet"/> -->
+    
+    <link href="page.css" rel="stylesheet"/><link href="markdown.css" rel="stylesheet"/><link href="nav.css" rel="stylesheet"/><link href="header.css" rel="stylesheet"/>
+    
+</head>
+
+<body>
+
+
+    <header>
+<p><div class="topmenu deactivated"><a href="index.html">Home</a> <a href="index.html#index-by-chapter">단원별 목차</a> <a href="index.html#index-by-keyword">키워드 목차</a> <a href="Appendix.html">부록</a></div><div class="mobileview"><a id="navbutton">&#9776;</a></div></p>
+    </header>
+
+
+
+    <nav>
+<p><a id="settingsopenbutton">&#9728;</a><a href="#top">&#9650;</a><a href="#bottom">&#9660;</a></p><div id="settingsmenubg"><p><div id="settingsmenu"> <a id="settingsclosebutton">&#10006;</a> <a id="changethemebutton">Set Light Theme</a> <a id="growhorizontalbutton">Grow Horizontally</a> <a id="shrinkhorizontalbutton">Shrink Horizontally</a> <a id="growfontbutton">Grow Font</a> <a id="shrinkfontbutton">Shrink Font</a> </div></p></div>
+    </nav>
+
+
+    <article class="markdown">
+        <a id="top"></a>
+<table><thead id="table-collapse-toggle-0" class="collapsible collapsed" onclick="collapse_table('0')"><tr><th>목차</th></tr></thead><tbody id="collapsible-table-0" class="invisible"><tr><td><div class="toc"><ol type="1"><li><a href="#허충길-교수님-강의">허충길 교수님 강의</a><ol type="1"><li><a href="#집합">집합</a><ol type="1"><li><a href="#집합의-정의">집합의 정의</a><ol type="1"><li><a href="#inductive"><code class="inline-code-span">Inductive</code></a></li><li><a href="#-"><code class="inline-code-span">-&gt;</code></a></li><li><a href="#definition"><code class="inline-code-span">Definition</code></a></li><li><a href="#fixpoint"><code class="inline-code-span">Fixpoint</code></a></li></ol></li><li><a href="#집합의-포함관계">집합의 포함관계</a></li></ol></li><li><a href="#currying">Currying</a></li><li><a href="#dependent-types">Dependent Types</a></li></ol></li></ol></div></td></tr></tbody></table><h1 id="허충길-교수님-강의">허충길 교수님 강의</h1><p>허충길 교수님의 2020학년도 서울대학교 컴퓨터 신기술 특강 강의의 내용을 정리한 단원입니다. 강의는 전체적으로 software foundations 책을 기반으로 하지만 책에 없는 내용들도 포함돼 있고 그 내용들을 여기에 정리해보았습니다. 강의를 전부 다 들은 건 아니어서 빠진 내용이 있을 수도 있습니다.</p><p>이 부분을 읽기 전에 9단원까지 먼저 읽고 오시는 것을 추천드립니다.</p><h2 id="집합">집합</h2><p>Coq에서 모든 것은 집합 혹은 집합의 원소입니다. 예를 들어서, <code class="inline-code-span">nat</code>은 집합이고 <code class="inline-code-span">3</code>은 <code class="inline-code-span">nat</code>의 원소입니다. 그래서 <a href="Chap9-1.html">9단원</a>에서 <code class="inline-code-span">3 : nat</code>을 <u><code class="inline-code-span">3</code>은 <code class="inline-code-span">nat</code>의 원소이다</u>라고 읽는다고 설명했었죠. 마찬가지로 <code class="inline-code-span">nat : Type</code>이니까 <code class="inline-code-span">nat</code>은 <code class="inline-code-span">Type</code>이라는 집합의 원소입니다.</p><p>이 원칙에 어긋나는 것이 딱 한가지가 있습니다. 바로 <code class="inline-code-span">Type</code>입니다. Coq의 모든 집합은 <code class="inline-code-span">Type</code>을 이용해서 정의되지만 <code class="inline-code-span">Type</code>만은 Coq에 내장(predefined)돼 있습니다. 왜냐면 모든 집합은 <code class="inline-code-span">Type</code>의 원소거든요. 또한, <code class="inline-code-span">Type</code>은 유일하게 원소이면서 동시에 집합입니다. 그래서 <code class="inline-code-span">Type : Type</code>입니다.</p><p>단, <code class="inline-code-span">Type</code>이 자기자신을 포함하는 집합이라는 뜻은 아닙니다. Coq이 <code class="inline-code-span">Type : Type</code>이라고 하더라도 앞의 <code class="inline-code-span">Type</code>과 뒤의 <code class="inline-code-span">Type</code>은 다릅니다. 각 <code class="inline-code-span">Type</code>들은 내부적으로 서열이 있고, 큰 <code class="inline-code-span">Type</code>이 작은 <code class="inline-code-span">Type</code>을 포함합니다. 즉, Coq의 내부에서는 <code class="inline-code-span">Type_u : Type_v</code>과 같이 꼬리표를 붙인 후 <code class="inline-code-span">u</code>가 <code class="inline-code-span">v</code>보다 작거나 같다고 어딘가에 기록을 해둡니다. Coq에서 쓰이는 모든 <code class="inline-code-span">Type</code>들은 크기에 대한 꼬리표가 붙어있고 꼬리표의 대소관계가 어긋나는 순간, Coq은 에러를 내뿜습니다.</p><blockquote>자기자신을 포함하는 집합에 대해서 더 궁금하시면 <a href="https://plato.stanford.edu/entries/russell-paradox/">러셀의 역설</a>을 읽어보시면 좋습니다. </blockquote><p>그럼 <code class="inline-code-span">Set</code>이나 <code class="inline-code-span">Prop</code>은 뭐냐고 궁금해하실 수도 있습니다. <code class="inline-code-span">Set</code>은 사실상 <code class="inline-code-span">Type</code>과 동일합니다. 다만 오래된 코드와의 하위호환을 유지하기 위해서 <code class="inline-code-span">Set</code>도 가끔 쓴다고 하네요. <code class="inline-code-span">Prop</code>은 증명의 집합입니다. 즉, 그 집합에 원소가 하나라도 있으면 <code class="inline-code-span">Prop</code>은 참인 명제가 됩니다. 아래의 예시와 함께 설명해보겠습니다.</p><pre class="fenced-code-block line-num-width-0"><code><span class="code-fence-row"><span class="code-fence-index">1</span><span class="code-fence-code"><span class="color-gold">Definition</span> <span class="color-gold">X</span> <span class="color-white">:</span> <span class="color-gold">Prop</span> <span class="color-white">:=</span> <span class="color-gold">1</span> <span class="color-white">=</span> <span class="color-gold">1</span> <span class="color-white">\/</span> <span class="color-gold">2</span> <span class="color-white">=</span> <span class="color-gold">2</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">2</span><span class="code-fence-code">
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">3</span><span class="code-fence-code"><span class="color-gold">Check</span> <span class="color-gold">X</span> <span class="color-white">:</span> <span class="color-gold">Prop</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">4</span><span class="code-fence-code"><span class="color-gold">Check</span> <span class="color-gold">Prop</span> <span class="color-white">:</span> <span class="color-gold">Type</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">5</span><span class="code-fence-code"><span class="color-gold">Check</span> <span class="color-gold">X</span> <span class="color-white">:</span> <span class="color-gold">Type</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">6</span><span class="code-fence-code"><span class="color-gold">Check</span><span class="color-white"> or_introl eq_refl </span><span class="color-white">:</span> <span class="color-gold">X</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">7</span><span class="code-fence-code"><span class="color-gold">Check</span><span class="color-white"> or_intror eq_refl </span><span class="color-white">:</span> <span class="color-gold">X</span><span class="color-white">.</span></span></span>
+</code><button class="copy-fenced-code" onclick="copy_code_to_clipboard(0)">Copy</button></pre><p>먼저, <code class="inline-code-span">X : Prop</code>인 것은 당연합니다. 그렇게 정의했거든요. <code class="inline-code-span">Prop</code>은 집합이고 <code class="inline-code-span">Type</code>은 모든 집합을 포함하는 집합이니 <code class="inline-code-span">Prop : Type</code>인 것도 당연합니다. 5번줄부터 약간 헷갈립니다. <code class="inline-code-span">X</code>는 <code class="inline-code-span">1 = 1 \/ 2 = 2</code>가 참인 증명들의 집합이죠? <code class="inline-code-span">X</code>가 집합이니까 <code class="inline-code-span">X : Type</code>도 참입니다. 그럼 <code class="inline-code-span">X</code>의 원소로는 무엇이 있을까요? 직관적으로 2가지가 떠오릅니다. <code class="inline-code-span">\/</code>을 왼쪽을 증명할 수도 있고 오른쪽을 증명할 수도 있죠? 각각의 증명은 <code class="inline-code-span">X</code>의 원소입니다. 그 얘기가 6번과 7번 줄에 있습니다.</p><p>그럼 <code class="inline-code-span">Prop</code>과 <code class="inline-code-span">Type</code>의 차이가 뭘까요? 위의 예시의 <code class="inline-code-span">Prop</code>들을 전부 <code class="inline-code-span">Type</code>이라고 고쳐도 전혀 문제가 없습니다. 실제로 <code class="inline-code-span">Prop</code>과 <code class="inline-code-span">Type</code>은 99% 정도가 동일하지만 차이점이 하나 있습니다. 바로 <code class="inline-code-span">Prop</code>의 원소는 최대 1개라는 겁니다. 엥? 6번줄과 7번줄에 원소가 2개 있는데 무슨 소리냐고요? Coq에선 둘을 동일하게 취급합니다. 즉, 동일한 <code class="inline-code-span">Prop</code>의 원소들은 전부 같다고 취급합니다.<span class="footnote-ref" id="footnote-ref-0"><a href="#footnote-cite-0">[0]</a></span></p><h3 id="집합의-정의">집합의 정의</h3><p>Coq에서 집합을 정의하는 방법은 딱 두가지입니다. 모든 집합은 아래의 두 방법을 잘 이용해서 정의합니다.</p><ol type="1"><li><code class="inline-code-span">Inductive</code></li><li><code class="inline-code-span">-&gt;</code></li></ol><p>낯이 익은 친구들이죠? 아래에서 하나하나 살펴보겠습니다.</p><h4 id="inductive"><code class="inline-code-span">Inductive</code></h4><p>집합을 정의하는 가장 단순하고 직관적인 방법입니다. <code class="inline-code-span">Inductive</code>라고 쓴 뒤, 각 가지마다 그 집합의 constructor를 하나씩 나열하는 방식입니다.</p><pre class="fenced-code-block line-num-width-1"><code><span class="code-fence-row"><span class="code-fence-index">1</span><span class="code-fence-code"><span class="color-gold">Inductive</span><span class="color-white"> rgb </span><span class="color-white">:</span> <span class="color-gold">Type</span> <span class="color-white">:=</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">2</span><span class="code-fence-code">  <span class="color-white">|</span><span class="color-white"> red
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">3</span><span class="code-fence-code">  <span class="color-white">|</span><span class="color-white"> green
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">4</span><span class="code-fence-code">  <span class="color-white">|</span><span class="color-white"> blue</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">5</span><span class="code-fence-code">
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">6</span><span class="code-fence-code"><span class="color-gold">Inductive</span><span class="color-white"> color </span><span class="color-white">:</span> <span class="color-gold">Type</span> <span class="color-white">:=</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">7</span><span class="code-fence-code">  <span class="color-white">|</span><span class="color-white"> black
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">8</span><span class="code-fence-code">  <span class="color-white">|</span><span class="color-white"> white
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">9</span><span class="code-fence-code">  <span class="color-white">|</span><span class="color-white"> primary (p </span><span class="color-white">:</span><span class="color-white"> rgb)</span><span class="color-white">.</span></span></span>
+</code><button class="copy-fenced-code" onclick="copy_code_to_clipboard(1)">Copy</button></pre><p><code class="inline-code-span">red</code>는 <code class="inline-code-span">rgb</code> 집합의 원소입니다. 그래서 <code class="inline-code-span">red : rgb</code>이죠. 그럼 <code class="inline-code-span">primary</code>의 type은 뭘까요? <code class="inline-code-span">primary</code>는 <code class="inline-code-span">rgb</code> 하나를 받아서 <code class="inline-code-span">color</code>를 내놓는 constructor로, <code class="inline-code-span">primary : rgb -&gt; color</code>입니다. 그럼 <code class="inline-code-span">primary red</code>는요? 이 친구는 <code class="inline-code-span">color</code> 집합의 원소니까 <code class="inline-code-span">primary red : color</code>입니다.</p><p><code class="inline-code-span">Inductive</code>를 다루는 방법은 (원칙적으로는) <code class="inline-code-span">match</code>를 사용하는 것밖에 없습니다. <code class="inline-code-span">match c with ...</code>의 <code class="inline-code-span">c</code>에다가 <code class="inline-code-span">color</code>의 원소를 하나 주고, 뒤에 가지들에 <code class="inline-code-span">color</code>의 모든 constructor를 나열해야합니다. 예시로 <code class="inline-code-span">is_red</code>를 정의해보겠습니다.</p><pre class="fenced-code-block line-num-width-1"><code><span class="code-fence-row"><span class="code-fence-index">1</span><span class="code-fence-code"><span class="color-gold">Definition</span><span class="color-white"> is_red (c </span><span class="color-white">:</span><span class="color-white"> color) </span><span class="color-white">:</span><span class="color-white"> bool </span><span class="color-white">:=</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">2</span><span class="code-fence-code"><span class="color-white">  match c with
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">3</span><span class="code-fence-code">  <span class="color-white">|</span><span class="color-white"> black </span><span class="color-white">=&gt;</span><span class="color-white"> false
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">4</span><span class="code-fence-code">  <span class="color-white">|</span><span class="color-white"> white </span><span class="color-white">=&gt;</span><span class="color-white"> false
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">5</span><span class="code-fence-code">  <span class="color-white">|</span><span class="color-white"> primary p </span><span class="color-white">=&gt;</span><span class="color-white"> match p with
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">6</span><span class="code-fence-code">    <span class="color-white">|</span><span class="color-white"> red </span><span class="color-white">=&gt;</span><span class="color-white"> true
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">7</span><span class="code-fence-code">    <span class="color-white">|</span><span class="color-white"> green </span><span class="color-white">=&gt;</span><span class="color-white"> false
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">8</span><span class="code-fence-code">    <span class="color-white">|</span><span class="color-white"> blue </span><span class="color-white">=&gt;</span><span class="color-white"> false
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">9</span><span class="code-fence-code"><span class="color-white">    end
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">10</span><span class="code-fence-code"><span class="color-white">  end</span><span class="color-white">.</span></span></span>
+</code><button class="copy-fenced-code" onclick="copy_code_to_clipboard(2)">Copy</button></pre><p><code class="inline-code-span">match</code> 안에 <code class="inline-code-span">match</code>를 중첩시키려니 너무 귀찮습니다. 그래서 Coq은 <code class="inline-code-span">match</code>를 중첩시키지 않고 한번에 적을 수 있게 해줍니다.</p><pre class="fenced-code-block line-num-width-0"><code><span class="code-fence-row"><span class="code-fence-index">1</span><span class="code-fence-code"><span class="color-gold">Definition</span><span class="color-white"> is_red (c </span><span class="color-white">:</span><span class="color-white"> color) </span><span class="color-white">:</span><span class="color-white"> bool </span><span class="color-white">:=</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">2</span><span class="code-fence-code"><span class="color-white">  match c with
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">3</span><span class="code-fence-code">  <span class="color-white">|</span><span class="color-white"> black </span><span class="color-white">=&gt;</span><span class="color-white"> false
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">4</span><span class="code-fence-code">  <span class="color-white">|</span><span class="color-white"> white </span><span class="color-white">=&gt;</span><span class="color-white"> false
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">5</span><span class="code-fence-code">  <span class="color-white">|</span><span class="color-white"> primary red </span><span class="color-white">=&gt;</span><span class="color-white"> true
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">6</span><span class="code-fence-code">  <span class="color-white">|</span><span class="color-white"> primary green </span><span class="color-white">=&gt;</span><span class="color-white"> false
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">7</span><span class="code-fence-code">  <span class="color-white">|</span><span class="color-white"> primary blue </span><span class="color-white">=&gt;</span><span class="color-white"> false
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">8</span><span class="code-fence-code"><span class="color-white">  end</span><span class="color-white">.</span></span></span>
+</code><button class="copy-fenced-code" onclick="copy_code_to_clipboard(3)">Copy</button></pre><p>여전히 귀찮습니다. <code class="inline-code-span">false</code>로 끝나는 가지들이 중복되는데 더 줄일 수 없을까요? Coq은 남은 가지들을 한번에 묶어버리는 <code class="inline-code-span">_</code>도 지원합니다.</p><pre class="fenced-code-block line-num-width-0"><code><span class="code-fence-row"><span class="code-fence-index">1</span><span class="code-fence-code"><span class="color-gold">Definition</span><span class="color-white"> is_red (c </span><span class="color-white">:</span><span class="color-white"> color) </span><span class="color-white">:</span><span class="color-white"> bool </span><span class="color-white">:=</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">2</span><span class="code-fence-code"><span class="color-white">  match c with
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">3</span><span class="code-fence-code">  <span class="color-white">|</span><span class="color-white"> primary red </span><span class="color-white">=&gt;</span><span class="color-white"> true
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">4</span><span class="code-fence-code">  <span class="color-white">|</span><span class="color-white"> _ </span><span class="color-white">=&gt;</span><span class="color-white"> false
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">5</span><span class="code-fence-code"><span class="color-white">  end</span><span class="color-white">.</span></span></span>
+</code><button class="copy-fenced-code" onclick="copy_code_to_clipboard(4)">Copy</button></pre><p>훨씬 깔끔하군요. Coq의 <code class="inline-code-span">match</code>에는 이것 말고도 다양한 문법적 설탕 (syntactic sugar)들이 있습니다.</p><h4 id="-"><code class="inline-code-span">-&gt;</code></h4><p>함수를 이용해서 집합을 정의하는 방법입니다. 예를 들어서 <code class="inline-code-span">nat -&gt; nat</code>는 <code class="inline-code-span">nat</code>을 받아서 <code class="inline-code-span">nat</code>을 내놓는 모든 함수들의 집합입니다.</p><p>예를 들어서, <code class="inline-code-span">fun x =&gt; match x with | 0 =&gt; 0 | S n =&gt; n end</code>는 <code class="inline-code-span">nat -&gt; nat</code> 집합의 원소입니다.</p><h4 id="definition"><code class="inline-code-span">Definition</code></h4><p>그럼 <code class="inline-code-span">Definition</code>은 뭐냐고 궁금해하실 수도 있습니다. <code class="inline-code-span">Definition</code>은 집합을 정의하는게 아닙니다. <code class="inline-code-span">Definition</code>은 단순히 값에 이름을 붙이기만 합니다. 예를 들어서, <code class="inline-code-span">42</code>란 숫자가 코드에 자주 등장해서 이름을 붙이고 싶다? 그럼 <code class="inline-code-span">Definition answer := 42.</code>라고 쓰는 거죠. 함수의 정의들도 동일합니다. 함수의 정의는 기본적으로 <code class="inline-code-span">fun</code> 키워드를 이용해서 하지만, 함수에 이름을 붙여서 사용하고 싶으니 <code class="inline-code-span">Definition</code> 키워드를 사용하는 거죠.</p><p>다만 함수의 정의는 매우 자주 쓰이니 사용자의 편의를 위해서 몇가지 문법을 생략하는 것을 허용합니다. 아래의 예시를 보겠습니다.</p><pre class="fenced-code-block line-num-width-1"><code><span class="code-fence-row"><span class="code-fence-index">1</span><span class="code-fence-code"><span class="color-gold">Definition</span><span class="color-white"> is_zero </span><span class="color-white">:</span><span class="color-white"> nat </span><span class="color-white">-&gt;</span><span class="color-white"> bool </span><span class="color-white">:=</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">2</span><span class="code-fence-code"><span class="color-white">  fun n </span><span class="color-white">:</span><span class="color-white"> nat </span><span class="color-white">=&gt;</span><span class="color-white"> match n with
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">3</span><span class="code-fence-code">  <span class="color-white">|</span> <span class="color-gold">O</span> <span class="color-white">=&gt;</span><span class="color-white"> true
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">4</span><span class="code-fence-code">  <span class="color-white">|</span> <span class="color-gold">S</span><span class="color-white"> n&apos; </span><span class="color-white">=&gt;</span><span class="color-white"> false
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">5</span><span class="code-fence-code"><span class="color-white">  end</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">6</span><span class="code-fence-code">
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">7</span><span class="code-fence-code"><span class="color-gold">Definition</span><span class="color-white"> is_zero&apos; (n </span><span class="color-white">:</span><span class="color-white"> nat) </span><span class="color-white">:</span><span class="color-white"> bool </span><span class="color-white">:=</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">8</span><span class="code-fence-code"><span class="color-white">  match n with
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">9</span><span class="code-fence-code">  <span class="color-white">|</span> <span class="color-gold">O</span> <span class="color-white">=&gt;</span><span class="color-white"> true
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">10</span><span class="code-fence-code">  <span class="color-white">|</span> <span class="color-gold">S</span><span class="color-white"> n&apos; </span><span class="color-white">=&gt;</span><span class="color-white"> false
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">11</span><span class="code-fence-code"><span class="color-white">  end</span><span class="color-white">.</span></span></span>
+</code><button class="copy-fenced-code" onclick="copy_code_to_clipboard(5)">Copy</button></pre><p><code class="inline-code-span">is_zero</code>는 아무런 문법도 생략하지 않고 <code class="inline-code-span">Definition</code>의 원래 모양 그대로 쓴 형태입니다. <code class="inline-code-span">is_zero</code>라는 이름을 붙이고 뒤에 <code class="inline-code-span">fun</code>을 그대로 썼죠. <code class="inline-code-span">is_zero&apos;</code>는 몇가지 문법을 축약한 형태입니다. 함수의 인수들이 이름 옆에 붙고, <code class="inline-code-span">fun</code> 키워드가 생략됐죠.</p><h4 id="fixpoint"><code class="inline-code-span">Fixpoint</code></h4><p>그럼 <code class="inline-code-span">Fixpoint</code>는 뭐냐고 궁금해하실 수도 있습니다. <code class="inline-code-span">Fixpoint</code>도 근본적으론 <code class="inline-code-span">Definition</code>과 똑같습니다. 다만 <code class="inline-code-span">fun</code> 대신에 <code class="inline-code-span">fix</code>를 써야하는 상황이고 (<a href="Chap4-2.html#keywordfix">여기</a> 참고), <code class="inline-code-span">Definition</code> 대신에 <code class="inline-code-span">Fixpoint</code>란 키워드를 쓸 뿐입니다.</p><h3 id="집합의-포함관계">집합의 포함관계</h3><p>아까부터 계속 <code class="inline-code-span">:</code>란 기호는 집합의 포함관계를 나타낸다고 설명하고 있습니다. 이 설명은 그럭저럭 들어맞는 것 같아요. 근데 Coq을 보다보면 아리송한 부분들이 생깁니다.</p><p><code class="inline-code-span">Theorem plus_0_n : forall n, 0 + n = n.</code>이란 표현을 봅시다. 여기에 <code class="inline-code-span">:</code>가 나오는데 이게 집합의 포함관계를 나타내...나요? 얼핏 봐서는 어디가 집합인지 알기가 힘듭니다. 여기서는 <code class="inline-code-span">forall n, 0 + n = n</code>이 하나의 집합입니다. 정확히 말하자면 <code class="inline-code-span">forall n, 0 + n = n</code>은 <code class="inline-code-span">Prop</code>이고 <code class="inline-code-span">Prop</code>은 증명들의 집합입니다. 만약 그 집합이 비어있으면 <code class="inline-code-span">plus_0_n</code>은 거짓이고 원소가 있으면 <code class="inline-code-span">plus_0_n</code>은 참입니다. 그 집합의 원소는 아래처럼 정의할 수 있습니다.</p><pre class="fenced-code-block line-num-width-0"><code><span class="code-fence-row"><span class="code-fence-index">1</span><span class="code-fence-code"><span class="color-gold">Definition</span><span class="color-white"> plus_0_n </span><span class="color-white">:</span><span class="color-white"> forall n</span><span class="color-white">,</span> <span class="color-gold">0</span> <span class="color-white">+</span><span class="color-white"> n </span><span class="color-white">=</span><span class="color-white"> n </span><span class="color-white">:=</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">2</span><span class="code-fence-code"><span class="color-white">  fun n </span><span class="color-white">=&gt;</span><span class="color-white"> eq_refl</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">3</span><span class="code-fence-code">
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">4</span><span class="code-fence-code"><span class="color-gold">Definition</span><span class="color-white"> plus_0_n </span><span class="color-white">:</span><span class="color-white"> forall n</span><span class="color-white">,</span> <span class="color-gold">0</span> <span class="color-white">+</span><span class="color-white"> n </span><span class="color-white">=</span><span class="color-white"> n </span><span class="color-white">:=</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">5</span><span class="code-fence-code"><span class="color-white">  fun n </span><span class="color-white">=&gt;</span><span class="color-white"> @eq_refl nat n</span><span class="color-white">.</span></span></span>
+</code><button class="copy-fenced-code" onclick="copy_code_to_clipboard(6)">Copy</button></pre><p>아까 집합을 정의하는 방법에는 <code class="inline-code-span">Inductive</code>와 <code class="inline-code-span">-&gt;</code>의 2가지가 있다고 했죠? <code class="inline-code-span">forall n, 0 + n = n</code>은 둘다 아닌 것처럼 보이지만 <code class="inline-code-span">-&gt;</code>입니다. <code class="inline-code-span">:=</code> 뒤에 <code class="inline-code-span">fun</code>이 쓰인 걸 보면 알 수 있습니다. <a href="Chap9-1.html#forallfunc">9장</a>에서 봤던 것처럼 <code class="inline-code-span">forall</code>은 사실 <code class="inline-code-span">-&gt;</code>입니다. 그래서 <code class="inline-code-span">plus_0_n</code>에는 <code class="inline-code-span">nat</code> 하나를 받아서 <code class="inline-code-span">0 + n = n</code> 하나를 반환하는 함수가 옵니다. <code class="inline-code-span">0 + n = n</code>은 왜 집합일까요? <code class="inline-code-span">=</code>의 <a href="Chap9-3.html#equality">정의</a>를 보면, <code class="inline-code-span">Inductive</code>로 돼 있습니다. 즉, <code class="inline-code-span">0 + n = n</code>은 <code class="inline-code-span">0 + n</code>과 <code class="inline-code-span">n</code>이 같다는 증명들의 집합입니다.</p><h2 id="currying">Currying</h2><p><a href="Chap4-2.html#currying">4-2 단원</a>에서 보았던 currying을 다시 봅시다! <code class="inline-code-span">bool</code> 2개를 받아서 <code class="inline-code-span">bool</code> 하나를 내놓는 <code class="inline-code-span">andb</code>라는 함수를 생각해보겠습니다. 보통 아래처럼 정의하겠죠.</p><pre class="fenced-code-block line-num-width-0"><code><span class="code-fence-row"><span class="code-fence-index">1</span><span class="code-fence-code"><span class="color-gold">Definition</span><span class="color-white"> andb (b1 b2 </span><span class="color-white">:</span><span class="color-white"> bool) </span><span class="color-white">:</span><span class="color-white"> bool </span><span class="color-white">:=</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">2</span><span class="code-fence-code"><span class="color-white">  match b1 with
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">3</span><span class="code-fence-code">  <span class="color-white">|</span><span class="color-white"> true </span><span class="color-white">=&gt;</span><span class="color-white"> b2
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">4</span><span class="code-fence-code">  <span class="color-white">|</span><span class="color-white"> false </span><span class="color-white">=&gt;</span><span class="color-white"> false
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">5</span><span class="code-fence-code"><span class="color-white">  end</span><span class="color-white">.</span></span></span>
+</code><button class="copy-fenced-code" onclick="copy_code_to_clipboard(7)">Copy</button></pre><p>방금 전에 <code class="inline-code-span">Definition</code>이 <code class="inline-code-span">fun</code>을 축약할 수 있다고 했죠? <code class="inline-code-span">fun</code>을 축약하지 않고 정의 그대로 써보면 아래와 같은 모양이 나옵니다.</p><pre class="fenced-code-block line-num-width-1"><code><span class="code-fence-row"><span class="code-fence-index">1</span><span class="code-fence-code"><span class="color-gold">Definition</span><span class="color-white"> andb </span><span class="color-white">:</span><span class="color-white"> bool </span><span class="color-white">-&gt;</span><span class="color-white"> (bool </span><span class="color-white">-&gt;</span><span class="color-white"> bool) </span><span class="color-white">:=</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">2</span><span class="code-fence-code"><span class="color-white">  fun (b1</span><span class="color-white">:</span><span class="color-white"> bool) </span><span class="color-white">=&gt;</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">3</span><span class="code-fence-code"><span class="color-white">    fun (b2</span><span class="color-white">:</span><span class="color-white"> bool) </span><span class="color-white">=&gt;</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">4</span><span class="code-fence-code"><span class="color-white">      match b1 with
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">5</span><span class="code-fence-code">      <span class="color-white">|</span><span class="color-white"> true </span><span class="color-white">=&gt;</span><span class="color-white"> b2
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">6</span><span class="code-fence-code">      <span class="color-white">|</span><span class="color-white"> false </span><span class="color-white">=&gt;</span><span class="color-white"> false
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">7</span><span class="code-fence-code"><span class="color-white">      end</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">8</span><span class="code-fence-code">
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">9</span><span class="code-fence-code"><span class="color-gold">Compute</span><span class="color-white"> andb true</span><span class="color-white">.</span><span class="color-white">   (*</span><span class="color-gray">{-</span><span class="color-gray"> fun x =&gt; x </span><span class="color-gray">-}</span><span class="color-white">*)
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">10</span><span class="code-fence-code"><span class="color-gold">Compute</span><span class="color-white"> andb false</span><span class="color-white">.</span><span class="color-white">  (*</span><span class="color-gray">{-</span><span class="color-gray"> fun _ =&gt; false </span><span class="color-gray">-}</span><span class="color-white">*)</span></span></span>
+</code><button class="copy-fenced-code" onclick="copy_code_to_clipboard(8)">Copy</button></pre><p>Type부터가 신기합니다. <code class="inline-code-span">bool</code>을 받아서 <code class="inline-code-span">bool -&gt; bool</code>을 내놓는 함수입니다. 이게 4단원에서 봤던 partial application인데요, Coq에서 모든 함수는 인수를 하나만 받습니다. 인수 2개를 받으려면 첫번째 인수를 받아서 그 인수를 처리하는 함수를 만든 뒤, 그 함수가 두번째 인수를 받습니다.</p><p>그래서 Coq에게 <code class="inline-code-span">andb true false</code>를 계산하라고 시키면 Coq은 내부적으로 <code class="inline-code-span">andb true : bool -&gt; bool</code>를 만든 뒤, 그 함수에다가 <code class="inline-code-span">false</code>를 집어넣습니다. 즉, <code class="inline-code-span">(andb true) false</code>를 하는 거죠.</p><p>9번째 줄부터가 신기합니다. Coq에게 <code class="inline-code-span">andb true</code>를 시키면 <code class="inline-code-span">fun x =&gt; match true with | true =&gt; x | false =&gt; false end.</code>가 나와야할 것 같습니다. 하지만 Coq은 <code class="inline-code-span">match true with</code>가 의미가 없다는 걸 파악하고 가지치기를 해버립니다. 그래서 항등함수가 나옵니다. <code class="inline-code-span">andb false</code>도 마찬가지 이유로 상수함수가 나옵니다. 최적화라고 해야할지 어쨌든 신기하네요.</p><h2 id="dependent-types">Dependent Types</h2><p>Dependent types은 다른 언어에서는 거의 찾을 수 없고 Coq에서만 찾을 수 있는 기능입니다. 하지만 Coq에서는 아주 광범위하게 쓰이죠. 방금 전에 보았던 <code class="inline-code-span">forall n, 0 + n = n</code>부터가 dependent type입니다. 한번 자세히 뜯어보죠.</p><p>위에서 말했듯이 <code class="inline-code-span">0 + n = n</code>은 <code class="inline-code-span">0 + n</code>과 <code class="inline-code-span">n</code>이 같다는 증명들의 집합입니다. 그래서 <code class="inline-code-span">n</code>이 달라지면 다른 집합이 됩니다. 그럼 그 <code class="inline-code-span">n</code>은 누가 결정하죠? 바로 앞에 있는 <code class="inline-code-span">forall n</code>이 결정합니다. 다른 인수에 의해서 이 함수의 type이 결정되죠? 그래서 depedent type입니다. 다른 예시들도 보겠습니다.</p><p><a href="Chap4-1.html#repeat">4장</a>에서 보았던 <code class="inline-code-span">Fixpoint repeat (X : Type) (x : X) (count : nat) : list X</code> 같은 모양의 함수도 dependent type을 사용했습니다. <code class="inline-code-span">repeat</code>의 두번째 인수의 type은 <code class="inline-code-span">X</code>죠? 근데 <code class="inline-code-span">X</code>는 <code class="inline-code-span">repeat</code>의 첫번째 인수입니다. 즉, <code class="inline-code-span">repeat</code>의 첫번째 인수의 값이 두번째 인수의 type을 결정하는 형태입니다.</p><p>C나 Python만 써오시던 분들은 신기하게 느껴지실 수 있습니다. 저도 그랬어요. 그나마 C스러운 예시를 생각해보자면 다음과 같습니다. <u>자연수 <code class="inline-code-span">n</code>을 인수로 받아서 크기가 <code class="inline-code-span">n</code>인 배열을 반환하는 함수</u>를 생각해봅시다. 만약 크기가 다른 배열을 다른 type으로 생각한다면, 저 함수도 dependent type입니다.</p><hr/><div class="align-center"><p><a href="index.html">메인으로 돌아가기</a></p></div><hr class="footnote-hr"/><div class="mdxt-footnote-cites"><p><div class="footnote-cite"><a id="footnote-cite-0"></a><a href="#footnote-ref-0"> [0]</a> 교수님이 그 이유도 자세하게 설명해주셨는데 이해를 잘 못했습니다...</div></p></div><script>/*<![CDATA[*/
+const fenced_code_block_contents = ["Definition X : Prop := 1 = 1 \\/ 2 = 2.\n\nCheck X : Prop.\nCheck Prop : Type.\nCheck X : Type.\nCheck or_introl eq_refl : X.\nCheck or_intror eq_refl : X.", "Inductive rgb : Type :=\n  | red\n  | green\n  | blue.\n\nInductive color : Type :=\n  | black\n  | white\n  | primary (p : rgb).", "Definition is_red (c : color) : bool :=\n  match c with\n  | black => false\n  | white => false\n  | primary p => match p with\n    | red => true\n    | green => false\n    | blue => false\n    end\n  end.", "Definition is_red (c : color) : bool :=\n  match c with\n  | black => false\n  | white => false\n  | primary red => true\n  | primary green => false\n  | primary blue => false\n  end.", "Definition is_red (c : color) : bool :=\n  match c with\n  | primary red => true\n  | _ => false\n  end.", "Definition is_zero : nat -> bool :=\n  fun n : nat => match n with\n  | O => true\n  | S n' => false\n  end.\n\nDefinition is_zero' (n : nat) : bool :=\n  match n with\n  | O => true\n  | S n' => false\n  end.", "Definition plus_0_n : forall n, 0 + n = n :=\n  fun n => eq_refl.\n\nDefinition plus_0_n : forall n, 0 + n = n :=\n  fun n => @eq_refl nat n.", "Definition andb (b1 b2 : bool) : bool :=\n  match b1 with\n  | true => b2\n  | false => false\n  end.", "Definition andb : bool -> (bool -> bool) :=\n  fun (b1: bool) =>\n    fun (b2: bool) =>\n      match b1 with\n      | true => b2\n      | false => false\n      end.\n\nCompute andb true.   (*{- fun x => x -}*)\nCompute andb false.  (*{- fun _ => false -}*)"];
+
+function copy_code_to_clipboard(index) {
+    navigator.clipboard.writeText(fenced_code_block_contents[index]);
+}/*]]>*/</script>
+        <a id="bottom"></a>
+    </article>
+
+
+
+
+    <footer class="markdown">
+<p><br/></p><p><br/></p><hr/><div class="align-center"><p>2021 ~ 2023 &copy; Baehyunsol</p></div>
+    </footer>
+
+
+    <script src="colors.js"></script>
+
+    
+    <script src="nav.js"></script>
+    
+    
+    
+    <script src="header.js"></script>
+    
+<script src="collapsible_tables.js"></script></body>
+
+</html>

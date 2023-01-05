@@ -4,7 +4,7 @@
 
 작성자: 배현솔\
 최초 작성일: 2022.09.02\
-최근 업데이트: 2023.01.04
+최근 업데이트: 2023.01.05
 
 [[/right]]
 
@@ -17,6 +17,7 @@ Coq 언어 자습 문서입니다.
 - 문서의 모든 내용은 [Software Foundations](https://softwarefoundations.cis.upenn.edu/)의 내용에 기반합니다.
   - 다만, 순수 번역본은 아닙니다. 제가 자습한 내용을 한글로 정리한 정리본에 가깝습니다. 원본과 순서가 다른 내용도 있고, 생략/추가된 내용도 조금씩 있습니다.
   - 이 블로그의 99% 정도의 내용은 Software Foundations에 기반하지만 [Coq 공식 문서](https://coq.inria.fr/refman/index.html)와 [다른 책](http://adam.chlipala.net/cpdt/)에서 참고한 내용도 간혹 있습니다.
+  - 허충길 교수님의 2020년 서울대학교 강의 내용도 조금 포함돼 있습니다. 대부분은 [부록2](lectures.html)에 있고, 다른 글들에도 조금씩 녹아 있습니다.
 - Coq를 웹 상에서 실행시켜보고 싶으면 [jscoq](https://coq.vercel.app/scratchpad.html)를 방문하시면 됩니다.
 - 이 책을 쓰는 현재 제가 사용중인 Coq는 CoqIDE, version 8.15.2입니다.
 - [단원별 목차](#index-by-chapter)
@@ -64,7 +65,7 @@ Coq 언어 자습 문서입니다.
   - [Chapter 9-4. Inversion, Again](Chap9-4.html)
 - Chapter 10. Induction Principles
   - [Chapter 10-1. Induction Principles](Chap10-1.html)
-  - [Chapter 10-2. ??](Chap10-2.html)
+  - [Chapter 10-2. TODO](Chap10-2.html)
 - Chapter 11. Properties of Relations
 - Chapter 12. Simple Imperative Programs
   - [Chapter 12-1. Arithmetic and Boolean Expressions](Chap12-1.html)
@@ -72,7 +73,8 @@ Coq 언어 자습 문서입니다.
   - [Chpater 12-3. States and Commands](Chap12-3.html)
 - Chapter 13. Program Equivalence
 - Chapter 14. Hoare Logic
-- [Appendix](Appendix.html)
+- [부록1: 코드 모음](Appendix.html)
+- [부록2: 허충길 교수님 강의](lectures.html)
 
 ## Index by Keyword
 
@@ -103,6 +105,7 @@ Coq 언어 자습 문서입니다.
   - exists: [chap6-3](Chap6-3.html#keywordexists)
 - F[[anchor, id = index f]][[/anchor]]
   - f_equal: [chap5-2](Chap5-2.html#keywordfequal)
+  - fix: [chap4-2](Chap4-2.html#keywordfix)
   - fixpoint: [chap1-2](Chap1-2.html#keywordfixpoint)
   - fun: [chap4-2](Chap4-2.html#keywordfun)
 - G[[anchor, id = index g]][[/anchor]]
