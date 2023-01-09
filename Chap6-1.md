@@ -139,10 +139,10 @@ Lemma mult_0:
 Proof.
   intros n m H.
   destruct H as [Hn | Hm].
-  - (* Hn: n = 0 *)
+  - (*{- Hn: n = 0 -}*)
     rewrite Hn.
     reflexivity.
-  - (* Hm: m = 0 *)
+  - (*{- Hm: m = 0 -}*)
     rewrite Hm.
     rewrite <- mult_n_O.
     reflexivity.

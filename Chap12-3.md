@@ -5,7 +5,7 @@
 
 # States and Commands
 
-[12-1 단원](Chap12-1.html)에서 간단한 프로그래밍 언어를 만들었습니다. 거기서 만든 언어는 너무 간단해서 어떻게 쓸지 애매했는데, 이번 단원에서 언어를 발전시켜보겠습니다. 이번 단원에서는 언어에 변수를 추가해보겠습니다. 간단하게 하기 위해서 변수의 범위(scope)는 전혀 신경 쓰지 않고, 정수형만 다루겠습니다.
+[12-1 단원](Chap12-1.html)에서 Imp를 만들었습니다. 거기서 만든 언어는 너무 간단해서 어떻게 쓸지 애매했는데, 이번 단원에서 Imp를 발전시켜보겠습니다. 먼저, 언어에 변수를 추가해보겠습니다. 간단하게 하기 위해서 변수의 범위(scope)는 전혀 신경 쓰지 않고, 정수형만 다루겠습니다.
 
 모든 변수의 이름과 값이 저장돼 있는 자료구조를 상태(state)라고 합니다. 상태를 구현하기 위해서 [8단원](Chap8-1.html)에서 봤던 `total_map`을 사용하겠습니다. 또한 변수가 추가됐으니 `aexp`의 형태도 조금 바꾸겠습니다.
 
@@ -50,7 +50,7 @@ Notation "x && y"  := (BAnd x y) (in custom com at level 80, left associativity)
 Notation "'~' b"   := (BNot b) (in custom com at level 75, right associativity).
 ```
 
-아주 긴데, 겁먹으실 필요는 전혀 없습니다. `<{ e }>`가 정의들을 핵심입니다. `e` 자리에 들어오는 식은 Coq 문법이 아니고 우리의 프로그래밍 언어의 문법으로 해석하라는 뜻입니다. 그 아래에 정의한 문법들 역시 Coq의 Notation이 아니고 우리가 만드는 언어의 Notation입니다.
+아주 긴데, 겁먹으실 필요는 전혀 없습니다. `<{ e }>`가 정의들을 핵심입니다. `e` 자리에 들어오는 식은 Coq 문법이 아니고 Imp의 문법으로 해석하라는 뜻입니다. 그 아래에 정의한 문법들 역시 Coq의 Notation이 아니고 Imp의 Notation입니다.
 
 ## Commands
 
@@ -123,7 +123,7 @@ Inductive ceval : com -> state -> state -> Prop :=
   where "st =[ c ]=> st'" := (ceval c st st').
 ```
 
-새로운 Notation을 추가했습니다. `st =[ c ]=> st'`에서 `st`와 `st'`는 상태고, `c`는 명령어입니다. `st`라는 상태에서 `c`를 실행하면 `st'`이 된다는 뜻입니다. 즉, 프로그래밍 언어를 상태와 명령어로만 봅니다.
+새로운 Notation을 추가했습니다. `st =[ c ]=> st'`에서 `st`와 `st'`는 상태고, `c`는 명령어입니다. `st`라는 상태에서 `c`를 실행하면 `st'`이 된다는 뜻입니다. 즉, 프로그래밍 언어를 상태와 명령어들의 모음으로만 봅니다.
 
 ---
 
@@ -141,6 +141,6 @@ Inductive ceval : com -> state -> state -> Prop :=
 
 [[right]]
 
-[Chapter 13-1. TODO](Chap13-1.html) >>
+[Chapter 13-1. Behavioral Equivalence](Chap13-1.html) >>
 
 [[/right]]

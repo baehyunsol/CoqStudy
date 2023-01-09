@@ -124,6 +124,86 @@ Qed.
 
 간단하죠?
 
+## subst
+
+[[anchor, id = keyword subst]][[/anchor]]
+
+`subst`도 아주 유용한 tactic입니다. Coq으로 증명을 하다보면 context에 불필요한 이름들이 많이 들어가서 더러워집니다. 예를 들어서 `c1 = c`,  `c2 = c1` 등등의 의미없는 등식들이 context에 가득 차 있으면 증명을 따라가기 버겁습니다. 저런 의미없는 등식들을 날려주는게 `subst`입니다. 예를 들어서 context에 `x = e`나 `e = x`가 있을 때 `subst x`를 하면 증명의 모든 부분에 있는 `x`를 전부 찾아서 `e`로 바꿔준 후, context의 `x = e`를 날려버립니다.
+
+더 간편하게 쓰려면 `subst`라고만 해도 됩니다. 그러면 교체가 가능한 모든 이름들을 교체한 후 context에서 필요없는 등식들을 날려버립니다. 아래의 예시를 보겠습니다.
+
+```
+1 goal
+c : com
+st, st' : state
+H : st =[ skip; c ]=> st'
+c1, c2 : com
+st0, st'0, st'' : state
+H2 : st =[ skip ]=> st'0
+H5 : st'0 =[ c ]=> st'
+H0 : c1 = <{ skip }>
+H1 : c2 = c
+H3 : st0 = st
+H4 : st'' = st'
+______________________________________(1/1)
+st =[ c ]=> st'
+```
+
+위는 진행 중인 어떤 증명의 context와 goal입니다. 한 눈에 봐도 더럽죠? 저 상태에서 `subst`를 하면 아래와 같이 변합니다.
+
+```
+1 goal
+c : com
+st, st' : state
+H : st =[ skip; c ]=> st'
+st'0 : state
+H2 : st =[ skip ]=> st'0
+H5 : st'0 =[ c ]=> st'
+______________________________________(1/1)
+st =[ c ]=> st'
+```
+
+`st0`와 `st''`, `c1`, `c2`는 날려버려도 상관이 없으니 날려버렸습니다. 이렇게 하면 필요한 이름들만 남게 돼서 훨씬 보기 좋습니다.
+
+## assumption
+
+[[anchor, id = keyword assumption]][[/anchor]]
+
+아주 간단합니다. context에 `H: a = b`가 있고 goal도 `a = b`이다? 둘이 모양이 완전 동일하죠? 그럼 그 즉시 증명을 끝냅니다.
+
+즉, context를 뒤져서 goal과 동일하게 생긴 가정을 찾고, 그런 가정이 있으면 즉시 증명을 끝냅니다. Coq이 자동으로 `apply`를 해준다고 생각해도 됩니다.
+
+## auto
+
+[[anchor, id = keyword auto]][[/anchor]]
+
+아주 강력한 tactic입니다. 이름부터 세 보이죠? 아래의 두 증명을 봅시다.
+
+```haskell, line_num
+Example auto_example_1 : forall (P Q R: Prop),
+  (P -> Q) -> (Q -> R) -> P -> R.
+Proof.
+  intros P Q R H1 H2 H3.
+  apply H2.
+  apply H1.
+  assumption.
+Qed.
+
+Example auto_example_1' : forall (P Q R: Prop),
+  (P -> Q) -> (Q -> R) -> P -> R.
+Proof.
+  auto.
+Qed.
+```
+
+위의 두 증명은 동일합니다. `intros`와 `apply`로만 이뤄진 증명은, `auto`로 즉시 끝낼 수 있습니다. 만약 `auto`가 적용 가능할 경우 증명이 즉시 끝나고 적용 불가능할 경우 증명에 손을 대지 않기 때문에 아무때나 써도 안전합니다.
+
+`auto`가 내부적으로 무슨 일을 하는지 궁금할 경우 `auto` 대신 `debug auto` 혹은 `info_auto` 라고[^sp] 입력하면 됩니다.
+
+실제로 실행하기 전까지 `auto`는 증명의 길이가 얼마나 길지 예측할 수 없습니다. 그렇다고 증명이 끝날 때까지 계속 탐색을 하면 `auto`가 무한루프에 빠질 수도 있습니다. 그래서 `auto`는 증명의 깊이가 일정 수준 이상 되면 (기본값은 5입니다) 증명을 포기합니다. 깊이를 임의로 주고 싶으면 `auto 6`과 같은 방식으로 `auto` 뒤에 숫자를 붙여서 주면 됩니다.
+
+[^sp]: 전자는 띄어쓰기가 있고 후자는 `_`가 있습니다. 주의하세요.
+
 ---
 
 [[center]]

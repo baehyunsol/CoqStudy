@@ -4,7 +4,7 @@
 
 작성자: 배현솔\
 최초 작성일: 2022.09.02\
-최근 업데이트: 2023.01.05
+최근 업데이트: 2023.01.09
 
 [[/right]]
 
@@ -72,7 +72,12 @@ Coq 언어 자습 문서입니다.
   - [Chpater 12-2. Coq Automation](Chap12-2.html)
   - [Chpater 12-3. States and Commands](Chap12-3.html)
 - Chapter 13. Program Equivalence
+  - [Chapter 13-1. Behavioral Equivalence](Chap13-1.html)
+  - [Chapter 13-2. Program Equivalence](Chap13-2.html)
+  - [Chapter 13-3. Program Transformation](Chap13-3.html)
 - Chapter 14. Hoare Logic
+  - [Chapter 14-1. Hoare Logic](Chap14-1.html)
+  - [Chapter 14-2. Proof Rules](Chap14-2.html)
 - [부록1: 코드 모음](Appendix.html)
 - [부록2: 허충길 교수님 강의](lectures.html)
 
@@ -87,7 +92,9 @@ Coq 언어 자습 문서입니다.
   - apply with: [chap5-1](Chap5-1.html#keywordapplywith), [chap6-4](Chap6-4.html#keywordapplywith)
   - arguments: [chap4-1](Chap4-1.html#keywordarguments)
   - assert: [chap2-2](Chap2-2.html#keywordassert)
+  - assumption: [chap12-2](Chap12-2.html#keywordassumption)
   - @: [char4-1](Chap4-1.html#keywordat)
+  - auto: [chap12-2](Chap12-2.html#keywordauto)
   - axiom: [char6-5](Chap6-5.html#keywordaxiom)
 - C[[anchor, id = index c]][[/anchor]]
   - check: [chap1-1](Chap1-1.html#keywordcheck)
@@ -135,6 +142,7 @@ Coq 언어 자습 문서입니다.
   - reflexivity: [chap1-3](Chap1-3.html#keywordreflexivity)
   - remember: [chap7-3](Chap7-3.html#keywordremember)
   - repeat: [chap12-2](Chap12-2.html#keywordrepeat)
+  - replace: [chap13-3](Chap13-3.html#keywordreplace)
   - reserved: [chap7-3](Chap7-3.html#keywordreserved)
   - rewrite: [chap1-3](Chap1-3.html#keywordrewrite), [chap6-4](Chap6-4.html#keywordrewrite)
   - right: [chap6-1](Chap6-1.html#keywordright)
@@ -144,6 +152,7 @@ Coq 언어 자습 문서입니다.
   - show proof: [chap9-1](Chap9-1.html#keywordshowproof)
   - simpl: [chap1-3](Chap1-3.html#keywordsimpl)
   - split: [chap6-1](Chap6-1.html#keywordsplit), [chap9-2](Chap9-2.html#keywordsplit)
+  - subst: [chap12-2](Chap12-2.html#keywordsubst)
   - symmetry: [chap5-1](Chap5-1.html#keywordsymmetry)
 - T[[anchor, id = index t]][[/anchor]]
   - then: [chap1-1](Chap1-1.html#keywordif)

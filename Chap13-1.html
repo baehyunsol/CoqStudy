@@ -1,0 +1,293 @@
+<!DOCTYPE html><html>
+
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width"/>
+    
+    <title>Chap13-1</title>
+    
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding&amp;display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'"/>
+    <!--<link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding&amp;display=swap" rel="stylesheet"/> -->
+    
+    <link href="page.css" rel="stylesheet"/><link href="markdown.css" rel="stylesheet"/><link href="nav.css" rel="stylesheet"/><link href="header.css" rel="stylesheet"/>
+    
+</head>
+
+<body>
+
+
+    <header>
+<p><div class="topmenu deactivated"><a href="index.html">Home</a> <a href="index.html#index-by-chapter">단원별 목차</a> <a href="index.html#index-by-keyword">키워드 목차</a> <a href="Appendix.html">부록</a></div><div class="mobileview"><a id="navbutton">&#9776;</a></div></p>
+    </header>
+
+
+
+    <nav>
+<p><a id="settingsopenbutton">&#9728;</a><a href="#top">&#9650;</a><a href="#bottom">&#9660;</a></p><div id="settingsmenubg"><p><div id="settingsmenu"> <a id="settingsclosebutton">&#10006;</a> <a id="changethemebutton">Set Light Theme</a> <a id="growhorizontalbutton">Grow Horizontally</a> <a id="shrinkhorizontalbutton">Shrink Horizontally</a> <a id="growfontbutton">Grow Font</a> <a id="shrinkfontbutton">Shrink Font</a> </div></p></div>
+    </nav>
+
+
+    <article class="markdown">
+        <a id="top"></a>
+<table><thead id="table-collapse-toggle-0" class="collapsible collapsed" onclick="collapse_table('0')"><tr><th>목차</th></tr></thead><tbody id="collapsible-table-0" class="invisible"><tr><td><div class="toc"><p>1. <a href="#behavioral-equivalence">Behavioral Equivalence</a></p></div></td></tr></tbody></table><h1 id="behavioral-equivalence">Behavioral Equivalence</h1><p><a href="Chap12-1.html#optimizations">12단원</a>에서 최적화를 배울 때, 최적화를 하든 안하든 프로그램의 동작이 항상 동일하단 걸 증명했습니다. 동작의 동일성을 증명하는 것은 프로그램 검증에서 아주 중요한 부분인데요, 이번 단원에서는 동일성에 대해서 얘기를 해보겠습니다.</p><p>Imp에서 <code class="inline-code-span">X - X</code>와 <code class="inline-code-span">0</code>은 항상 동일한 값입니다... 항상 동일한 값일까요? 저게 동일한 값이면 <code class="inline-code-span">X - X = 0</code>과 <code class="inline-code-span">true</code>도 항상 동일한 값일까요? 이런 식으로 손과 머리만 써서 동일성을 검증하기엔 제약이 너무 많습니다. <u>동일함</u>을 Coq으로 정의를 하고, 동일성을 Coq을 이용해서 확인해봅시다.</p><pre class="fenced-code-block line-num-width-0"><code><span class="code-fence-row"><span class="code-fence-index">1</span><span class="code-fence-code"><span class="color-gold">Definition</span><span class="color-white"> aequiv (a1 a2 </span><span class="color-white">:</span><span class="color-white"> aexp) </span><span class="color-white">:</span> <span class="color-gold">Prop</span> <span class="color-white">:=</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">2</span><span class="code-fence-code"><span class="color-white">  forall (st </span><span class="color-white">:</span><span class="color-white"> state)</span><span class="color-white">,</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">3</span><span class="code-fence-code"><span class="color-white">    aeval st a1 </span><span class="color-white">=</span><span class="color-white"> aeval st a2</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">4</span><span class="code-fence-code">
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">5</span><span class="code-fence-code"><span class="color-gold">Definition</span><span class="color-white"> bequiv (b1 b2 </span><span class="color-white">:</span><span class="color-white"> bexp) </span><span class="color-white">:</span> <span class="color-gold">Prop</span> <span class="color-white">:=</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">6</span><span class="code-fence-code"><span class="color-white">  forall (st </span><span class="color-white">:</span><span class="color-white"> state)</span><span class="color-white">,</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">7</span><span class="code-fence-code"><span class="color-white">    beval st b1 </span><span class="color-white">=</span><span class="color-white"> beval st b2</span><span class="color-white">.</span></span></span>
+</code><button class="copy-fenced-code" onclick="copy_code_to_clipboard(0)">Copy</button></pre><p>먼저 <code class="inline-code-span">aeval</code>과 <code class="inline-code-span">beval</code>의 동일성을 정의했습니다. 저 정의를 갖고 <code class="inline-code-span">X - X</code>와 <code class="inline-code-span">0</code>이 동일한지 확인해봅시다.</p><pre class="fenced-code-block line-num-width-1"><code><span class="code-fence-row"><span class="code-fence-index">1</span><span class="code-fence-code"><span class="color-gold">Theorem</span><span class="color-white"> aequiv_example</span><span class="color-white">:</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">2</span><span class="code-fence-code"><span class="color-white">  aequiv
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">3</span><span class="code-fence-code">    <span class="color-white">&lt;</span><span class="color-white">{ </span><span class="color-gold">X</span> <span class="color-white">-</span> <span class="color-gold">X</span><span class="color-white"> }</span><span class="color-white">&gt;</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">4</span><span class="code-fence-code">    <span class="color-white">&lt;</span><span class="color-white">{ </span><span class="color-gold">0</span><span class="color-white"> }</span><span class="color-white">&gt;.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">5</span><span class="code-fence-code"><span class="color-gold">Proof</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">6</span><span class="code-fence-code"><span class="color-white">  intros st</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">7</span><span class="code-fence-code"><span class="color-white">  simpl</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">8</span><span class="code-fence-code"><span class="color-white">  lia</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">9</span><span class="code-fence-code"><span class="color-gold">Qed</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">10</span><span class="code-fence-code">
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">11</span><span class="code-fence-code"><span class="color-gold">Theorem</span><span class="color-white"> bequiv_example</span><span class="color-white">:</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">12</span><span class="code-fence-code"><span class="color-white">  bequiv
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">13</span><span class="code-fence-code">    <span class="color-white">&lt;</span><span class="color-white">{ </span><span class="color-gold">X</span> <span class="color-white">-</span> <span class="color-gold">X</span> <span class="color-white">=</span> <span class="color-gold">0</span><span class="color-white"> }</span><span class="color-white">&gt;</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">14</span><span class="code-fence-code">    <span class="color-white">&lt;</span><span class="color-white">{ true }</span><span class="color-white">&gt;.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">15</span><span class="code-fence-code"><span class="color-gold">Proof</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">16</span><span class="code-fence-code"><span class="color-white">  intros st</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">17</span><span class="code-fence-code"><span class="color-white">  unfold beval</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">18</span><span class="code-fence-code"><span class="color-white">  rewrite aequiv_example</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">19</span><span class="code-fence-code"><span class="color-white">  reflexivity</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">20</span><span class="code-fence-code"><span class="color-gold">Qed</span><span class="color-white">.</span></span></span>
+</code><button class="copy-fenced-code" onclick="copy_code_to_clipboard(1)">Copy</button></pre><p>Coq을 이용해서 <code class="inline-code-span">X - X</code>와 <code class="inline-code-span">0</code>은 항상 같다는 걸 증명했습니다.</p><p><code class="inline-code-span">aequiv</code>와 <code class="inline-code-span">bequiv</code>는 값들의 동일성입니다. 값이 아니고 명령어끼리도 동일성을 증명할 순 없을까요? <code class="inline-code-span">b</code>가 항상 참이라면 <code class="inline-code-span">if b then c1 else c2</code>를 <code class="inline-code-span">c1</code>으로 갈아끼울 수 있습니다. 이런 식이면 컴파일러가 최적화하기 쉬울텐데 말이죠. 아래의 <code class="inline-code-span">cequiv</code>를 봅시다.</p><pre class="fenced-code-block line-num-width-0"><code><span class="code-fence-row"><span class="code-fence-index">1</span><span class="code-fence-code"><span class="color-gold">Definition</span><span class="color-white"> cequiv (c1 c2 </span><span class="color-white">:</span><span class="color-white"> com) </span><span class="color-white">:</span> <span class="color-gold">Prop</span> <span class="color-white">:=</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">2</span><span class="code-fence-code"><span class="color-white">  forall (st st&apos; </span><span class="color-white">:</span><span class="color-white"> state)</span><span class="color-white">,</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">3</span><span class="code-fence-code"><span class="color-white">    (st </span><span class="color-white">=</span><span class="color-white">[ c1 ]</span><span class="color-white">=&gt;</span><span class="color-white"> st&apos;) </span><span class="color-white">&lt;-&gt;</span><span class="color-white"> (st </span><span class="color-white">=</span><span class="color-white">[ c2 ]</span><span class="color-white">=&gt;</span><span class="color-white"> st&apos;)</span><span class="color-white">.</span></span></span>
+</code><button class="copy-fenced-code" onclick="copy_code_to_clipboard(2)">Copy</button></pre><p>어떤 명령어 <code class="inline-code-span">c1</code>과 <code class="inline-code-span">c2</code>가 동일하다는 뜻은, 어떤 상태에서든지 <code class="inline-code-span">c1</code>의 실행결과와 <code class="inline-code-span">c2</code>의 실행결과가 동일하다는 뜻입니다. 저 정의를 갖고 방금 얘기한 명령어의 동일성을 증명해보겠습니다.</p><pre class="fenced-code-block line-num-width-1"><code><span class="code-fence-row"><span class="code-fence-index">1</span><span class="code-fence-code"><span class="color-gold">Theorem</span><span class="color-white"> skip_left </span><span class="color-white">:</span><span class="color-white"> forall c</span><span class="color-white">,</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">2</span><span class="code-fence-code"><span class="color-white">  cequiv
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">3</span><span class="code-fence-code">    <span class="color-white">&lt;</span><span class="color-white">{ skip; c }</span><span class="color-white">&gt;</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">4</span><span class="code-fence-code"><span class="color-white">    c</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">5</span><span class="code-fence-code"><span class="color-gold">Proof</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">6</span><span class="code-fence-code"><span class="color-white">  intros c st st&apos;</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">7</span><span class="code-fence-code"><span class="color-white">  split;
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">8</span><span class="code-fence-code"><span class="color-white">  intros </span><span class="color-gold">H</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">9</span><span class="code-fence-code">  <span class="color-white">-</span><span class="color-white"> (*</span><span class="color-gray">{-</span><span class="color-gray"> skip;c -&gt; c </span><span class="color-gray">-}</span><span class="color-white">*)
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">10</span><span class="code-fence-code"><span class="color-white">    inversion </span><span class="color-gold">H</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">11</span><span class="code-fence-code"><span class="color-white">    subst</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">12</span><span class="code-fence-code"><span class="color-white">    inversion </span><span class="color-gold">H2</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">13</span><span class="code-fence-code"><span class="color-white">    subst</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">14</span><span class="code-fence-code"><span class="color-white">    assumption</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">15</span><span class="code-fence-code">  <span class="color-white">-</span><span class="color-white"> (*</span><span class="color-gray">{-</span><span class="color-gray"> c -&gt; skip;c </span><span class="color-gray">-}</span><span class="color-white">*)
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">16</span><span class="code-fence-code"><span class="color-white">    apply </span><span class="color-gold">E_Seq</span><span class="color-white"> with st</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">17</span><span class="code-fence-code"><span class="color-white">    apply </span><span class="color-gold">E_Skip</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">18</span><span class="code-fence-code"><span class="color-white">    assumption</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">19</span><span class="code-fence-code"><span class="color-gold">Qed</span><span class="color-white">.</span></span></span>
+</code><button class="copy-fenced-code" onclick="copy_code_to_clipboard(3)">Copy</button></pre><p>13번 줄을 실행하고 나면 context에 <code class="inline-code-span">H5: st&apos;0 =[ c ]=&gt; st&apos;</code>가 생기고 goal도 <code class="inline-code-span">st&apos;0 =[ c ]=&gt; st&apos;</code>가 돼서 <code class="inline-code-span">assumption</code> tactic으로 손쉽게 처리할 수 있습니다. 원래대로면 <code class="inline-code-span">split</code>의 각 경우마다 첫 tactic은 <code class="inline-code-span">intros H</code>가 돼야 합니다. <code class="inline-code-span">intros H</code>를 2번 쓰기는 귀찮으니 <a href="Chap12-2.html#keywordsemicolon">12-2 단원</a>에서 배웠던 <code class="inline-code-span">;</code>를 사용했습니다.</p><pre class="fenced-code-block line-num-width-1"><code><span class="code-fence-row"><span class="code-fence-index">1</span><span class="code-fence-code"><span class="color-gold">Theorem</span><span class="color-white"> skip_right </span><span class="color-white">:</span><span class="color-white"> forall c</span><span class="color-white">,</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">2</span><span class="code-fence-code"><span class="color-white">  cequiv
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">3</span><span class="code-fence-code">    <span class="color-white">&lt;</span><span class="color-white">{ c; skip }</span><span class="color-white">&gt;</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">4</span><span class="code-fence-code"><span class="color-white">    c</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">5</span><span class="code-fence-code"><span class="color-gold">Proof</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">6</span><span class="code-fence-code"><span class="color-white">  intros c st st&apos;</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">7</span><span class="code-fence-code"><span class="color-white">  split;
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">8</span><span class="code-fence-code"><span class="color-white">  intros </span><span class="color-gold">H</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">9</span><span class="code-fence-code">  <span class="color-white">-</span><span class="color-white"> (*</span><span class="color-gray">{-</span><span class="color-gray"> c;skip -&gt; c </span><span class="color-gray">-}</span><span class="color-white">*)
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">10</span><span class="code-fence-code"><span class="color-white">    inversion </span><span class="color-gold">H</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">11</span><span class="code-fence-code"><span class="color-white">    subst</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">12</span><span class="code-fence-code"><span class="color-white">    inversion </span><span class="color-gold">H5</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">13</span><span class="code-fence-code"><span class="color-white">    subst</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">14</span><span class="code-fence-code"><span class="color-white">    assumption</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">15</span><span class="code-fence-code">  <span class="color-white">-</span><span class="color-white"> (*</span><span class="color-gray">{-</span><span class="color-gray"> c -&gt; c;skip </span><span class="color-gray">-}</span><span class="color-white">*)
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">16</span><span class="code-fence-code"><span class="color-white">    apply </span><span class="color-gold">E_Seq</span><span class="color-white"> with st&apos;</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">17</span><span class="code-fence-code">    <span class="color-white">+</span><span class="color-white"> (*</span><span class="color-gray">{-</span><span class="color-gray"> st =[ c ]=&gt; st&apos; </span><span class="color-gray">-}</span><span class="color-white">*)
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">18</span><span class="code-fence-code"><span class="color-white">      assumption</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">19</span><span class="code-fence-code">    <span class="color-white">+</span><span class="color-white"> (*</span><span class="color-gray">{-</span><span class="color-gray"> st&apos; =[ skip ]=&gt; st&apos; </span><span class="color-gray">-}</span><span class="color-white">*)
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">20</span><span class="code-fence-code"><span class="color-white">      apply </span><span class="color-gold">E_Skip</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">21</span><span class="code-fence-code">  <span class="color-gold">Qed</span><span class="color-white">.</span></span></span>
+</code><button class="copy-fenced-code" onclick="copy_code_to_clipboard(4)">Copy</button></pre><p>반대방향으로도 가 보았습니다.</p><pre class="fenced-code-block line-num-width-1"><code><span class="code-fence-row"><span class="code-fence-index">1</span><span class="code-fence-code"><span class="color-gold">Theorem</span><span class="color-white"> if_true</span><span class="color-white">:</span><span class="color-white"> forall b c1 c2</span><span class="color-white">,</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">2</span><span class="code-fence-code"><span class="color-white">  bequiv b </span><span class="color-white">&lt;</span><span class="color-white">{true}</span><span class="color-white">&gt;</span> <span class="color-white">-&gt;</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">3</span><span class="code-fence-code"><span class="color-white">  cequiv
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">4</span><span class="code-fence-code">    <span class="color-white">&lt;</span><span class="color-white">{ </span><span class="color-violet">if</span><span class="color-white"> b </span><span class="color-violet">then</span><span class="color-white"> c1 </span><span class="color-violet">else</span><span class="color-white"> c2 end }</span><span class="color-white">&gt;</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">5</span><span class="code-fence-code"><span class="color-white">    c1</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">6</span><span class="code-fence-code"><span class="color-gold">Proof</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">7</span><span class="code-fence-code"><span class="color-white">  intros b c1 c2 </span><span class="color-gold">H</span><span class="color-white"> st st&apos;</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">8</span><span class="code-fence-code"><span class="color-white">  split;
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">9</span><span class="code-fence-code"><span class="color-white">  intros </span><span class="color-gold">H2</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">10</span><span class="code-fence-code">  <span class="color-white">-</span><span class="color-white"> (*</span><span class="color-gray">{-</span><span class="color-gray"> if -&gt; c1 </span><span class="color-gray">-}</span><span class="color-white">*)
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">11</span><span class="code-fence-code"><span class="color-white">    inversion </span><span class="color-gold">H2</span><span class="color-white">;
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">12</span><span class="code-fence-code"><span class="color-white">    subst</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">13</span><span class="code-fence-code">    <span class="color-white">+</span><span class="color-white"> (*</span><span class="color-gray">{-</span><span class="color-gray"> H7: st =[c1]=&gt; st&apos; </span><span class="color-gray">-}</span><span class="color-white">*)
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">14</span><span class="code-fence-code"><span class="color-white">      assumption</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">15</span><span class="code-fence-code">    <span class="color-white">+</span><span class="color-white"> (*</span><span class="color-gray">{-</span><span class="color-gray"> H7: st =[c2]=&gt; st&apos; </span><span class="color-gray">-}</span><span class="color-white">*)
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">16</span><span class="code-fence-code"><span class="color-white">      rewrite </span><span class="color-gold">H</span> <span class="color-violet">in</span> <span class="color-gold">H6</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">17</span><span class="code-fence-code"><span class="color-white">      unfold beval </span><span class="color-violet">in</span> <span class="color-gold">H6</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">18</span><span class="code-fence-code"><span class="color-white">      discriminate</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">19</span><span class="code-fence-code">  <span class="color-white">-</span><span class="color-white"> (*</span><span class="color-gray">{-</span><span class="color-gray"> c1 -&gt; if </span><span class="color-gray">-}</span><span class="color-white">*)
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">20</span><span class="code-fence-code"><span class="color-white">    apply </span><span class="color-gold">E_IfTrue</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">21</span><span class="code-fence-code">    <span class="color-white">+</span><span class="color-white"> (*</span><span class="color-gray">{-</span><span class="color-gray"> b = true </span><span class="color-gray">-}</span><span class="color-white">*)
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">22</span><span class="code-fence-code"><span class="color-white">      apply </span><span class="color-gold">H</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">23</span><span class="code-fence-code">    <span class="color-white">+</span><span class="color-white"> (*</span><span class="color-gray">{-</span><span class="color-gray"> st =[c1]=&gt; st&apos; </span><span class="color-gray">-}</span><span class="color-white">*)
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">24</span><span class="code-fence-code"><span class="color-white">      assumption</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">25</span><span class="code-fence-code">  <span class="color-gold">Qed</span><span class="color-white">.</span></span></span>
+</code><button class="copy-fenced-code" onclick="copy_code_to_clipboard(5)">Copy</button></pre><p>첫 설명에서 언급했던 <u><code class="inline-code-span">b</code>가 참이면 <code class="inline-code-span">if b then c1 else c2</code>는 <code class="inline-code-span">c1</code>과 동치이다</u> 의 증명입니다. 11번 줄에서 <code class="inline-code-span">inversion H2</code>를 하면 <code class="inline-code-span">b</code>가 참인 경우와 거짓인 경우로 나눠집니다. <code class="inline-code-span">b</code>가 참이면 <code class="inline-code-span">assumption</code>을 통해서 바로 증명이 되고 <code class="inline-code-span">b</code>가 거짓일 경우 context에 있는 <code class="inline-code-span">b = true</code>를 이용해서 가정을 깨서 증명을 끝냅니다.</p><p>19번 줄부터는 <code class="inline-code-span">c1</code>이 <code class="inline-code-span">if b then c1 else c2</code>와 같음을 증명합니다. <code class="inline-code-span">if</code>문에 <code class="inline-code-span">apply E_IfTrue</code>를 하면 두가지 증거를 요구합니다. 첫번째는 <code class="inline-code-span">b</code>가 참이라는 거고 두번째는 <code class="inline-code-span">st =[c1]=&gt; st&apos;</code>이라는 건데 둘 다 context에 있으니 그대로 써주면 됩니다.</p><pre class="fenced-code-block line-num-width-1"><code><span class="code-fence-row"><span class="code-fence-index">1</span><span class="code-fence-code"><span class="color-gold">Theorem</span><span class="color-white"> if_false</span><span class="color-white">:</span><span class="color-white"> forall b c1 c2</span><span class="color-white">,</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">2</span><span class="code-fence-code"><span class="color-white">  bequiv b </span><span class="color-white">&lt;</span><span class="color-white">{false}</span><span class="color-white">&gt;</span> <span class="color-white">-&gt;</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">3</span><span class="code-fence-code"><span class="color-white">  cequiv
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">4</span><span class="code-fence-code">    <span class="color-white">&lt;</span><span class="color-white">{ </span><span class="color-violet">if</span><span class="color-white"> b </span><span class="color-violet">then</span><span class="color-white"> c1 </span><span class="color-violet">else</span><span class="color-white"> c2 end }</span><span class="color-white">&gt;</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">5</span><span class="code-fence-code"><span class="color-white">    c2</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">6</span><span class="code-fence-code"><span class="color-gold">Proof</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">7</span><span class="code-fence-code"><span class="color-white">  intros b c1 c2 </span><span class="color-gold">H</span><span class="color-white"> st st&apos;</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">8</span><span class="code-fence-code"><span class="color-white">  split;
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">9</span><span class="code-fence-code"><span class="color-white">  intros </span><span class="color-gold">H2</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">10</span><span class="code-fence-code">  <span class="color-white">-</span><span class="color-white"> (*</span><span class="color-gray">{-</span><span class="color-gray"> if -&gt; c2 </span><span class="color-gray">-}</span><span class="color-white">*)
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">11</span><span class="code-fence-code"><span class="color-white">    inversion </span><span class="color-gold">H2</span><span class="color-white">;
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">12</span><span class="code-fence-code"><span class="color-white">    subst</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">13</span><span class="code-fence-code">    <span class="color-white">+</span><span class="color-white"> (*</span><span class="color-gray">{-</span><span class="color-gray"> H7: st =[ c1 ]=&gt; st&apos; </span><span class="color-gray">-}</span><span class="color-white">*)
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">14</span><span class="code-fence-code"><span class="color-white">      rewrite </span><span class="color-gold">H</span> <span class="color-violet">in</span> <span class="color-gold">H6</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">15</span><span class="code-fence-code"><span class="color-white">      unfold beval </span><span class="color-violet">in</span> <span class="color-gold">H6</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">16</span><span class="code-fence-code"><span class="color-white">      discriminate</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">17</span><span class="code-fence-code">    <span class="color-white">+</span><span class="color-white"> (*</span><span class="color-gray">{-</span><span class="color-gray"> H7: st =[c2]=&gt; st&apos; </span><span class="color-gray">-}</span><span class="color-white">*)
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">18</span><span class="code-fence-code"><span class="color-white">      assumption</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">19</span><span class="code-fence-code">  <span class="color-white">-</span><span class="color-white"> (*</span><span class="color-gray">{-</span><span class="color-gray"> c2 -&gt; if </span><span class="color-gray">-}</span><span class="color-white">*)
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">20</span><span class="code-fence-code"><span class="color-white">    apply </span><span class="color-gold">E_IfFalse</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">21</span><span class="code-fence-code">    <span class="color-white">+</span><span class="color-white"> (*</span><span class="color-gray">{-</span><span class="color-gray"> b = false </span><span class="color-gray">-}</span><span class="color-white">*)
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">22</span><span class="code-fence-code"><span class="color-white">      apply </span><span class="color-gold">H</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">23</span><span class="code-fence-code">    <span class="color-white">+</span><span class="color-white"> (*</span><span class="color-gray">{-</span><span class="color-gray"> st =[c2]=&gt; st&apos; </span><span class="color-gray">-}</span><span class="color-white">*)
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">24</span><span class="code-fence-code"><span class="color-white">      assumption</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">25</span><span class="code-fence-code">  <span class="color-gold">Qed</span><span class="color-white">.</span></span></span>
+</code><button class="copy-fenced-code" onclick="copy_code_to_clipboard(6)">Copy</button></pre><p>이번에는 반대로 <code class="inline-code-span">b</code>가 <code class="inline-code-span">false</code>인 경우를 증명해봤습니다. 아까랑 거의 똑같은 증명입니다.</p><hr/><div class="align-center"><p><a href="index.html">메인으로 돌아가기</a></p></div><div class="align-left"><p>&lt;&lt; <a href="Chap12-3.html">Chapter 12-3. States and Commands</a></p></div><div class="align-right"><p><a href="Chap13-2.html">Chapter 13-2. Program Equivalence</a> &gt;&gt;</p></div><script>/*<![CDATA[*/
+const fenced_code_block_contents = ["Definition aequiv (a1 a2 : aexp) : Prop :=\n  forall (st : state),\n    aeval st a1 = aeval st a2.\n\nDefinition bequiv (b1 b2 : bexp) : Prop :=\n  forall (st : state),\n    beval st b1 = beval st b2.", "Theorem aequiv_example:\n  aequiv\n    <{ X - X }>\n    <{ 0 }>.\nProof.\n  intros st.\n  simpl.\n  lia.\nQed.\n\nTheorem bequiv_example:\n  bequiv\n    <{ X - X = 0 }>\n    <{ true }>.\nProof.\n  intros st.\n  unfold beval.\n  rewrite aequiv_example.\n  reflexivity.\nQed.", "Definition cequiv (c1 c2 : com) : Prop :=\n  forall (st st' : state),\n    (st =[ c1 ]=> st') <-> (st =[ c2 ]=> st').", "Theorem skip_left : forall c,\n  cequiv\n    <{ skip; c }>\n    c.\nProof.\n  intros c st st'.\n  split;\n  intros H.\n  - (*{- skip;c -> c -}*)\n    inversion H.\n    subst.\n    inversion H2.\n    subst.\n    assumption.\n  - (*{- c -> skip;c -}*)\n    apply E_Seq with st.\n    apply E_Skip.\n    assumption.\nQed.", "Theorem skip_right : forall c,\n  cequiv\n    <{ c; skip }>\n    c.\nProof.\n  intros c st st'.\n  split;\n  intros H.\n  - (*{- c;skip -> c -}*)\n    inversion H.\n    subst.\n    inversion H5.\n    subst.\n    assumption.\n  - (*{- c -> c;skip -}*)\n    apply E_Seq with st'.\n    + (*{- st =[ c ]=> st' -}*)\n      assumption.\n    + (*{- st' =[ skip ]=> st' -}*)\n      apply E_Skip.\n  Qed.", "Theorem if_true: forall b c1 c2,\n  bequiv b <{true}> ->\n  cequiv\n    <{ if b then c1 else c2 end }>\n    c1.\nProof.\n  intros b c1 c2 H st st'.\n  split;\n  intros H2.\n  - (*{- if -> c1 -}*)\n    inversion H2;\n    subst.\n    + (*{- H7: st =[c1]=> st' -}*)\n      assumption.\n    + (*{- H7: st =[c2]=> st' -}*)\n      rewrite H in H6.\n      unfold beval in H6.\n      discriminate.\n  - (*{- c1 -> if -}*)\n    apply E_IfTrue.\n    + (*{- b = true -}*)\n      apply H.\n    + (*{- st =[c1]=> st' -}*)\n      assumption.\n  Qed.", "Theorem if_false: forall b c1 c2,\n  bequiv b <{false}> ->\n  cequiv\n    <{ if b then c1 else c2 end }>\n    c2.\nProof.\n  intros b c1 c2 H st st'.\n  split;\n  intros H2.\n  - (*{- if -> c2 -}*)\n    inversion H2;\n    subst.\n    + (*{- H7: st =[ c1 ]=> st' -}*)\n      rewrite H in H6.\n      unfold beval in H6.\n      discriminate.\n    + (*{- H7: st =[c2]=> st' -}*)\n      assumption.\n  - (*{- c2 -> if -}*)\n    apply E_IfFalse.\n    + (*{- b = false -}*)\n      apply H.\n    + (*{- st =[c2]=> st' -}*)\n      assumption.\n  Qed."];
+
+function copy_code_to_clipboard(index) {
+    navigator.clipboard.writeText(fenced_code_block_contents[index]);
+}/*]]>*/</script>
+        <a id="bottom"></a>
+    </article>
+
+
+
+
+    <footer class="markdown">
+<p><br/></p><p><br/></p><hr/><div class="align-center"><p>2021 ~ 2023 &copy; Baehyunsol</p></div>
+    </footer>
+
+
+    <script src="colors.js"></script>
+
+    
+    <script src="nav.js"></script>
+    
+    
+    
+    <script src="header.js"></script>
+    
+<script src="collapsible_tables.js"></script></body>
+
+</html>

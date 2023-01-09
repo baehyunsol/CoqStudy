@@ -218,7 +218,7 @@ Proof.
   Qed.
 ```
 
-최종 증명입니다. 일단, _번 줄에서 `generalize dependent s2`를 통해서 `s2`를 `forall`로 만들어줬습니다. 또한, _번 줄에서 `remember (Star re) as re'`라는 tactic을 사용했습니다. 이 덕분에 `s1 =~ Star re`라는 사실을 context가 기억합니다. 그 덕분에 _번 줄에서 context에 `EmptyStr = Star re`라는 조건이 들어가서 `discriminate` tactic을 사용할 수 있습니다. 똑같은 방식으로 `Star`를 제외한 모든 경우들을 지웠습니다. 그 다음에는 식의 형태에 맞게 `apply`를 적절히 사용하여 증명을 완료했습니다.
+최종 증명입니다. 일단, _번 줄에서 `generalize dependent s2`를 통해서 `s2`를 `forall`로 만들어줬습니다. 또한, 4번 줄에서 `remember (Star re) as re'`라는 tactic을 사용했습니다. 이 덕분에 `s1 =~ Star re`라는 사실을 context가 기억합니다. 그 덕분에 6번 줄에서 context에 `EmptyStr = Star re`라는 조건이 들어가서 `discriminate` tactic을 사용할 수 있습니다. 똑같은 방식으로 `Star`를 제외한 모든 경우들을 지웠습니다. 그 다음에는 식의 형태에 맞게 `apply`를 적절히 사용하여 증명을 완료했습니다.
 
 참고로 `app_assoc`은 `(s1 ++ s2) ++ s0`을 `s1 ++ s2 ++ s0`로 바꿔줍니다.
 

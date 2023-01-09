@@ -29,8 +29,14 @@ Notation "x '!->' v ';' m" := (t_update m x v)
 ### 언어 문법
 
 ```haskell, line_num
+From Coq Require Import Lia.
 From Coq Require Import Init.Nat.
 Definition state := total_map nat.
+
+Definition W : string := "W".
+Definition X : string := "X".
+Definition Y : string := "Y".
+Definition Z : string := "Z".
 
 Inductive aexp : Type :=
   | ANum (n : nat)
@@ -152,6 +158,430 @@ Inductive ceval : com -> state -> state -> Prop :=
       st =[ while b do c end ]=> st''
 
   where "st =[ c ]=> st'" := (ceval c st st').
+```
+
+### Equivalence
+
+```haskell, line_num
+Definition aequiv (a1 a2 : aexp) : Prop :=
+  forall (st : state),
+    aeval st a1 = aeval st a2.
+
+Definition bequiv (b1 b2 : bexp) : Prop :=
+  forall (st : state),
+    beval st b1 = beval st b2.
+
+Definition cequiv (c1 c2 : com) : Prop :=
+  forall (st st' : state),
+    (st =[ c1 ]=> st') <-> (st =[ c2 ]=> st').
+
+Theorem if_true: forall b c1 c2,
+  bequiv b <{true}> ->
+  cequiv
+    <{ if b then c1 else c2 end }>
+    c1.
+Proof.
+  intros b c1 c2 H st st'.
+  split;
+  intros H2.
+  - (*{- if -> c1 -}*)
+    inversion H2;
+    subst.
+    + (*{- H7: st =[c1]=> st' -}*)
+      assumption.
+    + (*{- H7: st =[c2]=> st' -}*)
+      rewrite H in H6.
+      unfold beval in H6.
+      discriminate.
+  - (*{- c1 -> if -}*)
+    apply E_IfTrue.
+    + (*{- b = true -}*)
+      apply H.
+    + (*{- st =[c1]=> st' -}*)
+      assumption.
+  Qed.
+
+Theorem if_false: forall b c1 c2,
+  bequiv b <{false}> ->
+  cequiv
+    <{ if b then c1 else c2 end }>
+    c2.
+Proof.
+  intros b c1 c2 H st st'.
+  split;
+  intros H2.
+  - (*{- if -> c2 -}*)
+    inversion H2;
+    subst.
+    + (*{- H7: st =[ c1 ]=> st' -}*)
+      rewrite H in H6.
+      unfold beval in H6.
+      discriminate.
+    + (*{- H7: st =[c2]=> st' -}*)
+      assumption.
+  - (*{- c2 -> if -}*)
+    apply E_IfFalse.
+    + (*{- b = false -}*)
+      apply H.
+    + (*{- st =[c2]=> st' -}*)
+      assumption.
+  Qed.
+
+Theorem while_false : forall b c,
+  bequiv b <{false}> ->
+  cequiv
+    <{ while b do c end }>
+    <{ skip }>.
+Proof.
+  intros b c Hb.
+  split;
+  intros H.
+  - (*{- while -> skip -}*)
+    inversion H. subst.
+    + (*{- E_WhileFalse -}*)
+      apply E_Skip.
+    + (*{- E_WhileTrue -}*)
+      rewrite Hb in H2.
+      discriminate.
+  - (*{- skip -> while -}*)
+    inversion H.
+    subst.
+    apply E_WhileFalse.
+    apply Hb.
+  Qed.
+
+Lemma while_true_nonterm : forall b c st st',
+  bequiv b <{true}> ->
+  ~( st =[ while b do c end ]=> st' ).
+Proof.
+  intros b c st st' Hb H.
+  remember <{ while b do c end }> as cw eqn:Heqcw.
+  induction H;
+  inversion Heqcw;
+  subst;
+  clear Heqcw.
+  (*{- The two interesting cases are the ones for while loops: -}*)
+  - (*{- E_WhileFalse -}*)
+    unfold bequiv in Hb.
+    (*{- rewrite is able to instantiate the quantifier in st -}*)
+    rewrite Hb in H.
+    discriminate.
+  - (*{- E_WhileTrue -}*)
+    apply IHceval2.
+    reflexivity.
+  Qed.
+
+Theorem while_true : forall b c,
+  bequiv b <{true}> ->
+  cequiv
+    <{ while b do c end }>
+    <{ while true do skip end }>.
+Proof.
+  intros b c H st st'.
+  split;
+  intros H2.
+  - (*{- true -> nonterm -}*)
+    apply (while_true_nonterm b c st st') in H.
+    apply H in H2.
+    destruct H2. (*{- H2: False -}*)
+  - (*{- nonterm -> true -}*)
+    destruct b;
+    remember <{while true do skip end}> as cw eqn: H2eqcw.
+    induction H2;
+    inversion H2eqcw;
+    subst;
+    clear H2eqcw.
+    +
+      unfold beval in H0.
+      discriminate H0.
+    +
+      clear H.
+      clear H0.
+      assert (H3: st' =[ while true do c end ]=> st'').
+      { apply IHceval2. reflexivity. }
+      assert (H4: st =[ while true do c end ]=> st').
+      Admitted. (*{- TODO -}*)
+
+Lemma refl_aequiv : forall (a : aexp),
+  aequiv a a.
+Proof.
+  intros a st.
+  reflexivity.
+  Qed.
+
+Lemma sym_aequiv : forall (a1 a2 : aexp),
+  aequiv a1 a2 -> aequiv a2 a1.
+Proof.
+  intros a1 a2 H st.
+  symmetry.
+  apply H.
+  Qed.
+
+Lemma trans_aequiv : forall (a1 a2 a3 : aexp),
+  aequiv a1 a2 -> aequiv a2 a3 -> aequiv a1 a3.
+Proof.
+  unfold aequiv.
+  intros a1 a2 a3 H12 H23 st.
+  rewrite (H12 st).
+  rewrite (H23 st).
+  reflexivity.
+  Qed.
+
+Lemma refl_bequiv : forall (b : bexp),
+  bequiv b b.
+Proof.
+  intros b st.
+  reflexivity.
+  Qed.
+
+Lemma sym_bequiv : forall (b1 b2 : bexp),
+  bequiv b1 b2 -> bequiv b2 b1.
+Proof.
+  intros b1 b2 H st.
+  symmetry.
+  apply H.
+  Qed.
+
+Lemma trans_bequiv : forall (b1 b2 b3 : bexp),
+  bequiv b1 b2 -> bequiv b2 b3 -> bequiv b1 b3.
+Proof.
+  intros b1 b2 b3 H12 H23 st.
+  rewrite (H12 st).
+  rewrite (H23 st).
+  reflexivity.
+  Qed.
+
+Lemma refl_cequiv : forall (c : com),
+  cequiv c c.
+Proof.
+  intros c st st'.
+  reflexivity.
+  Qed.
+
+Lemma sym_cequiv : forall (c1 c2 : com),
+  cequiv c1 c2 -> cequiv c2 c1.
+Proof.
+  unfold cequiv.
+  intros c1 c2 H st st'.
+  rewrite H.
+  reflexivity.
+  Qed.
+
+Lemma trans_cequiv : forall (c1 c2 c3 : com),
+  cequiv c1 c2 -> cequiv c2 c3 -> cequiv c1 c3.
+Proof.
+  unfold cequiv.
+  intros c1 c2 c3 H12 H23 st st'.
+  rewrite H12.
+  apply H23.
+  Qed.
+
+Theorem CAsgn_congruence : forall x a a',
+  aequiv a a' ->
+  cequiv <{x := a}> <{x := a'}>.
+Proof.
+  intros x a a' H st st'.
+  split;
+  intros H2;
+  inversion H2;
+  subst;
+  apply E_Asgn;
+  rewrite H;
+  reflexivity.
+  Qed.
+
+Theorem CSeq_congruence : forall c1 c1' c2 c2',
+  cequiv c1 c1' -> cequiv c2 c2' -> cequiv <{ c1;c2 }> <{ c1';c2' }>.
+Proof.
+  intros c1 c1' c2 c2' H1 H2 st st'.
+  split;
+  intros H3;
+  inversion H3;
+  subst.
+  - (*{- c1 -> c1' -}*)
+    assert (H5: st =[ c1' ]=> st'0).
+      { apply H1. apply H4. }
+    assert (H6: st'0 =[ c2' ]=> st').
+      { apply H2. apply H7. }
+    apply (E_Seq c1' c2' st st'0 st' H5 H6).
+  - (*{- c1' -> c1 -}*)
+    assert (H5: st =[ c1 ]=> st'0).
+      { apply H1. apply H4. }
+    assert (H6: st'0 =[ c2 ]=> st').
+      { apply H2. apply H7. }
+    apply (E_Seq c1 c2 st st'0 st' H5 H6).
+  Qed.
+
+Theorem CIf_congruence : forall b b' c1 c1' c2 c2',
+  bequiv b b' -> cequiv c1 c1' -> cequiv c2 c2' ->
+  cequiv <{ if b then c1 else c2 end }>
+         <{ if b' then c1' else c2' end }>.
+Proof.
+  intros b b' c1 c1' c2 c2' H1 H2 H3 st st'.
+  split;
+  intros H4;
+  inversion H4;
+  subst.
+  - (*{- b -> b', b = true -}*)
+    assert (H5: beval st b' = true).
+    { rewrite <- H8. rewrite H1. reflexivity. }
+    assert (H6: st =[ c1' ]=> st').
+    { apply H2. apply H9. }
+    apply (E_IfTrue st st' b' c1' c2' H5 H6).
+  - (*{- b -> b', b = false -}*)
+    assert (H5: beval st b' = false).
+    { rewrite <- H8. rewrite H1. reflexivity. }
+    assert (H6: st =[ c2' ]=> st').
+    { apply H3. apply H9. }
+    apply (E_IfFalse st st' b' c1' c2' H5 H6).
+  - (*{- b' -> b, b' = true -}*)
+    assert (H5: beval st b = true).
+    { rewrite <- H8. rewrite H1. reflexivity. }
+    assert (H6: st =[ c1 ]=> st').
+    { apply H2. apply H9. }
+    apply (E_IfTrue st st' b c1 c2 H5 H6).
+  - (*{- b' -> b, b' = false -}*)
+    assert (H5: beval st b = false).
+    { rewrite <- H8. rewrite H1. reflexivity. }
+    assert (H6: st =[ c2 ]=> st').
+    { apply H3. apply H9. }
+    apply (E_IfFalse st st' b c1 c2 H5 H6).
+  Qed.
+
+Theorem CWhile_congruence : forall b b' c c',
+  bequiv b b' -> cequiv c c' ->
+  cequiv <{ while b do c end }> <{ while b' do c' end }>.
+Proof.
+  assert (A: forall (b b' : bexp) (c c' : com) (st st' : state),
+             bequiv b b' -> cequiv c c' ->
+             st =[ while b do c end ]=> st' ->
+             st =[ while b' do c' end ]=> st').
+  { 
+    unfold bequiv, cequiv.
+    intros b b' c c' st st' Hbe Hc1e Hce.
+    remember <{ while b do c end }> as cwhile eqn:Heqcwhile.
+    induction Hce;
+    inversion Heqcwhile;
+    subst.
+    + (*{- E_WhileFalse -}*)
+      apply E_WhileFalse.
+      rewrite <- Hbe.
+      apply H.
+    + (*{- E_WhileTrue -}*)
+      apply E_WhileTrue with (st' := st').
+      * (*{- show loop runs -}*)
+        rewrite <- Hbe.
+        apply H.
+      * (*{- body execution -}*)
+        apply (Hc1e st st').
+        apply Hce1.
+      * (*{- subsequent loop execution -}*)
+        apply IHHce2.
+        reflexivity.
+  }
+  intros.
+  split.
+  - (*{- b -> b' -}*)
+    apply A;
+    assumption.
+  - (*{- b' -> b -}*)
+    apply A;
+    try apply sym_bequiv;
+    try apply sym_cequiv;
+    assumption.
+Qed.
+
+Definition atrans_sound (atrans : aexp -> aexp) : Prop :=
+  forall (a : aexp),
+    aequiv a (atrans a).
+
+Definition btrans_sound (btrans : bexp -> bexp) : Prop :=
+  forall (b : bexp),
+    bequiv b (btrans b).
+
+Definition ctrans_sound (ctrans : com -> com) : Prop :=
+  forall (c : com),
+    cequiv c (ctrans c).
+```
+
+### Hoare Logic
+
+```haskell, line_num
+Definition Assertion := state -> Prop.
+
+Definition assert_implies (P Q : Assertion) : Prop :=
+  forall st, P st -> Q st.
+
+Declare Scope hoare_spec_scope.
+Notation "P ->> Q" := (assert_implies P Q)
+                      (at level 80) : hoare_spec_scope.
+Open Scope hoare_spec_scope.
+
+Notation "P <<->> Q" :=
+  (P ->> Q /\ Q ->> P) (at level 80) : hoare_spec_scope.
+
+Definition Aexp : Type := state -> nat.
+
+Definition assert_of_Prop (P : Prop) : Assertion := fun _ => P.
+Definition Aexp_of_nat (n : nat) : Aexp := fun _ => n.
+Definition Aexp_of_aexp (a : aexp) : Aexp := fun st => aeval st a.
+
+Coercion assert_of_Prop : Sortclass >-> Assertion.
+Coercion Aexp_of_nat : nat >-> Aexp.
+Coercion Aexp_of_aexp : aexp >-> Aexp.
+
+Add Printing Coercion Aexp_of_nat Aexp_of_aexp assert_of_Prop.
+
+Arguments assert_of_Prop /.
+Arguments Aexp_of_nat /.
+Arguments Aexp_of_aexp /.
+
+Add Printing Coercion Aexp_of_nat Aexp_of_aexp assert_of_Prop.
+
+Declare Scope assertion_scope.
+Bind Scope assertion_scope with Assertion.
+Bind Scope assertion_scope with Aexp.
+Delimit Scope assertion_scope with assertion.
+
+Notation assert P := (P%assertion : Assertion).
+Notation mkAexp a := (a%assertion : Aexp).
+Notation "~ P" := (fun st => ~ assert P st) : assertion_scope.
+Notation "P /\ Q" := (fun st => assert P st /\ assert Q st) : assertion_scope.
+Notation "P \/ Q" := (fun st => assert P st \/ assert Q st) : assertion_scope.
+Notation "P -> Q" := (fun st => assert P st -> assert Q st) : assertion_scope.
+Notation "P <-> Q" := (fun st => assert P st <-> assert Q st) : assertion_scope.
+Notation "a = b" := (fun st => mkAexp a st = mkAexp b st) : assertion_scope.
+Notation "a <> b" := (fun st => mkAexp a st <> mkAexp b st) : assertion_scope.
+Notation "a <= b" := (fun st => mkAexp a st <= mkAexp b st) : assertion_scope.
+Notation "a < b" := (fun st => mkAexp a st < mkAexp b st) : assertion_scope.
+Notation "a >= b" := (fun st => mkAexp a st >= mkAexp b st) : assertion_scope.
+Notation "a > b" := (fun st => mkAexp a st > mkAexp b st) : assertion_scope.
+Notation "a + b" := (fun st => mkAexp a st + mkAexp b st) : assertion_scope.
+Notation "a - b" := (fun st => mkAexp a st - mkAexp b st) : assertion_scope.
+Notation "a * b" := (fun st => mkAexp a st * mkAexp b st) : assertion_scope.
+
+Definition ap {X} (f : nat -> X) (x : Aexp) :=
+  fun st => f (x st).
+Definition ap2 {X} (f : nat -> nat -> X) (x : Aexp) (y : Aexp) (st : state) :=
+  f (x st) (y st).
+
+Definition hoare_triple
+           (P : Assertion) (c : com) (Q : Assertion) : Prop :=
+  forall st st',
+     st =[ c ]=> st' ->
+     P st ->
+     Q st'.
+
+Notation "{{ P }} c {{ Q }}" :=
+  (hoare_triple P c Q) (at level 90, c custom com at level 99)
+  : hoare_spec_scope.
+
+Definition assn_sub X a (P:Assertion) : Assertion :=
+  fun (st : state) =>
+    P (X !-> aeval st a ; st).
+
+Notation "P [ X |-> a ]" := (assn_sub X a P)
+  (at level 10, X at next level, a custom com).
 ```
 
 ## Functional Programming
