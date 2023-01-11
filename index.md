@@ -4,7 +4,7 @@
 
 작성자: 배현솔\
 최초 작성일: 2022.09.02\
-최근 업데이트: 2023.01.09
+최근 업데이트: 2023.01.11
 
 [[/right]]
 
@@ -88,6 +88,7 @@ Coq 언어 자습 문서입니다.
 - A[[anchor, id = index a]][[/anchor]]
   - abort: [chap1-3](Chap1-3.html#keywordabort)
   - admitted: [chap1-3](Chap1-3.html#keywordadmitted)
+  - %: [chap8-1](Chap8-1.html#keywordampersand), [chap14-2](Chap14-2.html#keywordampersand)
   - apply: [chap5-1](Chap5-1.html#keywordapply)
   - apply with: [chap5-1](Chap5-1.html#keywordapplywith), [chap6-4](Chap6-4.html#keywordapplywith)
   - arguments: [chap4-1](Chap4-1.html#keywordarguments)
@@ -98,12 +99,16 @@ Coq 언어 자습 문서입니다.
   - axiom: [char6-5](Chap6-5.html#keywordaxiom)
 - C[[anchor, id = index c]][[/anchor]]
   - check: [chap1-1](Chap1-1.html#keywordcheck)
+  - clear: [chap12-2](Chap12-2.html#keywordclear)
   - compute: [chap1-1](Chap1-1.html#keywordcompute)
+  - congruence: [chap14-2](Chap14-2.html#keywordcongruence)
 - D[[anchor, id = index d]][[/anchor]]
   - definition: [chap1-1](Chap1-1.html#keyworddefinition)
   - destruct: [chap1-3](Chap1-3.html#keyworddestruct), [chap5-3](Chap5-3.html#keyworddestruct), [chap6-1](Chap6-1.html#keyworddestruct), [chap9-2](Chap9-2.html#keyworddestruct)
   - discriminate: [chap5-2](Chap5-2.html#keyworddiscriminate)
 - E[[anchor, id = index e]][[/anchor]]
+  - eapply: [chap14-2](Chap14-2.html#keywordeapply)
+  - eauto: [chap14-2](Chap14-2.html#keywordeauto)
   - else: [chap1-1](Chap1-1.html#keywordif)
   - = (eq): [chap6-1](Chap6-1.html#notationeq)
   - =? (eqb): [chap1-2](Chap1-2.html#operatoreqb)
@@ -132,6 +137,7 @@ Coq 언어 자습 문서입니다.
   - <=?: [chap1-2](Chap1-2.html#operatorleb)
   - left: [chap6-1](Chap6-1.html#keywordleft)
   - locate: [chap8-1](Chap8-1.html#keywordlocate)
+  - ltac: [chap14-2](Chap14-2.html#keywordltac)
 - M[[anchor, id = index m]][[/anchor]]
   - match: [chap1-1](Chap1-1.html#keyworddefinition)
   - module: [chap1-1](Chap1-1.html#keywordmodule)

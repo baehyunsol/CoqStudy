@@ -124,6 +124,12 @@ Qed.
 
 간단하죠?
 
+## clear
+
+[[anchor, id = keyword clear]][[/anchor]]
+
+말그대로입니다. context에 `H`라는게 있을 때 `clear H`를 하면 `H`가 context에서 사라집니다.
+
 ## subst
 
 [[anchor, id = keyword subst]][[/anchor]]

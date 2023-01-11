@@ -91,6 +91,8 @@ Lemma eqb_neq x y : (x =? y)%string = false <-> x <> y.
 
 [[box]]
 
+[[anchor, id = keyword ampersand]][[/anchor]]
+
 TODO
 
 `%` 기호가 뭔지 모르겠네요. `=?`가 generic이어서 type을 지정해주는 용도인 거 같기는 한데 정확히는 모르겠습니다.

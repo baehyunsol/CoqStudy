@@ -489,7 +489,7 @@ Proof.
     try apply sym_bequiv;
     try apply sym_cequiv;
     assumption.
-Qed.
+  Qed.
 
 Definition atrans_sound (atrans : aexp -> aexp) : Prop :=
   forall (a : aexp),
@@ -582,6 +582,122 @@ Definition assn_sub X a (P:Assertion) : Assertion :=
 
 Notation "P [ X |-> a ]" := (assn_sub X a P)
   (at level 10, X at next level, a custom com).
+
+Theorem hoare_skip : forall P,
+     {{P}} skip {{P}}.
+Proof.
+  intros P st st' H HP.
+  inversion H;
+  subst.
+  assumption.
+  Qed.
+
+Theorem hoare_seq : forall P Q R c1 c2,
+     {{Q}} c2 {{R}} ->
+     {{P}} c1 {{Q}} ->
+     {{P}} c1; c2 {{R}}.
+Proof.
+  unfold hoare_triple.
+  intros P Q R c1 c2 H1 H2 st st' H12 Pre.
+  inversion H12;
+  subst.
+  eauto.
+  Qed.
+
+Theorem hoare_asgn: forall Q X a,
+  {{Q [X |-> a]}} X := a {{Q}}.
+Proof.
+  unfold hoare_triple.
+  intros Q X a st st' HE HQ.
+  inversion HE.
+  subst.
+  unfold assn_sub in HQ.
+  assumption.
+  Qed.
+
+Theorem hoare_consequence_pre : forall (P P' Q : Assertion) c,
+  {{P'}} c {{Q}} ->
+  P ->> P' ->
+  {{P}} c {{Q}}.
+Proof.
+  intros p p' q c H0 H1 st st' H2 H3.
+  apply H0 with st. (*{- H0: {p'} c {q} -}*)
+  - (*{- st =[ c ]=> st' -}*)
+    apply H2. (*{- H2: st =[ c ]=> st' -}*)
+  - (*{- p' st -}*)
+    apply H1. (*{- H1: p ->> p' -}*)
+    apply H3. (*{- H3: p st -}*)
+  Qed.
+
+Theorem hoare_consequence_post : forall (P Q Q' : Assertion) c,
+  {{P}} c {{Q'}} ->
+  Q' ->> Q ->
+  {{P}} c {{Q}}.
+Proof.
+  intros p q q' c H0 H1 st st' H2 H3.
+  apply H1. (*{- H1: q' ->> q -}*)
+  apply H0 with st. (*{- H0: {p} c {q'} -}*)
+  - (*{- st =[ c ]=> st' -}*)
+    apply H2. (*{- H2: st =[ c ]=> st' -}*)
+  - (*{- p st -}*)
+    apply H3. (*{- H3: p st -}*)
+  Qed.
+
+Theorem hoare_consequence : forall (P P' Q Q' : Assertion) c,
+  {{P'}} c {{Q'}} ->
+  P ->> P' ->
+  Q' ->> Q ->
+  {{P}} c {{Q}}.
+Proof.
+  intros P P' Q Q' c Htriple Hpre Hpost.
+  apply hoare_consequence_pre with (P' := P').
+  - (*{- {P'} c {Q} -}*)
+    apply hoare_consequence_post with (Q' := Q').
+    + (*{- {P'} c {Q'} -}*)
+      assumption.
+    + (*{- Q' ->> Q -}*)
+      assumption.
+  - (*{- P ->> P' -}*)
+    assumption.
+  Qed.
+
+Hint Unfold assert_implies hoare_triple assn_sub t_update : core.
+Hint Unfold assert_of_Prop Aexp_of_nat Aexp_of_aexp : core.
+
+Definition bassn b : Assertion :=
+  fun st => (beval st b = true).
+
+Coercion bassn : bexp >-> Assertion.
+Arguments bassn /.
+
+Lemma bexp_eval_false : forall b st,
+  beval st b = false -> ~ ((bassn b) st).
+Proof.
+  congruence.
+  Qed.
+
+Hint Resolve bexp_eval_false : core.
+
+Theorem hoare_if : forall P Q (b:bexp) c1 c2,
+  {{ P /\ b }} c1 {{Q}} ->
+  {{ P /\ ~ b}} c2 {{Q}} ->
+  {{P}} if b then c1 else c2 end {{Q}}.
+Proof.
+  intros P Q b c1 c2 H1 H2 st st' H3 H4.
+  inversion H3;
+  eauto.
+  Qed.
+
+From Coq Require Import Arith.PeanoNat. Import Nat.
+
+Ltac assn_auto :=
+  unfold assert_implies, assn_sub, t_update, bassn;
+  intros st;
+  simpl in *;
+  try rewrite -> eqb_eq in *;
+  try rewrite -> leb_le in *;
+  auto;
+  try lia.
 ```
 
 ## Functional Programming
