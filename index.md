@@ -78,6 +78,7 @@ Coq 언어 자습 문서입니다.
 - Chapter 14. Hoare Logic
   - [Chapter 14-1. Hoare Logic](Chap14-1.html)
   - [Chapter 14-2. Proof Rules](Chap14-2.html)
+  - [Chapter 14-3. Decorations](Chap14-3.html)
 - [부록1: 코드 모음](Appendix.html)
 - [부록2: 허충길 교수님 강의](lectures.html)
 

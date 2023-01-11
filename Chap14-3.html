@@ -1,0 +1,231 @@
+<!DOCTYPE html><html>
+
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width"/>
+    
+    <title>Chap14-3</title>
+    
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding&amp;display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'"/>
+    <!--<link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding&amp;display=swap" rel="stylesheet"/> -->
+    
+    <link href="page.css" rel="stylesheet"/><link href="markdown.css" rel="stylesheet"/><link href="nav.css" rel="stylesheet"/><link href="header.css" rel="stylesheet"/>
+    
+</head>
+
+<body>
+
+
+    <header>
+<p><div class="topmenu deactivated"><a href="index.html">Home</a> <a href="index.html#index-by-chapter">단원별 목차</a> <a href="index.html#index-by-keyword">키워드 목차</a> <a href="Appendix.html">부록</a></div><div class="mobileview"><a id="navbutton">&#9776;</a></div></p>
+    </header>
+
+
+
+    <nav>
+<p><a id="settingsopenbutton">&#9728;</a><a href="#top">&#9650;</a><a href="#bottom">&#9660;</a></p><div id="settingsmenubg"><p><div id="settingsmenu"> <a id="settingsclosebutton">&#10006;</a> <a id="changethemebutton">Set Light Theme</a> <a id="growhorizontalbutton">Grow Horizontally</a> <a id="shrinkhorizontalbutton">Shrink Horizontally</a> <a id="growfontbutton">Grow Font</a> <a id="shrinkfontbutton">Shrink Font</a> </div></p></div>
+    </nav>
+
+
+    <article class="markdown">
+        <a id="top"></a>
+<table><thead id="table-collapse-toggle-0" class="collapsible collapsed" onclick="collapse_table('0')"><tr><th>목차</th></tr></thead><tbody id="collapsible-table-0" class="invisible"><tr><td><div class="toc"><ol type="1"><li><a href="#decorations">Decorations</a><ol type="1"><li><a href="#복습">복습</a><ol type="1"><li><a href="#예시-1">예시 1</a></li><li><a href="#예시-2">예시 2</a></li><li><a href="#예시-3">예시 3</a></li></ol></li><li><a href="#formal-decoration">Formal Decoration</a></li></ol></li></ol></div></td></tr></tbody></table><h1 id="decorations">Decorations</h1><h2 id="복습">복습</h2><h3 id="예시-1">예시 1</h3><p>지난 시간에 배운 걸 복습도 할 겸, 간단한 프로그램 하나를 갖고 와서 동작을 증명해보겠습니다.</p><pre class="fenced-code-block line-num-width-0"><code><span class="code-fence-row"><span class="code-fence-index">1</span><span class="code-fence-code">X := m;</span></span>
+<span class="code-fence-row"><span class="code-fence-index">2</span><span class="code-fence-code">Z := p;</span></span>
+<span class="code-fence-row"><span class="code-fence-index">3</span><span class="code-fence-code"></span></span>
+<span class="code-fence-row"><span class="code-fence-index">4</span><span class="code-fence-code">while X &lt;&gt; 0 do</span></span>
+<span class="code-fence-row"><span class="code-fence-index">5</span><span class="code-fence-code">  Z := Z - 1;</span></span>
+<span class="code-fence-row"><span class="code-fence-index">6</span><span class="code-fence-code">  X := X - 1</span></span>
+<span class="code-fence-row"><span class="code-fence-index">7</span><span class="code-fence-code">end</span></span>
+</code><button class="copy-fenced-code" onclick="copy_code_to_clipboard(0)">Copy</button></pre><p>위의 프로그램을 실행하면 어떻게 될까요? <code class="inline-code-span">Z</code>에서 <code class="inline-code-span">m</code>을 빼니까 최종적으로 <code class="inline-code-span">Z = p - m</code>이 되겠죠. 그걸 hoare triple로 표현해보면 아래와 같습니다.</p><pre class="fenced-code-block line-num-width-1"><code><span class="code-fence-row"><span class="code-fence-index">1</span><span class="code-fence-code">{True}</span></span>
+<span class="code-fence-row"><span class="code-fence-index">2</span><span class="code-fence-code">X := m;</span></span>
+<span class="code-fence-row"><span class="code-fence-index">3</span><span class="code-fence-code">Z := p;</span></span>
+<span class="code-fence-row"><span class="code-fence-index">4</span><span class="code-fence-code"></span></span>
+<span class="code-fence-row"><span class="code-fence-index">5</span><span class="code-fence-code">while X &lt;&gt; 0 do</span></span>
+<span class="code-fence-row"><span class="code-fence-index">6</span><span class="code-fence-code">  Z := Z - 1;</span></span>
+<span class="code-fence-row"><span class="code-fence-index">7</span><span class="code-fence-code">  X := X - 1</span></span>
+<span class="code-fence-row"><span class="code-fence-index">8</span><span class="code-fence-code">end</span></span>
+<span class="code-fence-row"><span class="code-fence-index">9</span><span class="code-fence-code">{Z = p - m}</span></span>
+</code><button class="copy-fenced-code" onclick="copy_code_to_clipboard(1)">Copy</button></pre><p>저 hoare triple이 제대로 된 건지를 지난 시간에 정의한 정리들을 이용해서 증명해보겠습니다. 일단은 손으로 해봅시다.</p><pre class="fenced-code-block line-num-width-1"><code><span class="code-fence-row"><span class="code-fence-index">1</span><span class="code-fence-code">    {True} -&gt;&gt;</span></span>
+<span class="code-fence-row"><span class="code-fence-index">2</span><span class="code-fence-code">    {m = m}</span></span>
+<span class="code-fence-row"><span class="code-fence-index">3</span><span class="code-fence-code">  X := m;</span></span>
+<span class="code-fence-row"><span class="code-fence-index">4</span><span class="code-fence-code">    {X = m} -&gt;&gt;</span></span>
+<span class="code-fence-row"><span class="code-fence-index">5</span><span class="code-fence-code">    {X = m /\ p = p}</span></span>
+<span class="code-fence-row"><span class="code-fence-index">6</span><span class="code-fence-code">  Z := p;</span></span>
+<span class="code-fence-row"><span class="code-fence-index">7</span><span class="code-fence-code"></span></span>
+<span class="code-fence-row"><span class="code-fence-index">8</span><span class="code-fence-code">    {X = m /\ Z = p} -&gt;&gt;</span></span>
+<span class="code-fence-row"><span class="code-fence-index">9</span><span class="code-fence-code">    {Z - X = p - m}</span></span>
+<span class="code-fence-row"><span class="code-fence-index">10</span><span class="code-fence-code">  while X &lt;&gt; 0 do</span></span>
+<span class="code-fence-row"><span class="code-fence-index">11</span><span class="code-fence-code">      {Z - X = p - m /\ X &lt;&gt; 0} -&gt;&gt;</span></span>
+<span class="code-fence-row"><span class="code-fence-index">12</span><span class="code-fence-code">      {(Z - 1) - (X - 1) = p - m}</span></span>
+<span class="code-fence-row"><span class="code-fence-index">13</span><span class="code-fence-code">    Z := Z - 1;</span></span>
+<span class="code-fence-row"><span class="code-fence-index">14</span><span class="code-fence-code">      {Z - (X - 1) = p - m}</span></span>
+<span class="code-fence-row"><span class="code-fence-index">15</span><span class="code-fence-code">    X := X - 1</span></span>
+<span class="code-fence-row"><span class="code-fence-index">16</span><span class="code-fence-code">      {Z - X = p - m}</span></span>
+<span class="code-fence-row"><span class="code-fence-index">17</span><span class="code-fence-code">  end</span></span>
+<span class="code-fence-row"><span class="code-fence-index">18</span><span class="code-fence-code"></span></span>
+<span class="code-fence-row"><span class="code-fence-index">19</span><span class="code-fence-code">    {Z - X = p - m /\ ~(X &lt;&gt; 0)} -&gt;&gt;</span></span>
+<span class="code-fence-row"><span class="code-fence-index">20</span><span class="code-fence-code">    {Z = p - m}</span></span>
+</code><button class="copy-fenced-code" onclick="copy_code_to_clipboard(2)">Copy</button></pre><p>조금 복잡하죠? 지난 단원에서 Coq으로 하던 걸 손으로 표현한 겁니다. 한 줄씩 뜯어보겠습니다.</p><ol type="1"><li>처음에는 1번줄과 20번줄만 가지고 시작합니다. 20번줄부터 시작해서 assertion을 하나씩 추가해가면서 최종적으로 1번줄에 도달할 수 있는지 확인하겠습니다.</li><li>20번 줄에 <code class="inline-code-span">hoare_while</code>을 사용하기 위해선 그에 맞는 형태로 바꿔줘야합니다. 그래서 19번 줄을 선언했습니다.<ul><li>19번 줄을 증명하면 20번 줄도 증명이 된다는 사실은 <code class="inline-code-span">hoare_consequence_post</code>를 사용해서 보일 수 있습니다.</li></ul></li><li><code class="inline-code-span">hoare_while</code>은 loop invariant를 하나 필요로 하죠? 저희가 고른 loop-invariant는 9번 줄의 assertion입니다.</li><li>loop가 한 단계 진행할 때마다 loop invariant가 변하지 않는다는 걸 보여야 합니다. 그게 11 ~ 16번 줄입니다.<ul><li>16번 줄에는 19번 줄의 loop invariant가 그대로 들어갔습니다.</li><li>14번과 12번 줄은 각각 <code class="inline-code-span">hoare_asgn</code>을 이용해서 만들었습니다.</li><li>loop invariant와 loop의 조건만을 이용해서 12번 줄을 만들어낼 수 있음을 11번 줄에서 보였습니다.</li></ul></li><li>그 윗부분은 1 ~ 6번 줄을 이용해서 loop invariant를 만들 수 있음을 보이는 과정입니다.<ul><li>정확히 말하자면, 9번 줄에다가 <code class="inline-code-span">hoare_asgn</code>을 2번 해서 1번 줄까지 갈 수 있음을 보였습니다.</li></ul></li></ol><h3 id="예시-2">예시 2</h3><p>재밌죠? 하나 더 해봅시다.</p><pre class="fenced-code-block line-num-width-0"><code><span class="code-fence-row"><span class="code-fence-index">1</span><span class="code-fence-code">{X = m /\ Y = n}</span></span>
+<span class="code-fence-row"><span class="code-fence-index">2</span><span class="code-fence-code">X := X + Y;</span></span>
+<span class="code-fence-row"><span class="code-fence-index">3</span><span class="code-fence-code">Y := X - Y;</span></span>
+<span class="code-fence-row"><span class="code-fence-index">4</span><span class="code-fence-code">X := X - Y</span></span>
+<span class="code-fence-row"><span class="code-fence-index">5</span><span class="code-fence-code">{X = n /\ Y = m}</span></span>
+</code><button class="copy-fenced-code" onclick="copy_code_to_clipboard(3)">Copy</button></pre><p>임시 변수 없이 두 변수의 값을 바꾸는 아주 유명한 트릭입니다. 저 트릭이 제대로 동작하는지 확인해봅시다.</p><pre class="fenced-code-block line-num-width-0"><code><span class="code-fence-row"><span class="code-fence-index">1</span><span class="code-fence-code">  {X = m /\ Y = n} -&gt;&gt;</span></span>
+<span class="code-fence-row"><span class="code-fence-index">2</span><span class="code-fence-code">  {(X + Y) - ((X + Y) - Y) = n /\ (X + Y) - Y = m}</span></span>
+<span class="code-fence-row"><span class="code-fence-index">3</span><span class="code-fence-code">X := X + Y;</span></span>
+<span class="code-fence-row"><span class="code-fence-index">4</span><span class="code-fence-code">  {X - (X - Y) = n /\ X - Y = m}</span></span>
+<span class="code-fence-row"><span class="code-fence-index">5</span><span class="code-fence-code">Y := X - Y;</span></span>
+<span class="code-fence-row"><span class="code-fence-index">6</span><span class="code-fence-code">  {X - Y = n /\ Y = m}</span></span>
+<span class="code-fence-row"><span class="code-fence-index">7</span><span class="code-fence-code">X := X - Y</span></span>
+<span class="code-fence-row"><span class="code-fence-index">8</span><span class="code-fence-code">  {X = n /\ Y = m}</span></span>
+</code><button class="copy-fenced-code" onclick="copy_code_to_clipboard(4)">Copy</button></pre><p>이번에는 아주 간단합니다.</p><ol type="1"><li>8번 줄에서 <code class="inline-code-span">hoare_asgn</code>을 사용해서 6번 줄을 만듭니다.</li><li>6번 줄에서 <code class="inline-code-span">hoare_asgn</code>을 사용해서 4번 줄을 만듭니다.</li><li>4번 줄에서 <code class="inline-code-span">hoare_asgn</code>을 사용해서 2번 줄을 만듭니다.</li><li>2번 줄과 1번 줄이 포함관계가 있어야 전체 증명이 말이 되므로 <code class="inline-code-span">-&gt;&gt;</code>를 하나 추가해줍니다.</li></ol><h3 id="예시-3">예시 3</h3><p>마지막으로 하나만 더 해보겠습니다.</p><pre class="fenced-code-block line-num-width-0"><code><span class="code-fence-row"><span class="code-fence-index">1</span><span class="code-fence-code">{True}</span></span>
+<span class="code-fence-row"><span class="code-fence-index">2</span><span class="code-fence-code">while X &lt;&gt; 0 do</span></span>
+<span class="code-fence-row"><span class="code-fence-index">3</span><span class="code-fence-code">  X := X - 1</span></span>
+<span class="code-fence-row"><span class="code-fence-index">4</span><span class="code-fence-code">end</span></span>
+<span class="code-fence-row"><span class="code-fence-index">5</span><span class="code-fence-code">{X = 0}</span></span>
+</code><button class="copy-fenced-code" onclick="copy_code_to_clipboard(5)">Copy</button></pre><pre class="fenced-code-block line-num-width-1"><code><span class="code-fence-row"><span class="code-fence-index">1</span><span class="code-fence-code">  {True}</span></span>
+<span class="code-fence-row"><span class="code-fence-index">2</span><span class="code-fence-code">while X &lt;&gt; 0 do</span></span>
+<span class="code-fence-row"><span class="code-fence-index">3</span><span class="code-fence-code">    {True /\ X &lt;&gt; 0} -&gt;&gt;</span></span>
+<span class="code-fence-row"><span class="code-fence-index">4</span><span class="code-fence-code">    {True}</span></span>
+<span class="code-fence-row"><span class="code-fence-index">5</span><span class="code-fence-code">  X := X - 1</span></span>
+<span class="code-fence-row"><span class="code-fence-index">6</span><span class="code-fence-code">    {True}</span></span>
+<span class="code-fence-row"><span class="code-fence-index">7</span><span class="code-fence-code">end</span></span>
+<span class="code-fence-row"><span class="code-fence-index">8</span><span class="code-fence-code">  {True /\ ~(X &lt;&gt; 0)} -&gt;&gt;</span></span>
+<span class="code-fence-row"><span class="code-fence-index">9</span><span class="code-fence-code">  {X = 0}</span></span>
+</code><button class="copy-fenced-code" onclick="copy_code_to_clipboard(6)">Copy</button></pre><p>아주 간단한 증명입니다. loop-variant를 굳이 안 정해도 loop의 조건만 가지고도 증명이 끝납니다.</p><h2 id="formal-decoration">Formal Decoration</h2><p>Decoration에 대해서 설명하기 전에, 방금 손으로 증명했던 것들을 Coq으로 증명해보겠습니다. 그 전에 유용한 tactic 하나를 정의하고 넘어가겠습니다.</p><pre class="fenced-code-block line-num-width-1"><code><span class="code-fence-row"><span class="code-fence-index">1</span><span class="code-fence-code"><span class="color-gold">Ltac</span><span class="color-white"> verify_assn </span><span class="color-white">:=</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">2</span><span class="code-fence-code"><span class="color-white">  repeat split;
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">3</span><span class="code-fence-code"><span class="color-white">  simpl;
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">4</span><span class="code-fence-code"><span class="color-white">  unfold assert_implies;
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">5</span><span class="code-fence-code"><span class="color-white">  unfold ap </span><span class="color-violet">in</span><span class="color-white"> *; unfold ap2 </span><span class="color-violet">in</span><span class="color-white"> *;
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">6</span><span class="code-fence-code"><span class="color-white">  unfold bassn </span><span class="color-violet">in</span><span class="color-white"> *; unfold beval </span><span class="color-violet">in</span><span class="color-white"> *; unfold aeval </span><span class="color-violet">in</span><span class="color-white"> *;
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">7</span><span class="code-fence-code"><span class="color-white">  unfold assn_sub; intros;
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">8</span><span class="code-fence-code"><span class="color-white">  repeat (simpl </span><span class="color-violet">in</span><span class="color-white"> *;
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">9</span><span class="code-fence-code"><span class="color-white">          rewrite t_update_eq </span><span class="color-white">||</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">10</span><span class="code-fence-code"><span class="color-white">          (try rewrite t_update_neq;
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">11</span><span class="code-fence-code"><span class="color-white">          [ </span><span class="color-white">|</span><span class="color-white"> (intro </span><span class="color-gold">X</span><span class="color-white">; inversion </span><span class="color-gold">X</span><span class="color-white">; fail)]));
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">12</span><span class="code-fence-code"><span class="color-white">  simpl </span><span class="color-violet">in</span><span class="color-white"> *;
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">13</span><span class="code-fence-code"><span class="color-white">  repeat match goal with [</span><span class="color-gold">H</span> <span class="color-white">:</span><span class="color-white"> _ </span><span class="color-white">/\</span><span class="color-white"> _ </span><span class="color-white">|-</span><span class="color-white"> _] </span><span class="color-white">=&gt;</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">14</span><span class="code-fence-code"><span class="color-white">                         destruct </span><span class="color-gold">H</span><span class="color-white"> end;
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">15</span><span class="code-fence-code"><span class="color-white">  repeat rewrite not_true_iff_false </span><span class="color-violet">in</span><span class="color-white"> *;
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">16</span><span class="code-fence-code"><span class="color-white">  repeat rewrite not_false_iff_true </span><span class="color-violet">in</span><span class="color-white"> *;
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">17</span><span class="code-fence-code"><span class="color-white">  repeat rewrite negb_true_iff </span><span class="color-violet">in</span><span class="color-white"> *;
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">18</span><span class="code-fence-code"><span class="color-white">  repeat rewrite negb_false_iff </span><span class="color-violet">in</span><span class="color-white"> *;
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">19</span><span class="code-fence-code"><span class="color-white">  repeat rewrite eqb_eq </span><span class="color-violet">in</span><span class="color-white"> *;
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">20</span><span class="code-fence-code"><span class="color-white">  repeat rewrite eqb_neq </span><span class="color-violet">in</span><span class="color-white"> *;
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">21</span><span class="code-fence-code"><span class="color-white">  repeat rewrite leb_iff </span><span class="color-violet">in</span><span class="color-white"> *;
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">22</span><span class="code-fence-code"><span class="color-white">  repeat rewrite leb_iff_conv </span><span class="color-violet">in</span><span class="color-white"> *;
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">23</span><span class="code-fence-code"><span class="color-white">  try subst;
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">24</span><span class="code-fence-code"><span class="color-white">  simpl </span><span class="color-violet">in</span><span class="color-white"> *;
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">25</span><span class="code-fence-code"><span class="color-white">  repeat
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">26</span><span class="code-fence-code"><span class="color-white">    match goal with
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">27</span><span class="code-fence-code"><span class="color-white">      [st </span><span class="color-white">:</span><span class="color-white"> state </span><span class="color-white">|-</span><span class="color-white"> _] </span><span class="color-white">=&gt;</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">28</span><span class="code-fence-code"><span class="color-white">        match goal with
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">29</span><span class="code-fence-code">        <span class="color-white">|</span><span class="color-white"> [</span><span class="color-gold">H</span> <span class="color-white">:</span><span class="color-white"> st _ </span><span class="color-white">=</span><span class="color-white"> _ </span><span class="color-white">|-</span><span class="color-white"> _] </span><span class="color-white">=&gt;</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">30</span><span class="code-fence-code"><span class="color-white">            rewrite </span><span class="color-white">-&gt;</span> <span class="color-gold">H</span> <span class="color-violet">in</span><span class="color-white"> *; clear </span><span class="color-gold">H</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">31</span><span class="code-fence-code">        <span class="color-white">|</span><span class="color-white"> [</span><span class="color-gold">H</span> <span class="color-white">:</span><span class="color-white"> _ </span><span class="color-white">=</span><span class="color-white"> st _ </span><span class="color-white">|-</span><span class="color-white"> _] </span><span class="color-white">=&gt;</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">32</span><span class="code-fence-code"><span class="color-white">            rewrite </span><span class="color-white">&lt;-</span> <span class="color-gold">H</span> <span class="color-violet">in</span><span class="color-white"> *; clear </span><span class="color-gold">H</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">33</span><span class="code-fence-code"><span class="color-white">        end
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">34</span><span class="code-fence-code"><span class="color-white">    end;
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">35</span><span class="code-fence-code"><span class="color-white">  try eauto;
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">36</span><span class="code-fence-code"><span class="color-white">  try lia</span><span class="color-white">.</span></span></span>
+</code><button class="copy-fenced-code" onclick="copy_code_to_clipboard(7)">Copy</button></pre><p>무시무시하죠? hoare와 직접적으로 관련되지 않은 부분들을 한번에 정리해주는 tactic입니다. 교과서의 저자가 만들어주신 건데 자세한 내용은 이해할 필요없다고 하시네요.</p><p>먼저 가장 쉬운 <a href="#예시-3">예시3</a>부터 증명해보겠습니다.</p><pre class="fenced-code-block line-num-width-1"><code><span class="code-fence-row"><span class="code-fence-index">1</span><span class="code-fence-code"><span class="color-gold">Theorem</span><span class="color-white"> ex3_correct </span><span class="color-white">:</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">2</span><span class="code-fence-code"><span class="color-white">  {{</span><span class="color-gold">True</span><span class="color-white">}}
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">3</span><span class="code-fence-code">    <span class="color-white">&lt;</span><span class="color-white">{ while </span><span class="color-gold">X</span> <span class="color-white">&lt;&gt;</span> <span class="color-gold">0</span> <span class="color-violet">do</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">4</span><span class="code-fence-code">      <span class="color-gold">X</span> <span class="color-white">:=</span> <span class="color-gold">X</span> <span class="color-white">-</span> <span class="color-gold">1</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">5</span><span class="code-fence-code"><span class="color-white">    end }</span><span class="color-white">&gt;</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">6</span><span class="code-fence-code"><span class="color-white">  {{</span><span class="color-gold">X</span> <span class="color-white">=</span> <span class="color-gold">0</span><span class="color-white">}}</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">7</span><span class="code-fence-code"><span class="color-gold">Proof</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">8</span><span class="code-fence-code"><span class="color-white">  eapply hoare_consequence_post</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">9</span><span class="code-fence-code">  <span class="color-white">-</span><span class="color-white"> (*</span><span class="color-gray">{-</span><span class="color-gray"> {True} while_loop {?Q&apos;} </span><span class="color-gray">-}</span><span class="color-white">*)
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">10</span><span class="code-fence-code"><span class="color-white">    apply hoare_while</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">11</span><span class="code-fence-code">    <span class="color-white">+</span><span class="color-white"> (*</span><span class="color-gray">{-</span><span class="color-gray"> { loop_inv /\ start } loop_body { loop_inv } </span><span class="color-gray">-}</span><span class="color-white">*)
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">12</span><span class="code-fence-code"><span class="color-white">      eapply hoare_consequence_pre</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">13</span><span class="code-fence-code"><span class="color-white">      * (*</span><span class="color-gray">{-</span><span class="color-gray"> {?P&apos;} X := X - 1 {True} </span><span class="color-gray">-}</span><span class="color-white">*)
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">14</span><span class="code-fence-code"><span class="color-white">        apply hoare_asgn</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">15</span><span class="code-fence-code"><span class="color-white">      * (*</span><span class="color-gray">{-</span><span class="color-gray"> True /\ X != 0 -&gt;&gt; True [X |-&gt; X - 1] </span><span class="color-gray">-}</span><span class="color-white">*)
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">16</span><span class="code-fence-code"><span class="color-white">        verify_assn</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">17</span><span class="code-fence-code">  <span class="color-white">-</span><span class="color-white"> (*</span><span class="color-gray">{-</span><span class="color-gray"> True /\ ~ X != 0 -&gt;&gt; X = 0 </span><span class="color-gray">-}</span><span class="color-white">*)
+</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">18</span><span class="code-fence-code"><span class="color-white">    verify_assn</span><span class="color-white">.</span>
+</span></span>
+<span class="code-fence-row"><span class="code-fence-index">19</span><span class="code-fence-code"><span class="color-gold">Qed</span><span class="color-white">.</span></span></span>
+</code><button class="copy-fenced-code" onclick="copy_code_to_clipboard(8)">Copy</button></pre><p>손으로 했던 증명과 동일한 순서로 진행되는 것을 볼 수 있습니다.</p><p>TODO: 예시 1도 Coq으로 해보기</p><p>긴 프로그램의 증명을 하기 위해서 명령어들 사이에 추가적인 assertion들을 적었죠? 이걸 장식(decoration)이라고 합니다. 장식들을 Coq의 문법을 이용해서 적을 수 있으면 증명을 거의 자동으로 할 수 있습니다. 그래서, 장식들을 Coq으로 정의하는 과정을 먼저 살펴보겠습니다.</p><p>TODO</p><hr/><div class="align-center"><p><a href="index.html">메인으로 돌아가기</a></p></div><div class="align-left"><p>&lt;&lt; <a href="Chap14-2.html">Chapter 14-2. Proof Rules</a></p></div><div class="align-right"><p><a href="Chap14-4.html">Chapter 14-4. ??</a> &gt;&gt;</p></div><script>/*<![CDATA[*/
+const fenced_code_block_contents = ["X := m;\nZ := p;\n\nwhile X <> 0 do\n  Z := Z - 1;\n  X := X - 1\nend", "{True}\nX := m;\nZ := p;\n\nwhile X <> 0 do\n  Z := Z - 1;\n  X := X - 1\nend\n{Z = p - m}", "    {True} ->>\n    {m = m}\n  X := m;\n    {X = m} ->>\n    {X = m /\\ p = p}\n  Z := p;\n\n    {X = m /\\ Z = p} ->>\n    {Z - X = p - m}\n  while X <> 0 do\n      {Z - X = p - m /\\ X <> 0} ->>\n      {(Z - 1) - (X - 1) = p - m}\n    Z := Z - 1;\n      {Z - (X - 1) = p - m}\n    X := X - 1\n      {Z - X = p - m}\n  end\n\n    {Z - X = p - m /\\ ~(X <> 0)} ->>\n    {Z = p - m}", "{X = m /\\ Y = n}\nX := X + Y;\nY := X - Y;\nX := X - Y\n{X = n /\\ Y = m}", "  {X = m /\\ Y = n} ->>\n  {(X + Y) - ((X + Y) - Y) = n /\\ (X + Y) - Y = m}\nX := X + Y;\n  {X - (X - Y) = n /\\ X - Y = m}\nY := X - Y;\n  {X - Y = n /\\ Y = m}\nX := X - Y\n  {X = n /\\ Y = m}", "{True}\nwhile X <> 0 do\n  X := X - 1\nend\n{X = 0}", "  {True}\nwhile X <> 0 do\n    {True /\\ X <> 0} ->>\n    {True}\n  X := X - 1\n    {True}\nend\n  {True /\\ ~(X <> 0)} ->>\n  {X = 0}", "Ltac verify_assn :=\n  repeat split;\n  simpl;\n  unfold assert_implies;\n  unfold ap in *; unfold ap2 in *;\n  unfold bassn in *; unfold beval in *; unfold aeval in *;\n  unfold assn_sub; intros;\n  repeat (simpl in *;\n          rewrite t_update_eq ||\n          (try rewrite t_update_neq;\n          [ | (intro X; inversion X; fail)]));\n  simpl in *;\n  repeat match goal with [H : _ /\\ _ |- _] =>\n                         destruct H end;\n  repeat rewrite not_true_iff_false in *;\n  repeat rewrite not_false_iff_true in *;\n  repeat rewrite negb_true_iff in *;\n  repeat rewrite negb_false_iff in *;\n  repeat rewrite eqb_eq in *;\n  repeat rewrite eqb_neq in *;\n  repeat rewrite leb_iff in *;\n  repeat rewrite leb_iff_conv in *;\n  try subst;\n  simpl in *;\n  repeat\n    match goal with\n      [st : state |- _] =>\n        match goal with\n        | [H : st _ = _ |- _] =>\n            rewrite -> H in *; clear H\n        | [H : _ = st _ |- _] =>\n            rewrite <- H in *; clear H\n        end\n    end;\n  try eauto;\n  try lia.", "Theorem ex3_correct :\n  {{True}}\n    <{ while X <> 0 do\n      X := X - 1\n    end }>\n  {{X = 0}}.\nProof.\n  eapply hoare_consequence_post.\n  - (*{- {True} while_loop {?Q'} -}*)\n    apply hoare_while.\n    + (*{- { loop_inv /\\ start } loop_body { loop_inv } -}*)\n      eapply hoare_consequence_pre.\n      * (*{- {?P'} X := X - 1 {True} -}*)\n        apply hoare_asgn.\n      * (*{- True /\\ X != 0 ->> True [X |-> X - 1] -}*)\n        verify_assn.\n  - (*{- True /\\ ~ X != 0 ->> X = 0 -}*)\n    verify_assn.\nQed."];
+
+function copy_code_to_clipboard(index) {
+    navigator.clipboard.writeText(fenced_code_block_contents[index]);
+}/*]]>*/</script>
+        <a id="bottom"></a>
+    </article>
+
+
+
+
+    <footer class="markdown">
+<p><br/></p><p><br/></p><hr/><div class="align-center"><p>2021 ~ 2023 &copy; Baehyunsol</p></div>
+    </footer>
+
+
+    <script src="colors.js"></script>
+
+    
+    <script src="nav.js"></script>
+    
+    
+    
+    <script src="header.js"></script>
+    
+<script src="collapsible_tables.js"></script></body>
+
+</html>

@@ -588,6 +588,6 @@ Qed.
 
 [[right]]
 
-[Chapter 14-3. ??](Chap14-3.html) >>
+[Chapter 14-3. Decorations](Chap14-3.html) >>
 
 [[/right]]

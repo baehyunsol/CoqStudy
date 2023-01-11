@@ -24,6 +24,17 @@ Notation "'_' '!->' v" := (t_empty v)
 
 Notation "x '!->' v ';' m" := (t_update m x v)
   (at level 100, v at next level, right associativity).
+
+Lemma t_update_eq : forall (A : Type) (m : total_map A) x v,
+  (x !-> v ; m) x = v.
+Proof.
+Admitted.
+
+Theorem t_update_neq : forall (A : Type) (m : total_map A) x1 x2 v,
+  x1 <> x2 ->
+  (x1 !-> v ; m) x2 = m x2.
+Proof.
+Admitted.
 ```
 
 ### 언어 문법
@@ -697,6 +708,59 @@ Ltac assn_auto :=
   try rewrite -> eqb_eq in *;
   try rewrite -> leb_le in *;
   auto;
+  try lia.
+
+Theorem hoare_while : forall P (b:bexp) c,
+  {{P /\ b}} c {{P}} ->
+  {{P}} while b do c end {{P /\ ~ b}}.
+Proof.
+  intros P b c H_hoare st st' H_while H_P.
+  remember <{ while b do c end }> as while_.
+  induction H_while;
+  try (inversion Heqwhile_);
+  subst;
+  eauto.
+  Qed.
+
+From Coq Require Import Bool.Bool.
+From Coq Require Import Arith.Arith.
+From Coq Require Import Arith.EqNat.
+
+Ltac verify_assn :=
+  repeat split;
+  simpl;
+  unfold assert_implies;
+  unfold ap in *; unfold ap2 in *;
+  unfold bassn in *; unfold beval in *; unfold aeval in *;
+  unfold assn_sub; intros;
+  repeat (simpl in *;
+          rewrite t_update_eq ||
+          (try rewrite t_update_neq;
+          [ | (intro X; inversion X; fail)]));
+  simpl in *;
+  repeat match goal with [H : _ /\ _ |- _] =>
+                         destruct H end;
+  repeat rewrite not_true_iff_false in *;
+  repeat rewrite not_false_iff_true in *;
+  repeat rewrite negb_true_iff in *;
+  repeat rewrite negb_false_iff in *;
+  repeat rewrite eqb_eq in *;
+  repeat rewrite eqb_neq in *;
+  repeat rewrite leb_iff in *;
+  repeat rewrite leb_iff_conv in *;
+  try subst;
+  simpl in *;
+  repeat
+    match goal with
+      [st : state |- _] =>
+        match goal with
+        | [H : st _ = _ |- _] =>
+            rewrite -> H in *; clear H
+        | [H : _ = st _ |- _] =>
+            rewrite <- H in *; clear H
+        end
+    end;
+  try eauto;
   try lia.
 ```
 
