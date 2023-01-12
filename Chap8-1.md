@@ -60,7 +60,7 @@ Definition string_dec : forall s1 s2 : string, {s1 = s2} + {s1 <> s2}.
 
 위의 정의도 흥미로워서 갖고 왔습니다. `+`는 logical or 연산으로 정의된 거 같은데, 저 정의를 자세히 읽어보면 `s1과 s2는 같거나 다르다`입니다. 즉, 두 문자열이 같은지 다른지 항상 정할 수 있다는 뜻입니다. 영어 주석에도 ~_Equality is decidable_~이라고 돼 있습니다.
 
-```coq, line_num
+```line_num
 Fixpoint eqb s1 s2 : bool :=
  match s1, s2 with
  | EmptyString, EmptyString => true
@@ -123,7 +123,7 @@ Definition t_update {A : Type} (m : total_map A)
 
 `t_update`의 구현은 흥미롭습니다. 어떤 `total_map`을 받아서 거기에 (키, 값) 쌍을 추가하는 함수인데, 함수를 받아서 함수를 반환하도록 돼 있는 구현이 참신하네요.
 
-```coq, line_num
+```line_num
 Notation "'_' '!->' v" := (t_empty v)
   (at level 100, right associativity).
 

@@ -135,7 +135,7 @@ end
 
 Decoration에 대해서 설명하기 전에, 방금 손으로 증명했던 것들을 Coq으로 증명해보겠습니다. 그 전에 유용한 tactic 하나를 정의하고 넘어가겠습니다.
 
-```coq, line_num
+```line_num
 Ltac verify_assn :=
   repeat split;
   simpl;
@@ -241,9 +241,64 @@ Inductive dcom : Type :=
           (Q : Assertion)
 | DCPre (P : Assertion) (d : dcom)
 | DCPost (d : dcom) (Q : Assertion).
-
-
 ```
+
+처음에도 말했듯이 precondition은 대부분 생략돼 있습니다. 생략된 precondition은 이전의 명령어의 postcondition을 이용해서 유추가 가능하지만 첫번째 명령어의 precondition은 유추할 수 없습니다. 이건 hoare triple을 만드는 사람이 주는 거거든요. 그래서 첫번째 명령어의 precondition을 받을 수 있도록 새로운 type을 추가하겠습니다.
+
+```coq, line_num
+Inductive decorated : Type :=
+  | Decorated : Assertion -> dcom -> decorated.
+```
+
+이제 장식이된 hoare triple을 표현할 수 있는 방법이 생겼습니다. 짧은 시간 동안 많은 type들을 정의했는데, 저 type들 간에 상호 변환을 하는 함수들도 만들어줘야합니다. 지금까지 증명은 전부 `com`과 `Assertion`을 이용해서만 했으니, 저 type들로 바꿔줘야죠.
+
+```coq, line_num
+Fixpoint extract (d : dcom) : com :=
+  match d with
+  | DCSkip _ => CSkip
+  | DCSeq d1 d2 => CSeq (extract d1) (extract d2)
+  | DCAsgn X a _ => CAsgn X a
+  | DCIf b _ d1 _ d2 _ => CIf b (extract d1) (extract d2)
+  | DCWhile b _ d _ => CWhile b (extract d)
+  | DCPre _ d => extract d
+  | DCPost d _ => extract d
+  end.
+
+Definition extract_dec (dec : decorated) : com :=
+  match dec with
+  | Decorated P d => extract d
+  end.
+
+Definition pre_dec (dec : decorated) : Assertion :=
+  match dec with
+  | Decorated P d => P
+  end.
+
+Fixpoint post (d : dcom) : Assertion :=
+  match d with
+  | DCSkip P => P
+  | DCSeq _ d2 => post d2
+  | DCAsgn _ _ Q => Q
+  | DCIf _ _ _ _ _ Q => Q
+  | DCWhile _ _ _ Q => Q
+  | DCPre _ d => post d
+  | DCPost _ Q => Q
+  end.
+
+Definition post_dec (dec : decorated) : Assertion :=
+  match dec with
+  | Decorated P d => post d
+  end.
+
+Definition outer_triple_valid (dec : decorated) :=
+  {{pre_dec dec}} extract_dec dec {{post_dec dec}}.
+```
+
+먼저, `extract`와 `extract_dec`은 장식된 프로그램에서 `com`만 뽑아냅니다. 마찬가지로 `pre_dec`, `post`, `post_dec`은 장식된 프로그램에서 precondition이나 postcondition을 뽑아냅니다. 위에서 설명했듯 `dcom`은 precondition을 포함하지 않기 때문에 `pre`는 없습니다.
+
+마지막으로, `outer_triple_valid`는 장식된 프로그램을 `hoare_triple`로 바꿔줍니다.
+
+뒷장에서 계속 나오는 함수들이니 잘 익혀둡시다.
 
 ---
 
@@ -261,6 +316,6 @@ Inductive dcom : Type :=
 
 [[right]]
 
-[Chapter 14-4. ??](Chap14-4.html) >>
+[Chapter 14-4. Proof Automation](Chap14-4.html) >>
 
 [[/right]]

@@ -179,7 +179,7 @@ Proof.
 
 `ev`는 `nat`을 하나 받아서 `Prop`을 내놓습니다. 즉, `ev`는 자연수의 *성질* (*property*)이라고 생각할 수 있죠. 비슷하게 생각을 하면, `le`는 `nat` 2개를 받아서 `Prop`을 내놓으므로 `le`는 자연수들의 *관계* (*relation*)이라고 생각할 수 있습니다.
 
-```coq, line_num
+```line_num
 Inductive le : nat -> nat -> Prop :=
   | le_n (n : nat) : le n n
   | le_S (n m : nat) (H : le n m) : le n (S m).

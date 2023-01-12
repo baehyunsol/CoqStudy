@@ -15,7 +15,7 @@ Inductive natlist : Type :=
 
 `natlist`라는 자연수의 list를 정의하였습니다. Generic하게 정의할 수도 있습니다. 그 방법은 [나중](Chap4-1.html)에 알아보겠습니다.
 
-```coq, line_num
+```line_num
 Notation "x :: l" := (cons x l)
                      (at level 60, right associativity).
 Notation "[ ]" := nil.
@@ -76,7 +76,7 @@ Fixpoint get (l: natlist) (idx: nat) : nat :=
 
 ### Append
 
-```coq, line_num
+```line_num
 Fixpoint append (l1 l2 : natlist) : natlist :=
   match l1 with
   | nil => l2

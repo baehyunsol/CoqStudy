@@ -45,7 +45,7 @@ Arguments Star {T} _.
 
 [[anchor, id=keyword reserved]][[/anchor]]
 
-```coq, line_num
+```line_num
 Reserved Notation "s =~ re" (at level 80).
 Inductive exp_match {T} : list T -> reg_exp T -> Prop :=
   | MEmpty : [] =~ EmptyStr

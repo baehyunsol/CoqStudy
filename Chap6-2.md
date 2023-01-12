@@ -9,7 +9,7 @@
 
 지금까지는 Coq로 참인 명제들을 증명하는 것만 봤습니다. Coq로 거짓인 명제들을 다룰 순 없을까요? 있습니다. 먼저 Coq에서 명제의 참과 거짓을 어떻게 정의하는지부터 보겠습니다.
 
-```coq, line_num
+```line_num
 Inductive True : Prop :=
   I : True.
 
@@ -53,7 +53,7 @@ Proof.
 
 [[anchor, id = operator not eq]][[/anchor]]
 
-```coq
+```
 Notation "x <> y" = (~(x = y)).
 ```
 
@@ -125,7 +125,7 @@ Qed.
 
 ## if and only if
 
-```coq, line_num
+```line_num
 Definition iff (A B : Prop) := (A -> B) /\ (B -> A).
 
 Notation "A <-> B" := (iff A B) : type_scope.

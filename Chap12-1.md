@@ -51,7 +51,7 @@ Fixpoint beval (b : bexp) : bool :=
 
 코드는 아주 간단합니다. 이미 Coq에서 정의해 놓은 연산들이니 그걸 각 식들에 대응시키기만 하면 되거든요. 7장에서 열심히 공부한 `Inductive`를 이용해서도 정의를 해보겠습니다. 아래를 봅시다.
 
-```coq, line_num
+```line_num
 Inductive aevalR : aexp -> nat -> Prop :=
   | E_ANum (n : nat) :
       aevalR (ANum n) n

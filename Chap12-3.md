@@ -20,7 +20,7 @@ Inductive aexp : Type :=
 
 변수 자체도 하나의 숫자니 `aexp`에 `AId`를 추가했습니다. 또한, 책에서 아래와 같은 Notation들을 추가했습니다.
 
-```coq, line_num
+```line_num
 Coercion AId : string >-> aexp.
 Coercion ANum : nat >-> aexp.
 
@@ -56,7 +56,7 @@ Notation "'~' b"   := (BNot b) (in custom com at level 75, right associativity).
 
 변수를 만들었으니 몇가지 명령어를 추가해보겠습니다.
 
-```coq, line_num
+```line_num
 Inductive com : Type :=
   | CSkip
   | CAsgn (x : string) (a : aexp)
@@ -88,7 +88,7 @@ Notation "'while' x 'do' y 'end'" :=
 
 명령어를 추가했으니 명령어를 실행하는 법도 Coq에게 알려줘야죠. 아래의 정의를 봅시다.
 
-```coq, line_num
+```line_num
 Reserved Notation
          "st '=[' c ']=>' st'"
          (at level 40, c custom com at level 99,

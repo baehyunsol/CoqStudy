@@ -23,7 +23,9 @@ Coq 언어 자습 문서입니다.
 - [단원별 목차](#index-by-chapter)
 - [키워드별 목차](#index-by-keyword)
 
-2023.01.12: 드디어 syntax highlighter에 Coq 문법을 추가했습니다!! 한결 보기 편해진 것 같아 뿌듯하네요...
+## Changelog
+
+2023.01.12: 드디어 syntax highlighter에 Coq 문법을 추가했습니다!! 한결 보기 편해진 것 같아 뿌듯하네요. 단, 구현 상의 문제로 `Notation`이나 `Hint`, `Ltac` 같은 키워드들은 syntax highlighting이 잘 안되더군요. 그래서 해당 단어가 있는 블록들은 syntax highlighting을 꺼놨습니다.
 
 ## Index By Chapter
 
@@ -81,6 +83,10 @@ Coq 언어 자습 문서입니다.
   - [Chapter 14-1. Hoare Logic](Chap14-1.html)
   - [Chapter 14-2. Proof Rules](Chap14-2.html)
   - [Chapter 14-3. Decorations](Chap14-3.html)
+  - [Chapter 14-4. Proof Automation](Chap14-4.html)
+  - [Chapter 14-5. Hoare Logic as a Logic](Chap14-5.html)
+  - [Chapter 14-6. Small-Step Operational Semantics](Chap14-6.html)
+- Chapter 15. Type System
 - [부록1: 코드 모음](Appendix.html)
 - [부록2: 허충길 교수님 강의](lectures.html)
 

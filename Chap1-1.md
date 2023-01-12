@@ -67,7 +67,7 @@ Definition orb (b1:bool) (b2:bool) : bool :=
 
 바로 [위](#keyworddefinition)에서 정의했던 것 같은 Lisp 스타일의 함수 호출도 좋지만 C나 수학 스타일의 중위 연산자가 그리울 때가 있습니다. Coq의 `Notation` 키워드는 중위 연산자를 정의할 수 있게 해줍니다.
 
-```coq, line_num
+```line_num
 Notation "x && y" := (andb x y).
 Notation "x || y" := (orb x y).
 ```
@@ -103,13 +103,6 @@ Definition orb (b1:bool) (b2:bool) : bool :=
 [^f]: `Check`는 일반적인 함수가 아닙니다. 아래에서 자세히 설명하겠습니다. [[br]]*function*이라는 용어는 전부 *함수*로 번역했고, *command*는 전부 *명령어*로 번역했습니다. 문서에서 두 용어를 완전히 구분해서 사용할테니 읽는데 혼동이 없으시길 바라겠습니다.
 
 ```coq, line_num
-(*{-
-Coq의 주석은
-(* .. 주석 .. *)
-와 같은 형태로 씁니다. 하지만 Coq의 문법을 지원하는 syntax highlighter를 찾지 못하여 부득이하게
-Haskell 스타일로 주석을 썼습니다.
--}*)
-
 Check true.   (* true : bool *)
 Check (andb true true).   (* true : bool *)
 

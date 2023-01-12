@@ -61,7 +61,7 @@ Proof.
 
 여기서 좀 더 일반화를 해봅시다. `{??} X := a {Q}`의 precondition으로 가능한 건 뭐가 있을까요? precondition에 `X`가 들어있었다면, `Q`에는 똑같은 자리에 `X` 대신 `a`가 들어있을 겁니다. 그걸 예쁘게 쓰면 `{Q [X |-> a]} X := a {Q}`가 됩니다. 안 예쁜가요? `Q [X |-> a]`는 ~_`Q`에서 `X`를 전부 없애고 그 자리에 `a`를 대신 써라_~라는 뜻입니다. Coq로 정의하면 아래와 같습니다.
 
-```coq, line_num
+```line_num
 Definition assn_sub X a (P:Assertion) : Assertion :=
   fun (st : state) =>
     P (X !-> aeval st a ; st).
@@ -190,7 +190,7 @@ pre와 post를 하나로 합친 정리입니다.
 
 먼저 아래의 코드를 추가해줍시다.
 
-```coq, line_num
+```line_num
 Hint Unfold assert_implies hoare_triple assn_sub t_update : core.
 Hint Unfold assert_of_Prop Aexp_of_nat Aexp_of_aexp : core.
 ```
@@ -292,7 +292,7 @@ Proof.
 
 이번에도 비슷한 증명을 했습니다. `lia`는 `->>`나 `|->` 같은 기호를 이해하지 못하기 때문에 10번 줄에서 전부 `unfold`하고 시작했습니다. 하다보니까 비슷한 tactic이 반복해서 나오죠? 저런 tactic들을 하나로 묶으려면 어떻게 할까요? 바로 `Ltac`을 사용하면 됩니다.
 
-```coq, line_num
+```line_num
 Ltac assn_auto :=
   try auto;
   try (
@@ -401,7 +401,7 @@ Arguments bassn /.
 
 단순히 함수만 정의한게 아니고 몇몇 특수문법을 추가했습니다. 이제 `Assertion`과 `bexp`를 섞어서 써도 Coq이 알아서 type을 바꿔줄 겁니다.
 
-```coq, line_num
+```line_num
 Lemma bexp_eval_false : forall b st,
   beval st b = false -> ~ ((bassn b) st).
 Proof.
@@ -466,7 +466,7 @@ Proof.
 
 `if`를 설명하기 위해 처음에 사용했던 예시를 증명했습니다. 비슷한 패턴이 반복되죠? 축약해봅시다.
 
-```coq, line_num
+```line_num
 Ltac assn_auto :=
   unfold assert_implies, assn_sub, t_update, bassn;
   intros st;

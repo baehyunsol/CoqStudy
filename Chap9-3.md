@@ -11,7 +11,7 @@
 
 Coq에서 자주 쓰이는 `exists`는 어떻게 정의돼 있는지 살펴봅시다.
 
-```coq, line_num
+```line_num
 Inductive ex {A : Type} (P : A -> Prop) : Prop :=
   | ex_intro : forall x : A, P x -> ex P.
 
@@ -39,7 +39,7 @@ Inductive False : Prop := .
 
 Coq의 등호도 Coq를 이용해서 정의돼 있습니다. Coq가 강력한 언어라는게 새삼 느껴지네요.
 
-```coq, line_num
+```line_num
 Inductive eq {X:Type} : X -> X -> Prop :=
   | eq_refl : forall x, eq x x.
 

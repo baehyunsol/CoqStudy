@@ -11,7 +11,7 @@
 
 먼저 `/\`의 정의를 살펴보겠습니다.
 
-```coq, line_num
+```line_num
 Inductive and (P Q : Prop) : Prop :=
   | conj : P -> Q -> and P Q.
 
@@ -90,7 +90,7 @@ Definition and_comm' P Q : P /\ Q <-> Q /\ P :=
 
 이번엔 `\/`의 정의를 살펴보겠습니다.
 
-```coq, line_num
+```line_num
 Inductive or (P Q : Prop) : Prop :=
   | or_introl : P -> or P Q
   | or_intror : Q -> or P Q.

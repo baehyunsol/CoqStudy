@@ -87,7 +87,7 @@ Fixpoint bin_to_nat (b: bin) : nat :=
 ## 검증1
 
 ```coq, line_num
-(*{-
+(*
                             incr
               bin ----------------------> bin
                |                           |
@@ -96,7 +96,7 @@ Fixpoint bin_to_nat (b: bin) : nat :=
                v                           v
               nat ----------------------> nat
                              S
--}*)
+*)
 
 Theorem bin_to_nat_incr : forall b: bin,
   bin_to_nat (incr b) = 1 + bin_to_nat b.

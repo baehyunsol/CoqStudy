@@ -10,7 +10,7 @@
 `nat` type을 이용해서 설명하겠습니다. `Inductive`를 이용해서 `nat`을 정의하면 `nat_rect`, `nat_ind`, `nat_rec`, `nat_sind`가 자동으로 같이 정의됩니다. 이 중 `induction`에 쓰이는 것은 `nat_ind`입니다. `nat_ind`의 모양은 아래와 같습니다.
 
 ```coq, line_num
-(*{-
+(*
 nat_ind = 
 fun (P : nat -> Prop) (f : P O) (f0 : forall n : nat, P n -> P (S n)) =>
 fix F (n : nat) : P n :=
@@ -22,15 +22,15 @@ fix F (n : nat) : P n :=
        P O -> (forall n : nat, P n -> P (S n)) -> forall n : nat, P n
 
 Arguments nat_ind P%function_scope f f0%function_scope n
--}*)
+*)
 Print nat_ind.
 
 
-(*{-
+(*
 nat_ind
      : forall P : nat -> Prop,
        P O -> (forall n : nat, P n -> P (S n)) -> forall n : nat, P n
--}*)
+*)
 Check nat_ind.
 ```
 
@@ -44,7 +44,7 @@ Inductive list (X:Type) : Type :=
   | cons : X -> list X -> list X.
 
 
-(*{-
+(*
 list_ind = 
 fun (X : Type) (P : list X -> Prop) (f : P (nil X))
   (f0 : forall (x : X) (l : list X), P l -> P (cons X x l)) =>
@@ -58,16 +58,16 @@ fix F (l : list X) : P l :=
        (forall (x : X) (l : list X), P l -> P (cons X x l)) -> forall l : list X, P l
 
 Arguments list_ind X%type_scope P%function_scope f f0%function_scope l
--}*)
+*)
 Print list_ind.
 
 
-(*{-
+(*
 list_ind
      : forall (X : Type) (P : list X -> Prop),
        P (nil X) ->
        (forall (x : X) (l : list X), P l -> P (cons X x l)) -> forall l : list X, P l
--}*)
+*)
 Check list_ind.
 ```
 
@@ -80,13 +80,13 @@ Inductive tree (X:Type) : Type :=
   | leaf (x : X)
   | node (t1 t2 : tree X).
 
-(*{-
+(*
 tree_ind
      : forall (X : Type) (P : tree X -> Prop),
        (forall x : X, P (leaf X x)) ->
        (forall t1 : tree X, P t1 -> forall t2 : tree X, P t2 -> P (node X t1 t2)) ->
        forall t : tree X, P t
--}*)
+*)
 Check tree_ind.
 ```
 

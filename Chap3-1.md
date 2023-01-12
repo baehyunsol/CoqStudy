@@ -16,7 +16,7 @@ pair는 2원소짜리 tuple입니다. Pairs도 `Notation`을 사용하면 편리
 
 [[anchor, id=keyword notation]][[/anchor]]
 
-```coq
+```
 Notation "( x , y )" := (pair x y).
 ```
 

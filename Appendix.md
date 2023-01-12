@@ -8,7 +8,7 @@
 
 ### total map
 
-```coq, line_num
+```line_num
 Require Export Coq.Strings.String.
 
 Definition total_map (A : Type) := string -> A.
@@ -39,7 +39,7 @@ Admitted.
 
 ### 언어 문법
 
-```coq, line_num
+```line_num
 From Coq Require Import Lia.
 From Coq Require Import Init.Nat.
 Definition state := total_map nat.
@@ -517,7 +517,7 @@ Definition ctrans_sound (ctrans : com -> com) : Prop :=
 
 ### Hoare Logic
 
-```coq, line_num
+```line_num
 Definition Assertion := state -> Prop.
 
 Definition assert_implies (P Q : Assertion) : Prop :=
@@ -794,7 +794,7 @@ Fixpoint fold {X Y: Type} (f : X -> Y -> Y) (l : list X) (b : Y) : Y :=
 
 pair와 prod의 정의도 포함시켰습니다.
 
-```coq, line_num
+```line_num
 Inductive prod (X Y : Type) : Type :=
 | pair (x : X) (y : Y).
 
@@ -820,7 +820,7 @@ Definition prod_uncurry {X Y Z : Type}
 
 ## Natural Numbers
 
-```coq, line_num
+```line_num
 Fixpoint div2 (n : nat) :=
   match n with
   | 0 => 0
@@ -896,7 +896,7 @@ Notation "x <=? y" := (leb x y) (at level 70) : nat_scope.
 
 ## List
 
-```coq, line_num
+```line_num
 Inductive list (X : Type) : Type :=
   | nil
   | cons (x : X) (l : list X).

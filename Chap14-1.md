@@ -28,7 +28,7 @@ Definition Assertion := state -> Prop.
 
 Assertion 사이에는 포함관계가 있을 수도 있습니다. 아래를 봅시다.
 
-```coq, line_num
+```line_num
 Definition assert_implies (P Q : Assertion) : Prop :=
   forall st, P st -> Q st.
 
@@ -43,7 +43,7 @@ Notation "P <<->> Q" :=
 
 `P`라는 assertion이 참일 때 `Q`도 항상 참인 경우, `P ->> Q`라고 표현하기로 했습니다. 하는 김에 Notation들을 더 정의해보겠습니다.
 
-```coq, line_num
+```line_num
 Definition Aexp : Type := state -> nat.
 
 Definition assert_of_Prop (P : Prop) : Assertion := fun _ => P.
@@ -111,7 +111,7 @@ Hoare Logic을 표현하는 대표적인 방식은 Hoare Triple입니다.
 
 방금은 한국말로 정의한 Hoare Triple이었고, 이젠 Coq로 정의해봅시다. 아래를 봅시다.
 
-```coq, line_num
+```line_num
 Definition hoare_triple
            (P : Assertion) (c : com) (Q : Assertion) : Prop :=
   forall st st',

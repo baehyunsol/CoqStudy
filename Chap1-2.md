@@ -187,7 +187,7 @@ Fixpoint leb (m n : nat) : bool :=
 
 [[anchor, id=keyword notation2]][[/anchor]]
 
-```coq, line_num
+```line_num
 Notation "x + y" := (plus x y)
                        (at level 50, left associativity)
                        : nat_scope.

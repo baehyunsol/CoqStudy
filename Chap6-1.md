@@ -65,7 +65,7 @@ Check @eq : forall A : Type, A -> A -> Prop.
 
 그럼 `a = b -> c = d`의 type은 뭘까요? 저 친구도 마찬가지로 `Prop`입니다. Coq 내부에서 `->`라는 Notation은 아래와 같이 정의돼 있습니다.
 
-```coq
+```
 Notation "A -> B" := (forall (_ : A), B) : type_scope.
 ```
 
