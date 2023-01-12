@@ -19,7 +19,7 @@ Polymorphism이 뭔지 이미 아신다고 가정하고 설명하겠습니다. P
 
 오래 기다리셨습니다. 드디어 polymorphic list를 구현해볼 시간입니다. 아래의 정의를 봅시다.
 
-```haskell, line_num
+```coq, line_num
 Inductive list (X : Type) : Type :=
   | nil
   | cons (x : X) (l : list X).
@@ -33,7 +33,7 @@ Inductive list (X : Type) : Type :=
 
 `list`를 다시 정의했으니 함수들도 전부 다시 정의해야합니다. 전부 다시 정의하기는 번거로우니 대표로 `repeat`만 다시 정의해보겠습니다.
 
-```haskell, line_num
+```coq, line_num
 Fixpoint repeat (X : Type) (x : X) (count : nat) : list X :=
   match count with
   | O => nil X
@@ -45,7 +45,7 @@ Fixpoint repeat (X : Type) (x : X) (count : nat) : list X :=
 
 ## Type Inference
 
-```haskell, line_num
+```coq, line_num
 Fixpoint repeat X x count : list X :=
   match count with
   | O => nil X
@@ -55,7 +55,7 @@ Fixpoint repeat X x count : list X :=
 
 이전에 정의했던 repeat과 방금 정의한 repeat은 완벽히 동일한 함수입니다. 혹시나해서 type annotation의 일부만 생략해봤습니다. 아래처럼요.
 
-```haskell, line_num
+```coq, line_num
 Fixpoint repeat X (x : X) count : list X :=
   match count with
   | O => nil X
@@ -71,7 +71,7 @@ Fixpoint repeat X (x : X) count : list X :=
 
 [^chch]: Coq는 맞는 추론만 하니까 걱정 안하셔도 됩니다.
 
-```haskell, line_num
+```coq, line_num
 Fixpoint repeat X (x : X) count : list X :=
   match count with
   | O => nil _
@@ -89,7 +89,7 @@ Type parameter 쓰는게 귀찮아서 생략하거나 `_`를 썼습니다. 만�
 
 [[anchor, id = keyword arguments]][[/anchor]]
 
-```haskell, line_num
+```coq, line_num
 Arguments nil {X}.
 Arguments cons {X}.
 Arguments repeat {X}.
@@ -100,7 +100,7 @@ Arguments repeat {X}.
 
 아래와 같이 함수 정의 안에 implicit arguments를 선언할 수도 있습니다.
 
-```haskell, line_num
+```coq, line_num
 Inductive list {X : Type} : Type :=
   | nil
   | cons (x : X) (l : list).
@@ -140,14 +140,14 @@ Implicit argument를 응용하기는 아직 이른 것 같고 polymorphism을 �
 
 방금 봤던 중괄호 표시를 이용하면 Coq가 항상 type parameter를 추론하게 할 수 있습니다. 하지만, Coq가 type을 추론할 수 없는 상황도 있습니다. 그런 상황에선 어떻게 해야할까요? Type을 명시해줘야 하지만 type을 명시하지 않겠다고 이미 선언을 했는데요? Implicit argument 선언을 뒤집을 수 있는 문법이 있습니다. 아래의 예시를 보겠습니다.
 
-```haskell, line_num
+```coq, line_num
 Fail Definition mynil_fail := nil.
 Definition mynil := @nil nat.
 ```
 
 위에서 `Arguments nil {X}.`이라고 선언을 했으므로 `nil nat`이라는 표현을 쓸 수는 없습니다. 하지만 그냥 `nil`이라고만 하면 Coq가 `nil`의 type을 알지 못해 에러가 납니다. 그럴 때 `@`를 `nil` 앞에 붙여서 `nil`이 type parameter를 받을 수 있도록 해주고 뒤에 type parameter를 주면 됩니다.
 
-```haskell, line_num
+```coq, line_num
 Check @nil : forall X : Type, list X
 
 Check nil : list where ?X : [ |- Type]

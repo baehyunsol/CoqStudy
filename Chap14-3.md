@@ -129,13 +129,13 @@ end
   {X = 0}
 ```
 
-아주 간단한 증명입니다. loop-variant를 굳이 안 정해도 loop의 조건만 가지고도 증명이 끝납니다.
+아주 간단합니다. 저희의 목표는 9번 줄에서 출발해서 1번 줄로 도착할 수 있음을 보이는 것입니다. 그러기 위해선 `hoare_while`을 사용해야 하는데 그에 맞는 형태의 assertion을 만들기 위해서 8번줄을 추가했습니다. 9번 줄이 8번 줄을 포함한다는 것은 `hoare_consequence`를 이용해서 보이면 됩니다. 그다음, loop 안의 각 명령어들을 지나갈 때마다 loop invariant가 참이라는 것을 보였습니다. 여기선 loop invariant가 `True`여서 딱히 증명해야할 게 없습니다.
 
 ## Formal Decoration
 
 Decoration에 대해서 설명하기 전에, 방금 손으로 증명했던 것들을 Coq으로 증명해보겠습니다. 그 전에 유용한 tactic 하나를 정의하고 넘어가겠습니다.
 
-```haskell, line_num
+```coq, line_num
 Ltac verify_assn :=
   repeat split;
   simpl;
@@ -178,7 +178,7 @@ Ltac verify_assn :=
 
 먼저 가장 쉬운 [예시3](#예시-3)부터 증명해보겠습니다.
 
-```haskell, line_num
+```coq, line_num
 Theorem ex3_correct :
   {{True}}
     <{ while X <> 0 do
@@ -187,26 +187,63 @@ Theorem ex3_correct :
   {{X = 0}}.
 Proof.
   eapply hoare_consequence_post.
-  - (*{- {True} while_loop {?Q'} -}*)
+  - (* {True} while_loop {?Q'} *)
     apply hoare_while.
-    + (*{- { loop_inv /\ start } loop_body { loop_inv } -}*)
+    + (* { loop_inv /\ start } loop_body { loop_inv } *)
       eapply hoare_consequence_pre.
-      * (*{- {?P'} X := X - 1 {True} -}*)
+      * (* {?P'} X := X - 1 {True} *)
         apply hoare_asgn.
-      * (*{- True /\ X != 0 ->> True [X |-> X - 1] -}*)
+      * (* True /\ X != 0 ->> True [X |-> X - 1] *)
         verify_assn.
-  - (*{- True /\ ~ X != 0 ->> X = 0 -}*)
+  - (* True /\ ~ X != 0 ->> X = 0 *)
     verify_assn.
 Qed.
 ```
 
 손으로 했던 증명과 동일한 순서로 진행되는 것을 볼 수 있습니다.
 
-TODO: 예시 1도 Coq으로 해보기
-
 긴 프로그램의 증명을 하기 위해서 명령어들 사이에 추가적인 assertion들을 적었죠? 이걸 장식(decoration)이라고 합니다. 장식들을 Coq의 문법을 이용해서 적을 수 있으면 증명을 거의 자동으로 할 수 있습니다. 그래서, 장식들을 Coq으로 정의하는 과정을 먼저 살펴보겠습니다.
 
-TODO
+### `dcom`
+
+명령어에 assertion들이 포함된 type을 Coq으로 만들어봅시다. 이름은 *decorated command*를 줄여서 `dcom`이라고 하겠습니다. 단순하게 모든 명령어마다 precondition과 postcondition을 추가해주는 방식으로 만드는 것은 문제가 있습니다. `skip; skip`이라는 명령어가 있다고 생각해보세요. 저 명령어의 `dcom`은 아래와 같은 모양일 겁니다.
+
+> `{P} ({P} skip {P});({P} skip {P}) {P}`
+
+아주 높은 확률로 모든 assertion은 동일한 형태일 겁니다. 한번만 써도 될 걸 6번이나 썼죠? 프로그래밍 하는 사람들이 제일 싫어하는게 불필요한 반복입니다. 저걸 없애보겠습니다.
+
+- `skip {Q}`
+  - `skip`은 postcondition만 적겠습니다.
+  - `skip`의 precondition은 다른 맥락을 보고 알 수 있는 상황이 아주 많거든요. 다른 명령어들도 마찬가지로 precondition은 생략하겠습니다.
+- `d1; d2`
+  - 명령어가 연속으로 올 때, `;`로 인해서 생기는 assertion은 적지 않겠습니다.
+  - `d1`과 `d2`도 `dcom`이기 때문에 각각 자신의 assertion이 포함돼 있습니다. 그래서 추가로 assertion을 적을 필요가 없어요.
+- `if b then {P1} d1 else {P2} d2 end {Q}`
+  - `if`는 각 경우의 precondition과 if문 전체의 postcondition만 적겠습니다.
+- `while b do {P} d end {Q}`
+  - `while`은 내부의 precondition과 전체의 postcondition만 적겠습니다.
+  - 저기 들어간 `P`는 loop invariant입니다.
+- `->> {P} d`, `d ->> {Q}`
+  - 어떤 `d`에 대해서 `->>`를 이용해서 추가적인 assertion을 제공할 수 있습니다.
+  - 전자의 경우는 외부에서 precondition을 따로 제공해줘야 `{P'} ->> {P} d`와 같은 형태가 돼서 말이 되고요,
+  - 후자의 경우는 `d` 안에 있는 postcondition 덕분에 말이 됩니다.
+
+저 정의를 Coq으로 옮겨보면 아래와 같습니다.
+
+```coq, line_num
+Inductive dcom : Type :=
+| DCSkip (Q : Assertion)
+| DCSeq (d1 d2 : dcom)
+| DCAsgn (X : string) (a : aexp) (Q : Assertion)
+| DCIf (b : bexp) (P1 : Assertion) (d1 : dcom)
+       (P2 : Assertion) (d2 : dcom) (Q : Assertion)
+| DCWhile (b : bexp) (P : Assertion) (d : dcom)
+          (Q : Assertion)
+| DCPre (P : Assertion) (d : dcom)
+| DCPost (d : dcom) (Q : Assertion).
+
+
+```
 
 ---
 

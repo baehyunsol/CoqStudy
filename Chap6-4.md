@@ -7,7 +7,7 @@
 
 Coq 프로그래밍은 재밌습니다. Coq에서는 명제 자체를 반환하는 함수와 명제를 인수로 받는 함수를 이용해서 다양한 것들을 할 수 있습니다. 아래의 예시를 보겠습니다.
 
-```haskell, line_num
+```coq, line_num
 Fixpoint In {A : Type} (x : A) (l : list A) : Prop :=
   match l with
   | [] => False
@@ -25,7 +25,7 @@ Fixpoint All {T : Type} (P : T -> Prop) (l : list T) : Prop :=
 
 저 함수를 이용해서 몇가지 증명을 해보겠습니다.
 
-```haskell, line_num
+```coq, line_num
 Theorem In_map :
   forall (A B : Type) (f : A -> B) (l : list A) (x : A),
          In x l ->
@@ -33,19 +33,19 @@ Theorem In_map :
 Proof.
   intros A B f l x.
   induction l as [ | x' l' IHl'].
-  - (*{- l = [] -}*)
+  - (* l = [] *)
     simpl.
     intros H.
     destruct H.
-  - (*{- l = x'::l' -}*)
+  - (* l = x'::l' *)
     simpl.
     intros H.
     destruct H as [H1 | H2].
-    * (*{- x' = x -}*)
+    * (* x' = x *)
       left.
       rewrite H1.
       reflexivity.
-    * (*{- In x l' -}*)
+    * (* In x l' *)
       right.
       apply IHl'.
       apply H2.
@@ -54,51 +54,51 @@ Proof.
 
 `l` 안에 `x`가 있으면 `l`과 `x`를 `f`라는 함수에 넣어도 여전히 `In`이 참이라고 말하는 명제입니다. `l`이 비었을 경우 가정이 거짓이므로 명제가 참이라고 증명하고, `l`이 비지 않았을 경우 수학적 귀납법으로 증명했습니다.
 
-```haskell, line_num
+```coq, line_num
 Theorem All_In :
   forall T (P : T -> Prop) (l : list T),
     (forall x, In x l -> P x) <-> All P l.
 Proof.
   intros T P l.
   split.
-  - (*{- (forall x, In x l -> P x) -> All P l -}*)
+  - (* (forall x, In x l -> P x) -> All P l *)
     induction l as [ | x' l' IHl'].
-    * (*{- l = [] -}*)
+    * (* l = [] *)
       simpl.
       reflexivity.
-    * (*{- l = x'::l' -}*)
+    * (* l = x'::l' *)
       simpl.
       split.
-      + (*{- P x' -}*)
+      + (* P x' *)
         apply H.
         left.
         reflexivity.
-      + (*{- All P l' -}*)
+      + (* All P l' *)
         apply IHl'.
         intros x H2.
         apply H.
         right.
         apply H2.
-  - (*{- All P l -> forall x, In x l -> P x -}*)
+  - (* All P l -> forall x, In x l -> P x *)
     induction l as [ | x' l' IHl'].
-    * (*{- l = [] -}*)
+    * (* l = [] *)
       intros _ x H.
       unfold In in H.
       destruct H.
-    * (*{- l = x'::l' -}*)
+    * (* l = x'::l' *)
       simpl.
       intros H.
       destruct H as [H1 H2].
       intros x H3.
       destruct H3 as [H4 | H5].
-      + (*{- x' = x -}*)
+      + (* x' = x *)
         rewrite <- H4.
         apply H1.
-      + (*{- In x l' -}*)
+      + (* In x l' *)
         apply IHl'.
-        ** (*{- All P l' -}*)
+        ** (* All P l' *)
            apply H2.
-        ** (*{- In x l' -}*)
+        ** (* In x l' *)
            apply H5.
   Qed.
 ```
@@ -111,7 +111,7 @@ Proof.
 
 함수형 언어 얘기를 하면서 Coq에선 함수들이 일급 시민이라고 했던 걸 기억하시나요? Coq에선 함수뿐만 아니라 명제들도 일급입니다. 이를 이용해서 다양한 기술들을 구사할 수 있지만 여기선 `rewrite`와 관련된 걸 살펴보겠습니다.
 
-```haskell, line_num
+```coq, line_num
 Theorem add_comm : forall n m : nat,
   n + m = m + n.
 
@@ -123,7 +123,7 @@ Lemma add_comm3 : forall x y z,
 
 [[anchor, id = keyword rewrite]][[/anchor]]
 
-```haskell, line_num
+```coq, line_num
 Lemma add_comm3 : forall x y z,
   x + (y + z) = (z + y) + x.
 Proof.
@@ -142,17 +142,17 @@ Proof.
 
 방금 `rewrite`에 인수를 줬던 것처럼 이번엔 `apply`에 인수를 줘보겠습니다. 예시에 쓰일 함수와 명제들을 먼저 정의하겠습니다.
 
-```haskell, line_num
+```coq, line_num
 Theorem in_not_nil :
   forall A (x : A) (l : list A), In x l -> l <> [].
 Proof.
   intros A x l H.
   unfold not.
   induction l as [ | h' t' IHl'].
-  - (*{- l = [] -}*)
+  - (* l = [] *)
     simpl in H.
     destruct H.
-  - (*{- l = h' :: t' -}*)
+  - (* l = h' :: t' *)
     intros H2.
     rewrite H2 in H.
     destruct H.
@@ -163,7 +163,7 @@ Proof.
 
 [[anchor, id = keyword apply with]][[/anchor]]
 
-```haskell, line_num
+```coq, line_num
 Theorem in_not_nil_42 :
   forall (l : list nat), In 42 l -> l <> [].
 Proof.

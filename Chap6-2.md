@@ -9,7 +9,7 @@
 
 지금까지는 Coq로 참인 명제들을 증명하는 것만 봤습니다. Coq로 거짓인 명제들을 다룰 순 없을까요? 있습니다. 먼저 Coq에서 명제의 참과 거짓을 어떻게 정의하는지부터 보겠습니다.
 
-```haskell, line_num
+```coq, line_num
 Inductive True : Prop :=
   I : True.
 
@@ -27,7 +27,7 @@ Check not : Prop -> Prop.
 
 [[anchor, id = ex falso quodlibet]][[/anchor]]
 
-```haskell, line_num
+```coq, line_num
 Theorem ex_falso_quodlibet : forall (P : Prop),
   False -> P.
 Proof.
@@ -40,7 +40,7 @@ Proof.
 
 또 다른 걸 증명해보겠습니다.
 
-```haskell, line_num
+```coq, line_num
 Theorem zero_not_one : ~(0 = 1).
 Proof.
   unfold not.
@@ -53,7 +53,7 @@ Proof.
 
 [[anchor, id = operator not eq]][[/anchor]]
 
-```haskell
+```coq
 Notation "x <> y" = (~(x = y)).
 ```
 
@@ -61,7 +61,7 @@ Notation "x <> y" = (~(x = y)).
 
 Coq의 참/거짓은 까다롭습니다. 좀 더 익숙해지기 위해서 더 많은 예시들을 살펴보겠습니다.
 
-```haskell, line_num
+```coq, line_num
 Theorem not_implies_our_not : forall (P : Prop),
   ~P -> (forall (Q : Prop), P -> Q).
 Proof.
@@ -74,18 +74,18 @@ Proof.
 
 가정이 거짓이면 명제가 참임을 다시 증명했습니다. 어찌됐든 핵심 전략은 context에 있는 `False`에다가 `destruct` tactic을 사용하는 것입니다.
 
-```haskell, line_num
+```coq, line_num
 Theorem not_true_is_false : forall b : bool,
   b <> true -> b = false.
 Proof.
   intros b H.
   destruct b.
-  - (*{- b = true -}*)
+  - (* b = true *)
     unfold not in H.
     apply ex_falso_quodlibet.
     apply H.
     reflexivity.
-  - (*{- b = false -}*)
+  - (* b = false *)
     reflexivity.
 Qed.
 ```
@@ -100,7 +100,7 @@ Qed.
 
 Coq에는 `False` 뿐만 아니라 `True`도 정의돼 있습니다. `False`와 달리 `True`는 쓸데가 별로 없습니다. 참인게 자명한 명제는 추가로 주는 정보가 별로 없거든요. 책에서는 어떻게 사용했는지 아래의 예시를 보겠습니다.
 
-```haskell, line_num
+```coq, line_num
 Definition disc_fn (n: nat) : Prop :=
   match n with
   | O => True
@@ -125,7 +125,7 @@ Qed.
 
 ## if and only if
 
-```haskell, line_num
+```coq, line_num
 Definition iff (A B : Prop) := (A -> B) /\ (B -> A).
 
 Notation "A <-> B" := (iff A B) : type_scope.
@@ -133,15 +133,15 @@ Notation "A <-> B" := (iff A B) : type_scope.
 
 이번에는 동치인 명제들을 살펴보겠습니다. `<->`의 구현은 아주 직관적으로 돼 있습니다. `P -> Q`와 `Q -> P`가 동시에 성립하면 `P <-> Q`도 성립합니다. `iff`를 이용해서 간단한 증명을 아래에 해봤습니다.
 
-```haskell, line_num
+```coq, line_num
 Theorem iff_sym : forall P Q : Prop,
   (P <-> Q) -> (Q <-> P).
 Proof.
   intros P Q [HPQ HQP].
   split.
-  - (*{- Q -> P -}*)
+  - (* Q -> P *)
     apply HQP.
-  - (*{- P -> Q -}*)
+  - (* P -> Q *)
     apply HPQ.
   Qed.
 ```
@@ -152,18 +152,18 @@ Proof.
 
 방금 말씀드렸듯이 `iff`는 Coq 안에 내장돼있기 때문에 `apply` tactic을 사용할 수 있습니다. 그것과 비슷하게 `rewrite`와 `reflexivity` tactic도 `iff`를 특별하게 취급합니다. 아래의 예시를 보겠습니다.
 
-```haskell, line_num
+```coq, line_num
 From Coq Require Import Setoids.Setoid.
 
 Lemma mul_eq_0 : forall n m,
   n * m = 0 <-> n = 0 \/ m = 0.
 
-(*{- 증명 생략 -}*)
+(* 증명 생략 *)
 
 Theorem or_assoc : forall P Q R : Prop,
   P \/ (Q \/ R) <-> (P \/ Q) \/ R.
 
-(*{- 증명 생략 -}*)
+(* 증명 생략 *)
 
 Lemma mul_eq_0_ternary : forall n m p,
   n * m * p = 0 <-> n = 0 \/ m = 0 \/ p = 0.

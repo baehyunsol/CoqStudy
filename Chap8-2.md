@@ -7,7 +7,7 @@
 
 이젠 `partial_map`을 구현해보겠습니다. `total_map`은 없는 키를 주면 기본 값을 반환했지만 `partial_map`은 `None`을 반환합니다.
 
-```haskell, line_num
+```coq, line_num
 Definition partial_map (A : Type) := total_map (option A).
 
 Definition empty {A : Type} : partial_map A :=

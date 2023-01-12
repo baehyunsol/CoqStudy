@@ -9,7 +9,7 @@ Hoare Logic으로 프로그램을 검증하기 위해선 간단한 정리들을 
 
 ## Skip
 
-```haskell, line_num
+```coq, line_num
 Theorem hoare_skip : forall P,
      {{P}} skip {{P}}.
 Proof.
@@ -24,7 +24,7 @@ Proof.
 
 ## Sequencing
 
-```haskell, line_num
+```coq, line_num
 Theorem hoare_seq : forall P Q R c1 c2,
      {{Q}} c2 {{R}} ->
      {{P}} c1 {{Q}} ->
@@ -61,7 +61,7 @@ Proof.
 
 여기서 좀 더 일반화를 해봅시다. `{??} X := a {Q}`의 precondition으로 가능한 건 뭐가 있을까요? precondition에 `X`가 들어있었다면, `Q`에는 똑같은 자리에 `X` 대신 `a`가 들어있을 겁니다. 그걸 예쁘게 쓰면 `{Q [X |-> a]} X := a {Q}`가 됩니다. 안 예쁜가요? `Q [X |-> a]`는 ~_`Q`에서 `X`를 전부 없애고 그 자리에 `a`를 대신 써라_~라는 뜻입니다. Coq로 정의하면 아래와 같습니다.
 
-```haskell, line_num
+```coq, line_num
 Definition assn_sub X a (P:Assertion) : Assertion :=
   fun (st : state) =>
     P (X !-> aeval st a ; st).
@@ -72,7 +72,7 @@ Notation "P [ X |-> a ]" := (assn_sub X a P)
 
 방금 한 얘기가 참이라는 걸 Coq으로 증명해보겠습니다. 아래를 봅시다.
 
-```haskell, line_num
+```coq, line_num
 Theorem hoare_asgn: forall Q X a,
   {{Q [X |-> a]}} X := a {{Q}}.
 Proof.
@@ -106,19 +106,19 @@ Coq은 멍청합니다. `{(X = 3) [X |-> 3]} X := 3 {X = 3}`가 말이 되는 �
 
 [[anchor, id = pre1]][[/anchor]]
 
-```haskell, line_num
+```coq, line_num
 Theorem hoare_consequence_pre : forall (P P' Q : Assertion) c,
   {{P'}} c {{Q}} ->
   P ->> P' ->
   {{P}} c {{Q}}.
 Proof.
   intros p p' q c H0 H1 st st' H2 H3.
-  apply H0 with st. (*{- H0: {p'} c {q} -}*)
-  - (*{- st =[ c ]=> st' -}*)
-    apply H2. (*{- H2: st =[ c ]=> st' -}*)
-  - (*{- p' st -}*)
-    apply H1. (*{- H1: p ->> p' -}*)
-    apply H3. (*{- H3: p st -}*)
+  apply H0 with st. (* H0: {p'} c {q} *)
+  - (* st =[ c ]=> st' *)
+    apply H2. (* H2: st =[ c ]=> st' *)
+  - (* p' st *)
+    apply H1. (* H1: p ->> p' *)
+    apply H3. (* H3: p st *)
   Qed.
 
 Theorem hoare_consequence_post : forall (P Q Q' : Assertion) c,
@@ -127,18 +127,18 @@ Theorem hoare_consequence_post : forall (P Q Q' : Assertion) c,
   {{P}} c {{Q}}.
 Proof.
   intros p q q' c H0 H1 st st' H2 H3.
-  apply H1. (*{- H1: q' ->> q -}*)
-  apply H0 with st. (*{- H0: {p} c {q'} -}*)
-  - (*{- st =[ c ]=> st' -}*)
-    apply H2. (*{- H2: st =[ c ]=> st' -}*)
-  - (*{- p st -}*)
-    apply H3. (*{- H3: p st -}*)
+  apply H1. (* H1: q' ->> q *)
+  apply H0 with st. (* H0: {p} c {q'} *)
+  - (* st =[ c ]=> st' *)
+    apply H2. (* H2: st =[ c ]=> st' *)
+  - (* p st *)
+    apply H3. (* H3: p st *)
   Qed.
 ```
 
 증명은 간단합니다. 증명의 목표는 context의 어떤 명제와 goal의 모양이 같도록 만드는 것이고, context에 있는 명제들을 잘 `apply`해서 goal의 모양을 적절히 바꾸면 됩니다.
 
-```haskell, line_num
+```coq, line_num
 Theorem hoare_consequence : forall (P P' Q Q' : Assertion) c,
   {{P'}} c {{Q'}} ->
   P ->> P' ->
@@ -147,13 +147,13 @@ Theorem hoare_consequence : forall (P P' Q Q' : Assertion) c,
 Proof.
   intros P P' Q Q' c Htriple Hpre Hpost.
   apply hoare_consequence_pre with (P' := P').
-  - (*{- {P'} c {Q} -}*)
+  - (* {P'} c {Q} *)
     apply hoare_consequence_post with (Q' := Q').
-    + (*{- {P'} c {Q'} -}*)
+    + (* {P'} c {Q'} *)
       assumption.
-    + (*{- Q' ->> Q -}*)
+    + (* Q' ->> Q *)
       assumption.
-  - (*{- P ->> P' -}*)
+  - (* P ->> P' *)
     assumption.
   Qed.
 ```
@@ -190,14 +190,14 @@ pre와 post를 하나로 합친 정리입니다.
 
 먼저 아래의 코드를 추가해줍시다.
 
-```haskell, line_num
+```coq, line_num
 Hint Unfold assert_implies hoare_triple assn_sub t_update : core.
 Hint Unfold assert_of_Prop Aexp_of_nat Aexp_of_aexp : core.
 ```
 
 Coq가 `auto`를 쓸 때 저 정리들도 참고하라고 알려주는 것입니다. 이제 `auto`를 써보면...
 
-```haskell, line_num
+```coq, line_num
 Theorem hoare_consequence_pre : forall (P P' Q : Assertion) c,
   {{P'}} c {{Q}} ->
   P ->> P' ->
@@ -215,7 +215,7 @@ Proof.
 
 먼저, `eapply`부터 봅시다. `apply X with Y`을 했지만 정작 `Y`가 필요없는 경우가 많습니다. 그냥 아무 값이나 넣어두고 증명을 진행할 순 없을까요? 그럴 때 사용하는게 바로 `eapply`입니다. 아래의 코드를 [위](#pre1)와 비교해봅시다.
 
-```haskell, line_num
+```coq, line_num
 Theorem hoare_consequence_pre : forall (P P' Q : Assertion) c,
   {{P'}} c {{Q}} ->
   P ->> P' ->
@@ -223,11 +223,11 @@ Theorem hoare_consequence_pre : forall (P P' Q : Assertion) c,
 Proof.
   intros p p' q c H0 H1 st st' H2 H3.
   eapply H0.
-  - (*{- ?st =[ c ]=> st' -}*)
-    apply H2. (*{- H2: st =[ c ]=> st' -}*)
-  - (*{- p' st -}*)
-    apply H1. (*{- H1: p ->> p' -}*)
-    apply H3. (*{- H3: p st -}*)
+  - (* ?st =[ c ]=> st' *)
+    apply H2. (* H2: st =[ c ]=> st' *)
+  - (* p' st *)
+    apply H1. (* H1: p ->> p' *)
+    apply H3. (* H3: p st *)
   Qed.
 ```
 
@@ -239,7 +239,7 @@ Proof.
 
 `eapply`와 `intros`로만 이뤄진 증명은 `eauto`로 자동화할 수 있습니다.
 
-```haskell, line_num
+```coq, line_num
 Theorem hoare_consequence_pre : forall (P P' Q : Assertion) c,
   {{P'}} c {{Q}} ->
   P ->> P' ->
@@ -257,14 +257,14 @@ Proof.
 
 본격적으로 `Ltac`을 다루기 전에, 아까 정의한 것들로 예시를 몇가지 만들어보겠습니다.
 
-```haskell, line_num
+```coq, line_num
 Example hoare_asgn_example1:
   {{True}} X := 1 {{X = 1}}.
 Proof.
   eapply hoare_consequence_pre.
-  - (*{- {?P'} X := 1 {X = 1} -}*)
+  - (* {?P'} X := 1 {X = 1} *)
     eapply hoare_asgn.
-  - (*{- True ->> {(X = 1) [X |-> 1]} -}*)
+  - (* True ->> {(X = 1) [X |-> 1]} *)
     intros st true_p.
     simpl.
     reflexivity.
@@ -273,16 +273,16 @@ Proof.
 
 `hoare_asgn`만 가지고는 위의 정리를 증명할 수 없습니다. `True`랑 `1 = 1`이랑 같은 말인 거 같지만 Coq은 그렇게 생각 안하거든요. 그래서 `hoare_consequence_pre`를 이용해서 `True`면 `1 = 1`이라고 Coq한테 알려줬습니다.
 
-```haskell, line_num
+```coq, line_num
 Example assn_sub_example2:
   {{X < 4}}
     X := X + 1
   {{X < 5}}.
 Proof.
   eapply hoare_consequence_pre.
-  - (*{- {?P'} X := X + 1 {X < 5} -}*)
+  - (* {?P'} X := X + 1 {X < 5} *)
     apply hoare_asgn.
-  - (*{- X < 4 ->> {(X < 5) [X |-> X + 1]} -}*)
+  - (* X < 4 ->> {(X < 5) [X |-> X + 1]} *)
     unfold "->>", assn_sub, t_update.
     intros st H.
     simpl in *.
@@ -292,7 +292,7 @@ Proof.
 
 이번에도 비슷한 증명을 했습니다. `lia`는 `->>`나 `|->` 같은 기호를 이해하지 못하기 때문에 10번 줄에서 전부 `unfold`하고 시작했습니다. 하다보니까 비슷한 tactic이 반복해서 나오죠? 저런 tactic들을 하나로 묶으려면 어떻게 할까요? 바로 `Ltac`을 사용하면 됩니다.
 
-```haskell, line_num
+```coq, line_num
 Ltac assn_auto :=
   try auto;
   try (
@@ -305,7 +305,7 @@ Ltac assn_auto :=
 
 `assn_auto`라는 tactic을 정의했습니다. 바로 사용해보겠습니다.
 
-```haskell, line_num
+```coq, line_num
 Example assn_sub_example2':
   {{X < 4}}
     X := X + 1
@@ -329,7 +329,7 @@ Qed.
 
 `assn_auto`를 이용해서 증명을 하나 더 해보겠습니다.
 
-```haskell, line_num
+```coq, line_num
 Example hoare_asgn_example :
   {{ True }}
     X := 1;
@@ -337,17 +337,17 @@ Example hoare_asgn_example :
   {{ X = 1 /\ Y = 2 }}.
 Proof.
   apply hoare_seq with (Q := (X = 1)%assertion).
-  - (*{- {X = 1} Y := 2 {X = 1 /\ Y = 2} -}*)
+  - (* {X = 1} Y := 2 {X = 1 /\ Y = 2} *)
     apply hoare_consequence_pre with (P' := ((X = 1 /\ Y = 2) [Y |-> 2])%assertion).
-    + (*{- {(X = 1 /\ Y = 2) [Y |-> 2]} Y := 2 {X = 1 /\ Y = 2} -}*)
+    + (* {(X = 1 /\ Y = 2) [Y |-> 2]} Y := 2 {X = 1 /\ Y = 2} *)
       apply hoare_asgn.
-    + (*{- X = 1 ->> (X = 1 /\ Y = 2) [ Y |-> 2] -}*)
+    + (* X = 1 ->> (X = 1 /\ Y = 2) [ Y |-> 2] *)
       assn_auto.
-  - (*{- {True} X := 1 {X = 1} -}*)
+  - (* {True} X := 1 {X = 1} *)
     apply hoare_consequence_pre with (P' := ((X = 1) [X |-> 1])%assertion).
-    + (*{- {(X = 1) [X |-> 1]} X := 1 {X = 1} -}*)
+    + (* {(X = 1) [X |-> 1]} X := 1 {X = 1} *)
       apply hoare_asgn.
-    + (*{- True ->> (X = 1) [X |-> 1] -}*)
+    + (* True ->> (X = 1) [X |-> 1] *)
       assn_auto.
   Qed.
 ```
@@ -391,7 +391,7 @@ end
 
 하지만 여전히 걸리는 점이 하나 있습니다. `P`는 assertion이고 `b`는 boolean이에요. 그래서 `P /\ b`는 말이 되지 않습니다. 저걸 어떻게 고쳐야할까요? 먼저 boolean을 assertion으로 고쳐주는 함수를 정의하겠습니다.
 
-```haskell, line_num
+```coq, line_num
 Definition bassn b : Assertion :=
   fun st => (beval st b = true).
 
@@ -401,7 +401,7 @@ Arguments bassn /.
 
 단순히 함수만 정의한게 아니고 몇몇 특수문법을 추가했습니다. 이제 `Assertion`과 `bexp`를 섞어서 써도 Coq이 알아서 type을 바꿔줄 겁니다.
 
-```haskell, line_num
+```coq, line_num
 Lemma bexp_eval_false : forall b st,
   beval st b = false -> ~ ((bassn b) st).
 Proof.
@@ -417,7 +417,7 @@ Hint Resolve bexp_eval_false : core.
 
 이제 `if`의 hoare triple을 증명해봅시다.
 
-```haskell, line_num
+```coq, line_num
 Theorem hoare_if : forall P Q (b:bexp) c1 c2,
   {{ P /\ b }} c1 {{Q}} ->
   {{ P /\ ~ b}} c2 {{Q}} ->
@@ -431,7 +431,7 @@ Proof.
 
 `eauto`를 쓰지 않고 해보려다가 도저히 안되겠어서 `eauto`로 했습니다... 어쨌든 `hoare_if`를 증명했으니 사용해봅시다.
 
-```haskell, line_num
+```coq, line_num
 Example if_example :
   {{True}}
     if (X = 0)
@@ -441,21 +441,21 @@ Example if_example :
   {{X <= Y}}.
 Proof.
   apply hoare_if.
-  - (*{- X = 0 -}*)
+  - (* X = 0 *)
     apply (hoare_consequence_pre (True /\ <{X = 0}>)%assertion ((X <= Y) [Y |-> 2])%assertion (X <= Y)%assertion <{Y := 2}>).
-    + (*{- {X <= Y [Y |-> 2]} Y := 2 {X <= Y} -}*)
+    + (* {X <= Y [Y |-> 2]} Y := 2 {X <= Y} *)
       apply hoare_asgn.
-    + (*{- True /\ X = 0 ->> X <= Y [Y |-> 2] -}*)
+    + (* True /\ X = 0 ->> X <= Y [Y |-> 2] *)
       unfold assert_implies, assn_sub, t_update, bassn.
       intros st.
       simpl in *.
       rewrite -> (eqb_eq (st X) 0).
       try lia.
-  - (*{- X != 0 -}*)
+  - (* X != 0 *)
     apply (hoare_consequence_pre (True /\ ~<{X = 0}>)%assertion ((X <= Y) [Y |-> X + 1])%assertion (X <= Y)%assertion).
-    + (*{- {X <= Y [Y |-> X + 1]} Y := X + 1 {X <= Y} -}*)
+    + (* {X <= Y [Y |-> X + 1]} Y := X + 1 {X <= Y} *)
       apply hoare_asgn.
-    + (*{- True /\ X != 0 ->> X <= Y [Y |-> X + 1] -}*)
+    + (* True /\ X != 0 ->> X <= Y [Y |-> X + 1] *)
       unfold assert_implies, assn_sub, t_update, bassn.
       intros st.
       simpl in *.
@@ -466,7 +466,7 @@ Proof.
 
 `if`를 설명하기 위해 처음에 사용했던 예시를 증명했습니다. 비슷한 패턴이 반복되죠? 축약해봅시다.
 
-```haskell, line_num
+```coq, line_num
 Ltac assn_auto :=
   unfold assert_implies, assn_sub, t_update, bassn;
   intros st;
@@ -479,7 +479,7 @@ Ltac assn_auto :=
 
 아까 정의한 `assn_auto`를 좀 더 강력하게 다시 정의했습니다.
 
-```haskell, line_num
+```coq, line_num
 Example if_example2 :
   {{True}}
     if (X = 0)
@@ -517,7 +517,7 @@ Proof.
 
 멋지네요. 증명해봅시다.
 
-```haskell, line_num
+```coq, line_num
 Theorem hoare_while : forall P (b:bexp) c,
   {{P /\ b}} c {{P}} ->
   {{P}} while b do c end {{P /\ ~ b}}.
@@ -533,7 +533,7 @@ Proof.
 
 그냥 `eauto`로 했습니다. `hoare_while`을 이용해서 간단한 증명 몇가지를 해보겠습니다.
 
-```haskell, line_num
+```coq, line_num
 Example while_example :
   {{X <= 3}}
     while (X <= 2) do
@@ -542,14 +542,14 @@ Example while_example :
   {{X = 3}}.
 Proof.
   eapply hoare_consequence_post.
-  - (*{- {X <= 3} while_loop { X <= 3 /\ ~(X <= 2) } -}*)
+  - (* {X <= 3} while_loop { X <= 3 /\ ~(X <= 2) } *)
     apply hoare_while.
     eapply hoare_consequence_pre.
-    + (*{- {X <= 3 [X |-> X + 1]} X := X + 1 {X <= 3} -}*)
+    + (* {X <= 3 [X |-> X + 1]} X := X + 1 {X <= 3} *)
       apply hoare_asgn.
-    + (*{- X <= 3 /\ X <= 2 ->> X <= 3 [X |-> X + 1] -}*)
+    + (* X <= 3 /\ X <= 2 ->> X <= 3 [X |-> X + 1] *)
       assn_auto.
-  - (*{- X <= 3 /\ ~(X <= 2) ->> X = 3 -}*)
+  - (* X <= 3 /\ ~(X <= 2) ->> X = 3 *)
     assn_auto.
 Qed.
 ```

@@ -7,7 +7,7 @@
 
 두번째 자료구조로 List에 대해서 알아보겠습니다. List의 구현은 Haskell 혹은 다른 순수함수형 언어의 list와 아주 비슷합니다. 아래의 정의를 보겠습니다.
 
-```haskell, line_num
+```coq, line_num
 Inductive natlist : Type :=
   | nil
   | cons (n : nat) (l : natlist).
@@ -15,7 +15,7 @@ Inductive natlist : Type :=
 
 `natlist`라는 자연수의 list를 정의하였습니다. Generic하게 정의할 수도 있습니다. 그 방법은 [나중](Chap4-1.html)에 알아보겠습니다.
 
-```haskell, line_num
+```coq, line_num
 Notation "x :: l" := (cons x l)
                      (at level 60, right associativity).
 Notation "[ ]" := nil.
@@ -34,7 +34,7 @@ Notation도 몇가지 정의했습니다. `::`는 Haskell에서 보던 `:`과 �
 
 [[anchor, id = definition repeat]][[/anchor]]
 
-```haskell, line_num
+```coq, line_num
 Fixpoint repeat (n count : nat) : natlist :=
   match count with
   | O => nil
@@ -46,7 +46,7 @@ Fixpoint repeat (n count : nat) : natlist :=
 
 ### Length
 
-```haskell, line_num
+```coq, line_num
 Fixpoint length (l : natlist) : nat :=
   match l with
   | nil => O
@@ -58,7 +58,7 @@ Fixpoint length (l : natlist) : nat :=
 
 ### Get
 
-```haskell, line_num
+```coq, line_num
 Fixpoint get (l: natlist) (idx: nat) : nat :=
   match idx with
   | O => match l with
@@ -76,7 +76,7 @@ Fixpoint get (l: natlist) (idx: nat) : nat :=
 
 ### Append
 
-```haskell, line_num
+```coq, line_num
 Fixpoint append (l1 l2 : natlist) : natlist :=
   match l1 with
   | nil => l2
@@ -91,7 +91,7 @@ Notation "x ++ y" := (append x y)
 
 ### Reverse
 
-```haskell, line_num
+```coq, line_num
 Fixpoint rev (l : natlist) : natlist :=
   match l with
   | nil => nil
@@ -103,7 +103,7 @@ list를 뒤집는 함수입니다.
 
 ### head and tail
 
-```haskell, line_num
+```coq, line_num
 Definition head (default : nat) (l : natlist) : nat :=
   match l with
   | nil => default
@@ -120,7 +120,7 @@ head와 tail도 만들었습니다. 특이한 점은, `nil`의 head를 구할 �
 
 ### nonzeros
 
-```haskell, line_num
+```coq, line_num
 Fixpoint nonzeros (l : natlist) : natlist :=
   match l with
   | nil => nil
@@ -135,7 +135,7 @@ list를 받아서 0이 아닌 값들만 남기는 함수입니다. 빨리 filter
 
 ### count_odd_numbers
 
-```haskell, line_num
+```coq, line_num
 Fixpoint count_odd_members (l : natlist) : nat :=
   match l with
   | nil => O
@@ -151,7 +151,7 @@ Fixpoint count_odd_members (l : natlist) : nat :=
 
 ### alternate
 
-```haskell, line_num
+```coq, line_num
 Fixpoint alternate (l1 l2 : natlist) : natlist :=
   match l1, l2 with
   | h :: t, _ => h :: (alternate l2 t)
@@ -164,20 +164,20 @@ Fixpoint alternate (l1 l2 : natlist) : natlist :=
 
 list를 이용해서 theorem들을 만들고 증명해보겠습니다.
 
-```haskell, line_num
+```coq, line_num
 Theorem app_assoc : forall l1 l2 l3 : natlist,
   (l1 ++ l2) ++ l3 = l1 ++ (l2 ++ l3).
 ```
 
 먼저, 수학적 귀납법을 이용해서 `append`의 결합법칙을 증명해보겠습니다.
 
-```haskell, line_num
+```coq, line_num
 Proof.
   intros l1 l2 l3.
   induction l1 as [ | n l1' IHl1'].
-  - (*{- l1 = [] -}*)
+  - (* l1 = [] *)
     reflexivity.
-  - (*{- l1 = n :: l1' -}*)
+  - (* l1 = n :: l1' *)
     simpl.
     rewrite IHl1'.
     reflexivity.

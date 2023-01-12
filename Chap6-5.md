@@ -9,7 +9,7 @@
 
 공리는 증명 없이 참이라고 받아들여지는 명제를 말합니다. 어떤 체계의 공리가 잘못되면 그 체계 전체의 기반이 무너지므로 공리를 다룰 때는 항상 매우 조심해야합니다. Coq에서는 공리를 어떻게 다룰까요? 아래의 예시를 보겠습니다.
 
-```haskell, line_num
+```coq, line_num
 Example function_equality :
   (fun x => plus x 1) = (fun x => plus 1 x).
 ```
@@ -18,7 +18,7 @@ Example function_equality :
 
 [[anchor, id = funcext]][[/anchor]]
 
-```haskell, line_num
+```coq, line_num
 Axiom functional_extensionality :
   forall {X Y: Type} {f g : X -> Y},
   (forall (x : X), f x = g x) -> f = g.
@@ -26,7 +26,7 @@ Axiom functional_extensionality :
 
 모든 input에 대해서 동일한 output을 반환하는 두 함수는 동일합니다. 앞으론 그 사실을 증명없이 참이라 받아들이고 사용하겠습니다. 공리는 참인 명제이므로 다른 명제들과 동일한 방식으로 `rewrite`나 `apply`등을 이용해서 사용할 수 있습니다. 아까 증명하던 명제를 다시 증명해보겠습니다.
 
-```haskell, line_num
+```coq, line_num
 Example function_equality :
   (fun x => plus x 1) = (fun x => plus 1 x).
 Proof.
@@ -41,7 +41,7 @@ Proof.
 
 Coq에서는 아래의 명제도 증명불가능합니다.
 
-```haskell, line_num
+```coq, line_num
 Theorem excluded_middle :
   forall P : Prop, P \/ ~P.
 ```
@@ -50,7 +50,7 @@ Theorem excluded_middle :
 
 저 명제가 없기 때문에 아래와 같은 귀류법도 Coq에서는 사용불가능합니다.
 
-```haskell, line_num
+```coq, line_num
 Lemma double_negation : forall P : Prop, ~(~P) -> P.
 Proof.
 Abort.

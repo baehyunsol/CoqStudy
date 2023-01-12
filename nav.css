@@ -108,15 +108,28 @@ nav div#settingsmenubg {
 }
 nav div#settingsmenu {
   background-color: var(--black);
-}
-nav div#settingsmenu a {
   font-size: 1rem;
-  display: block;
-  margin: 1rem;
+  color: var(--white);
 }
-nav div#settingsmenu a#settingsclosebutton {
+nav div#settingsmenu .align-right {
   text-align: right;
+}
+nav div#settingsmenu .align-left {
+  text-align: left;
+}
+nav div#settingsmenu .size-giant {
+  font-size: 1.571rem;
+}
+nav div#settingsmenu table {
+  border: none;
+  border-collapse: collapse;
+}
+nav div#settingsmenu table th {
   background-color: var(--gray);
+  text-align: right;
+}
+nav div#settingsmenu table td {
+  padding: 0.571rem;
 }
 
 nav:hover {

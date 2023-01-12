@@ -15,7 +15,7 @@
 
 콜라츠 추측을 Coq로 표현하려면 어떻게 해야할까요? 먼저 콜라츠 함수를 아래와 같이 정의해보겠습니다.
 
-```haskell, line_num
+```coq, line_num
 Definition f (n : nat) :=
   if even n then div2 n
   else (3 * n) + 1.
@@ -23,7 +23,7 @@ Definition f (n : nat) :=
 
 아주 간단하군요. 그럼 콜라츠 수열이 항상 1로 끝난다는 사실을 Coq로 표현하려면 어떻게 할까요?
 
-```haskell, line_num
+```coq, line_num
 Fixpoint reaches_1 (n : nat) :=
   if n =? 1 then true
   else reaches_1 (f n).
@@ -37,7 +37,7 @@ Conjecture collatz : forall n, reaches_1 n = true.
 
 이번에는 `Fixpoint`가 아닌 `Inductive`를 이용해서 콜라츠 추측을 표현해보겠습니다.
 
-```haskell, line_num
+```coq, line_num
 Inductive reaches_1 : nat -> Prop :=
   | term_done : reaches_1 1
   | term_more (n : nat) : reaches_1 (f n) -> reaches_1 n.
@@ -53,7 +53,7 @@ Conjecture collatz : forall n, reaches_1 n.
 
 ### le
 
-```haskell, line_num
+```coq, line_num
 Inductive le : nat -> nat -> Prop :=
   | le_n (n : nat) : le n n
   | le_S (n m : nat) : le n m -> le n (S m).
@@ -66,7 +66,7 @@ Inductive le : nat -> nat -> Prop :=
 
 이렇게 정의를 하면, `le a b`는 ~_`a`가 `b`보다 작거나 같다_~라는 뜻의 `Prop`이 됩니다. 이 정의를 이용해서 [[math]] 3 leq 4 [[/math]]를 증명해보겠습니다.
 
-```haskell, line_num
+```coq, line_num
 Theorem le34 : le 3 4.
 Proof.
   apply le_S.
@@ -82,7 +82,7 @@ Proof.
 
 `x`와 `y`를 받아서 위와 같은 뜻을 가진 `Prop`를 반환하는 `Perm3`를 정의해보겠습니다.
 
-```haskell, line_num
+```coq, line_num
 Inductive Perm3 {X : Type} : list X -> list X -> Prop :=
   | perm3_swap12 (a b c : X) :
       Perm3 [a;b;c] [b;a;c]
@@ -96,7 +96,7 @@ Inductive Perm3 {X : Type} : list X -> list X -> Prop :=
 
 [^perm]: 두 list `x`와 `y`가 원소들은 같고 순서만 (같거나) 다를 때, 둘을 permutation이라고 합니다.
 
-```haskell, line_num
+```coq, line_num
 Theorem perm3ex : Perm3 [4; 5; 6] [6; 5; 4].
 Proof.
   assert (Perm3 [4; 5; 6] [5; 6; 4]).
@@ -119,7 +119,7 @@ Proof.
 
 이번에 본 `Inductive`의 사용은 기존에 보던 것들과 많이 다릅니다. `nat`의 정의와 `list`, `le`의 정의를 놓고 비교해보겠습니다.
 
-```haskell, line_num
+```coq, line_num
 Inductive nat : Type :=
   | O
   | S (n: nat).

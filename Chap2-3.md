@@ -9,7 +9,7 @@
 
 ## 정의
 
-```haskell, line_num
+```coq, line_num
 Inductive bin : Type :=
   | Z
   | B0 (n : bin)
@@ -35,7 +35,7 @@ Inductive bin : Type :=
 
 `incr`는 이진법을 다루는 가장 간단한 함수로, 주어진 수에 1을 더해서 반환합니다.
 
-```haskell, line_num
+```coq, line_num
 Fixpoint incr (b: bin) : bin :=
   match b with
   | Z => B1 Z
@@ -50,7 +50,7 @@ Fixpoint incr (b: bin) : bin :=
 
 [[anchor, id=keywordexample]][[/anchor]]
 
-```haskell, line_num
+```coq, line_num
 Example test_bin_incr1 : (incr (B1 Z)) = B0 (B1 Z).
 Proof.
   reflexivity.
@@ -73,7 +73,7 @@ Proof.
 
 말그대로 `bin` type의 instance를 `nat` type으로 바꿔주는 함수입니다.
 
-```haskell, line_num
+```coq, line_num
 Fixpoint bin_to_nat (b: bin) : nat :=
   match b with
   | Z => O
@@ -86,7 +86,7 @@ Fixpoint bin_to_nat (b: bin) : nat :=
 
 ## 검증1
 
-```haskell, line_num
+```coq, line_num
 (*{-
                             incr
               bin ----------------------> bin
@@ -104,17 +104,17 @@ Theorem bin_to_nat_incr : forall b: bin,
 
 위의 theorem을 증명해봅시다. 물론 저 theorem이 맞다고 해서 `incr`과 `bin_to_nat`에 문제가 없다고 완벽히 장담할 순 없지만, [이전](#keywordexample)의 unit test보다는 훨씬 설득력이 있습니다.
 
-```haskell, line_num
+```coq, line_num
 Theorem bin_to_nat_incr : forall b: bin,
   bin_to_nat (incr b) = 1 + bin_to_nat b.
 Proof.
   intros b.
   induction b as [ | b0' IHb0'| b1' IHb1'].
-  - (*{- b = Z -}*)
+  - (* b = Z *)
     reflexivity.
-  - (*{- b = B0 b0' -}*)
+  - (* b = B0 b0' *)
     reflexivity.
-  - (*{- b = B1 b1' -}*)
+  - (* b = B1 b1' *)
     simpl.
     rewrite add_0_r.
     rewrite add_0_r.
@@ -124,9 +124,9 @@ Proof.
     {
       intros m n.
       induction m as [ | m' IHm'].
-      - (*{- m = 0 -}*)
+      - (* m = 0 *)
         reflexivity.
-      - (*{- m = S m' -}*)
+      - (* m = S m' *)
         simpl.
         rewrite <- IHm'.
         reflexivity.
@@ -142,7 +142,7 @@ Proof.
 
 이번에는 반대로 `nat`을 `bin`으로 바꾸는 함수를 구현해보겠습니다.
 
-```haskell, line_num
+```coq, line_num
 Fixpoint nat_to_bin (n : nat) : bin :=
   match n with
   | O => Z
@@ -156,14 +156,14 @@ Fixpoint nat_to_bin (n : nat) : bin :=
 
 방금 만든 `nat_to_bin`을 검증해봅시다. 어떤 자연수를 `nat_to_bin`과 `bin_to_nat`을 한번씩 거치면 원래의 수로 돌아오는지 확인해보겠습니다.
 
-```haskell, line_num
+```coq, line_num
 Theorem nat_bin_nat : forall n : nat, bin_to_nat (nat_to_bin n) = n.
 Proof.
   intros n.
   induction n as [ | n' IHn'].
-  - (*{- n = 0 -}*)
+  - (* n = 0 *)
     reflexivity.
-  - (*{- n = S n' -}*)
+  - (* n = S n' *)
     simpl.
     rewrite bin_to_nat_incr.
     simpl.

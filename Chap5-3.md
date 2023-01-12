@@ -11,7 +11,7 @@
 
 Context 안에 있는 가정들을 대상으로 tactic을 사용하려면 어떻게 해야할까요? Context 안에 `H: m = n`가 있는데 저걸 `H: n = m`으로 바꾸려면 어떻게 해야할까요? `in`이라는 키워드를 쓰면 됩니다. 아래의 예시를 보겠습니다.
 
-```haskell, line_num
+```coq, line_num
 Theorem ridiculous : forall (n m p q : nat),
   (n = m -> p = q) ->
   m = n ->
@@ -29,31 +29,31 @@ Proof.
 
 ## Varying the Induction Hypothesis
 
-```haskell, line_num
+```coq, line_num
 Theorem double_injective : forall n m,
   double n = double m -> n = m.
 ```
 
 위의 식을 증명해보겠습니다. 얼핏 보기엔 `intros n m`을 하고 `n`과 `m`에 대해 각각 `induction`을 쓰면 될 것 같지만 그렇지 않습니다. `n`과 `m` 중 `forall`이 하나라도 있어야하는데 그렇지 않아서 의미가 없는 귀납법이 나옵니다. 그걸 해결하기 위해선 둘 중 하나만 `intros`를 한 뒤, 따로 귀납법을 써야합니다. 아래처럼 말이죠.
 
-```haskell, line_num
+```coq, line_num
 Proof.
   intros n m.
   generalize dependent n.
   induction m as [ | m' IHm'].
-  - (*{- m = 0 -}*)
+  - (* m = 0 *)
     intros n eq.
     induction n as [ | n' IHn'].
-    + (*{- n = 0 -}*)
+    + (* n = 0 *)
       reflexivity.
-    + (*{- n = S n' -}*)
+    + (* n = S n' *)
       discriminate eq.
-  - (*{- m = S m' -}*)
+  - (* m = S m' *)
     intros n eq.
     induction n as [ | n' IHn'].
-    + (*{- n = 0 -}*)
+    + (* n = 0 *)
       discriminate eq.
-    + (*{- n = S n' -}*)
+    + (* n = S n' *)
       injection eq.
       intros H.
       apply IHm' in H.
@@ -74,7 +74,7 @@ Proof.
 
 간단한 예시로 시작하겠습니다.
 
-```haskell, line_num
+```coq, line_num
 Definition square (n : nat) := n * n.
 
 Theorem square_mult : forall (n m : nat), square (n * m) = square n * square m.
@@ -102,7 +102,7 @@ Todo
 
 [이전](Chap1-3.html#keyworddestruct)에 봤던 `destruct`는 특정 값을 쪼갰습니다. 예를 들어 어떤 boolean `b`를 `destruct b`하면 `b`가 `true`인 경우와 `false`인 경우로 나눠집니다. 값을 쪼개는게 아니라 식을 쪼갤 수도 있을까요? 아래의 예시를 보겠습니다.
 
-```haskell, line_num
+```coq, line_num
 Definition compound_false (n : nat) : bool :=
   if n =? 3 then false
   else if n =? 5 then false
@@ -113,18 +113,18 @@ Theorem compound_false_false : forall (n : nat), compound_false n = false.
 
 위에서 정의한 `compound_false`는 항상 `false`입니다. 사람 눈으로 보기엔 그게 자명하지만 Coq가 봐도 그럴까요? 아쉽게도 그렇지 않습니다. Coq에게는 `destruct`를 이용해서 `n`이 3, 5, 나머지인 경우로 나눠줘야합니다. 아래처럼 말이죠.
 
-```haskell, line_num
+```coq, line_num
 Proof.
   intros n.
   unfold compound_false.
   destruct (n =? 3).
-  - (*{- n =? 3 = true -}*)
+  - (* n =? 3 = true *)
     reflexivity.
-  - (*{- n =? 3 = false -}*)
+  - (* n =? 3 = false *)
     destruct (n =? 5).
-    + (*{- n =? 5 = true -}*)
+    + (* n =? 5 = true *)
       reflexivity.
-    + (*{- n =? 5 = false -}*)
+    + (* n =? 5 = false *)
       reflexivity.
   Qed.
 ```

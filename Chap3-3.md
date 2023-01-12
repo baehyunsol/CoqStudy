@@ -7,7 +7,7 @@
 
 Haskell 혹은 Rust를 사용해본 적이 있는 분들은 Rust의 `Option` type과 Haskell의 `Maybe` type에 익숙하실 겁니다. 저 두 언어가 아니더라도 대부분의 최신언어들은 nullable type을 지원합니다. Coq도 비슷한 개념을 지원합니다. 아래의 예시를 보겠습니다.
 
-```haskell, line_num
+```coq, line_num
 Inductive natoption : Type :=
   | Some (n : nat)
   | None.
@@ -15,7 +15,7 @@ Inductive natoption : Type :=
 
 `natoption`은 `Some nat` 혹은 `None`의 값을 갖는 type입니다. 이 역시 generic한 표현이 가능한데, 그 부분은 [나중](Chap4-1.html)에 다시 보겠습니다. 이 type을 이용해서 get 함수를 다시 정의해보겠습니다.
 
-```haskell, line_num
+```coq, line_num
 Fixpoint get (l : natlist) (n : nat) : natoption :=
   match l with
   | nil => None
@@ -28,7 +28,7 @@ Fixpoint get (l : natlist) (n : nat) : natoption :=
 
 비슷한 방식으로 head 함수도 다시 정의해보겠습니다.
 
-```haskell, line_num
+```coq, line_num
 Definition head (l : natlist) : natoption :=
   match l with
   | nil => None

@@ -11,7 +11,7 @@
 
 황당한 예시와 함께 5장을 시작해보겠습니다. 아래를 봅시다.
 
-```haskell, line_num
+```coq, line_num
 Theorem ridiculous: forall (a b c d: nat),
   a = b ->
   (a = b -> c = d) ->
@@ -20,7 +20,7 @@ Theorem ridiculous: forall (a b c d: nat),
 
 위의 theorem을 증명하는 것은 아주 직관적입니다. `rewrite`를 2번 쓰면 끝입니다. 아래처럼요.
 
-```haskell, line_num
+```coq, line_num
 Proof.
   intros a b c d eq1 eq2.
   rewrite eq2.
@@ -34,7 +34,7 @@ Proof.
 
 간단하긴 하지만 더 간단한 방법이 있어보입니다. 증명을 하다보면 `rewrite` 뒤에 `reflexivity`가 바로 따라오는 경우가 많아요. 그런 상황을 간단하게 처리할 수 있는 tactic이 없을까요? 바로 `apply` tactic이 있습니다. 아래의 예시를 보겠습니다.
 
-```haskell, line_num
+```coq, line_num
 Proof.
   intros a b c d eq1 eq2.
   apply eq2.
@@ -44,7 +44,7 @@ Proof.
 
 동일한 theorem을 `apply`를 이용해서 증명한 예시입니다. 코드가 훨씬 간결해진 걸 확인할 수 있습니다. 좀 더 복잡한 예시를 보겠습니다.
 
-```haskell, line_num
+```coq, line_num
 Theorem less_ridiculous : forall p,
   (forall n, even n = true -> even (S n) = false) ->
   (forall n, even n = false -> odd n = true) ->
@@ -53,9 +53,9 @@ Theorem less_ridiculous : forall p,
 
 Proof.
   intros p eq1 eq2 eq3.
-  apply eq2.  (*{- forall n : nat, even n = false -> odd n = true -}*)
-  apply eq1.  (*{- forall n : nat, even n = true -> even (S n) = false -}*)
-  apply eq3.  (*{- even p = true -}*)
+  apply eq2.  (* forall n : nat, even n = false -> odd n = true *)
+  apply eq1.  (* forall n : nat, even n = true -> even (S n) = false *)
+  apply eq3.  (* even p = true *)
   Qed.
 ```
 
@@ -63,7 +63,7 @@ Proof.
 
 ## apply with
 
-```haskell, line_num
+```coq, line_num
 Theorem trans_eq : forall (X : Type) (n m o : X),
   n = m -> m = o -> n = o.
 Proof.
@@ -78,7 +78,7 @@ Proof.
 
 앞으로 증명을 하면서 위의 성질을 쓸 일이 아주 많을 겁니다. 그래서 지금 정의해놓고 앞으로 필요할 때마다 `trans_eq`를 사용하기로 했습니다.
 
-```haskell, line_num
+```coq, line_num
 Example trans_eq_example : forall (a b c d e f : nat),
      [a;b] = [c;d] ->
      [c;d] = [e;f] ->
@@ -91,7 +91,7 @@ Proof.
 
 이게 웬걸? 위의 코드는 에러가 납니다. `apply trans_eq`를 하면 Coq는 주어진 조건들에서 `m`을 찾으려고 시도합니다. 하지만 지금 증명하려는 식에는 `m`이 없습니다. `m`이 뭔지 알려주려면 어떻게 해야할까요? 아래와 같이 증명하면 됩니다.
 
-```haskell, line_num
+```coq, line_num
 Proof.
   intros a b c d e f eq1 eq2.
   apply trans_eq with (m := [c;d]).
@@ -110,7 +110,7 @@ Proof.
 
 위에서본 `trans_eq`는 워낙 자주 등장하는 성질이라 Coq에 기본적으로 정의돼 있습니다. 바로 `transitivity` tactic입니다.
 
-```haskell, line_num
+```coq, line_num
 Theorem trans_eq_example : forall (a b c d e f : nat),
      [a;b] = [c;d] ->
      [c;d] = [e;f] ->
@@ -135,7 +135,7 @@ Proof.
 
 또 황당한 예시를 하나 갖고 왔습니다.
 
-```haskell, line_num
+```coq, line_num
 Theorem another_ridiculous : forall (n m : nat),
   n = m -> m = n.
 Proof.
@@ -145,7 +145,7 @@ Proof.
 
 위의 방식으로는 증명이 안됩니다. `H`를 쓰려고 했지만 `n`과 `m`의 위치가 다릅니다. 그럴 때 쓸 수 있는게 `symmetry` tactic입니다. `symmetry`는 `=` 좌우를 반전시킵니다. `n = m`이나 `m = n`이나 동일한 뜻이잖아요. 그래서 아래의 증명은 성공적으로 동작합니다.
 
-```haskell, line_num
+```coq, line_num
 Theorem another_ridiculous : forall (n m : nat),
   n = m -> m = n.
 Proof.

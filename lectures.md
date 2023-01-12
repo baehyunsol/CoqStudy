@@ -21,7 +21,7 @@ Coq에서 모든 것은 집합 혹은 집합의 원소입니다. 예를 들어�
 
 그럼 `Set`이나 `Prop`은 뭐냐고 궁금해하실 수도 있습니다. `Set`은 사실상 `Type`과 동일합니다. 다만 오래된 코드와의 하위호환을 유지하기 위해서 `Set`도 가끔 쓴다고 하네요. `Prop`은 증명의 집합입니다. 즉, 그 집합에 원소가 하나라도 있으면 `Prop`은 참인 명제가 됩니다. 아래의 예시와 함께 설명해보겠습니다.
 
-```haskell, line_num
+```coq, line_num
 Definition X : Prop := 1 = 1 \/ 2 = 2.
 
 Check X : Prop.
@@ -50,7 +50,7 @@ Coq에서 집합을 정의하는 방법은 딱 두가지입니다. 모든 집합
 
 집합을 정의하는 가장 단순하고 직관적인 방법입니다. `Inductive`라고 쓴 뒤, 각 가지마다 그 집합의 constructor를 하나씩 나열하는 방식입니다.
 
-```haskell, line_num
+```coq, line_num
 Inductive rgb : Type :=
   | red
   | green
@@ -66,7 +66,7 @@ Inductive color : Type :=
 
 `Inductive`를 다루는 방법은 (원칙적으로는) `match`를 사용하는 것밖에 없습니다. `match c with ...`의 `c`에다가 `color`의 원소를 하나 주고, 뒤에 가지들에 `color`의 모든 constructor를 나열해야합니다. 예시로 `is_red`를 정의해보겠습니다.
 
-```haskell, line_num
+```coq, line_num
 Definition is_red (c : color) : bool :=
   match c with
   | black => false
@@ -81,7 +81,7 @@ Definition is_red (c : color) : bool :=
 
 `match` 안에 `match`를 중첩시키려니 너무 귀찮습니다. 그래서 Coq은 `match`를 중첩시키지 않고 한번에 적을 수 있게 해줍니다.
 
-```haskell, line_num
+```coq, line_num
 Definition is_red (c : color) : bool :=
   match c with
   | black => false
@@ -94,7 +94,7 @@ Definition is_red (c : color) : bool :=
 
 여전히 귀찮습니다. `false`로 끝나는 가지들이 중복되는데 더 줄일 수 없을까요? Coq은 남은 가지들을 한번에 묶어버리는 `_`도 지원합니다.
 
-```haskell, line_num
+```coq, line_num
 Definition is_red (c : color) : bool :=
   match c with
   | primary red => true
@@ -116,7 +116,7 @@ Definition is_red (c : color) : bool :=
 
 다만 함수의 정의는 매우 자주 쓰이니 사용자의 편의를 위해서 몇가지 문법을 생략하는 것을 허용합니다. 아래의 예시를 보겠습니다.
 
-```haskell, line_num
+```coq, line_num
 Definition is_zero : nat -> bool :=
   fun n : nat => match n with
   | O => true
@@ -142,7 +142,7 @@ Definition is_zero' (n : nat) : bool :=
 
 `Theorem plus_0_n : forall n, 0 + n = n.`이란 표현을 봅시다. 여기에 `:`가 나오는데 이게 집합의 포함관계를 나타내...나요? 얼핏 봐서는 어디가 집합인지 알기가 힘듭니다. 여기서는 `forall n, 0 + n = n`이 하나의 집합입니다. 정확히 말하자면 `forall n, 0 + n = n`은 `Prop`이고 `Prop`은 증명들의 집합입니다. 만약 그 집합이 비어있으면 `plus_0_n`은 거짓이고 원소가 있으면 `plus_0_n`은 참입니다. 그 집합의 원소는 아래처럼 정의할 수 있습니다.
 
-```haskell, line_num
+```coq, line_num
 Definition plus_0_n : forall n, 0 + n = n :=
   fun n => eq_refl.
 
@@ -156,7 +156,7 @@ Definition plus_0_n : forall n, 0 + n = n :=
 
 [4-2 단원](Chap4-2.html#currying)에서 보았던 currying을 다시 봅시다! `bool` 2개를 받아서 `bool` 하나를 내놓는 `andb`라는 함수를 생각해보겠습니다. 보통 아래처럼 정의하겠죠.
 
-```haskell, line_num
+```coq, line_num
 Definition andb (b1 b2 : bool) : bool :=
   match b1 with
   | true => b2
@@ -166,7 +166,7 @@ Definition andb (b1 b2 : bool) : bool :=
 
 방금 전에 `Definition`이 `fun`을 축약할 수 있다고 했죠? `fun`을 축약하지 않고 정의 그대로 써보면 아래와 같은 모양이 나옵니다.
 
-```haskell, line_num
+```coq, line_num
 Definition andb : bool -> (bool -> bool) :=
   fun (b1: bool) =>
     fun (b2: bool) =>
@@ -175,11 +175,11 @@ Definition andb : bool -> (bool -> bool) :=
       | false => false
       end.
 
-Compute andb true.   (*{- fun x => x -}*)
-Compute andb false.  (*{- fun _ => false -}*)
+Compute andb true.   (* fun x => x *)
+Compute andb false.  (* fun _ => false *)
 ```
 
-Type부터가 신기합니다. `bool`을 받아서 `bool -> bool`을 내놓는 함수입니다. 이게 4단원에서 봤던 partial application인데요, Coq에서 모든 함수는 인수를 하나만 받습니다. 인수 2개를 받으려면 첫번째 인수를 받아서 그 인수를 처리하는 함수를 만든 뒤, 그 함수가 두번째 인수를 받습니다.
+Type부터가 신기합니다. `bool`을 받아서 `bool -> bool`을 내놓는 함수입니다. 이게 [4단원](Chap4-2.html#functions-that-return-other-functions)에서 봤던 partial application인데요, Coq에서 모든 함수는 인수를 하나만 받습니다. 인수 2개를 받으려면 첫번째 인수를 받아서 그 인수를 처리하는 함수를 만든 뒤, 그 함수가 두번째 인수를 받습니다.
 
 그래서 Coq에게 `andb true false`를 계산하라고 시키면 Coq은 내부적으로 `andb true : bool -> bool`를 만든 뒤, 그 함수에다가 `false`를 집어넣습니다. 즉, `(andb true) false`를 하는 거죠.
 

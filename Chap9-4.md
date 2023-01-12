@@ -21,7 +21,7 @@
 
 ### 예시 1, `and`
 
-```haskell, line_num
+```coq, line_num
 Theorem and_t : forall P Q : Prop, P /\ Q -> P.
 
 Proof.
@@ -37,15 +37,15 @@ Proof.
 
 ### 예시 2, `or`
 
-```haskell, line_num
+```coq, line_num
 Theorem or_t : forall P Q : Prop, P \/ Q -> Q \/ P.
 Proof.
   intros P Q H.
   inversion H.
-  - (*{- H0: P -}*)
+  - (* H0: P *)
     right.
     apply H0.
-  - (*{- H0: Q -}*)
+  - (* H0: Q *)
     left.
     apply H0.
   Qed.
@@ -55,7 +55,7 @@ Proof.
 
 ### 예시 3, `eq`
 
-```haskell, line_num
+```coq, line_num
 Theorem eq_t : forall m n : nat, S m = S n -> m = n.
 Proof.
   intros m n H.
@@ -68,7 +68,7 @@ Proof.
 
 ### 예시 4, `ev`
 
-```haskell, line_num
+```coq, line_num
 Theorem evSS_ev : forall n, ev (S (S n)) -> ev n.
 Proof.
   intros n E.

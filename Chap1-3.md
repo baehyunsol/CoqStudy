@@ -11,7 +11,7 @@ Coq는 *theorem prover*입니다. 즉, 증명이 핵심입니다. 아쉽게도 C
 
 [[anchor, id=ex1]][[/anchor]]
 
-```haskell, line_num
+```coq, line_num
 Theorem plus_O_n : forall n : nat, 0 + n = n.
 Proof.
   intros n.
@@ -34,16 +34,16 @@ Proof.
 
 [[anchor, id=ex2]][[/anchor]]
 
-```haskell, line_num
+```coq, line_num
 Theorem plus_id_example : forall n m:nat,
   n = m ->
   n + n = m + m.
 
 Proof.
-  intros n m.    (*{- n m : nat -}*)
-  intros H.      (*{- H: n = m -}*)
-  rewrite -> H.  (*{- `n + n = m + m`이 `m + m = m + m`이 됩니다. -}*)
-  reflexivity.   (*{- 양변이 같음을 확인합니다. -}*)
+  intros n m.    (* n m : nat *)
+  intros H.      (* H: n = m *)
+  rewrite -> H.  (* `n + n = m + m`이 `m + m = m + m`이 됩니다. *)
+  reflexivity.   (* 양변이 같음을 확인합니다. *)
   Qed.
 ```
 
@@ -53,7 +53,7 @@ Proof.
 
 ## By Case Analysis
 
-```haskell, line_num
+```coq, line_num
 Theorem plus_1_neq_0 : forall n : nat,
   (n + 1) =? 0 = false.
 ```
@@ -64,13 +64,13 @@ Theorem plus_1_neq_0 : forall n : nat,
 
 [[anchor, id=ex3]][[/anchor]]
 
-```haskell, line_num
+```coq, line_num
 Proof.
   intros n.
   destruct n as [ | n'] eqn:E.
-  - (*{- n = 0 -}*)
+  - (* n = 0 *)
     reflexivity.
-  - (*{- n = S n' -}*)
+  - (* n = S n' *)
     reflexivity.
   Qed.
 ```
@@ -95,15 +95,15 @@ Proof.
 
 위에서 쓰지 않았던 또다른 예시를 보여드리겠습니다.
 
-```haskell, line_num
+```coq, line_num
 Theorem negb_involutive : forall b : bool,
   negb (negb b) = b.
 Proof.
   intros b.
   destruct b eqn: E.
-  - (*{- b = true -}*)
+  - (* b = true *)
     reflexivity.
-  - (*{- b = false -}*)
+  - (* b = false *)
     reflexivity.
   Qed.
 ```
@@ -112,27 +112,27 @@ Proof.
 
 또다른 예시를 보여드리겠습니다.
 
-```haskell
+```coq
 Theorem andb_commutative : forall b c, andb b c = andb c b.
 ```
 
 위와 같은 theorem을 증명하려면 어떻게 해야할까요? `b`와 `c`로 가능한 모든 경우의 수가 4가지밖에 없으니 브루트포스로 검증하는게 합리적입니다.
 
-```haskell, line_num
+```coq, line_num
 Proof.
   intros b c.
   destruct b eqn: Eb.
-  - (*{- b = true -}*)
+  - (* b = true *)
     destruct c eqn: Ec.
-    + (*{- c = true -}*)
+    + (* c = true *)
       reflexivity.
-    + (*{- c = false -}*)
+    + (* c = false *)
       reflexivity.
-  - (*{- b = false -}*)
+  - (* b = false *)
     destruct c eqn: Ec.
-    + (*{- c = true -}*)
+    + (* c = true *)
       reflexivity.
-    + (*{- c = false -}*)
+    + (* c = false *)
       reflexivity.
 Qed.
 ```
@@ -153,7 +153,7 @@ Qed.
 
 `Theorem`이나 `Example`의 뒤에는 바로 `Proof`가 와서 증명을 제공해야합니다.
 
-```haskell, line_num
+```coq, line_num
 Example test_even1: is_even 2 = true.
 Theorem plus_O_n : forall n : nat, 0 + n = n.
 ```

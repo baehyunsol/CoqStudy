@@ -13,7 +13,7 @@ Coq에서는 정수형을 아주 특이한 방식으로 다룹니다. 이번 장
 
 Boolean이 그러했듯, 자연수도 특별한 내장함수를 쓰지 않고 Coq의 문법으로 정의할 수 있습니다. 지금까지 봤던 type들과 달리, 자연수는 무한히 많으므로 특별한 방식의 정의를 사용합니다.
 
-```haskell, line_num
+```coq, line_num
 Inductive nat : Type :=
   | O
   | S (n: nat).
@@ -45,7 +45,7 @@ Inductive nat : Type :=
 
 Coq가 자연수를 어떻게 ***표현***하는지 살펴보았습니다. 지금까지 본 것은 representation에 불과합니다. 저걸 자연수로 받아들이려면 자연수의 여러 연산들을 구현해야합니다. `S`와 `O`만 정의했기 때문에 숫자 0과 (+ 1)함수만을 이용해서 모든 연산을 정의해야합니다. 재밌겠죠?
 
-```haskell, line_num
+```coq, line_num
 Definition minus_two (n: nat) : nat :=
   match n with
   | O => O
@@ -58,7 +58,7 @@ Definition minus_two (n: nat) : nat :=
 
 ### is_even
 
-```haskell, line_num
+```coq, line_num
 Fixpoint is_even (n: nat) : bool :=
   match n with
   | O => true
@@ -81,7 +81,7 @@ Fixpoint is_even (n: nat) : bool :=
 
 [[anchor, id=ex1]][[/anchor]]
 
-```haskell, line_num
+```coq, line_num
 Example test_even1: is_even 2 = true.
 Proof.
   simpl.
@@ -105,7 +105,7 @@ Proof.
 
 이제 본격적으로 사칙연산을 구현해보겠습니다.
 
-```haskell, line_num
+```coq, line_num
 Fixpoint plus (n : nat) (m : nat) : nat :=
   match n with
   | O => m
@@ -113,23 +113,23 @@ Fixpoint plus (n : nat) (m : nat) : nat :=
   end.
 ```
 
-```haskell, line_num
-plus (S (S (S O))) (S (S (S O)))      (*{- plus 3 3 -}*)
-= S (plus (S (S (S O))) (S (S O)))    (*{- S (plus 3 2) -}*)
-= S (S (plus (S (S (S O))) (S O)))    (*{- S S (plus 3 1) -}*)
-= S (S (S (plus (S (S (S O))) O)))    (*{- S S S (plus 3 0) -}*)
-= S (S (S (S (S (S O)))))             (*{- S S S S S S -}*)
+```coq, line_num
+plus (S (S (S O))) (S (S (S O)))      (* plus 3 3 *)
+= S (plus (S (S (S O))) (S (S O)))    (* S (plus 3 2) *)
+= S (S (plus (S (S (S O))) (S O)))    (* S S (plus 3 1) *)
+= S (S (S (plus (S (S (S O))) O)))    (* S S S (plus 3 0) *)
+= S (S (S (S (S (S O)))))             (* S S S S S S *)
 ```
 
 `plus` 함수가 어떻게 동작하는지 알기 쉽도록 나타내보았습니다. `m + n`을 하게되면 `n`을 감싸고 있는 `S`를 하나 꺼내서 `plus` 바깥쪽에 씌웁니다. 그럼 전체 `S`의 개수는 보존이 되고, 종국에는 `plus`가 사라지고 `S`와 `O`만 남게 됩니다.
 
 ### mult
 
-```haskell, line_num
+```coq, line_num
 Fixpoint mult (n m : nat) : nat :=
   match n with
-  | O => O                        (*{- 0 * m = 0 -}*)
-  | S n' => plus m (mult n' m)    (*{- (n + 1) * m = m + (n * m) -}*)
+  | O => O                        (* 0 * m = 0 *)
+  | S n' => plus m (mult n' m)    (* (n + 1) * m = m + (n * m) *)
   end.
 ```
 
@@ -137,10 +137,10 @@ Fixpoint mult (n m : nat) : nat :=
 
 ### minus
 
-```haskell, line_num
+```coq, line_num
 Fixpoint minus (n m : nat) : nat :=
   match n, m with
-  | O , _ => O      (*{- 음수는 없습니다. -}*)
+  | O , _ => O      (* 음수는 없습니다. *)
   | _ , O => m
   | S n', S m' => minus n' m'
   end.
@@ -152,7 +152,7 @@ Fixpoint minus (n m : nat) : nat :=
 
 사칙연산이 그러했듯 등호도 내장함수가 아닌 Coq의 일반적인 문법으로 구현이 돼 있습니다. 그 형태가 아름다우니 보고 지나가겠습니다.
 
-```haskell, line_num
+```coq, line_num
 Fixpoint eqb (n m : nat) : bool :=
   match n with
   | O => match m with
@@ -172,7 +172,7 @@ Fixpoint eqb (n m : nat) : bool :=
 
 마지막으로 less or equal to의 구현을 살펴보겠습니다.
 
-```haskell, line_num
+```coq, line_num
 Fixpoint leb (m n : nat) : bool :=
   match m with
   | O => true
@@ -187,7 +187,7 @@ Fixpoint leb (m n : nat) : bool :=
 
 [[anchor, id=keyword notation2]][[/anchor]]
 
-```haskell, line_num
+```coq, line_num
 Notation "x + y" := (plus x y)
                        (at level 50, left associativity)
                        : nat_scope.

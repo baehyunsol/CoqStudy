@@ -11,7 +11,7 @@
 
 Hoare Logic에선 조건들이 나온다고 했죠? 조건들을 Coq에서 나타내는 방식이 바로 Assertion입니다. 다른 언어로 프로그래밍을 해본 적이 있으시면 테스트를 짜면서 assert 구문을 많이 봤을 텐데 바로 그 assert입니다.
 
-```haskell
+```coq
 Definition Assertion := state -> Prop.
 ```
 
@@ -28,7 +28,7 @@ Definition Assertion := state -> Prop.
 
 Assertion 사이에는 포함관계가 있을 수도 있습니다. 아래를 봅시다.
 
-```haskell, line_num
+```coq, line_num
 Definition assert_implies (P Q : Assertion) : Prop :=
   forall st, P st -> Q st.
 
@@ -43,7 +43,7 @@ Notation "P <<->> Q" :=
 
 `P`라는 assertion이 참일 때 `Q`도 항상 참인 경우, `P ->> Q`라고 표현하기로 했습니다. 하는 김에 Notation들을 더 정의해보겠습니다.
 
-```haskell, line_num
+```coq, line_num
 Definition Aexp : Type := state -> nat.
 
 Definition assert_of_Prop (P : Prop) : Assertion := fun _ => P.
@@ -111,7 +111,7 @@ Hoare Logic을 표현하는 대표적인 방식은 Hoare Triple입니다.
 
 방금은 한국말로 정의한 Hoare Triple이었고, 이젠 Coq로 정의해봅시다. 아래를 봅시다.
 
-```haskell, line_num
+```coq, line_num
 Definition hoare_triple
            (P : Assertion) (c : com) (Q : Assertion) : Prop :=
   forall st st',

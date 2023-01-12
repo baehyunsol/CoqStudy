@@ -7,14 +7,14 @@
 
 Rust의 `HashMap`, Python의 `dict`에 대응되는 자료구조입니다. 키와 값을 모두 `nat`을 사용하지만 key는 특별히 `id`라는 wrapper type을 사용하겠습니다. Wrapper type을 사용함으로써 가독성도 좋아지고 나중의 refactoring에도 유리해집니다.
 
-```haskell, line_num
+```coq, line_num
 Definition id : Type :=
   | Id (n : nat).
 ```
 
 Partial map의 정의는 아래와 같습니다. 단순하군요.
 
-```haskell, line_num
+```coq, line_num
 Inductive partial_map : Type :=
   | empty
   | record (i : id) (v : nat) (m : partial_map).
@@ -24,7 +24,7 @@ Inductive partial_map : Type :=
 
 ## update
 
-```haskell, line_num
+```coq, line_num
 Definition update (m : partial_map) (i : id) (v : nat) : partial_map :=
   record i v m.
 ```
@@ -33,7 +33,7 @@ Definition update (m : partial_map) (i : id) (v : nat) : partial_map :=
 
 ## find
 
-```haskell, line_num
+```coq, line_num
 Fixpoint find (i : id) (m : partial_map) : natoption :=
   match m with
   | empty => None

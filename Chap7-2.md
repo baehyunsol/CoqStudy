@@ -9,7 +9,7 @@
 
 [[anchor, id = definition ev]][[/anchor]]
 
-```haskell, line_num
+```coq, line_num
 Inductive ev : nat -> Prop :=
   | ev_0 : ev 0
   | ev_SS (n : nat) (H : ev n) : ev (S (S n)).
@@ -23,17 +23,17 @@ Inductive ev : nat -> Prop :=
 
 [^ev]: 책에서는 *evidence*라는 용어를 사용합니다. 앞으로 이 문서에선 전부 *증거*라고 번역하겠습니다.
 
-```haskell, line_num
+```coq, line_num
 Theorem ev_4 : ev 4.
 
-(*{- Proof 1 -}*)
+(* Proof 1 *)
 Proof.
   apply ev_SS.
   apply ev_SS.
   apply ev_0.
   Qed.
 
-(*{- Proof 2 -}*)
+(* Proof 2 *)
 Proof.
   apply (ev_SS 2 (ev_SS 0 ev_0)).
   Qed.
@@ -41,7 +41,7 @@ Proof.
 
 4가 짝수임을 2가지 방식으로 증명했습니다. 첫번째 증명에선 `ev_SS`를 그 자체로 사용했고, 두번째에선 `ev_SS`에게 인수를 직접 제공했습니다.
 
-```haskell, line_num
+```coq, line_num
 Theorem ev_plus4 : forall n, ev n -> ev (4 + n).
 Proof.
   intros n.
@@ -59,7 +59,7 @@ Proof.
 
 만약 `E`가 `ev n`의 증거라면 `E`는 반드시 `ev_0` 혹은 `ev_SS` 중 하나입니다. 이는 `Induction`이라는 이름에서도 잘 알 수 있죠. 이 사실을 inversion이라고 부르며 증명에 다양한 방법으로 활용할 수 있습니다. Inversion을 활용한 증명을 보기 전에 inversion 자체를 먼저 증명해보겠습니다.
 
-```haskell, line_num
+```coq, line_num
 Theorem ev_inversion : forall (n : nat),
     ev n ->
       (n = 0)
@@ -68,10 +68,10 @@ Theorem ev_inversion : forall (n : nat),
 Proof.
   intros n E.
   destruct E as [ | n' E'] eqn:EE.
-  - (*{- E = ev_0 : ev 0 -}*)
+  - (* E = ev_0 : ev 0 *)
     left.
     reflexivity.
-  - (*{- E = ev_SS n' E' : ev (S (S n')) -}*)
+  - (* E = ev_SS n' E' : ev (S (S n')) *)
     right.
     exists n'.
     split.
@@ -84,15 +84,15 @@ Proof.
 
 방금 만든 `ev_inversion`을 이용해서 다른 걸 증명해보겠습니다. 아래를 봅시다.
 
-```haskell, line_num
+```coq, line_num
 Theorem evSS_ev : forall n, ev (S (S n)) -> ev n.
 Proof.
   intros n H.
   apply ev_inversion in H.
   destruct H as [H0 | H1].
-  - (*{- H0: S (S n) = 0 -}*)
+  - (* H0: S (S n) = 0 *)
     discriminate H0.
-  - (*{- H1: exists n' : nat, S (S n) = S (S n') /\ ev n' -}*)
+  - (* H1: exists n' : nat, S (S n) = S (S n') /\ ev n' *)
     destruct H1 as [n' [Hnm Hev]].
     injection Hnm as Heq.
     rewrite Heq.
@@ -104,7 +104,7 @@ Proof.
 
 방금의 증명은 `inversion` tactic을 이용하면 더 짧게 만들 수 있습니다. 아래의 예시를 보겠습니다.
 
-```haskell, line_num
+```coq, line_num
 Theorem evSS_ev : forall n, ev (S (S n)) -> ev n.
 Proof.
   intros n E.
@@ -119,7 +119,7 @@ Proof.
 
 `inversion` tactic이 알아서 `discriminate`해주는 더 극단적인 경우를 보겠습니다.
 
-```haskell, line_num
+```coq, line_num
 Theorem not_ev_1 : ~ ev 1.
 Proof.
   intros H.
@@ -135,17 +135,17 @@ Proof.
 
 [[anchor, id=keyword induction]][[/anchor]]
 
-```haskell, line_num
+```coq, line_num
 Lemma ev_Even : forall n,
   ev n -> Even n.
 Proof.
   intros n E.
   induction E as [ | n' E' IH].
-  - (*{- E = ev_0 -}*)
+  - (* E = ev_0 *)
     unfold Even.
     exists 0.
     reflexivity.
-  - (*{- E = ev_SS n' E' with IH : Even E' -}*)
+  - (* E = ev_SS n' E' with IH : Even E' *)
     unfold Even in IH.
     destruct IH as [k Hk].
     rewrite Hk.
@@ -158,15 +158,15 @@ Qed.
 
 5번 줄을 보면, goal이 `Even 0`이고 context에 `E: ev n`이 있는 상황에서 `induction E`를 했습니다. 그럼 goal이 `Even 0`와 `Even (S (S n'))`으로 나눠집니다. 또한 두번째 subgoal에서는 context에 `E: ev n'`과 `IH: Even n'`이 추가됐습니다.
 
-```haskell, line_num
+```coq, line_num
 Theorem ev_sum : forall n m, ev n -> ev m -> ev (n + m).
 Proof.
   intros n m E1 E2.
   induction E1 as [ | n' E1' IH1].
-  - (*{- ev (0 + m) -}*)
+  - (* ev (0 + m) *)
     simpl.
     apply E2.
-  - (*{- ev (S (S n') + m) -}*)
+  - (* ev (S (S n') + m) *)
     simpl.
     apply ev_SS.
     apply IH1.
@@ -179,7 +179,7 @@ Proof.
 
 `ev`는 `nat`을 하나 받아서 `Prop`을 내놓습니다. 즉, `ev`는 자연수의 *성질* (*property*)이라고 생각할 수 있죠. 비슷하게 생각을 하면, `le`는 `nat` 2개를 받아서 `Prop`을 내놓으므로 `le`는 자연수들의 *관계* (*relation*)이라고 생각할 수 있습니다.
 
-```haskell, line_num
+```coq, line_num
 Inductive le : nat -> nat -> Prop :=
   | le_n (n : nat) : le n n
   | le_S (n m : nat) (H : le n m) : le n (S m).
@@ -189,7 +189,7 @@ Notation "n <= m" := (le n m).
 
 `le`의 정의를 다시 써 보았습니다. 이전에는 `<=` 기호를 Fixpoint를 이용해서 정의했지만 이제는 Inductive로 정의했습니다. 이렇게하면 `inversion` tactic을 사용할 수 있기 때문에 더 강력한 증명들을 할 수 있습니다.
 
-```haskell, line_num
+```coq, line_num
 Theorem silly1 : 5 <= 2 -> 2 + 2 = 5.
 Proof.
   intros H.
@@ -207,7 +207,7 @@ Proof.
 
 아래의 세 표기법은 전부 동일합니다.
 
-```haskell, line_num
+```coq, line_num
 Inductive bin : Type :=
   | Z
   | B0 (n : bin)
@@ -219,7 +219,7 @@ Inductive bin : Type :=
 
 [[br]]
 
-```haskell, line_num
+```coq, line_num
 Inductive bin : Type :=
   | Z : bin
   | B0 (n : bin) : bin
@@ -230,7 +230,7 @@ Inductive bin : Type :=
 
 [[br]]
 
-```haskell, line_num
+```coq, line_num
 Inductive bin : Type :=
   | Z : bin
   | B0 : bin -> bin

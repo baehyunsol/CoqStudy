@@ -17,7 +17,7 @@ Coq의 증명을 프로그래밍에 비유해보겠습니다. [7장](Chap7-2.htm
 
 위의 대응관계를 이용해서 Coq 코드를 다시 읽어보겠습니다.
 
-```haskell, line_num
+```coq, line_num
 Inductive ev : nat -> Prop :=
   | ev_0 : ev 0
   | ev_SS (n : nat) (H : ev n) : ev (S (S n)).
@@ -33,7 +33,7 @@ Inductive ev : nat -> Prop :=
 
 방금 본 대응관계를 이용해서 `ev`를 더 자세하게 살펴보겠습니다.
 
-```haskell, line_num
+```coq, line_num
 Check ev_SS : forall n : nat, ev n -> ev (S (S n)).
 ```
 
@@ -41,7 +41,7 @@ Check ev_SS : forall n : nat, ev n -> ev (S (S n)).
 
 같은 맥락에서, 아래의 세 증명은 완전히 동일합니다.
 
-```haskell, line_num
+```coq, line_num
 Theorem ev_4 : ev 4.
 Proof.
   apply ev_SS.
@@ -61,9 +61,9 @@ Proof.
   apply (ev_SS 2 (ev_SS 0 (ev_0))).
   Qed.
 
-Print ev_4.   (*{- ev_4   = ev_SS 2 (ev_SS 0 ev_0) : ev 4 -}*)
-Print ev_4'.  (*{- ev_4'  = ev_SS 2 (ev_SS 0 ev_0) : ev 4 -}*)
-Print ev_4''. (*{- ev_4'' = ev_SS 2 (ev_SS 0 ev_0) : ev 4 -}*)
+Print ev_4.   (* ev_4   = ev_SS 2 (ev_SS 0 ev_0) : ev 4 *)
+Print ev_4'.  (* ev_4'  = ev_SS 2 (ev_SS 0 ev_0) : ev 4 *)
+Print ev_4''. (* ev_4'' = ev_SS 2 (ev_SS 0 ev_0) : ev 4 *)
 ```
 
 [6-4 단원](Chap6-4.html)에서 `apply`에 인수를 줄 수도 있고 안 줄 수도 있는 걸 봤죠? 그때는 `apply` 뒤에 함수가 왔고 이번엔 `ev`가 왔지만 `ev`와 함수는 본질적으로 동일합니다. `ev`도 인수를 받아서 증거를 반환하거든요. `ev`들이 반환하는 증거가 모여서 `ev 4`가 되면 증명이 끝납니다.
@@ -72,16 +72,16 @@ Print ev_4''. (*{- ev_4'' = ev_SS 2 (ev_SS 0 ev_0) : ev 4 -}*)
 
 [[anchor, id = keyword show proof]][[/anchor]]
 
-```haskell, line_num
+```coq, line_num
 Theorem ev_4 : ev 4.
 Proof.
-  Show Proof.   (*{- ?Goal -}*)
+  Show Proof.   (* ?Goal *)
   apply ev_SS.
-  Show Proof.   (*{- (ev_SS 2 ?Goal) -}*)
+  Show Proof.   (* (ev_SS 2 ?Goal) *)
   apply ev_SS.
-  Show Proof.   (*{- (ev_SS 2 (ev_SS 0 ?Goal)) -}*)
+  Show Proof.   (* (ev_SS 2 (ev_SS 0 ?Goal)) *)
   apply ev_0.
-  Show Proof.   (*{- (ev_SS 2 (ev_SS 0 ev_0)) -}*)
+  Show Proof.   (* (ev_SS 2 (ev_SS 0 ev_0)) *)
   Qed.
 ```
 
@@ -91,20 +91,20 @@ Proof.
 
 또다른 proof object를 살펴보겠습니다.
 
-```haskell, line_num
+```coq, line_num
 Theorem ev_plus4 : forall n, ev n -> ev (4 + n).
 Proof.
-  Show Proof.   (*{- ?Goal -}*)
+  Show Proof.   (* ?Goal *)
   intros n H.
-  Show Proof.   (*{- (fun (n : nat) (H : ev n) => ?Goal) -}*)
+  Show Proof.   (* (fun (n : nat) (H : ev n) => ?Goal) *)
   simpl.
-  Show Proof.   (*{- (fun (n : nat) (H : ev n) => ?Goal : ev (4 + n)) -}*)
+  Show Proof.   (* (fun (n : nat) (H : ev n) => ?Goal : ev (4 + n)) *)
   apply ev_SS.
-  Show Proof.   (*{- (fun (n : nat) (H : ev n) => ev_SS (S (S n)) ?Goal : ev (4 + n)) -}*)
+  Show Proof.   (* (fun (n : nat) (H : ev n) => ev_SS (S (S n)) ?Goal : ev (4 + n)) *)
   apply ev_SS.
-  Show Proof.   (*{- (fun (n : nat) (H : ev n) => ev_SS (S (S n)) (ev_SS n ?Goal) : ev (4 + n)) -}*)
+  Show Proof.   (* (fun (n : nat) (H : ev n) => ev_SS (S (S n)) (ev_SS n ?Goal) : ev (4 + n)) *)
   apply H.
-  Show Proof.   (*{- (fun (n : nat) (H : ev n) => ev_SS (S (S n)) (ev_SS n H) : ev (4 + n)) -}*)
+  Show Proof.   (* (fun (n : nat) (H : ev n) => ev_SS (S (S n)) (ev_SS n H) : ev (4 + n)) *)
 Qed.
 ```
 
@@ -112,7 +112,7 @@ Proof object 자체의 내용은 크게 중요하지 않고, 복습을 위해서
 
 동일한 식을 다른 표현 방식으로 나타내보겠습니다. 아래를 봅시다.
 
-```haskell, line_num
+```coq, line_num
 Definition ev_plus4' : forall n, ev n -> ev (4 + n) :=
   fun (n : nat) => fun (H : ev n) =>
     ev_SS (S (S n)) (ev_SS n H).
@@ -134,7 +134,7 @@ Definition ev_plus4'' (n : nat) (H : ev n)
 
 방금 본 예제에서 (`ev_plus4'`와 `ev_plus4''`), `->`과 `forall`의 관계에 주목해봅시다. 얼핏 생각해보면 두 표현은 관련이 있어 보입니다. ~_모든 자연수에 대해, P이다_~라는 표현과 ~_자연수이면 P이다_~라는 표현은 같은 말 같거든요. 실제로도 그렇습니다. 아래에서 구체적인 예시를 보겠습니다.
 
-```haskell, line_num
+```coq, line_num
 Definition ev_plus2 : Prop :=
   forall n, forall (E : ev n), ev (n + 2).
 

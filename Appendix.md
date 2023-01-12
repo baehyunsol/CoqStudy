@@ -8,7 +8,7 @@
 
 ### total map
 
-```haskell, line_num
+```coq, line_num
 Require Export Coq.Strings.String.
 
 Definition total_map (A : Type) := string -> A.
@@ -39,7 +39,7 @@ Admitted.
 
 ### 언어 문법
 
-```haskell, line_num
+```coq, line_num
 From Coq Require Import Lia.
 From Coq Require Import Init.Nat.
 Definition state := total_map nat.
@@ -173,7 +173,7 @@ Inductive ceval : com -> state -> state -> Prop :=
 
 ### Equivalence
 
-```haskell, line_num
+```coq, line_num
 Definition aequiv (a1 a2 : aexp) : Prop :=
   forall (st : state),
     aeval st a1 = aeval st a2.
@@ -195,20 +195,20 @@ Proof.
   intros b c1 c2 H st st'.
   split;
   intros H2.
-  - (*{- if -> c1 -}*)
+  - (* if -> c1 *)
     inversion H2;
     subst.
-    + (*{- H7: st =[c1]=> st' -}*)
+    + (* H7: st =[c1]=> st' *)
       assumption.
-    + (*{- H7: st =[c2]=> st' -}*)
+    + (* H7: st =[c2]=> st' *)
       rewrite H in H6.
       unfold beval in H6.
       discriminate.
-  - (*{- c1 -> if -}*)
+  - (* c1 -> if *)
     apply E_IfTrue.
-    + (*{- b = true -}*)
+    + (* b = true *)
       apply H.
-    + (*{- st =[c1]=> st' -}*)
+    + (* st =[c1]=> st' *)
       assumption.
   Qed.
 
@@ -221,20 +221,20 @@ Proof.
   intros b c1 c2 H st st'.
   split;
   intros H2.
-  - (*{- if -> c2 -}*)
+  - (* if -> c2 *)
     inversion H2;
     subst.
-    + (*{- H7: st =[ c1 ]=> st' -}*)
+    + (* H7: st =[ c1 ]=> st' *)
       rewrite H in H6.
       unfold beval in H6.
       discriminate.
-    + (*{- H7: st =[c2]=> st' -}*)
+    + (* H7: st =[c2]=> st' *)
       assumption.
-  - (*{- c2 -> if -}*)
+  - (* c2 -> if *)
     apply E_IfFalse.
-    + (*{- b = false -}*)
+    + (* b = false *)
       apply H.
-    + (*{- st =[c2]=> st' -}*)
+    + (* st =[c2]=> st' *)
       assumption.
   Qed.
 
@@ -247,14 +247,14 @@ Proof.
   intros b c Hb.
   split;
   intros H.
-  - (*{- while -> skip -}*)
+  - (* while -> skip *)
     inversion H. subst.
-    + (*{- E_WhileFalse -}*)
+    + (* E_WhileFalse *)
       apply E_Skip.
-    + (*{- E_WhileTrue -}*)
+    + (* E_WhileTrue *)
       rewrite Hb in H2.
       discriminate.
-  - (*{- skip -> while -}*)
+  - (* skip -> while *)
     inversion H.
     subst.
     apply E_WhileFalse.
@@ -271,13 +271,13 @@ Proof.
   inversion Heqcw;
   subst;
   clear Heqcw.
-  (*{- The two interesting cases are the ones for while loops: -}*)
-  - (*{- E_WhileFalse -}*)
+  (* The two interesting cases are the ones for while loops: *)
+  - (* E_WhileFalse *)
     unfold bequiv in Hb.
-    (*{- rewrite is able to instantiate the quantifier in st -}*)
+    (* rewrite is able to instantiate the quantifier in st *)
     rewrite Hb in H.
     discriminate.
-  - (*{- E_WhileTrue -}*)
+  - (* E_WhileTrue *)
     apply IHceval2.
     reflexivity.
   Qed.
@@ -291,11 +291,11 @@ Proof.
   intros b c H st st'.
   split;
   intros H2.
-  - (*{- true -> nonterm -}*)
+  - (* true -> nonterm *)
     apply (while_true_nonterm b c st st') in H.
     apply H in H2.
-    destruct H2. (*{- H2: False -}*)
-  - (*{- nonterm -> true -}*)
+    destruct H2. (* H2: False *)
+  - (* nonterm -> true *)
     destruct b;
     remember <{while true do skip end}> as cw eqn: H2eqcw.
     induction H2;
@@ -311,7 +311,7 @@ Proof.
       assert (H3: st' =[ while true do c end ]=> st'').
       { apply IHceval2. reflexivity. }
       assert (H4: st =[ while true do c end ]=> st').
-      Admitted. (*{- TODO -}*)
+      Admitted. (* TODO *)
 
 Lemma refl_aequiv : forall (a : aexp),
   aequiv a a.
@@ -409,13 +409,13 @@ Proof.
   intros H3;
   inversion H3;
   subst.
-  - (*{- c1 -> c1' -}*)
+  - (* c1 -> c1' *)
     assert (H5: st =[ c1' ]=> st'0).
       { apply H1. apply H4. }
     assert (H6: st'0 =[ c2' ]=> st').
       { apply H2. apply H7. }
     apply (E_Seq c1' c2' st st'0 st' H5 H6).
-  - (*{- c1' -> c1 -}*)
+  - (* c1' -> c1 *)
     assert (H5: st =[ c1 ]=> st'0).
       { apply H1. apply H4. }
     assert (H6: st'0 =[ c2 ]=> st').
@@ -433,25 +433,25 @@ Proof.
   intros H4;
   inversion H4;
   subst.
-  - (*{- b -> b', b = true -}*)
+  - (* b -> b', b = true *)
     assert (H5: beval st b' = true).
     { rewrite <- H8. rewrite H1. reflexivity. }
     assert (H6: st =[ c1' ]=> st').
     { apply H2. apply H9. }
     apply (E_IfTrue st st' b' c1' c2' H5 H6).
-  - (*{- b -> b', b = false -}*)
+  - (* b -> b', b = false *)
     assert (H5: beval st b' = false).
     { rewrite <- H8. rewrite H1. reflexivity. }
     assert (H6: st =[ c2' ]=> st').
     { apply H3. apply H9. }
     apply (E_IfFalse st st' b' c1' c2' H5 H6).
-  - (*{- b' -> b, b' = true -}*)
+  - (* b' -> b, b' = true *)
     assert (H5: beval st b = true).
     { rewrite <- H8. rewrite H1. reflexivity. }
     assert (H6: st =[ c1 ]=> st').
     { apply H2. apply H9. }
     apply (E_IfTrue st st' b c1 c2 H5 H6).
-  - (*{- b' -> b, b' = false -}*)
+  - (* b' -> b, b' = false *)
     assert (H5: beval st b = false).
     { rewrite <- H8. rewrite H1. reflexivity. }
     assert (H6: st =[ c2 ]=> st').
@@ -474,28 +474,28 @@ Proof.
     induction Hce;
     inversion Heqcwhile;
     subst.
-    + (*{- E_WhileFalse -}*)
+    + (* E_WhileFalse *)
       apply E_WhileFalse.
       rewrite <- Hbe.
       apply H.
-    + (*{- E_WhileTrue -}*)
+    + (* E_WhileTrue *)
       apply E_WhileTrue with (st' := st').
-      * (*{- show loop runs -}*)
+      * (* show loop runs *)
         rewrite <- Hbe.
         apply H.
-      * (*{- body execution -}*)
+      * (* body execution *)
         apply (Hc1e st st').
         apply Hce1.
-      * (*{- subsequent loop execution -}*)
+      * (* subsequent loop execution *)
         apply IHHce2.
         reflexivity.
   }
   intros.
   split.
-  - (*{- b -> b' -}*)
+  - (* b -> b' *)
     apply A;
     assumption.
-  - (*{- b' -> b -}*)
+  - (* b' -> b *)
     apply A;
     try apply sym_bequiv;
     try apply sym_cequiv;
@@ -517,7 +517,7 @@ Definition ctrans_sound (ctrans : com -> com) : Prop :=
 
 ### Hoare Logic
 
-```haskell, line_num
+```coq, line_num
 Definition Assertion := state -> Prop.
 
 Definition assert_implies (P Q : Assertion) : Prop :=
@@ -632,12 +632,12 @@ Theorem hoare_consequence_pre : forall (P P' Q : Assertion) c,
   {{P}} c {{Q}}.
 Proof.
   intros p p' q c H0 H1 st st' H2 H3.
-  apply H0 with st. (*{- H0: {p'} c {q} -}*)
-  - (*{- st =[ c ]=> st' -}*)
-    apply H2. (*{- H2: st =[ c ]=> st' -}*)
-  - (*{- p' st -}*)
-    apply H1. (*{- H1: p ->> p' -}*)
-    apply H3. (*{- H3: p st -}*)
+  apply H0 with st. (* H0: {p'} c {q} *)
+  - (* st =[ c ]=> st' *)
+    apply H2. (* H2: st =[ c ]=> st' *)
+  - (* p' st *)
+    apply H1. (* H1: p ->> p' *)
+    apply H3. (* H3: p st *)
   Qed.
 
 Theorem hoare_consequence_post : forall (P Q Q' : Assertion) c,
@@ -646,12 +646,12 @@ Theorem hoare_consequence_post : forall (P Q Q' : Assertion) c,
   {{P}} c {{Q}}.
 Proof.
   intros p q q' c H0 H1 st st' H2 H3.
-  apply H1. (*{- H1: q' ->> q -}*)
-  apply H0 with st. (*{- H0: {p} c {q'} -}*)
-  - (*{- st =[ c ]=> st' -}*)
-    apply H2. (*{- H2: st =[ c ]=> st' -}*)
-  - (*{- p st -}*)
-    apply H3. (*{- H3: p st -}*)
+  apply H1. (* H1: q' ->> q *)
+  apply H0 with st. (* H0: {p} c {q'} *)
+  - (* st =[ c ]=> st' *)
+    apply H2. (* H2: st =[ c ]=> st' *)
+  - (* p st *)
+    apply H3. (* H3: p st *)
   Qed.
 
 Theorem hoare_consequence : forall (P P' Q Q' : Assertion) c,
@@ -662,13 +662,13 @@ Theorem hoare_consequence : forall (P P' Q Q' : Assertion) c,
 Proof.
   intros P P' Q Q' c Htriple Hpre Hpost.
   apply hoare_consequence_pre with (P' := P').
-  - (*{- {P'} c {Q} -}*)
+  - (* {P'} c {Q} *)
     apply hoare_consequence_post with (Q' := Q').
-    + (*{- {P'} c {Q'} -}*)
+    + (* {P'} c {Q'} *)
       assumption.
-    + (*{- Q' ->> Q -}*)
+    + (* Q' ->> Q *)
       assumption.
-  - (*{- P ->> P' -}*)
+  - (* P ->> P' *)
     assumption.
   Qed.
 
@@ -768,7 +768,7 @@ Ltac verify_assn :=
 
 ### Map, Filter, Fold
 
-```haskell, line_num
+```coq, line_num
 Fixpoint filter {X : Type} (test : X -> bool) (l : list X) : list X :=
   match l with
   | nil => nil
@@ -794,7 +794,7 @@ Fixpoint fold {X Y: Type} (f : X -> Y -> Y) (l : list X) (b : Y) : Y :=
 
 pair와 prod의 정의도 포함시켰습니다.
 
-```haskell, line_num
+```coq, line_num
 Inductive prod (X Y : Type) : Type :=
 | pair (x : X) (y : Y).
 
@@ -820,7 +820,7 @@ Definition prod_uncurry {X Y Z : Type}
 
 ## Natural Numbers
 
-```haskell, line_num
+```coq, line_num
 Fixpoint div2 (n : nat) :=
   match n with
   | 0 => 0
@@ -846,9 +846,9 @@ Fixpoint even (n : nat) :=
 Theorem add_0_r : forall n : nat, n + 0 = n.
 Proof.
   intros n. induction n as [ | n' IHn'].
-  - (*{- n = 0 -}*)
+  - (* n = 0 *)
     reflexivity.
-  - (*{- n = S n' -}*)
+  - (* n = S n' *)
     simpl.
     rewrite -> IHn'.
     reflexivity.
@@ -858,11 +858,11 @@ Theorem add_comm : forall n m : nat,
   n + m = m + n.
 Proof.
   induction n as [ | n'].
-  - (*{- n = O -}*)
+  - (* n = O *)
     intros m.
     rewrite -> add_0_r.
     reflexivity.
-  - (*{- n = S n' -}*)
+  - (* n = S n' *)
     intros m. simpl.
     rewrite -> IHn'.
     rewrite <- plus_n_Sm.
@@ -896,7 +896,7 @@ Notation "x <=? y" := (leb x y) (at level 70) : nat_scope.
 
 ## List
 
-```haskell, line_num
+```coq, line_num
 Inductive list (X : Type) : Type :=
   | nil
   | cons (x : X) (l : list X).

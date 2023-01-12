@@ -14,24 +14,24 @@
 
 ## Function as argument
 
-```haskell, line_num
+```coq, line_num
 Definition doit3times {X : Type} (f : X -> X) (n : X) : X :=
   f (f (f n)).
 ```
 
 함수 `f`와 값 `n`을 받아서 `f(f(f(n)))`을 반환하는 함수입니다. Type은 아래와 같습니다.
 
-```haskell, line_num
-Check doit3times. (*{- (?X -> ?X) -> ?X -> ?X where ?X : [ |- Type] -}*)
+```coq, line_num
+Check doit3times. (* (?X -> ?X) -> ?X -> ?X where ?X : [ |- Type] *)
 
-Check @doit3times. (*{- forall X : Type, (X -> X) -> X -> X -}*)
+Check @doit3times. (* forall X : Type, (X -> X) -> X -> X *)
 ```
 
 Haskell에서 고차함수의 type 표현과 거의 비슷합니다.
 
 ## filter
 
-```haskell, line_num
+```coq, line_num
 Fixpoint filter {X : Type} (test : X -> bool) (l : list X) : list X :=
   match l with
   | nil => nil
@@ -43,7 +43,7 @@ Fixpoint filter {X : Type} (test : X -> bool) (l : list X) : list X :=
 
 `filter` 구현입니다. 제대로 구현했는지 검사해보겠습니다.
 
-```haskell, line_num
+```coq, line_num
 Fixpoint is_len1 {X : Type} (l : list X) : bool :=
   (length l) =? 1.
 
@@ -52,7 +52,7 @@ Compute filter is_len1 [[]; [1]; [2; 3]; [4]; [5; 6; 7]].
 
 결과가 `[[1]; [4]]`이 나옵니다. 제대로 구현이 됐군요. filter에만 단한번 쓰기 위해서 `is_len1`을 정의하는 건 불필요해보입니다. 다행히도 Coq는 익명함수를 지원합니다. 아래의 예시를 보겠습니다.
 
-```haskell
+```coq
 Compute filter (fun l => (length l) =? 1) [[]; [1]; [2; 3]; [4]; [5; 6; 7]].
 ```
 
@@ -66,7 +66,7 @@ Compute filter (fun l => (length l) =? 1) [[]; [1]; [2; 3]; [4]; [5; 6; 7]].
 
 `fun`으로 재귀함수를 정의하려면 어떻게 해야할까요? `fun`으로 정의한 건 익명이어서 자기자신을 호출하기 힘들어 보입니다. 그럴 땐 `fix`라는 키워드를 사용할 수 있습니다. 아래와 같이 재귀함수를 `Fixpoint`가 아닌 `Definition`을 이용해서 정의할 수도 있고 `fix`를 곧바로 사용할 수도 있습니다.
 
-```haskell, line_num
+```coq, line_num
 Definition is_even : nat -> bool := fix f n := match n with
   | O => true
   | S O => false
@@ -77,14 +77,14 @@ Compute (fix f n := match n with
   | O => true
   | S O => false
   | S (S n') => f n'
-  end) 4.  (*{- true -}*)
+  end) 4.  (* true *)
 ```
 
 ## map
 
 함수형 언어의 꽃인 `map`입니다.
 
-```haskell, line_num
+```coq, line_num
 Fixpoint map {X Y : Type} (f : X -> Y) (l : list X) : list Y :=
   match l with
   | [] => []
@@ -94,7 +94,7 @@ Fixpoint map {X Y : Type} (f : X -> Y) (l : list X) : list Y :=
 
 아래는 심심해서 구현해본 `flat_map`입니다.
 
-```haskell, line_num
+```coq, line_num
 Fixpoint flat_map {X Y : Type} (f : X -> list Y) (l : list X) : list Y :=
   match l with
   | [] => []
@@ -104,15 +104,15 @@ Fixpoint flat_map {X Y : Type} (f : X -> list Y) (l : list X) : list Y :=
 
 아래는 심심해서 증명해본 `map_rev`입니다. `map rev`와 `rev map`은 동일하다는 걸 증명했습니다. 증명에 쓰기 위해서 도움정리를 먼저 증명했습니다.
 
-```haskell, line_num
+```coq, line_num
 Lemma map_single : forall (X Y : Type) (f : X -> Y) (l : list X) (e : X),
   map f (l ++ [e]) = (map f l) ++ [f e].
 Proof.
   intros X Y f l e.
   induction l as [ | h' t' IHl'].
-  - (*{- l = [] -}*)
+  - (* l = [] *)
     reflexivity.
-  - (*{- l = h' :: t' -}*)
+  - (* l = h' :: t' *)
     simpl.
     rewrite IHl'.
     reflexivity.
@@ -123,9 +123,9 @@ Theorem map_rev : forall (X Y : Type) (f : X -> Y) (l : list X),
 Proof.
   intros X Y f l.
   induction l as [ | h' t' IHht'].
-  - (*{- l = [] -}*)
+  - (* l = [] *)
     reflexivity.
-  - (*{- l = h' :: t' -}*)
+  - (* l = h' :: t' *)
     simpl.
     rewrite <- IHht'.
     rewrite map_single.
@@ -137,7 +137,7 @@ Proof.
 
 Haskell이나 Rust의 fold, 혹은 Python의 reduce입니다.
 
-```haskell, line_num
+```coq, line_num
 Fixpoint fold {X Y: Type} (f : X -> Y -> Y) (l : list X) (b : Y) : Y :=
   match l with
   | [] => b
@@ -151,7 +151,7 @@ Fixpoint fold {X Y: Type} (f : X -> Y -> Y) (l : list X) (b : Y) : Y :=
 
 함수형 언어답게 함수를 반환하는 함수를 만들 수도 있습니다.
 
-```haskell, line_num
+```coq, line_num
 Definition adder (n : nat) : nat -> nat :=
   plus n.
 
@@ -168,14 +168,14 @@ Definition add3 : nat -> nat := adder 3.
 
 먼저, Curry 함수의 정의는 아래와 같습니다.
 
-```haskell, line_num
+```coq, line_num
 Definition prod_curry {X Y Z : Type}
   (f : X * Y -> Z) (x : X) (y : Y) : Z := f (x, y).
 ```
 
 참고로 `(x, y)`는 pair의 notation이고 `X * Y`는 prod type의 notation입니다. 정의는 [부록](Appendix.html#currying)에 있습니다. 위의 정의만 보고는 감이 잘 안 오실텐데 아래에서 실제 함수와 함께 용례를 보겠습니다.
 
-```haskell, line_num
+```coq, line_num
 Definition add (x : nat * nat) : nat :=
   match x with
   | (x, y) => x + y
@@ -186,12 +186,12 @@ Definition curry_add := prod_curry add.
 
 먼저 두 숫자를 더하는 `add`라는 함수를 만들었습니다. 그리고 `add`를 curry하여 `curry_add`라는 함수도 만들었습니다. 두 함수의 모양이 어떻게 다른지 아래를 보겠습니다.
 
-```haskell, line_num
-Check add.                (*{- nat * nat -> nat -}*)
-Check curry_add.          (*{- nat -> nat -> nat -}*)
+```coq, line_num
+Check add.                (* nat * nat -> nat *)
+Check curry_add.          (* nat -> nat -> nat *)
 
-Compute add(3, 4).        (*{- 7 -}*)
-Compute curry_add(3)(4).  (*{- 7 -}*)
+Compute add(3, 4).        (* 7 *)
+Compute curry_add(3)(4).  (* 7 *)
 ```
 
 위를 보시면 감이 오실 겁니다. `add`는 `add(3, 4)` 꼴의 모양으로 썼지만 `curry_add`는 `curry_add(3)(4)` 꼴로 씁니다. 그래서 둘의 type도 다릅니다. 이것만 보시면 이런 함수가 왜 필요한지 의문이 들 겁니다.
@@ -200,30 +200,30 @@ Curry는 함수형 프로그래밍에서 아주 중요한 개념 중 하나인�
 
 [^hskl]: 실제로 하스켈 언어에서 모든 다변수함수는 curry돼 있습니다.
 
-```haskell, line_num
+```coq, line_num
 Definition add3 := prod_curry add 3.
 
-Check add3.     (*{- nat -> nat -}*)
-Compute add3 4. (*{- 7 -}*)
+Check add3.     (* nat -> nat *)
+Compute add3 4. (* 7 *)
 ```
 
 [위](#functions-that-return-other-functions)에서 구현했던 `add3`를 더 간단하게 구현했습니다.
 
 Curry가 있으면 당연히 uncurry도 있겠죠? 구현해보겠습니다.
 
-```haskell, line_num
+```coq, line_num
 Definition prod_uncurry {X Y Z : Type}
   (f : X -> Y -> Z) (x : X * Y) : Z := f (fst x) (snd x).
 
-Check @prod_curry.    (*{- forall X Y Z : Type, (X * Y -> Z) -> X -> Y -> Z -}*)
-Check @prod_uncurry.  (*{- forall X Y Z : Type, (X -> Y -> Z) -> X * Y -> Z -}*)
+Check @prod_curry.    (* forall X Y Z : Type, (X * Y -> Z) -> X -> Y -> Z *)
+Check @prod_uncurry.  (* forall X Y Z : Type, (X -> Y -> Z) -> X * Y -> Z *)
 ```
 
 curry의 정의와 아주 비슷하게 생겼습니다. 이번에는 `f(x)(y)`를 `f(x, y)`로 바꿔줍니다. 즉, `prod_uncurry (prod_curry add)`는 `add`와 동일합니다. 저 둘이 동일하다는 걸 아래에서 일반화된 형태로 증명해보겠습니다.
 
 ### uncurry curry curry uncurry
 
-```haskell, line_num
+```coq, line_num
 Theorem uncurry_curry : forall (X Y Z : Type)
                         (f : X -> Y -> Z)
                         x y,
@@ -235,14 +235,14 @@ Qed.
 
 먼저 curry uncurry가 identity라는 걸 증명했습니다. 증명이 간단해서 먼저 적었습니다.
 
-```haskell, line_num
+```coq, line_num
 Theorem curry_uncurry : forall (X Y Z : Type)
                         (f : (X * Y) -> Z) (p : X * Y),
   prod_uncurry (prod_curry f) p = f p.
 Proof.
   intros X Y Z f p.
   induction p as [x y].
-  - (*{- x : X, y : Y -}*)
+  - (* x : X, y : Y *)
     assert (H: (prod_curry f) (x) (y) = f (x, y)).
       { reflexivity. }
     rewrite <- H.

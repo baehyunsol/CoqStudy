@@ -31,7 +31,7 @@ fn main() {
 
 [[anchor, id = keyword assert]][[/anchor]]
 
-```haskell, line_num
+```coq, line_num
 Theorem mult_0_plus : forall n m : nat,
   (n + 0 + 0) * m = n * m.
 Proof.
@@ -51,7 +51,7 @@ Proof.
 
 이번에는 좀더 실용적인 예제를 보여드리겠습니다.
 
-```haskell, line_num
+```coq, line_num
 Theorem plus_rearrange_firsttry : forall n m p q : nat,
   (n + m) + (p + q) = (m + n) + (p + q).
 ```
@@ -60,7 +60,7 @@ Theorem plus_rearrange_firsttry : forall n m p q : nat,
 
 이런 상황에 `assert`를 유용하게 쓸 수 있습니다.
 
-```haskell, line_num
+```coq, line_num
 Proof.
   intros n m p q.
   assert (H: n + m = m + n).

@@ -7,7 +7,7 @@
 
 이제부터는 Coq를 이용해서 간단한 프로그래밍 언어를 만들어보겠습니다. 이번 단원에서는 간단한 문법과 의미만 정의하고, 뒷 단원에서 언어를 요리조리 뜯어볼 계획입니다. 앞으론 이 언어를 Imp라고 부르겠습니다. 앞으로 계속 나올 예정이니 정의를 잘 봐두세요\~
 
-```haskell, line_num
+```coq, line_num
 Inductive aexp : Type :=
   | ANum (n : nat)
   | APlus (a1 a2 : aexp)
@@ -27,7 +27,7 @@ Inductive bexp : Type :=
 
 언어의 가장 기본이 되는 `Inductive` 2가지를 정의했습니다. `aexp`는 숫자와 관련된 식(expression)들이고, `bexp`는 숫자 비교와 boolean과 관련된 식들을 정의합니다. 식을 정의했으면 그 식들을 계산하는 것도 정의해야겠죠? 아래의 코드를 봅시다.
 
-```haskell, line_num
+```coq, line_num
 Fixpoint aeval (a : aexp) : nat :=
   match a with
   | ANum n => n
@@ -51,7 +51,7 @@ Fixpoint beval (b : bexp) : bool :=
 
 코드는 아주 간단합니다. 이미 Coq에서 정의해 놓은 연산들이니 그걸 각 식들에 대응시키기만 하면 되거든요. 7장에서 열심히 공부한 `Inductive`를 이용해서도 정의를 해보겠습니다. 아래를 봅시다.
 
-```haskell, line_num
+```coq, line_num
 Inductive aevalR : aexp -> nat -> Prop :=
   | E_ANum (n : nat) :
       aevalR (ANum n) n
@@ -76,9 +76,9 @@ Notation "e '==>' n"
 Theorem eval_practice : (APlus (ANum 4) (ANum 5)) ==> 9.
 Proof.
   apply (E_APlus (ANum 4) (ANum 5) 4 5).
-  - (*{- ANum 4 ==> 4 -}*)
+  - (* ANum 4 ==> 4 *)
     apply (E_ANum 4).
-  - (*{- ANum 5 ==> 5 -}*)
+  - (* ANum 5 ==> 5 *)
     apply (E_ANum 5).
   Qed.
 ```
@@ -87,7 +87,7 @@ Notation 정의한 김에 사용예제도 하나 추가해봤습니다.
 
 ## Optimizations
 
-```haskell, line_num
+```coq, line_num
 Fixpoint optimize_0plus (a:aexp) : aexp :=
   match a with
   | ANum n => ANum n
@@ -100,7 +100,7 @@ Fixpoint optimize_0plus (a:aexp) : aexp :=
 
 책에서 아주 간단한 최적화도 소개하길래 저도 소개해봤습니다. `aexp`가 있으면 그 안을 샅샅이 뒤져서 `0+n`의 꼴을 전부 찾아내서 `n`으로 바꿔주는 최적화입니다. 심심하신 분들은 아래의 정리도 증명해보세요!
 
-```haskell, line_num
+```coq, line_num
 Theorem optimize_0plus_sound: forall a,
   aeval (optimize_0plus a) = aeval a.
 ```

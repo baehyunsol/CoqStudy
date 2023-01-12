@@ -7,7 +7,7 @@
 
 지금까지는 모든 (forall) x에 대해서만 살펴봤는데 이번에는 어떤 (exists) x에 대해서도 살펴보겠습니다. 어떤 x에 대한 명제를 증명하는 것은 쉽습니다. 그 명제가 참이 되도록 하는 x가 하나 이상 있음을 보이면 되니까요. 아래의 예시를 통해서 자세히 보겠습니다.
 
-```haskell, line_num
+```coq, line_num
 Definition Even x := exists n : nat, x = double n.
 
 Lemma four_is_Even : Even 4.
@@ -26,7 +26,7 @@ Qed.
 
 다른 예시도 보겠습니다.
 
-```haskell, line_num
+```coq, line_num
 Theorem exists_example : forall n,
   (exists m, n = 4 + m) ->
   (exists o, n = 2 + o).
@@ -44,32 +44,32 @@ Proof.
 
 이대로 마무리하긴 아쉬워서 간단한 증명을 하나 더 해보았습니다. Coq를 직접 실행시키면서 따라 해보면 이해하는데 도움이 될 것 같습니다.
 
-```haskell, line_num
+```coq, line_num
 Theorem dist_exists_or : forall (X:Type) (P Q : X -> Prop),
   (exists x, P x \/ Q x) <-> (exists x, P x) \/ (exists x, Q x).
 Proof.
   split.
-  - (*{- (exists x, P x \/ Q x) -> (exists x, P x) \/ (exists x, Q x) -}*)
+  - (* (exists x, P x \/ Q x) -> (exists x, P x) \/ (exists x, Q x) *)
     intros H.
     destruct H as [x_ Hpxqx].
     destruct Hpxqx as [Hpx | Hqx].
-    * (*{- P H -}*)
+    * (* P H *)
       left.
       exists x_.
       apply Hpx.
-    * (*{- Q H -}*)
+    * (* Q H *)
       right.
       exists x_.
       apply Hqx.
-  - (*{- (exists x, P x \/ Q x) <- (exists x, P x) \/ (exists x, Q x) -}*)
+  - (* (exists x, P x \/ Q x) <- (exists x, P x) \/ (exists x, Q x) *)
     intros H.
     destruct H as [H2px | H2qx].
-    * (*{- exists x, P x -}*)
+    * (* exists x, P x *)
       destruct H2px as [x_ H2px].
       exists x_.
       left.
       apply H2px.
-    * (*{- exists x, Q x -}*)
+    * (* exists x, Q x *)
       destruct H2qx as [x_ H2qx].
       exists x_.
       right.

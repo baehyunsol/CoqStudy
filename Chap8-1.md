@@ -17,7 +17,7 @@ Rust로 비유하자면 `TotalMap::get(k: K) -> V`, `PartialMap::get(k: K) -> Op
 
 책에선 지금까지 Coq Standard Library를 사용하지 않고 설명을 했습니다. 만약 자연수 대소비교가 필요하다면 이전 단원에서 정의했던 함수를 사용하는 방식으로요. 그래서 저도 import와 관련된 언급을 하지 않고 진행했습니다. 하지만 이제부터는 std lib에서 import를 해서 진행을 한다네요. 여기서부터는 이 문서의 코드들을 실행시킬 때 아래의 library들을 import하고 진행하시면 됩니다!
 
-```haskell, line_num
+```coq, line_num
 From Coq Require Import Arith.Arith.
 From Coq Require Import Bool.Bool.
 Require Export Coq.Strings.String.
@@ -46,7 +46,7 @@ Import ListNotations.
 
 다시 total map의 구현으로 돌아오겠습니다. 먼저, `string`에 대해서 살펴보겠습니다. 이전에 map을 구현할 때는 자연수를 key로 사용했지만 이젠 `string`을 사용합니다. `string`이 어떻게 정의돼 있는지 궁금해서 공식문서의 일부분을 가져왔습니다.
 
-```haskell, line_num
+```coq, line_num
 Inductive string : Set :=
   | EmptyString : string
   | String : ascii -> string -> string.
@@ -54,13 +54,13 @@ Inductive string : Set :=
 
 `string`의 정의는 list와 아주 비슷하게 돼 있습니다. `list ascii`라고 생각하면 되겠군요. `ascii`의 정의도 살펴봤더니 `bool` 8개의 tuple로 돼 있습니다. 1byte를 그대로 표현했더군요.
 
-```haskell
+```coq
 Definition string_dec : forall s1 s2 : string, {s1 = s2} + {s1 <> s2}.
 ```
 
 위의 정의도 흥미로워서 갖고 왔습니다. `+`는 logical or 연산으로 정의된 거 같은데, 저 정의를 자세히 읽어보면 `s1과 s2는 같거나 다르다`입니다. 즉, 두 문자열이 같은지 다른지 항상 정할 수 있다는 뜻입니다. 영어 주석에도 ~_Equality is decidable_~이라고 돼 있습니다.
 
-```haskell, line_num
+```coq, line_num
 Fixpoint eqb s1 s2 : bool :=
  match s1, s2 with
  | EmptyString, EmptyString => true
@@ -80,7 +80,7 @@ Notation "a &&& b" := (if a then b else false)
 
 [[anchor, id = eqbrefl]][[/anchor]]
 
-```haskell, line_num
+```coq, line_num
 Lemma eqb_refl x : (x =? x)%string = true.
 Lemma eqb_sym x y : (x =? y)%string = (y =? x)%string.
 Lemma eqb_eq n m : (n =? m)%string = true <-> n = m.
@@ -103,7 +103,7 @@ TODO
 
 ## 구현
 
-```haskell
+```coq
 Definition total_map (A : Type) := string -> A.
 ```
 
@@ -111,7 +111,7 @@ Definition total_map (A : Type) := string -> A.
 
 [4-2 단원](Chap4-2.html)에서 봤듯이 함수도 일급객체이므로 `total_map`과 관련된 다양한 함수들을 만들 수 있습니다. 아래에서 몇가지 예시를 보겠습니다.
 
-```haskell, line_num
+```coq, line_num
 Definition t_empty {A : Type} (v : A) : total_map A := (fun _ => v).
 
 Definition t_update {A : Type} (m : total_map A)
@@ -123,7 +123,7 @@ Definition t_update {A : Type} (m : total_map A)
 
 `t_update`의 구현은 흥미롭습니다. 어떤 `total_map`을 받아서 거기에 (키, 값) 쌍을 추가하는 함수인데, 함수를 받아서 함수를 반환하도록 돼 있는 구현이 참신하네요.
 
-```haskell, line_num
+```coq, line_num
 Notation "'_' '!->' v" := (t_empty v)
   (at level 100, right associativity).
 
@@ -133,7 +133,7 @@ Notation "x '!->' v ';' m" := (t_update m x v)
 
 몇가지 Notation을 정의했습니다. `_ -> v`는 `v`를 기본값으로 하는 빈 `total_map`을 만들고, `x !-> v; m`은 `m`에 (`x`, `v`)를 추가합니다. 저렇게만 보면 어떻게 쓰는지 모를 것 같아서 용례를 몇가지 갖고 왔습니다.
 
-```haskell, line_num
+```coq, line_num
 Example example_empty := (_ !-> false).
 
 Definition examplemap :=
@@ -145,7 +145,7 @@ Definition examplemap :=
 
 아래의 예시를 보면 감이 잘 옵니다. 가장 아랫줄에 기본값을 `false`로 하는 빈 `total_map`을 만들고, 거기에 (`"foo"`, `true`)와 (`"bar"`, `true`)를 추가했습니다. 즉, `examplemap`은 `"foo"`와 `"bar"`에 대해서만 `true`를 반환하고 나머지는 전부 `false`를 반환합니다.
 
-```haskell, line_num
+```coq, line_num
 Lemma t_update_eq : forall (A : Type) (m : total_map A) x v,
   (x !-> v ; m) x = v.
 Proof.
@@ -158,7 +158,7 @@ Proof.
 
 그냥 지나가면 섭섭하니까 증명을 하나 하고 지나가겠습니다. 어떤 `total_map`에 (`x`, `v`)를 추가하고 `x`를 요청하면 `v`를 반환합니다. 아주 당연한 얘기죠? `unfold t_update`를 하면 `if (x =? x) then v else m x`만 남습니다. `x =? x = true`임이 [아까](#eqbrefl) 봤던 `eqb_refl`에 증명돼 있으므로 그걸 사용하면 증명이 끝납니다.
 
-```haskell, line_num
+```coq, line_num
 Theorem t_update_same : forall (A : Type) (m : total_map A) x,
   (x !-> m x ; m) = m.
 Proof.
@@ -168,10 +168,10 @@ Proof.
   intros x0.
   destruct (x =? x0)%string eqn: E.
   rewrite eqb_eq in E.
-  - (*{- x = x0 -}*)
+  - (* x = x0 *)
     rewrite E.
     reflexivity.
-  - (*{- x != x0 -}*)
+  - (* x != x0 *)
     reflexivity.
   Qed.
 ```

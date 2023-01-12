@@ -11,7 +11,7 @@
 
 ## reg_exp
 
-```haskell, line_num
+```coq, line_num
 Inductive reg_exp (T : Type) : Type :=
   | EmptySet
   | EmptyStr
@@ -45,7 +45,7 @@ Arguments Star {T} _.
 
 [[anchor, id=keyword reserved]][[/anchor]]
 
-```haskell, line_num
+```coq, line_num
 Reserved Notation "s =~ re" (at level 80).
 Inductive exp_match {T} : list T -> reg_exp T -> Prop :=
   | MEmpty : [] =~ EmptyStr
@@ -97,20 +97,20 @@ Inductive exp_match {T} : list T -> reg_exp T -> Prop :=
 
 ### 간단한 정규식 대응
 
-```haskell, line_num
+```coq, line_num
 Example reg_exp_ex1 : [1] =~ Union (Char 1) (Char 2).
 Proof.
   apply (MUnionL [1] (Char 1) (Char 2)).
-  - (*{- [1] =~ Char 1 -}*)
+  - (* [1] =~ Char 1 *)
     apply (MChar 1).
   Qed.
 
 Example reg_exp_ex2 : [1; 2] =~ App (Char 1) (Char 2).
 Proof.
   apply (MApp [1] (Char 1) [2] (Char 2)).
-  - (*{- [1] =~ Char 1 -}*)
+  - (* [1] =~ Char 1 *)
     apply (MChar 1).
-  - (*{- [2] =~ Char 2 -}*)
+  - (* [2] =~ Char 2 *)
     apply (MChar 2).
 Qed.
 ```
@@ -121,7 +121,7 @@ Qed.
 
 ### EmptySet
 
-```haskell, line_num
+```coq, line_num
 Lemma empty_is_empty : forall T (s : list T),
   ~ (s =~ EmptySet).
 Proof.
@@ -136,7 +136,7 @@ Proof.
 
 ### `remember`
 
-```haskell, line_num
+```coq, line_num
 Lemma star_app: forall T (s1 s2 : list T) (re : reg_exp T),
   s1 =~ Star re ->
   s2 =~ Star re ->
@@ -145,15 +145,15 @@ Lemma star_app: forall T (s1 s2 : list T) (re : reg_exp T),
 
 `Star`는 합칠 수 있다는 것을 몇번의 시행착오를 거쳐서 증명해보겠습니다.
 
-```haskell, line_num
+```coq, line_num
 Proof.
   intros T s1 s2 re H.
   inversion H.
-  - (*{- [] = s1 -}*)
+  - (* [] = s1 *)
     intros H1.
     simpl.
     apply H1.
-  - (*{- s0 ++ s3 = s1 -}*)
+  - (* s0 ++ s3 = s1 *)
     intros H4.
     rewrite H0.
     Abort.
@@ -163,15 +163,15 @@ Proof.
 
 단순히 `inversion`을 사용하려고 하면 중간에 막힙니다. `Abort`를 하는 순간 goal에는 `s1 ++ s2 =~ Star re`가 남아 있습니다. 즉, 처음과 완전히 동일한 형태의 식이 남아서 순환하게됩니다.
 
-```haskell, line_num
+```coq, line_num
 Proof.
   intros T s1 s2 re H.
   induction H as [].
-  - (*{- s2 =~ EmptyStr -> [ ] ++ s2 =~ EmptyStr -}*)
+  - (* s2 =~ EmptyStr -> [ ] ++ s2 =~ EmptyStr *)
     intros H1.
     simpl.
     apply H1.
-  - (*{- s2 =~ Char x -> [x] ++ s2 =~ Char x -}*)
+  - (* s2 =~ Char x -> [x] ++ s2 =~ Char x *)
     Abort.
 ```
 
@@ -183,37 +183,37 @@ Proof.
 
 [[anchor, id = keyword remember]][[/anchor]]
 
-```haskell, line_num
+```coq, line_num
 Proof.
   intros T s1 s2 re H.
   generalize dependent s2.
   remember (Star re) as re'.
   induction H as [].
-  - (*{- EmptyStr = Star re -}*)
+  - (* EmptyStr = Star re *)
     discriminate.
-  - (*{- Char X = Star re -}*)
+  - (* Char X = Star re *)
     discriminate.
-  - (*{- App re1 re2 = Star re -}*)
+  - (* App re1 re2 = Star re *)
     discriminate.
-  - (*{- Union re1 re2 = Star re -}*)
+  - (* Union re1 re2 = Star re *)
     discriminate.
-  - (*{- Union re1 re2 = Star re -}*)
+  - (* Union re1 re2 = Star re *)
     discriminate.
-  - (*{- Star re0 = Star re, s1 = [] -}*)
+  - (* Star re0 = Star re, s1 = [] *)
     intros s2 H.
     simpl.
     apply H.
-  - (*{- Star re0 = Star re, s1 =~ re0 -}*)
+  - (* Star re0 = Star re, s1 =~ re0 *)
     intros s0 H1.
     rewrite <- app_assoc.
     apply MStarApp.
-    * (*{- s1 =~ re0 -}*)
+    * (* s1 =~ re0 *)
       apply H.
-    * (*{- s2 ++ s0 =~ Star re0 -}*)
+    * (* s2 ++ s0 =~ Star re0 *)
       apply IHexp_match2.
-      + (*{- Star re0 = Star re -}*)
+      + (* Star re0 = Star re *)
         apply Heqre'.
-      + (*{- s0 =~ Star re0 -}*)
+      + (* s0 =~ Star re0 *)
         apply H1.
   Qed.
 ```

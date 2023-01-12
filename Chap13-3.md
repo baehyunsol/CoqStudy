@@ -7,7 +7,7 @@
 
 이번 장에서는 프로그램의 변환을 보겠습니다. 프로그램 변환은 말그대로 프로그램 (`aexp`, `bexp` 혹은 `com`)을 다른 프로그램으로 바꾸는 것입니다. 예를 들어서 constant folding이라는 컴파일러 최적화를 생각해봅시다. 프로그래머가 `3 + 4` 혹은 `4 - 5`와 같은 코드를 입력할 경우, 저 값들은 컴파일러가 미리 계산할 수 있습니다. 굳이 실행 시간에 덧셈이나 뺄셈을 하는 건 시간낭비겠죠? 저런 식으로 상수로만 된 식들을 컴파일러가 미리 계산하는 걸 constant folding이라고 합니다. Imp에서의 constant folding을 구현해보겠습니다.
 
-```haskell, line_num
+```coq, line_num
 Fixpoint fold_constants_aexp (a : aexp) : aexp :=
   match a with
   | ANum n => ANum n
@@ -38,7 +38,7 @@ Fixpoint fold_constants_aexp (a : aexp) : aexp :=
 
 `fold_constants_aexp`는 모든 형태의 `aexp`를 뜯어서 상수와 상수의 연산을 찾으면 걔를 미리 계산합니다. `aexp`에 대해서 상수를 계산할 수 있으면 이걸 토대로 `bexp`에 대해서도 constant folding을 정의할 수 있습니다. 아래를 봅시다.
 
-```haskell, line_num
+```coq, line_num
 Fixpoint fold_constants_bexp (b : bexp) : bexp :=
   match b with
   | <{true}> => <{true}>
@@ -95,7 +95,7 @@ Fixpoint fold_constants_bexp (b : bexp) : bexp :=
 
 `bexp`는 비교 연산자들입니다. 비교를 하는 양변이 상수이면 결과가 `true`인지 `false`인지 미리 알 수 있으므로 그걸 컴파일 시간에 계산합니다. 이제 `aexp`와 `bexp`를 미리 계산할 수 있으니 이걸 토대로 `com`에 대해서도 constant folding을 정의할 수 있습니다.
 
-```haskell, line_num
+```coq, line_num
 Fixpoint fold_constants_com (c : com) : com :=
   match c with
   | <{ skip }> =>
@@ -128,7 +128,7 @@ Fixpoint fold_constants_com (c : com) : com :=
 
 먼저 transformation soundness를 정의하겠습니다.
 
-```haskell, line_num
+```coq, line_num
 Definition atrans_sound (atrans : aexp -> aexp) : Prop :=
   forall (a : aexp),
     aequiv a (atrans a).
@@ -146,7 +146,7 @@ Definition ctrans_sound (ctrans : com -> com) : Prop :=
 
 ### aexp soundness
 
-```haskell, line_num
+```coq, line_num
 Theorem fold_constants_aexp_sound :
   atrans_sound fold_constants_aexp.
 Proof.
@@ -168,17 +168,17 @@ Proof.
 
 ### bexp soundness
 
-```haskell, line_num
+```coq, line_num
 Theorem fold_constants_bexp_sound:
   btrans_sound fold_constants_bexp.
 Proof.
   intros b st.
   induction b.
-  - (*{- BTrue -}*)
+  - (* BTrue *)
     reflexivity.
-  - (*{- BFalse -}*)
+  - (* BFalse *)
     reflexivity.
-  - (*{- BEq -}*)
+  - (* BEq *)
     simpl.
     remember (fold_constants_aexp a1) as a1' eqn:Heqa1'.
     remember (fold_constants_aexp a2) as a2' eqn:Heqa2'.
@@ -189,11 +189,11 @@ Proof.
     destruct a1';
     destruct a2';
     try reflexivity.
-    + (*{- a1' = n, a2' = n0 -}*)
+    + (* a1' = n, a2' = n0 *)
       simpl.
       destruct (n =? n0);
       reflexivity.
-  - (*{- BNeq -}*)
+  - (* BNeq *)
     simpl.
     remember (fold_constants_aexp a1) as a1' eqn:Heqa1'.
     remember (fold_constants_aexp a2) as a2' eqn:Heqa2'.
@@ -204,11 +204,11 @@ Proof.
     destruct a1';
     destruct a2';
     try reflexivity.
-    + (*{- a1' = n, a2' = n0 -}*)
+    + (* a1' = n, a2' = n0 *)
       simpl.
       destruct (n =? n0);
       reflexivity.
-  - (*{- BLe -}*)
+  - (* BLe *)
     simpl.
     remember (fold_constants_aexp a1) as a1' eqn:Heqa1'.
     remember (fold_constants_aexp a2) as a2' eqn:Heqa2'.
@@ -219,11 +219,11 @@ Proof.
     destruct a1';
     destruct a2';
     try reflexivity.
-    + (*{- a1' = n, a2' = n0 -}*)
+    + (* a1' = n, a2' = n0 *)
       simpl.
       destruct (n <=? n0);
       reflexivity.
-  - (*{- BGt -}*)
+  - (* BGt *)
     simpl.
     remember (fold_constants_aexp a1) as a1' eqn:Heqa1'.
     remember (fold_constants_aexp a2) as a2' eqn:Heqa2'.
@@ -234,17 +234,17 @@ Proof.
     destruct a1';
     destruct a2';
     try reflexivity.
-    + (*{- a1' = n, a2' = n0 -}*)
+    + (* a1' = n, a2' = n0 *)
       simpl.
       destruct (n <=? n0);
       reflexivity.
-  - (*{- BNot -}*)
+  - (* BNot *)
     simpl.
     remember (fold_constants_bexp b) as b' eqn:Heqb'.
     rewrite IHb.
     destruct b';
     try reflexivity.
-  - (*{- BAnd -}*)
+  - (* BAnd *)
     simpl.
     remember (fold_constants_bexp b1) as b1' eqn:Heqb1'.
     remember (fold_constants_bexp b2) as b2' eqn:Heqb2'.
@@ -270,45 +270,45 @@ Proof.
 
 ### cexp soundness
 
-```haskell, line_num
+```coq, line_num
 Theorem fold_constants_com_sound:
   ctrans_sound fold_constants_com.
 Proof.
   intros c.
   induction c;
   simpl.
-  - (*{- CSkip -}*)
+  - (* CSkip *)
     apply refl_cequiv.
-  - (*{- CAsgn -}*)
+  - (* CAsgn *)
     apply CAsgn_congruence.
     apply fold_constants_aexp_sound.
-  - (*{- CSeq -}*)
+  - (* CSeq *)
     apply CSeq_congruence;
     assumption.
-  - (*{- Cif -}*)
+  - (* Cif *)
     assert (H: bequiv b (fold_constants_bexp b)).
     { apply fold_constants_bexp_sound. }
     destruct (fold_constants_bexp b);
     try (apply CIf_congruence; assumption).
-    + (*{- b = true -}*)
+    + (* b = true *)
       apply trans_cequiv with c1.
       apply if_true.
       apply H.
       apply IHc1.
-    + (*{- b = false -}*)
+    + (* b = false *)
       apply trans_cequiv with c2.
       apply if_false.
       apply H.
       apply IHc2.
-  - (*{- CWhile -}*)
+  - (* CWhile *)
     assert (H: bequiv b (fold_constants_bexp b)).
     { apply fold_constants_bexp_sound. }
     destruct (fold_constants_bexp b);
     try (apply CWhile_congruence; assumption).
-    + (*{- infinite loop -}*)
+    + (* infinite loop *)
       apply while_true.
       assumption.
-    + (*{- b = false -}*)
+    + (* b = false *)
       apply while_false.
       assumption.
   Qed.

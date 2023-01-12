@@ -5,7 +5,7 @@
 
 # Proofs by Induction
 
-```haskell, line_num
+```coq, line_num
 Theorem add_0_r_firsttry : forall n: nat,
   n + 0 = n.
 ```
@@ -16,14 +16,14 @@ Theorem add_0_r_firsttry : forall n: nat,
 
 [[anchor, id = keyword induction]][[/anchor]]
 
-```haskell, line_num
+```coq, line_num
 Theorem add_0_r : forall n: nat, n + 0 = n.
 Proof.
   intros n.
   induction n as [ | n' IHn'].
-  - (*{- n = 0 -}*)
+  - (* n = 0 *)
     reflexivity.
-  - (*{- n = S n' -}*)
+  - (* n = S n' *)
     simpl.
     rewrite -> IHn'.
     reflexivity.
@@ -44,15 +44,15 @@ Proof.
 
 ### mul_0_r
 
-```haskell, line_num
+```coq, line_num
 Theorem mul_0_r : forall n: nat,
   n * 0 = 0.
 Proof.
   intros n.
   induction n as [ | n' IHn'].
-  - (*{- n = 0 -}*)
+  - (* n = 0 *)
     reflexivity.
-  - (*{- n = S n' -}*)
+  - (* n = S n' *)
     simpl.
     rewrite -> IHn'.
     reflexivity.
@@ -61,17 +61,17 @@ Proof.
 
 ### plus_n_Sm
 
-```haskell, line_num
+```coq, line_num
 Theorem plus_n_Sm : forall n m : nat,
   S (n + m) = n + (S m).
 Proof.
   intros n m.
   induction n as [ | n' IHn'].
-  - (*{- n = 0 -}*)
+  - (* n = 0 *)
     rewrite -> add_0.
     rewrite -> add_0.
     reflexivity.
-  - (*{- n = S n' -}*)
+  - (* n = S n' *)
     simpl.
     rewrite IHn'.
     reflexivity.
@@ -88,17 +88,17 @@ Proof.
 
 이제 교환법칙을 증명해보겠습니다.
 
-```haskell, line_num
+```coq, line_num
 Theorem add_comm : forall n m : nat,
   n + m = m + n.
 Proof.
   intros n m.
   induction n as [ |n' IHn'].
-  - (*{- n = 0 -}*)
+  - (* n = 0 *)
     rewrite -> add_0.
     rewrite -> add_0_r.
     reflexivity.
-  - (*{- n = S n' -}*)
+  - (* n = S n' *)
     simpl.
     rewrite IHn'.
     rewrite plus_n_Sm.
@@ -112,18 +112,18 @@ Proof.
 
 ### add_assoc
 
-```haskell, line_num
+```coq, line_num
 Theorem add_assoc : forall n m p : nat,
   n + (m + p) = (n + m) + p.
 Proof.
   intros n m p.
   rewrite add_comm.
   induction n as [ |n' IHn'].
-  - (*{- n = 0 -}*)
+  - (* n = 0 *)
     rewrite add_0.
     rewrite add_0_r.
     reflexivity.
-  - (*{- n = S n' -}*)
+  - (* n = S n' *)
     rewrite <- plus_n_Sm.
     rewrite IHn'.
     reflexivity.
@@ -134,16 +134,16 @@ Qed.
 
 ### eqb_refl
 
-```haskell, line_num
+```coq, line_num
 Theorem eqb_refl : forall n : nat,
   (n =? n) = true.
 Proof.
   intros n.
   induction n as [ |n' IHn'].
-  - (*{- n = 0 -}*)
+  - (* n = 0 *)
     simpl.
     reflexivity.
-  - (*{- n = S n' -}*)
+  - (* n = S n' *)
     rewrite <- IHn'.
     simpl.
     reflexivity.

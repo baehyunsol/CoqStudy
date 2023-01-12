@@ -11,7 +11,7 @@
 
 먼저 `/\`의 정의를 살펴보겠습니다.
 
-```haskell, line_num
+```coq, line_num
 Inductive and (P Q : Prop) : Prop :=
   | conj : P -> Q -> and P Q.
 
@@ -24,15 +24,15 @@ Notation "P /\ Q" := (and P Q) : type_scope.
 
 정의는 아주 간단합니다. `P`도 참이고 `Q`도 참이면 `P /\ Q`도 참이죠. 정의가 저렇게 생겼기 때문에 `destruct` tactic이 잘 작동합니다.
 
-```haskell, line_num
+```coq, line_num
 Theorem proj1' : forall P Q,
   P /\ Q -> P.
 Proof.
-  intros P Q HPQ.          (*{- HPQ: P /\ Q -}*)
-  destruct HPQ as [HP HQ]. (*{- HP: P, HQ: Q -}*)
-  Show Proof.  (*{- (fun (P Q : Prop) (HPQ : P /\ Q) => match HPQ with | conj x x0 => (fun (HP : P) (HQ : Q) => ?Goal) x x0 end) -}*)
+  intros P Q HPQ.          (* HPQ: P /\ Q *)
+  destruct HPQ as [HP HQ]. (* HP: P, HQ: Q *)
+  Show Proof.  (* (fun (P Q : Prop) (HPQ : P /\ Q) => match HPQ with | conj x x0 => (fun (HP : P) (HQ : Q) => ?Goal) x x0 end) *)
   apply HP.
-  Show Proof.  (*{- (fun (P Q : Prop) (HPQ : P /\ Q) => match HPQ with | conj x x0 => (fun (HP : P) (_ : Q) => HP) x x0 end) -}*)
+  Show Proof.  (* (fun (P Q : Prop) (HPQ : P /\ Q) => match HPQ with | conj x x0 => (fun (HP : P) (_ : Q) => HP) x x0 end) *)
 Qed.
 ```
 
@@ -46,24 +46,24 @@ Qed.
 
 `destruct`를 자세히 봤으니 `split`이 어떻게 동작하는지도 자세히 살펴봅시다.
 
-```haskell, line_num
+```coq, line_num
 Lemma and_comm : forall P Q : Prop, P /\ Q <-> Q /\ P.
 Proof.
   intros P Q.
   split.
-  - (*{- P /\ Q -> Q /\ P -}*)
+  - (* P /\ Q -> Q /\ P *)
     intros [HP HQ].
-    split.  (*{- `Q /\ P`가 `Q`와 `P`로 나눠집니다. -}*)
-    + (*{- Q -}*)
+    split.  (* `Q /\ P`가 `Q`와 `P`로 나눠집니다. *)
+    + (* Q *)
       apply HQ.
-    + (*{- P -}*)
+    + (* P *)
       apply HP.
-  - (*{- Q /\ P -> P /\ Q -}*)
+  - (* Q /\ P -> P /\ Q *)
     intros [HQ HP].
-    split.  (*{- `P /\ Q`가 `P`와 `Q`로 나눠집니다. -}*)
-    + (*{- P -}*)
+    split.  (* `P /\ Q`가 `P`와 `Q`로 나눠집니다. *)
+    + (* P *)
       apply HP.
-    + (*{- Q -}*)
+    + (* Q *)
       apply HQ.
 Qed.
 ```
@@ -74,7 +74,7 @@ Qed.
 
 `/\`의 정의를 알면 proof object를 곧바로 적을 수도 있습니다. `and_comm`을 다른 방식으로 표현한 것들을 아래에서 보겠습니다.
 
-```haskell, line_num
+```coq, line_num
 Definition and_comm_aux P Q (H : P /\ Q) : Q /\ P :=
   match H with
   | conj HP HQ => conj HQ HP
@@ -90,7 +90,7 @@ Definition and_comm' P Q : P /\ Q <-> Q /\ P :=
 
 이번엔 `\/`의 정의를 살펴보겠습니다.
 
-```haskell, line_num
+```coq, line_num
 Inductive or (P Q : Prop) : Prop :=
   | or_introl : P -> or P Q
   | or_intror : Q -> or P Q.

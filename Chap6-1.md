@@ -15,17 +15,17 @@
 
 [^fc]: 즉, `nat`이나 `bool`등이 할 수 있는 걸 `Prop`도 전부 할 수 있습니다.
 
-```haskell, line_num
-Check 2 = 2.     (*{- : Prop -}*)
-Check 3 = 2.     (*{- : Prop -}*)
-Check (forall n: nat, n + 0 = 0 + n).  (*{- : Prop -}*)
-Compute 3 = 3.   (*{- 3 = 3 : Prop -}*)
-Compute 3 = 2.   (*{- 3 = 2 : Prop -}*)
+```coq, line_num
+Check 2 = 2.     (* : Prop *)
+Check 3 = 2.     (* : Prop *)
+Check (forall n: nat, n + 0 = 0 + n).  (* : Prop *)
+Compute 3 = 3.   (* 3 = 3 : Prop *)
+Compute 3 = 2.   (* 3 = 2 : Prop *)
 ```
 
 위에서처럼 `Check`나 `Compute`를 할 수도 있고, 아래처럼 함수와 조합하여 더 놀라운 것들도 할 수 있습니다.
 
-```haskell, line_num
+```coq, line_num
 Definition is_injective {A B} (f : A -> B) :=
   forall x y : A,
   f x = f y -> x = y.
@@ -33,7 +33,7 @@ Definition is_injective {A B} (f : A -> B) :=
 
 `is_injective`는 함수를 받아서 `Prop`을 내놓는 함수입니다. `is_injective`가 받는 함수가 injective하면 반환된 `Prop`이 참이고 아니면 반환된 `Prop`이 거짓입니다. 아래의 예시를 보겠습니다.
 
-```haskell, line_num
+```coq, line_num
 Theorem S_injective : is_injective S.
 
 Proof.
@@ -53,7 +53,7 @@ Proof.
 
 참고로 `x = y` 할 때의 `=`도 내장특수 문법이 아닌 일반 함수입니다. `=`는 Coq 표준 라이브러리에 정의돼 있으며 이름은 `eq`입니다. Type을 확인해보면 아래와 같습니다.
 
-```haskell
+```coq
 Check @eq : forall A : Type, A -> A -> Prop.
 ```
 
@@ -65,7 +65,7 @@ Check @eq : forall A : Type, A -> A -> Prop.
 
 그럼 `a = b -> c = d`의 type은 뭘까요? 저 친구도 마찬가지로 `Prop`입니다. Coq 내부에서 `->`라는 Notation은 아래와 같이 정의돼 있습니다.
 
-```haskell
+```coq
 Notation "A -> B" := (forall (_ : A), B) : type_scope.
 ```
 
@@ -77,13 +77,13 @@ Conjunction은 *logical and*입니다. `and`라는 이름으로 정의돼 있고
 
 [[anchor, id = keyword split]][[/anchor]]
 
-```haskell, line_num
+```coq, line_num
 Example and_example : 3 + 4 = 7 /\ 2 * 2 = 4.
 Proof.
   split.
-  - (*{- 3 + 4 = 7 -}*)
+  - (* 3 + 4 = 7 *)
     reflexivity.
-  - (*{- 2 * 2 = 4 -}*)
+  - (* 2 * 2 = 4 *)
     reflexivity.
 Qed.
 ```
@@ -94,7 +94,7 @@ Qed.
 
 혹은 `destruct` tactic을 이용할 수도 있습니다. 아래의 예시를 보겠습니다.
 
-```haskell, line_num
+```coq, line_num
 Lemma and_example2 :
   forall n m : nat, n = 0 /\ m = 0 -> n + m = 0.
 Proof.
@@ -110,19 +110,19 @@ Qed.
 
 마지막으로 연습 하나만 하고 넘어가겠습니다.
 
-```haskell, line_num
+```coq, line_num
 Theorem and_assoc : forall P Q R : Prop,
   P /\ (Q /\ R) -> (P /\ Q) /\ R.
 Proof.
   intros P Q R [HP [HQ HR]].
   split.
-  - (*{- P /\ Q -}*)
+  - (* P /\ Q *)
     split.
-    + (*{- P -}*)
+    + (* P *)
       apply HP.
-    + (*{- Q -}*)
+    + (* Q *)
       apply HQ.
-  - (*{- R -}*)
+  - (* R *)
     apply HR.
   Qed.
 ```
@@ -133,16 +133,16 @@ Proof.
 
 logical and를 공부했으니 이번엔 logical or를 보겠습니다.
 
-```haskell, line_num
+```coq, line_num
 Lemma mult_0:
   forall n m : nat, n = 0 \/ m = 0 -> n * m = 0.
 Proof.
   intros n m H.
   destruct H as [Hn | Hm].
-  - (*{- Hn: n = 0 -}*)
+  - (* Hn: n = 0 *)
     rewrite Hn.
     reflexivity.
-  - (*{- Hm: m = 0 -}*)
+  - (* Hm: m = 0 *)
     rewrite Hm.
     rewrite <- mult_n_O.
     reflexivity.
@@ -155,7 +155,7 @@ Proof.
 
 [[anchor, id = keyword left]][[/anchor]][[anchor, id = keyword right]][[/anchor]]
 
-```haskell, line_num
+```coq, line_num
 Lemma or_intro_l : forall A B : Prop, A -> A \/ B.
 Proof.
   intros A B HA.
@@ -168,15 +168,15 @@ Qed.
 
 책에 재밌는 예시들이 있길래 하나 더 갖고 왔습니다.
 
-```haskell, line_num
+```coq, line_num
 Lemma zero_or_succ :
   forall n : nat, n = 0 \/ n = S (pred n).
 Proof.
   intros [ | n'].
-  - (*{- n = 0 -}*)
+  - (* n = 0 *)
     left.
     reflexivity.
-  - (*{- n = S n' -}*)
+  - (* n = S n' *)
     right.
     reflexivity.
 Qed.

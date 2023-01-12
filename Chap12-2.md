@@ -26,15 +26,15 @@
 
 `destruct`나 `induction` 등등을 사용하면 여러 subgoal이 생깁니다. subgoal의 개수가 많은데 각 subgoal에 동일한 tactic을 적용하고 싶으면 어떻게 할까요? 아래의 예시를 보겠습니다.
 
-```haskell, line_num
+```coq, line_num
 Lemma foo : forall n, 0 <=? n = true.
 Proof.
   intros.
   destruct n.
-    - (*{- n = 0 -}*)
+    - (* n = 0 *)
       simpl.
       reflexivity.
-    - (*{- n = S n' -}*)
+    - (* n = S n' *)
       simpl.
       reflexivity.
 Qed.
@@ -42,7 +42,7 @@ Qed.
 
 `simpl`과 `reflexivity`가 2번씩 반복되는게 거슬리죠? `;`를 이용해서 간략하게 해보겠습니다. 아래를 봅시다.
 
-```haskell, line_num
+```coq, line_num
 Lemma foo : forall n, 0 <=? n = true.
 Proof.
   intros.
@@ -54,7 +54,7 @@ Proof.
 
 `destruct` 뒤에 `;`가 붙어있기 때문에 그 뒤에 오는 `simpl`이 두 subgoal에 각각 적용되고, `simpl` 뒤에 `;`가 있기 때문에 `reflexivity`도 2번 적용됩니다.
 
-```haskell, line_num
+```coq, line_num
 Theorem optimize_0plus_sound': forall a,
   aeval (optimize_0plus a) = aeval a.
 Proof.
@@ -66,9 +66,9 @@ Proof.
     rewrite IHa2;
     reflexivity
   ).
-  - (*{- ANum -}*)
+  - (* ANum *)
     reflexivity.
-  - (*{- APlus -}*)
+  - (* APlus *)
     destruct a1 eqn:Ea1;
     try (
       simpl;
@@ -77,7 +77,7 @@ Proof.
       rewrite IHa2;
       reflexivity
     ).
-    + (*{- a1 = ANum n -}*)
+    + (* a1 = ANum n *)
       destruct n eqn:En;
       simpl;
       rewrite IHa2;
@@ -93,7 +93,7 @@ Proof.
 
 `repeat`은 뒤에 오는 tactic을 계속 반복해서 실행합니다. 실행하다가 tactic이 아무런 효과도 없거나 실패하면 반복을 멈추고 넘어갑니다.
 
-```haskell, line_num
+```coq, line_num
 Theorem In10 : In 10 [1;2;3;4;5;6;7;8;9;10].
 Proof.
   repeat (try (left; reflexivity); right).
@@ -112,7 +112,7 @@ Qed.
 
 정리 자체가 거짓이거나 `lia`가 다룰 수 없는 기호가 있을 경우 `lia`는 실패합니다. 예시를 보겠습니다.
 
-```haskell, line_num
+```coq, line_num
 Example silly_presburger_example : forall m n o p,
   m + n <= n + o /\ o + 3 = p + 3 ->
   m <= p.
@@ -185,7 +185,7 @@ st =[ c ]=> st'
 
 아주 강력한 tactic입니다. 이름부터 세 보이죠? 아래의 두 증명을 봅시다.
 
-```haskell, line_num
+```coq, line_num
 Example auto_example_1 : forall (P Q R: Prop),
   (P -> Q) -> (Q -> R) -> P -> R.
 Proof.

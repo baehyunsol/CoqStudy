@@ -4,7 +4,7 @@
 
 작성자: 배현솔\
 최초 작성일: 2022.09.02\
-최근 업데이트: 2023.01.11
+최근 업데이트: 2023.01.12
 
 [[/right]]
 
@@ -22,6 +22,8 @@ Coq 언어 자습 문서입니다.
 - 이 책을 쓰는 현재 제가 사용중인 Coq는 CoqIDE, version 8.15.2입니다.
 - [단원별 목차](#index-by-chapter)
 - [키워드별 목차](#index-by-keyword)
+
+2023.01.12: 드디어 syntax highlighter에 Coq 문법을 추가했습니다!! 한결 보기 편해진 것 같아 뿌듯하네요...
 
 ## Index By Chapter
 
@@ -84,7 +86,7 @@ Coq 언어 자습 문서입니다.
 
 ## Index by Keyword
 
-[A](#indexa) [C](#indexc) [D](#indexd) [E](#indexe) [F](#indexf) [G](#indexg) [I](#indexi) [L](#indexl) [M](#indexm) [N](#indexn) [R](#indexr) [S](#indexs) [T](#indext) [U](#indexu)
+[[giant]][A](#indexa) [C](#indexc) [D](#indexd) [E](#indexe) [F](#indexf) [G](#indexg) [I](#indexi) [L](#indexl) [M](#indexm) [N](#indexn) [R](#indexr) [S](#indexs) [T](#indext) [U](#indexu)[[/giant]]
 
 - A[[anchor, id = index a]][[/anchor]]
   - abort: [chap1-3](Chap1-3.html#keywordabort)

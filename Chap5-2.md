@@ -7,7 +7,7 @@
 
 자연수의 정의를 다시 떠올려볼까요?
 
-```haskell, line_num
+```coq, line_num
 Inductive nat : Type :=
   | O
   | S (n : nat).
@@ -28,7 +28,7 @@ Inductive nat : Type :=
 
 방금 설명한 injective를 구현한 tactic이 바로 `injection`입니다. 아래의 예시를 보겠습니다.
 
-```haskell, line_num
+```coq, line_num
 Theorem injection_ex1 : forall (n m o : nat),
   [n;m] = [o;o] ->
   n = m.
@@ -46,7 +46,7 @@ Qed.
 
 [[anchor, id = ex1]][[/anchor]]
 
-```haskell, line_num
+```coq, line_num
 Theorem injection_S : forall (n m : nat),
   S n = S m ->
   n = m.
@@ -67,7 +67,7 @@ Proof.
 
 잠시 논리학을 복습하겠습니다. ~_p이면 q이다_~에서 `p`가 거짓이면 어떻게 되죠? 그럼 묻지도 따지지도 않고 명제는 참입니다. 즉, 가정이 거짓이면 명제는 참입니다. Coq에서도 이 방식으로 disjointness를 사용합니다. 아래의 예시를 보겠습니다.
 
-```haskell, line_num
+```coq, line_num
 Theorem discriminate_ex1 : forall (n m : nat),
   false = true ->
   n = m.
@@ -87,7 +87,7 @@ Proof.
 
 [위](#ex1)에서 `S n = S m`이면 `n = m`임을 증명했습니다. 반대방향으로 하려면 어떻게 해야할까요?
 
-```haskell, line_num
+```coq, line_num
 Theorem injection_rev : forall (n m : nat),
   n = m ->
   S n = S m.
@@ -100,7 +100,7 @@ Proof.
 
 위와 같이 `f_equal`이라는 내장 tactic을 사용하면 됩니다. `f_equal`은 context의 `S n = S m`을 `n = m`으로 바꿔줍니다. `S`가 injective하다는 걸 알고 `S`를 한겹 벗겨주는 거죠. `f_equal`은 아주 다양한 곳에 활용할 수 있습니다. 아래의 예시를 보겠습니다.
 
-```haskell, line_num
+```coq, line_num
 Theorem injection_rev2 : forall (n m : nat),
   n = m ->
   [n;n;n] = [m;m;m].

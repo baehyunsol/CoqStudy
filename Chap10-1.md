@@ -9,7 +9,7 @@
 
 `nat` type을 이용해서 설명하겠습니다. `Inductive`를 이용해서 `nat`을 정의하면 `nat_rect`, `nat_ind`, `nat_rec`, `nat_sind`가 자동으로 같이 정의됩니다. 이 중 `induction`에 쓰이는 것은 `nat_ind`입니다. `nat_ind`의 모양은 아래와 같습니다.
 
-```haskell, line_num
+```coq, line_num
 (*{-
 nat_ind = 
 fun (P : nat -> Prop) (f : P O) (f0 : forall n : nat, P n -> P (S n)) =>
@@ -38,7 +38,7 @@ Check nat_ind.
 
 그렇다면 `list`처럼 polymorphic한 자료구조는 어떻게 될까요? `list nat`을 위한 `list_ind`와 `list bool`을 위한 `list_ind`가 별개로 정의될까요? 확인해보겠습니다.
 
-```haskell, line_num
+```coq, line_num
 Inductive list (X:Type) : Type :=
   | nil : list X
   | cons : X -> list X -> list X.
@@ -75,7 +75,7 @@ Check list_ind.
 
 한번만 더 연습을 해보겠습니다.
 
-```haskell, line_num
+```coq, line_num
 Inductive tree (X:Type) : Type :=
   | leaf (x : X)
   | node (t1 t2 : tree X).

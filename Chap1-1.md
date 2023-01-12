@@ -17,7 +17,7 @@ Rust의 `enum`에 대응되는 개념으로 Coq에는 `Inductive`가 있습니�
 
 Boolean이 어떻게 구현돼 있는지 살펴보겠습니다.
 
-```haskell, line_num
+```coq, line_num
 Inductive bool : Type :=
   | true
   | false.
@@ -29,7 +29,7 @@ Rust에 익숙하신 분이라면 위의 코드를 이해하는 것이 어렵지
 
 [[anchor, id=keyword definition]][[/anchor]]
 
-```haskell, line_num
+```coq, line_num
 Definition negb (b: bool) : bool :=
   match b with
   | true => false
@@ -67,7 +67,7 @@ Definition orb (b1:bool) (b2:bool) : bool :=
 
 바로 [위](#keyworddefinition)에서 정의했던 것 같은 Lisp 스타일의 함수 호출도 좋지만 C나 수학 스타일의 중위 연산자가 그리울 때가 있습니다. Coq의 `Notation` 키워드는 중위 연산자를 정의할 수 있게 해줍니다.
 
-```haskell, line_num
+```coq, line_num
 Notation "x && y" := (andb x y).
 Notation "x || y" := (orb x y).
 ```
@@ -80,7 +80,7 @@ Notation "x || y" := (orb x y).
 
 함수형 패러다임을 지원하는 최신 언어들이 대부분 그러하듯, Coq의 `if` 또한 식(expression)으로 취급됩니다. 위에서 방금 정의했던 함수들은 아래와 같이 다시 정의할 수 있습니다.
 
-```haskell, line_num
+```coq, line_num
 Definition negb (b:bool) : bool :=
   if b then false
   else true.
@@ -102,7 +102,7 @@ Definition orb (b1:bool) (b2:bool) : bool :=
 
 [^f]: `Check`는 일반적인 함수가 아닙니다. 아래에서 자세히 설명하겠습니다. [[br]]*function*이라는 용어는 전부 *함수*로 번역했고, *command*는 전부 *명령어*로 번역했습니다. 문서에서 두 용어를 완전히 구분해서 사용할테니 읽는데 혼동이 없으시길 바라겠습니다.
 
-```haskell, line_num
+```coq, line_num
 (*{-
 Coq의 주석은
 (* .. 주석 .. *)
@@ -110,19 +110,19 @@ Coq의 주석은
 Haskell 스타일로 주석을 썼습니다.
 -}*)
 
-Check true.   (*{- true : bool -}*)
-Check (andb true true).   (*{- true : bool -}*)
+Check true.   (* true : bool *)
+Check (andb true true).   (* true : bool *)
 
-(*{- Coq에서는 함수도 first class object입니다. -}*)
-Check andb.   (*{- andb : bool -> bool -}*)
+(* Coq에서는 함수도 first class object입니다. *)
+Check andb.   (* andb : bool -> bool *)
 
-(*{- `Check`는 일반적인 함수가 아니기에 type이 없습니다. -}*)
-Check Check.  (*{- error -}*)
+(* `Check`는 일반적인 함수가 아니기에 type이 없습니다. *)
+Check Check.  (* error *)
 ```
 
 혹은 `Check value : Type.`의 형태로 theorem prover에게 type이 맞는지 질의할 수도 있습니다.
 
-```haskell, line_num, copy_button(false)
+```coq, line_num, copy_button(false)
 Check true : bool.
 ```
 
@@ -130,11 +130,11 @@ Check true : bool.
 
 문득 Coq의 type이 어떤 식으로 작동하는지 궁금해져서 몇가지 질의를 더 해보았습니다.
 
-```haskell, line_num
-Check true.  (*{- true : bool -}*)
-Check bool.  (*{- bool : Set  -}*)
-Check Set.   (*{- Set : Type  -}*)
-Check Type.  (*{- Type : Type -}*)
+```coq, line_num
+Check true.  (* true : bool *)
+Check bool.  (* bool : Set  *)
+Check Set.   (* Set : Type  *)
+Check Type.  (* Type : Type *)
 ```
 
 사용자가 `Inductive` 키워드를 이용해서 정의한 type들은 `Set`이란 type을 가지고 `Set`은 `Type`이란 type을 가집니다.
@@ -143,8 +143,8 @@ Check Type.  (*{- Type : Type -}*)
 
 [[anchor, id=keyword compute]][[/anchor]]
 
-```haskell, line_num, copy_button(false)
-Compute negb true.  (*{- = false : bool -}*)
+```coq, line_num, copy_button(false)
+Compute negb true.  (* = false : bool *)
 ```
 
 `Compute`는 주어진 식을 계산합니다. `Check`와 마찬가지로 함수가 아니고 명령어입니다.
@@ -153,7 +153,7 @@ Compute negb true.  (*{- = false : bool -}*)
 
 Rust 혹은 Haskell을 할 줄 아시는 분은 enum을 만들면서 variant 안에 다양한 값을 넣어본 기억이 있으실 겁니다. Coq에서도 비슷한 방식의 type 정의를 지원합니다.
 
-```haskell, line_num
+```coq, line_num
 Inductive rgb : Type :=
   | red
   | green
@@ -166,7 +166,7 @@ Inductive color : Type :=
 
 Rust에서 enum을 정의하는 방법과 동일합니다. `color`라는 enum은 `primary`라는 variant를 가지고, `primary`는 `rgb`의 instance 하나를 멤버로 가집니다. `color`를 패턴매칭으로 뜯어내는 방식은 Haskell과 비슷합니다.
 
-```haskell, line_num
+```coq, line_num
 Definition is_red_or_black(c: color) : bool :=
   match c with
   | black => true
@@ -184,7 +184,7 @@ Definition is_red_or_black(c: color) : bool :=
 
 Module은 C++의 namespace와 비슷한 개념입니다. 아니, 그냥 똑같습니다.
 
-```haskell, line_num
+```coq, line_num
 Module Playground.
   Definition b : rgb := blue.
 End Playground.
@@ -203,7 +203,7 @@ Check b : bool.
 
 Rust 혹은 Haskell을 다뤄본 적이 있다면 tuple이라는 개념이 아주 익숙하실 겁니다.
 
-```haskell, line_num
+```coq, line_num
 Inductive bit : Type :=
   | B0
   | B1.
@@ -215,19 +215,19 @@ Check (bits B1 B0 B1 B0)
 
 위와 같이 `bit` type 4개로 이뤄진 `bits`라는 type을 정의했습니다.
 
-```haskell, line_num
+```coq, line_num
 Definition all_zero (nb : nybble) : bool :=
   match nb with
   | (bits B0 B0 B0 B0) => true
   | (bits _ _ _ _) => false
   end.
 
-Compute all_zero (bits B0 B0 B0 B0). (*{- = true : bool -}*)
+Compute all_zero (bits B0 B0 B0 B0). (* = true : bool *)
 ```
 
 Tuple을 패턴매칭하는 것도 위와 같이 어렵지 않습니다. 꼭 모든 원소들이 동일한 type일 필요는 없습니다. 아래의 예시를 보겠습니다.
 
-```haskell, line_num
+```coq, line_num
 Inductive complex : Type :=
   | nums (ny : nybble) (int : nat).
 
