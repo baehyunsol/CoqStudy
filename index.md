@@ -88,6 +88,7 @@ Coq 언어 자습 문서입니다.
   - [Chapter 14-5. Hoare Logic as a Logic](Chap14-5.html)
   - [Chapter 14-6. Small-Step Operational Semantics](Chap14-6.html)
 - Chapter 15. Type System
+  - [Chapter 15-1. Basics](Chap15-1.html)
 - [부록1: 코드 모음](Appendix.html)
 - [부록2: 허충길 교수님 강의](lectures.html)
 - [부록3: Lambda Calculus](lambda.html)

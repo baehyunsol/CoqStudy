@@ -1,0 +1,112 @@
+<!DOCTYPE html><html>
+
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width"/>
+    
+    <title>Chap15-1</title>
+    
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding&amp;display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'"/>
+    <!--<link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding&amp;display=swap" rel="stylesheet"/> -->
+    
+    <link href="page.css" rel="stylesheet"/><link href="markdown.css" rel="stylesheet"/><link href="nav.css" rel="stylesheet"/><link href="header.css" rel="stylesheet"/>
+    
+</head>
+
+<body>
+
+
+    <header>
+<p><div class="topmenu deactivated"><a href="index.html">Home</a> <a href="index.html#index-by-chapter">단원별 목차</a> <a href="index.html#index-by-keyword">키워드 목차</a> <a href="Appendix.html">부록</a></div><div class="mobileview"><a id="navbutton">&#9776;</a></div></p>
+    </header>
+
+
+
+    <nav>
+<p><a id="settingsopenbutton">&#9728;</a><a href="#top">&#9650;</a><a href="#bottom">&#9660;</a></p><div id="settingsmenubg"><div id="settingsmenu"><table><thead><tr><th colspan="2"><div class="align-right"> <span class="size-giant"><a id="settingsclosebutton">&#10006;</a></span></div></th></tr></thead><tbody><tr><td><div class="align-right">Theme:</div></td><td><div class="align-left"><a id="changethemebutton">Set Light Theme</a></div></td></tr><tr><td><div class="align-right">Horizontal Padding:</div></td><td><div class="align-left"><a id="growhorizontalbutton">Grow</a> <a id="shrinkhorizontalbutton">Shrink</a></div></td></tr><tr><td><div class="align-right">Font Size:</div></td><td><div class="align-left"><a id="growfontbutton">Grow</a> <a id="shrinkfontbutton">Shrink</a></div></td></tr><tr><td><div class="align-right">Settings:</div></td><td><div class="align-left"><a id="savesettingsbutton">Save All</a> <a id="discardsettingsbutton">Discard All</a></div></td></tr></tbody></table></div></div>
+    </nav>
+
+
+    <article class="markdown">
+        <a id="top"></a>
+<table><thead onclick="collapse_table('0')" id="table-collapse-toggle-0" class="collapsible collapsed"><tr><th>목차</th></tr></thead><tbody id="collapsible-table-0" class="invisible"><tr><td><div class="toc"><ol type="1"><li><a href="#basics">Basics</a><ol type="1"><li><a href="#tm">tm</a><ol type="1"><li><a href="#operational-semantics">Operational Semantics</a></li></ol></li></ol></li></ol></div></td></tr></tbody></table><h1 id="basics">Basics</h1><p>이번 단원에서는 프로그래밍 언어의 아주 큰 주제 중 하나인 type system에 대해서 공부하겠습니다. 언제나 그랬듯이 간단한 언어를 하나 정의하고 그 언어를 통해서 개념을 공부하겠습니다.</p><h2 id="tm">tm</h2><p>이번에 정의할 언어는 14단원 <a href="14-6.html#tm">끝자락</a>에서 정의한 tm과 비슷하게 생겼습니다. 다만 tm은 너무 단순해서 type을 정의할 수가 없으니 bool과 자연수 type을 가지는 좀 더 복잡한 언어를 정의해봅시다.</p><pre class="fenced-code-block line-num-width-0"><code><span class="code-fence-row"><span class="code-fence-index">1</span><span class="code-fence-code">t ::= true</span></span>
+<span class="code-fence-row"><span class="code-fence-index">2</span><span class="code-fence-code">    | false</span></span>
+<span class="code-fence-row"><span class="code-fence-index">3</span><span class="code-fence-code">    | if t then t else t</span></span>
+<span class="code-fence-row"><span class="code-fence-index">4</span><span class="code-fence-code">    | 0</span></span>
+<span class="code-fence-row"><span class="code-fence-index">5</span><span class="code-fence-code">    | succ t</span></span>
+<span class="code-fence-row"><span class="code-fence-index">6</span><span class="code-fence-code">    | pred t</span></span>
+<span class="code-fence-row"><span class="code-fence-index">7</span><span class="code-fence-code">    | iszero t</span></span>
+</code><button onclick="copy_code_to_clipboard(0)" class="copy-fenced-code">Copy</button></pre><p>Coq으로 한 정의는 너무 길어서 간략한 정의만 실었습니다. 위의 표기들이 tm이 가질 수 있는 모든 표기입니다. 14단원에서도 <code class="inline-code-span">value</code>를 정의했죠? 더 이상 계산이 불가능한 상수 상태를 <code class="inline-code-span">value</code>로 정의했습니다. 이번에도 똑같이 정의해보겠습니다.</p><pre class="fenced-code-block line-num-width-1"><code><span class="code-fence-row"><span class="code-fence-index">1</span><span class="code-fence-code"><span class="color-violet">Inductive</span> <span class="color-aqua">bvalue</span> <span class="color-white">:</span> <span class="color-violet">tm</span> <span class="color-white">-</span><span class="color-white">&gt;</span> <span class="color-white">Prop</span> <span class="color-white">:=</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">2</span><span class="code-fence-code">  <span class="color-white">|</span> <span class="color-aqua">bv_True</span> <span class="color-white">:</span> <span class="color-violet">bvalue</span> <span class="color-white">&lt;</span><span class="color-white">{</span> <span class="color-red">true</span> <span class="color-white">}</span><span class="color-white">&gt;</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">3</span><span class="code-fence-code">  <span class="color-white">|</span> <span class="color-aqua">bv_false</span> <span class="color-white">:</span> <span class="color-violet">bvalue</span> <span class="color-white">&lt;</span><span class="color-white">{</span> <span class="color-red">false</span> <span class="color-white">}</span><span class="color-white">&gt;</span><span class="color-white">.</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">4</span><span class="code-fence-code"></span></span>
+<span class="code-fence-row"><span class="code-fence-index">5</span><span class="code-fence-code"><span class="color-violet">Inductive</span> <span class="color-aqua">nvalue</span> <span class="color-white">:</span> <span class="color-violet">tm</span> <span class="color-white">-</span><span class="color-white">&gt;</span> <span class="color-white">Prop</span> <span class="color-white">:=</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">6</span><span class="code-fence-code">  <span class="color-white">|</span> <span class="color-aqua">nv_0</span> <span class="color-white">:</span> <span class="color-violet">nvalue</span> <span class="color-white">&lt;</span><span class="color-white">{</span><span class="color-white"> 0 </span><span class="color-white">}</span><span class="color-white">&gt;</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">7</span><span class="code-fence-code">  <span class="color-white">|</span> <span class="color-aqua">nv_succ</span> <span class="color-white">:</span> <span class="color-violet">forall</span> <span class="color-red">t</span><span class="color-white">,</span> <span class="color-violet">nvalue</span> <span class="color-violet">t</span> <span class="color-white">-</span><span class="color-white">&gt;</span> <span class="color-violet">nvalue</span> <span class="color-white">&lt;</span><span class="color-white">{</span> <span class="color-red">succ</span> <span class="color-red">t</span> <span class="color-white">}</span><span class="color-white">&gt;</span><span class="color-white">.</span></span></span>
+<span class="code-fence-row"><span class="code-fence-index">8</span><span class="code-fence-code"></span></span>
+<span class="code-fence-row"><span class="code-fence-index">9</span><span class="code-fence-code"><span class="color-violet">Definition</span> <span class="color-aqua">value</span> <span class="color-white">(</span><span class="color-red">t</span> <span class="color-white">:</span> <span class="color-violet">tm</span><span class="color-white">)</span> <span class="color-white">:=</span> <span class="color-red">bvalue</span> <span class="color-red">t</span> <span class="color-white">\/</span> <span class="color-red">nvalue</span> <span class="color-white">t</span><span class="color-white">.</span></span></span>
+</code><button onclick="copy_code_to_clipboard(1)" class="copy-fenced-code">Copy</button></pre><p>이번에는 tm이 가질 수 있는 값의 종류가 2 종류라서 <code class="inline-code-span">bvalue</code>와 <code class="inline-code-span">nvalue</code>를 따로 정의하고 둘을 합쳐서 <code class="inline-code-span">value</code>라고 정의했습니다.</p><h3 id="operational-semantics">Operational Semantics</h3><p>새로 만든 tm의 single-step relation을 정의해보겠습니다. 이번에도 Coq 정의는 생략하고 글로만 적겠습니다.</p><pre class="fenced-code-block line-num-width-1"><code><span class="code-fence-row"><span class="code-fence-index">1</span><span class="code-fence-code"></span></span>
+<span class="code-fence-row"><span class="code-fence-index">2</span><span class="code-fence-code">           -------------------------------                   (ST_IfTrue)</span></span>
+<span class="code-fence-row"><span class="code-fence-index">3</span><span class="code-fence-code">           if true then t1 else t2 --&gt; t1</span></span>
+<span class="code-fence-row"><span class="code-fence-index">4</span><span class="code-fence-code"></span></span>
+<span class="code-fence-row"><span class="code-fence-index">5</span><span class="code-fence-code">           -------------------------------                  (ST_IfFalse)</span></span>
+<span class="code-fence-row"><span class="code-fence-index">6</span><span class="code-fence-code">           if false then t1 else t2 --&gt; t2</span></span>
+<span class="code-fence-row"><span class="code-fence-index">7</span><span class="code-fence-code"></span></span>
+<span class="code-fence-row"><span class="code-fence-index">8</span><span class="code-fence-code">                       t1 --&gt; t1&apos;</span></span>
+<span class="code-fence-row"><span class="code-fence-index">9</span><span class="code-fence-code">    ------------------------------------------------             (ST_If)</span></span>
+<span class="code-fence-row"><span class="code-fence-index">10</span><span class="code-fence-code">    if t1 then t2 else t3 --&gt; if t1&apos; then t2 else t3</span></span>
+<span class="code-fence-row"><span class="code-fence-index">11</span><span class="code-fence-code"></span></span>
+<span class="code-fence-row"><span class="code-fence-index">12</span><span class="code-fence-code">                     t1 --&gt; t1&apos;</span></span>
+<span class="code-fence-row"><span class="code-fence-index">13</span><span class="code-fence-code">                 --------------------                          (ST_Succ)</span></span>
+<span class="code-fence-row"><span class="code-fence-index">14</span><span class="code-fence-code">                 succ t1 --&gt; succ t1&apos;</span></span>
+<span class="code-fence-row"><span class="code-fence-index">15</span><span class="code-fence-code"></span></span>
+<span class="code-fence-row"><span class="code-fence-index">16</span><span class="code-fence-code">                   ------------                               (ST_Pred0)</span></span>
+<span class="code-fence-row"><span class="code-fence-index">17</span><span class="code-fence-code">                   pred 0 --&gt; 0</span></span>
+<span class="code-fence-row"><span class="code-fence-index">18</span><span class="code-fence-code"></span></span>
+<span class="code-fence-row"><span class="code-fence-index">19</span><span class="code-fence-code">                 numeric value v</span></span>
+<span class="code-fence-row"><span class="code-fence-index">20</span><span class="code-fence-code">                -------------------                        (ST_PredSucc)</span></span>
+<span class="code-fence-row"><span class="code-fence-index">21</span><span class="code-fence-code">                pred (succ v) --&gt; v</span></span>
+<span class="code-fence-row"><span class="code-fence-index">22</span><span class="code-fence-code"></span></span>
+<span class="code-fence-row"><span class="code-fence-index">23</span><span class="code-fence-code">                      t1 --&gt; t1&apos;</span></span>
+<span class="code-fence-row"><span class="code-fence-index">24</span><span class="code-fence-code">                 --------------------                          (ST_Pred)</span></span>
+<span class="code-fence-row"><span class="code-fence-index">25</span><span class="code-fence-code">                 pred t1 --&gt; pred t1&apos;</span></span>
+<span class="code-fence-row"><span class="code-fence-index">26</span><span class="code-fence-code"></span></span>
+<span class="code-fence-row"><span class="code-fence-index">27</span><span class="code-fence-code">                  -----------------                         (ST_IsZero0)</span></span>
+<span class="code-fence-row"><span class="code-fence-index">28</span><span class="code-fence-code">                  iszero 0 --&gt; true</span></span>
+<span class="code-fence-row"><span class="code-fence-index">29</span><span class="code-fence-code"></span></span>
+<span class="code-fence-row"><span class="code-fence-index">30</span><span class="code-fence-code">                 numeric value v</span></span>
+<span class="code-fence-row"><span class="code-fence-index">31</span><span class="code-fence-code">              -------------------------                  (ST_IszeroSucc)</span></span>
+<span class="code-fence-row"><span class="code-fence-index">32</span><span class="code-fence-code">              iszero (succ v) --&gt; false</span></span>
+<span class="code-fence-row"><span class="code-fence-index">33</span><span class="code-fence-code"></span></span>
+<span class="code-fence-row"><span class="code-fence-index">34</span><span class="code-fence-code">                    t1 --&gt; t1&apos;</span></span>
+<span class="code-fence-row"><span class="code-fence-index">35</span><span class="code-fence-code">               ------------------------                      (ST_Iszero)</span></span>
+<span class="code-fence-row"><span class="code-fence-index">36</span><span class="code-fence-code">               iszero t1 --&gt; iszero t1&apos;</span></span>
+</code><button onclick="copy_code_to_clipboard(2)" class="copy-fenced-code">Copy</button></pre><p>각 상황마다 다음 단계로 넘어가는 step을 정의했습니다. Type이 맞지 않은 식을 넣으면 (예: <code class="inline-code-span">succ if true then true else false</code>), 할 수 있는한 최대한 step을 많이 밟은 후, 상수가 되지 못하고 멈추게(stuck) 됩니다. (예: <code class="inline-code-span">succ true</code>)</p><p>이번 tm은 14장의 tm과 다르게 멈추는 경우가 있으므로 normal form과 관련된 정의도 다시 해줘야합니다.</p><hr/><div class="align-center"><p><a href="index.html">메인으로 돌아가기</a></p></div><div class="align-left"><p>&lt;&lt; <a href="Chap14-6.html">Chapter 14-6. Small-Step Operational Semantics</a></p></div><div class="align-right"><p><a href="Chap15-2.html">Chapter 15-2. TODO</a> &gt;&gt;</p></div><script>/*<![CDATA[*/
+const fenced_code_block_contents = ["t ::= true\n    | false\n    | if t then t else t\n    | 0\n    | succ t\n    | pred t\n    | iszero t", "Inductive bvalue : tm -> Prop :=\n  | bv_True : bvalue <{ true }>\n  | bv_false : bvalue <{ false }>.\n\nInductive nvalue : tm -> Prop :=\n  | nv_0 : nvalue <{ 0 }>\n  | nv_succ : forall t, nvalue t -> nvalue <{ succ t }>.\n\nDefinition value (t : tm) := bvalue t \\/ nvalue t.", "\n           -------------------------------                   (ST_IfTrue)\n           if true then t1 else t2 --> t1\n\n           -------------------------------                  (ST_IfFalse)\n           if false then t1 else t2 --> t2\n\n                       t1 --> t1'\n    ------------------------------------------------             (ST_If)\n    if t1 then t2 else t3 --> if t1' then t2 else t3\n\n                     t1 --> t1'\n                 --------------------                          (ST_Succ)\n                 succ t1 --> succ t1'\n\n                   ------------                               (ST_Pred0)\n                   pred 0 --> 0\n\n                 numeric value v\n                -------------------                        (ST_PredSucc)\n                pred (succ v) --> v\n\n                      t1 --> t1'\n                 --------------------                          (ST_Pred)\n                 pred t1 --> pred t1'\n\n                  -----------------                         (ST_IsZero0)\n                  iszero 0 --> true\n\n                 numeric value v\n              -------------------------                  (ST_IszeroSucc)\n              iszero (succ v) --> false\n\n                    t1 --> t1'\n               ------------------------                      (ST_Iszero)\n               iszero t1 --> iszero t1'"];
+
+function copy_code_to_clipboard(index) {
+    navigator.clipboard.writeText(fenced_code_block_contents[index]);
+}/*]]>*/</script>
+        <a id="bottom"></a>
+    </article>
+
+
+
+
+    <footer class="markdown">
+<p><br/></p><p><br/></p><hr/><div class="align-center"><p>2021 ~ 2023 &copy; Baehyunsol</p></div>
+    </footer>
+
+
+    <script src="colors.js"></script>
+
+    
+    <script src="nav.js"></script>
+    
+    
+    
+    <script src="header.js"></script>
+    
+<script src="collapsible_tables.js"></script></body>
+
+</html>

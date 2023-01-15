@@ -148,7 +148,7 @@ Ltac solve_by_invert :=
 
 저 tactic이 어떤 원리로 동작하는지는 중요하지 않습니다. 다만 tactic을 재귀적으로 쓴다는게 신기하네요. `solve_by_inverts`를 이용해서 다시 증명을 해보면 아래와 같습니다.
 
-```line_num
+```coq, line_num
 Theorem step_deterministic_alt:
   deterministic step.
 Proof.
@@ -176,8 +176,6 @@ Proof.
 ### Strong Progress
 
 방금 전에는 step이 유일하다는 걸 증명했죠? 이번엔 step이 가능하다는 걸 증명하겠습니다. 즉, 모든 tm에 대해서 더 이상 계산이 불가능한 상태거나 (이미 계산이 끝나서 상수밖에 안 남은 경우), single-step을 밟을 수 있음을 증명하겠습니다.
-
-좀 더 쉽게 설명하자면 tm이 상수가 아닌 상태로 끝나지 않음을 증명해보겠습니다. tm이야 간단한 언어니까 상관없지만 아주 복잡한 언어의 step을 정의할 경우 더 진행이 가능하지만 (상수가 아니지만) 밟을 수 있는 step이 없는 경우가 있을 수도 있습니다. 그렇게 되면 step이나 언어의 정의를 잘못한 거거든요? 그걸 막는 연습을 하겠습니다.
 
 ```coq, line_num
 Inductive value : tm -> Prop :=
@@ -241,7 +239,13 @@ Proof.
   destruct contra.
   inversion H.
   Qed.
+```
 
+증명은 아주 간단합니다. 계속 쪼개다보면 7번 줄에서 `contra: exists t', C n --> t'`가 남습니다. `C n --> t'`가 되는 경우는 없죠? 그래서 `inversion`을 쓰면 증명이 끝납니다.
+
+`value`와 `normal_form`이 동치인 걸 보여야하니 반대방향들도 증명하겠습니다. 아래를 봅시다.
+
+```coq, line_num
 Lemma nf_is_value : forall t,
   normal_form step t -> value t.
 Proof.
@@ -267,6 +271,8 @@ Proof.
 
 이 사실이 흥미로운 이유 중 하나는 `value`는 문법적(syntactic)인 요소고 normal form은 의미적(semantic)인 요소인데 둘이 정확히 대응된다는 겁니다.
 
+모든 언어가 다 이런 성질을 갖는 건 아닙니다. 아직 상수가 아니지만 step을 진행하는게 불가능한 언어들도 정의할 수 있는데, 저런 상태를 막혔다(stuck)고 합니다. Stuck에 대해서는 15단원에서 다루겠습니다.
+
 ## Multi-step Reduction
 
 지금까지는 single-step 위주로 봤습니다. 그래서 small-step은 항상 single-step인가 궁금해하셨을 수도 있는데, 그렇지 않습니다. small-step은 0번 이상의 모든 단계를 허용합니다. 이번엔 그런 식으로 단계를 확장하는 방법을 살펴보겠습니다. 먼저, `multi`의 정의를 봅시다.
@@ -281,6 +287,14 @@ Inductive multi {X : Type} (R : relation X) : relation X :=
 ```
 
 `x`에서 `x`로 가는 관계는 0 단계를 거치면 되죠? 그걸 `multi_refl`에서 정의했습니다. `multi_step`은 단계를 거치는 과정을 귀납적으로 정의했습니다. `x`에서 `y`로 가는 과정은 딱 1단계를 거치고 (`multi`가 안 붙었으니까), `y`에서 `z`로 가는 과정은 0단계 이상을 거칩니다. 그렇게 되면 `x`에서 `z`로 가는 관계도 있다고 정의함으로써 0 이상의 임의의 단계를 거치는 `multi`라는 관계를 정의했습니다.
+
+Multi-step을 위한 `Notation`도 정의하겠습니다. 아래를 봅시다.
+
+```line_num
+Notation " t '-->*' t' " := (multi step t t') (at level 40).
+```
+
+TODO
 
 ---
 
@@ -298,6 +312,6 @@ Inductive multi {X : Type} (R : relation X) : relation X :=
 
 [[right]]
 
-[Chapter 15-1. TODO](Chap15-1.html) >>
+[Chapter 15-1. Basics](Chap15-1.html) >>
 
 [[/right]]
