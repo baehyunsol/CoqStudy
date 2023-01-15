@@ -4,7 +4,7 @@
 
 작성자: 배현솔\
 최초 작성일: 2022.09.02\
-최근 업데이트: 2023.01.12
+최근 업데이트: 2023.01.15
 
 [[/right]]
 
@@ -71,6 +71,7 @@ Coq 언어 자습 문서입니다.
   - [Chapter 10-1. Induction Principles](Chap10-1.html)
   - [Chapter 10-2. TODO](Chap10-2.html)
 - Chapter 11. Properties of Relations
+  - [Chapter 11-1. TODO](Chap11-1.html)
 - Chapter 12. Simple Imperative Programs
   - [Chapter 12-1. Arithmetic and Boolean Expressions](Chap12-1.html)
   - [Chpater 12-2. Coq Automation](Chap12-2.html)
@@ -89,6 +90,7 @@ Coq 언어 자습 문서입니다.
 - Chapter 15. Type System
 - [부록1: 코드 모음](Appendix.html)
 - [부록2: 허충길 교수님 강의](lectures.html)
+- [부록3: Lambda Calculus](lambda.html)
 
 ## Index by Keyword
 
