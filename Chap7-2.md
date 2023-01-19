@@ -214,7 +214,7 @@ Inductive bin : Type :=
   | B1 (n : bin).
 ```
 
-- `bin`의 type은 항상 `bin`이므로 생략했습니다.
+- `bin`의 타입은 항상 `bin`이므로 생략했습니다.
 - `le` 혹은 `ev`처럼 `Prop`을 반환하는 경우 이런 표기법을 쓸 수 없습니다.
 
 [[br]]
@@ -226,7 +226,7 @@ Inductive bin : Type :=
   | B1 (n : bin) : bin.
 ```
 
-- `bin`의 type이 `bin`이라는 것을 ':' 뒤에 표시했습니다.
+- `bin`의 타입이 `bin`이라는 것을 ':' 뒤에 표시했습니다.
 
 [[br]]
 
@@ -237,7 +237,7 @@ Inductive bin : Type :=
   | B1 : bin -> bin.
 ```
 
-- `bin`의 인수들의 type도 ':' 뒤에 표시했습니다.
+- `bin`의 인수들의 타입도 ':' 뒤에 표시했습니다.
 
 [[/box]]
 

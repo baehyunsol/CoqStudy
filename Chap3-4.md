@@ -5,7 +5,7 @@
 
 # Maps
 
-Rust의 `HashMap`, Python의 `dict`에 대응되는 자료구조입니다. 키와 값을 모두 `nat`을 사용하지만 key는 특별히 `id`라는 wrapper type을 사용하겠습니다. Wrapper type을 사용함으로써 가독성도 좋아지고 나중의 refactoring에도 유리해집니다.
+Rust의 `HashMap`, Python의 `dict`에 대응되는 자료구조입니다. 키와 값을 모두 `nat`을 사용하지만 key는 특별히 `id`라는 wrapper 타입을 사용하겠습니다. Wrapper 타입을 사용함으로써 가독성도 좋아지고 나중의 refactoring에도 유리해집니다.
 
 ```coq, line_num
 Definition id : Type :=

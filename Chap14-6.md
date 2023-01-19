@@ -63,7 +63,7 @@ big-step에서는 `tm`이 아무리 복잡하더라도 한번에 계산을 끝�
 
 `step`의 정의를 좀 더 자세하게 뜯어보면 아래와 같습니다.
 
-- 덧셈의 양변이 상수 (`C`)일 경우 덧셈을 계산합니다.
+- 덧셈의 각 항이 상수 (`C`)일 경우 덧셈을 계산합니다.
 - 덧셈의 인수 중 다른 덧셈이 포함돼 있을 경우 그 덧셈부터 계산합니다. 이때는 왼쪽 인수부터 확인합니다.
 
 ## Relations
@@ -74,7 +74,7 @@ big-step에서는 `tm`이 아무리 복잡하더라도 한번에 계산을 끝�
 Definition relation (X : Type) := X -> X -> Prop.
 ```
 
-Coq에서 관계(relation)는 위와 같이 정의합니다. 어떤 type `X`의 원소 2개가 갖는 `Prop`을 관계라고 하죠. 저희는 `X`가 tm인 관계를 살펴보는게 아니고 `X`가 single-step인 관계를 살펴볼 예정입니다. 먼저 `deterministic`이라는 관계부터 살펴보겠습니다.
+Coq에서 관계(relation)는 위와 같이 정의합니다. 어떤 타입`X`의 원소 2개가 갖는 `Prop`을 관계라고 하죠. 저희는 `X`가 tm인 관계를 살펴보는게 아니고 `X`가 single-step인 관계를 살펴볼 예정입니다. 먼저 `deterministic`이라는 관계부터 살펴보겠습니다.
 
 ### Determinism
 
@@ -295,6 +295,132 @@ Notation " t '-->*' t' " := (multi step t t') (at level 40).
 ```
 
 TODO
+
+## Small-step Imp
+
+이제 small-step이 어떤 식으로 돌아가는지 알았으니 이전에 보았던 Imp 언어를 small-step으로 정의해보겠습니다.
+
+```line_num
+Reserved Notation " a '/' st '-->a' a' "
+                  (at level 40, st at level 39).
+
+Inductive astep (st : state) : aexp -> aexp -> Prop :=
+  | AS_Id : forall (i : string),
+      i / st -->a (st i)
+  | AS_Plus1 : forall a1 a1' a2,
+      a1 / st -->a a1' ->
+      <{ a1 + a2 }> / st -->a <{ a1' + a2 }>
+  | AS_Plus2 : forall v1 a2 a2',
+      aval v1 ->
+      a2 / st -->a a2' ->
+      <{ v1 + a2 }>  / st -->a <{ v1 + a2' }>
+  | AS_Plus : forall (v1 v2 : nat),
+      <{ v1 + v2 }> / st -->a (v1 + v2)
+  | AS_Minus1 : forall a1 a1' a2,
+      a1 / st -->a a1' ->
+      <{ a1 - a2 }> / st -->a <{ a1' - a2 }>
+  | AS_Minus2 : forall v1 a2 a2',
+      aval v1 ->
+      a2 / st -->a a2' ->
+      <{ v1 - a2 }>  / st -->a <{ v1 - a2' }>
+  | AS_Minus : forall (v1 v2 : nat),
+      <{ v1 - v2 }> / st -->a (v1 - v2)
+  | AS_Mult1 : forall a1 a1' a2,
+      a1 / st -->a a1' ->
+      <{ a1 * a2 }> / st -->a <{ a1' * a2 }>
+  | AS_Mult2 : forall v1 a2 a2',
+      aval v1 ->
+      a2 / st -->a a2' ->
+      <{ v1 * a2 }>  / st -->a <{ v1 * a2' }>
+  | AS_Mult : forall (v1 v2 : nat),
+      <{ v1 * v2 }> / st -->a (v1 * v2)
+
+    where " a '/' st '-->a' a' " := (astep st a a').
+```
+
+먼저 `aexp`의 small-step을 정의했습니다. tm에서 덧셈을 각 항을 따로 step을 밟았던 것과 똑같은 원리로, `aexp`의 덧셈/곱셈/뺄셈도 각 항을 따로 계산합니다. 둘 다 상수일 경우 실제 값을 계산합니다.
+
+```line_num
+Reserved Notation " b '/' st '-->b' b' "
+                  (at level 40, st at level 39).
+
+Inductive bstep (st : state) : bexp -> bexp -> Prop :=
+| BS_Eq1 : forall a1 a1' a2,
+    a1 / st -->a a1' ->
+    <{ a1 = a2 }> / st -->b <{ a1' = a2 }>
+| BS_Eq2 : forall v1 a2 a2',
+    aval v1 ->
+    a2 / st -->a a2' ->
+    <{ v1 = a2 }> / st -->b <{ v1 = a2' }>
+| BS_Eq : forall (v1 v2 : nat),
+    <{ v1 = v2 }> / st -->b
+    (if (v1 =? v2) then <{ true }> else <{ false }>)
+| BS_LtEq1 : forall a1 a1' a2,
+    a1 / st -->a a1' ->
+    <{ a1 <= a2 }> / st -->b <{ a1' <= a2 }>
+| BS_LtEq2 : forall v1 a2 a2',
+    aval v1 ->
+    a2 / st -->a a2' ->
+    <{ v1 <= a2 }> / st -->b <{ v1 <= a2' }>
+| BS_LtEq : forall (v1 v2 : nat),
+    <{ v1 <= v2 }> / st -->b
+    (if (v1 <=? v2) then <{ true }> else <{ false }>)
+| BS_NotStep : forall b1 b1',
+    b1 / st -->b b1' ->
+    <{ ~ b1 }> / st -->b <{ ~ b1' }>
+| BS_NotTrue  : <{ ~ true }> / st  -->b <{ false }>
+| BS_NotFalse : <{ ~ false }> / st -->b <{ true }>
+| BS_AndStep : forall b1 b1' b2,
+    b1 / st -->b b1' ->
+    <{ b1 && b2 }> / st -->b <{ b1' && b2 }>
+| BS_AndTrueStep : forall b2 b2',
+    b2 / st -->b b2' ->
+    <{ true && b2 }> / st -->b <{ true && b2' }>
+| BS_AndFalse : forall b2,
+    <{ false && b2 }> / st -->b <{ false }>
+| BS_AndTrueTrue  : <{ true && true  }> / st -->b <{ true }>
+| BS_AndTrueFalse : <{ true && false }> / st -->b <{ false }>
+
+where " b '/' st '-->b' b' " := (bstep st b b').
+```
+
+`bexp`도 비슷합니다. 이항 연산자는 각 항을 따로 step을 밟은 뒤 묶어서 최종 step을 밟습니다. `&&`는 Coq에 내장된 연산자가 없으므로 모든 연산 결과를 정의해놨습니다.
+
+```line_num
+Reserved Notation " t '/' st '-->' t' '/' st' "
+                  (at level 40, st at level 39, t' at level 39).
+
+Inductive cstep : (com * state) -> (com * state) -> Prop :=
+  | CS_AsgnStep : forall st i a1 a1',
+      a1 / st -->a a1' ->
+      <{ i := a1 }> / st --> <{ i := a1' }> / st
+  | CS_Asgn : forall st i (n : nat),
+      <{ i := n }> / st --> <{ skip }> / (i !-> n ; st)
+  | CS_SeqStep : forall st c1 c1' st' c2,
+      c1 / st --> c1' / st' ->
+      <{ c1 ; c2 }> / st --> <{ c1' ; c2 }> / st'
+  | CS_SeqFinish : forall st c2,
+      <{ skip ; c2 }> / st --> c2 / st
+  | CS_IfStep : forall st b1 b1' c1 c2,
+      b1 / st -->b b1' ->
+      <{ if b1 then c1 else c2 end }> / st
+      -->
+      <{ if b1' then c1 else c2 end }> / st
+  | CS_IfTrue : forall st c1 c2,
+      <{ if true then c1 else c2 end }> / st --> c1 / st
+  | CS_IfFalse : forall st c1 c2,
+      <{ if false then c1 else c2 end }> / st --> c2 / st
+  | CS_While : forall st b1 c1,
+      <{ while b1 do c1 end }> / st
+      -->
+      <{ if b1 then c1; while b1 do c1 end else skip end }> / st
+
+  where " t '/' st '-->' t' '/' st' " := (cstep (t,st) (t',st')).
+```
+
+마지막으로 `com`의 small-step입니다. `i := a` 꼴의 대입 명령어의 경우, `a`가 상수가 될 때까지 `CS_AsgnStep`을 이용해서 계속 step을 밟은 뒤, 상수가 되면 `CS_Asgn`을 이용해서 state를 고칩니다. `if`의 경우 조건이 상수가 될 때까지 `CS_IfStep`을 이용해서 계속 step을 밟은 뒤, 상수가 되면 `CS_IfTrue` 혹은 `CS_IfFalse`를 이용해서 조건문을 벗겨냅니다. `while`은 더 간단합니다. 반복문의 한 반복(iteration)을 떼어서 if문으로 만듭니다. 그러면 아까 정의한 조건문의 small-step에 의해 처리가 됩니다.
+
+모든 명령어는 실행이 완료되면 `skip`만 남습니다. `c1;c2`의 경우, `c1`을 계속 step을 밟아서 `skip`으로 만든 후, `CS_SeqFinish`를 통해서 `;`를 없앱니다.
 
 ---
 

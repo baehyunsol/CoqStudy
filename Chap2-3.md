@@ -71,7 +71,7 @@ Proof.
 
 ## bin_to_nat
 
-말그대로 `bin` type의 instance를 `nat` type으로 바꿔주는 함수입니다.
+말그대로 `bin` 타입의 instance를 `nat` 타입으로 바꿔주는 함수입니다.
 
 ```coq, line_num
 Fixpoint bin_to_nat (b: bin) : nat :=

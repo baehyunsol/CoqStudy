@@ -5,7 +5,7 @@
 
 # Higher Order Fuctions
 
-함수형 언어들의 가장 큰 특징 중 하나는 함수들이 일급시민[^igsm]이라는 겁니다. 즉, 함수를 다른 함수에게 인자로 주거나, 함수가 함수를 반환하는 등 함수를 다른 모든 type들과 동일하게 취급합니다. 이 개념은 function pointer와는 조금 다릅니다. Function pointer도 함수를 다른 함수의 인자로 넘길 수 있게 해주지만 C언어에서 함수와 정수가 동일하게 다뤄지나요? 잘 모르겠네요.
+함수형 언어들의 가장 큰 특징 중 하나는 함수들이 일급시민[^igsm]이라는 겁니다. 즉, 함수를 다른 함수에게 인자로 주거나, 함수가 함수를 반환하는 등 함수를 다른 모든 타입들과 동일하게 취급합니다. 이 개념은 function pointer와는 조금 다릅니다. Function pointer도 함수를 다른 함수의 인자로 넘길 수 있게 해주지만 C언어에서 함수와 정수가 동일하게 다뤄지나요? 잘 모르겠네요.
 
 고차 함수[^gchs]는 아주 다양한 기술들을 구사할 수 있게 해줍니다. Python 혹은 Rust에서 map/reduce/filter를 사용해보셨을 겁니다. 또한 저 함수들을 쓰면서 람다함수를 정의한 적도 있으실 겁니다. Coq에서는 해당 함수들을 어떻게 정의하는지 살펴보겠습니다.
 
@@ -19,7 +19,7 @@ Definition doit3times {X : Type} (f : X -> X) (n : X) : X :=
   f (f (f n)).
 ```
 
-함수 `f`와 값 `n`을 받아서 `f(f(f(n)))`을 반환하는 함수입니다. Type은 아래와 같습니다.
+함수 `f`와 값 `n`을 받아서 `f(f(f(n)))`을 반환하는 함수입니다. 타입은 아래와 같습니다.
 
 ```coq, line_num
 Check doit3times. (* (?X -> ?X) -> ?X -> ?X where ?X : [ |- Type] *)
@@ -27,7 +27,7 @@ Check doit3times. (* (?X -> ?X) -> ?X -> ?X where ?X : [ |- Type] *)
 Check @doit3times. (* forall X : Type, (X -> X) -> X -> X *)
 ```
 
-Haskell에서 고차함수의 type 표현과 거의 비슷합니다.
+Haskell에서 고차함수의 타입 표현과 거의 비슷합니다.
 
 ## filter
 
@@ -173,7 +173,7 @@ Definition prod_curry {X Y Z : Type}
   (f : X * Y -> Z) (x : X) (y : Y) : Z := f (x, y).
 ```
 
-참고로 `(x, y)`는 pair의 notation이고 `X * Y`는 prod type의 notation입니다. 정의는 [부록](Appendix.html#currying)에 있습니다. 위의 정의만 보고는 감이 잘 안 오실텐데 아래에서 실제 함수와 함께 용례를 보겠습니다.
+참고로 `(x, y)`는 pair의 notation이고 `X * Y`는 prod 타입의 notation입니다. 정의는 [부록](Appendix.html#currying)에 있습니다. 위의 정의만 보고는 감이 잘 안 오실텐데 아래에서 실제 함수와 함께 용례를 보겠습니다.
 
 ```coq, line_num
 Definition add (x : nat * nat) : nat :=
@@ -194,7 +194,7 @@ Compute add(3, 4).        (* 7 *)
 Compute curry_add(3)(4).  (* 7 *)
 ```
 
-위를 보시면 감이 오실 겁니다. `add`는 `add(3, 4)` 꼴의 모양으로 썼지만 `curry_add`는 `curry_add(3)(4)` 꼴로 씁니다. 그래서 둘의 type도 다릅니다. 이것만 보시면 이런 함수가 왜 필요한지 의문이 들 겁니다.
+위를 보시면 감이 오실 겁니다. `add`는 `add(3, 4)` 꼴의 모양으로 썼지만 `curry_add`는 `curry_add(3)(4)` 꼴로 씁니다. 그래서 둘의 타입도 다릅니다. 이것만 보시면 이런 함수가 왜 필요한지 의문이 들 겁니다.
 
 Curry는 함수형 프로그래밍에서 아주 중요한 개념 중 하나인데[^hskl], 너무 자세히 다루는 건 이 문서의 취지에 어긋나므로 대표적인 예시 몇개만 보겠습니다. 아래는 curry를 이용해서 partial application을 구현한 예시입니다.
 

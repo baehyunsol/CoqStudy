@@ -28,7 +28,7 @@ Arguments Union {T} _ _.
 Arguments Star {T} _.
 ```
 
-먼저 정규표현식 자체를 정의했습니다. `T`는 `Char`, 즉 각 글자들의 type입니다.
+먼저 정규표현식 자체를 정의했습니다. `T`는 `Char`, 즉 각 글자들의 타입입니다.
 
 - `EmptySet`: 아무 문자열에도 대응되지 않습니다.
 - `EmptyStr`: `[]`, 즉 빈 문자열에 대응됩니다.
@@ -73,7 +73,7 @@ Inductive exp_match {T} : list T -> reg_exp T -> Prop :=
 
 각 규칙들을 자세히 뜯어보겠습니다. 먼저, `s =~ re`라는 기호를 정의했습니다. `s`라는 문자열이 `re`라는 정규표현식에 대응된다는 뜻입니다. `exp_match`의 정의 안에서 `~=` 기호를 사용하기 위해서 `Reserved`라는 keyword를 사용했습니다.
 
-또한 `exp_match`의 type이 `list T -> reg_exp T -> Prop`이란 것도 주목할 필요가 있습니다. `exp_match`는 문자열과 정규표현식을 하나씩 받아서 둘이 대응이 되는지를 알려준다는 뜻입니다. [방금 전](#yogi)에 분류한 거에 따르면 전자의 정의에 가깝죠.
+또한 `exp_match`의 타입이 `list T -> reg_exp T -> Prop`이란 것도 주목할 필요가 있습니다. `exp_match`는 문자열과 정규표현식을 하나씩 받아서 둘이 대응이 되는지를 알려준다는 뜻입니다. [방금 전](#yogi)에 분류한 거에 따르면 전자의 정의에 가깝죠.
 
 - `MEmpty`
   - 빈 문자열은 `EmptyStr`에 대응됩니다.

@@ -95,8 +95,8 @@ Arguments cons {X}.
 Arguments repeat {X}.
 ```
 
-위와 같이 `Arguments` 키워드를 쓰면 됩니다. `Arguments` 키워드에 함수 혹은 type 정의의 이름을 넣고 그 뒤에 implicit하게 쓰고 싶은 인수들의 이름을 중괄호 안에 넣으면, Coq가 해당 인수들은 항상 추론합니다.\
-즉, 위와 같이 선언을 해두면 `cons 1 (cons 2 (cons 3 nil))`라고만 해도 Coq가 자동으로 list의 type을 추론합니다.
+위와 같이 `Arguments` 키워드를 쓰면 됩니다. `Arguments` 키워드에 함수 혹은 타입 정의의 이름을 넣고 그 뒤에 implicit하게 쓰고 싶은 인수들의 이름을 중괄호 안에 넣으면, Coq가 해당 인수들은 항상 추론합니다.\
+즉, 위와 같이 선언을 해두면 `cons 1 (cons 2 (cons 3 nil))`라고만 해도 Coq가 자동으로 list의 타입을 추론합니다.
 
 아래와 같이 함수 정의 안에 implicit arguments를 선언할 수도 있습니다.
 
@@ -138,14 +138,14 @@ Implicit argument를 응용하기는 아직 이른 것 같고 polymorphism을 �
 
 [[anchor, id = keyword at]][[/anchor]]
 
-방금 봤던 중괄호 표시를 이용하면 Coq가 항상 type parameter를 추론하게 할 수 있습니다. 하지만, Coq가 type을 추론할 수 없는 상황도 있습니다. 그런 상황에선 어떻게 해야할까요? Type을 명시해줘야 하지만 type을 명시하지 않겠다고 이미 선언을 했는데요? Implicit argument 선언을 뒤집을 수 있는 문법이 있습니다. 아래의 예시를 보겠습니다.
+방금 봤던 중괄호 표시를 이용하면 Coq가 항상 type parameter를 추론하게 할 수 있습니다. 하지만, Coq가 타입을 추론할 수 없는 상황도 있습니다. 그런 상황에선 어떻게 해야할까요? 타입을 명시해줘야 하지만 타입을 명시하지 않겠다고 이미 선언을 했는데요? Implicit argument 선언을 뒤집을 수 있는 문법이 있습니다. 아래의 예시를 보겠습니다.
 
 ```coq, line_num
 Fail Definition mynil_fail := nil.
 Definition mynil := @nil nat.
 ```
 
-위에서 `Arguments nil {X}.`이라고 선언을 했으므로 `nil nat`이라는 표현을 쓸 수는 없습니다. 하지만 그냥 `nil`이라고만 하면 Coq가 `nil`의 type을 알지 못해 에러가 납니다. 그럴 때 `@`를 `nil` 앞에 붙여서 `nil`이 type parameter를 받을 수 있도록 해주고 뒤에 type parameter를 주면 됩니다.
+위에서 `Arguments nil {X}.`이라고 선언을 했으므로 `nil nat`이라는 표현을 쓸 수는 없습니다. 하지만 그냥 `nil`이라고만 하면 Coq가 `nil`의 타입을 알지 못해 에러가 납니다. 그럴 때 `@`를 `nil` 앞에 붙여서 `nil`이 type parameter를 받을 수 있도록 해주고 뒤에 type parameter를 주면 됩니다.
 
 ```coq, line_num
 Check @nil : forall X : Type, list X
@@ -153,7 +153,7 @@ Check @nil : forall X : Type, list X
 Check nil : list where ?X : [ |- Type]
 ```
 
-`nil`과 `@nil`의 type은 위와 같습니다. `nil`의 type은 무슨 뜻인지 아직 잘 모르겠네요.
+`nil`과 `@nil`의 타입은 위와 같습니다. `nil`의 타입은 무슨 뜻인지 아직 잘 모르겠네요.
 
 ---
 

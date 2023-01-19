@@ -7,7 +7,7 @@
 
 ## 정의
 
-본격적으로 증명을 자동화하기에 앞서 `verification_conditions`라는 type을 정의하겠습니다. `verification_conditions`는 precondition과 `dcom` 하나를 받아서 걔네로 만든 hoare triple이 참인지 아닌지를 나타내는 명제를 반환합니다. 정의를 먼저 보고 설명하겠습니다.
+본격적으로 증명을 자동화하기에 앞서 `verification_conditions`라는 타입을 정의하겠습니다. `verification_conditions`는 precondition과 `dcom` 하나를 받아서 걔네로 만든 hoare triple이 참인지 아닌지를 나타내는 명제를 반환합니다. 정의를 먼저 보고 설명하겠습니다.
 
 ```coq, line_num
 Fixpoint verification_conditions (P : Assertion) (d : dcom) : Prop :=

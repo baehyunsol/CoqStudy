@@ -206,7 +206,7 @@ Qed.
 
 ### `dcom`
 
-명령어에 assertion들이 포함된 type을 Coq으로 만들어봅시다. 이름은 *decorated command*를 줄여서 `dcom`이라고 하겠습니다. 단순하게 모든 명령어마다 precondition과 postcondition을 추가해주는 방식으로 만드는 것은 문제가 있습니다. `skip; skip`이라는 명령어가 있다고 생각해보세요. 저 명령어의 `dcom`은 아래와 같은 모양일 겁니다.
+명령어에 assertion들이 포함된 타입을 Coq으로 만들어봅시다. 이름은 *decorated command*를 줄여서 `dcom`이라고 하겠습니다. 단순하게 모든 명령어마다 precondition과 postcondition을 추가해주는 방식으로 만드는 것은 문제가 있습니다. `skip; skip`이라는 명령어가 있다고 생각해보세요. 저 명령어의 `dcom`은 아래와 같은 모양일 겁니다.
 
 > `{P} ({P} skip {P});({P} skip {P}) {P}`
 
@@ -243,14 +243,14 @@ Inductive dcom : Type :=
 | DCPost (d : dcom) (Q : Assertion).
 ```
 
-처음에도 말했듯이 precondition은 대부분 생략돼 있습니다. 생략된 precondition은 이전의 명령어의 postcondition을 이용해서 유추가 가능하지만 첫번째 명령어의 precondition은 유추할 수 없습니다. 이건 hoare triple을 만드는 사람이 주는 거거든요. 그래서 첫번째 명령어의 precondition을 받을 수 있도록 새로운 type을 추가하겠습니다.
+처음에도 말했듯이 precondition은 대부분 생략돼 있습니다. 생략된 precondition은 이전의 명령어의 postcondition을 이용해서 유추가 가능하지만 첫번째 명령어의 precondition은 유추할 수 없습니다. 이건 hoare triple을 만드는 사람이 주는 거거든요. 그래서 첫번째 명령어의 precondition을 받을 수 있도록 새로운 타입을 추가하겠습니다.
 
 ```coq, line_num
 Inductive decorated : Type :=
   | Decorated : Assertion -> dcom -> decorated.
 ```
 
-이제 장식이된 hoare triple을 표현할 수 있는 방법이 생겼습니다. 짧은 시간 동안 많은 type들을 정의했는데, 저 type들 간에 상호 변환을 하는 함수들도 만들어줘야합니다. 지금까지 증명은 전부 `com`과 `Assertion`을 이용해서만 했으니, 저 type들로 바꿔줘야죠.
+이제 장식이된 hoare triple을 표현할 수 있는 방법이 생겼습니다. 짧은 시간 동안 많은 타입들을 정의했는데, 저 타입들 간에 상호 변환을 하는 함수들도 만들어줘야합니다. 지금까지 증명은 전부 `com`과 `Assertion`을 이용해서만 했으니, 저 타입들로 바꿔줘야죠.
 
 ```coq, line_num
 Fixpoint extract (d : dcom) : com :=

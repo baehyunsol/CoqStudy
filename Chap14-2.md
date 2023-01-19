@@ -399,7 +399,7 @@ Coercion bassn : bexp >-> Assertion.
 Arguments bassn /.
 ```
 
-단순히 함수만 정의한게 아니고 몇몇 특수문법을 추가했습니다. 이제 `Assertion`과 `bexp`를 섞어서 써도 Coq이 알아서 type을 바꿔줄 겁니다.
+단순히 함수만 정의한게 아니고 몇몇 특수문법을 추가했습니다. 이제 `Assertion`과 `bexp`를 섞어서 써도 Coq이 알아서 타입을 바꿔줄 겁니다.
 
 ```line_num
 Lemma bexp_eval_false : forall b st,

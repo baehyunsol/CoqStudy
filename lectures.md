@@ -62,7 +62,7 @@ Inductive color : Type :=
   | primary (p : rgb).
 ```
 
-`red`는 `rgb` 집합의 원소입니다. 그래서 `red : rgb`이죠. 그럼 `primary`의 type은 뭘까요? `primary`는 `rgb` 하나를 받아서 `color`를 내놓는 constructor로, `primary : rgb -> color`입니다. 그럼 `primary red`는요? 이 친구는 `color` 집합의 원소니까 `primary red : color`입니다.
+`red`는 `rgb` 집합의 원소입니다. 그래서 `red : rgb`이죠. 그럼 `primary`의 타입은 뭘까요? `primary`는 `rgb` 하나를 받아서 `color`를 내놓는 constructor로, `primary : rgb -> color`입니다. 그럼 `primary red`는요? 이 친구는 `color` 집합의 원소니까 `primary red : color`입니다.
 
 `Inductive`를 다루는 방법은 (원칙적으로는) `match`를 사용하는 것밖에 없습니다. `match c with ...`의 `c`에다가 `color`의 원소를 하나 주고, 뒤에 가지들에 `color`의 모든 constructor를 나열해야합니다. 예시로 `is_red`를 정의해보겠습니다.
 
@@ -187,13 +187,13 @@ Type부터가 신기합니다. `bool`을 받아서 `bool -> bool`을 내놓는 �
 
 ## Dependent Types
 
-Dependent types은 다른 언어에서는 거의 찾을 수 없고 Coq에서만 찾을 수 있는 기능입니다. 하지만 Coq에서는 아주 광범위하게 쓰이죠. 방금 전에 보았던 `forall n, 0 + n = n`부터가 dependent type입니다. 한번 자세히 뜯어보죠.
+Dependent types은 다른 언어에서는 거의 찾을 수 없고 Coq에서만 찾을 수 있는 기능입니다. 하지만 Coq에서는 아주 광범위하게 쓰이죠. 방금 전에 보았던 `forall n, 0 + n = n`부터가 dependent 타입입니다. 한번 자세히 뜯어보죠.
 
-위에서 말했듯이 `0 + n = n`은 `0 + n`과 `n`이 같다는 증명들의 집합입니다. 그래서 `n`이 달라지면 다른 집합이 됩니다. 그럼 그 `n`은 누가 결정하죠? 바로 앞에 있는 `forall n`이 결정합니다. 다른 인수에 의해서 이 함수의 type이 결정되죠? 그래서 depedent type입니다. 다른 예시들도 보겠습니다.
+위에서 말했듯이 `0 + n = n`은 `0 + n`과 `n`이 같다는 증명들의 집합입니다. 그래서 `n`이 달라지면 다른 집합이 됩니다. 그럼 그 `n`은 누가 결정하죠? 바로 앞에 있는 `forall n`이 결정합니다. 다른 인수에 의해서 이 함수의 타입이 결정되죠? 그래서 depedent 타입입니다. 다른 예시들도 보겠습니다.
 
-[4장](Chap4-1.html#repeat)에서 보았던 `Fixpoint repeat (X : Type) (x : X) (count : nat) : list X` 같은 모양의 함수도 dependent type을 사용했습니다. `repeat`의 두번째 인수의 type은 `X`죠? 근데 `X`는 `repeat`의 첫번째 인수입니다. 즉, `repeat`의 첫번째 인수의 값이 두번째 인수의 type을 결정하는 형태입니다.
+[4장](Chap4-1.html#repeat)에서 보았던 `Fixpoint repeat (X : Type) (x : X) (count : nat) : list X` 같은 모양의 함수도 dependent 타입을 사용했습니다. `repeat`의 두번째 인수의 타입은 `X`죠? 근데 `X`는 `repeat`의 첫번째 인수입니다. 즉, `repeat`의 첫번째 인수의 값이 두번째 인수의 타입을 결정하는 형태입니다.
 
-C나 Python만 써오시던 분들은 신기하게 느껴지실 수 있습니다. 저도 그랬어요. 그나마 C스러운 예시를 생각해보자면 다음과 같습니다. ~_자연수 `n`을 인수로 받아서 크기가 `n`인 배열을 반환하는 함수_~를 생각해봅시다. 만약 크기가 다른 배열을 다른 type으로 생각한다면, 저 함수도 dependent type입니다.
+C나 Python만 써오시던 분들은 신기하게 느껴지실 수 있습니다. 저도 그랬어요. 그나마 C스러운 예시를 생각해보자면 다음과 같습니다. ~_자연수 `n`을 인수로 받아서 크기가 `n`인 배열을 반환하는 함수_~를 생각해봅시다. 만약 크기가 다른 배열을 다른 타입으로 생각한다면, 저 함수도 dependent 타입입니다.
 
 ---
 

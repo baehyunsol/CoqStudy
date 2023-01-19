@@ -5,7 +5,7 @@
 
 # Options
 
-Haskell 혹은 Rust를 사용해본 적이 있는 분들은 Rust의 `Option` type과 Haskell의 `Maybe` type에 익숙하실 겁니다. 저 두 언어가 아니더라도 대부분의 최신언어들은 nullable type을 지원합니다. Coq도 비슷한 개념을 지원합니다. 아래의 예시를 보겠습니다.
+Haskell 혹은 Rust를 사용해본 적이 있는 분들은 Rust의 `Option` 타입과 Haskell의 `Maybe` 타입에 익숙하실 겁니다. 저 두 언어가 아니더라도 대부분의 최신언어들은 nullable 타입을 지원합니다. Coq도 비슷한 개념을 지원합니다. 아래의 예시를 보겠습니다.
 
 ```coq, line_num
 Inductive natoption : Type :=
@@ -13,7 +13,7 @@ Inductive natoption : Type :=
   | None.
 ```
 
-`natoption`은 `Some nat` 혹은 `None`의 값을 갖는 type입니다. 이 역시 generic한 표현이 가능한데, 그 부분은 [나중](Chap4-1.html)에 다시 보겠습니다. 이 type을 이용해서 get 함수를 다시 정의해보겠습니다.
+`natoption`은 `Some nat` 혹은 `None`의 값을 갖는 타입입니다. 이 역시 generic한 표현이 가능한데, 그 부분은 [나중](Chap4-1.html)에 다시 보겠습니다. 이 타입을 이용해서 get 함수를 다시 정의해보겠습니다.
 
 ```coq, line_num
 Fixpoint get (l : natlist) (n : nat) : natoption :=
@@ -46,7 +46,7 @@ Coq를 쓰다보면 이전에 증명한 theorem들을 다시 사용할 일이 �
 
 - `Search rev.`
   - `rev`를 포함하는 모든 theorem을 검색합니다.
-  - `rev`는 type이름일 수도 있고 함수이름일 수도 있습니다.
+  - `rev`는 타입이름일 수도 있고 함수이름일 수도 있습니다.
   - 다만, 이름에 `rev`이란 문자열을 포함하는 theorem을 검색하지는 않습니다.
 - `Search (_ + _ = _ + _).`
   - 주어진 패턴을 포함하는 theorem을 검색합니다.

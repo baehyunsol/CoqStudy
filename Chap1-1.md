@@ -13,7 +13,7 @@ Coq는 Gallina라는 함수형 언어로 이루어져 있습니다.[^Gal] Coq에
 
 [[anchor, id=keyword inductive]][[/anchor]]
 
-Rust의 `enum`에 대응되는 개념으로 Coq에는 `Inductive`가 있습니다. Coq의 primitive type들은 대부분 `Inductive`를 통해서 구현돼 있습니다. 즉, 정수형이나 Boolean등도 Coq 내부에 구현된 특별한 자료형이 아닌, 다른 모든 자료형과 동일하다는 뜻입니다.
+Rust의 `enum`에 대응되는 개념으로 Coq에는 `Inductive`가 있습니다. Coq의 primitive 타입들은 대부분 `Inductive`를 통해서 구현돼 있습니다. 즉, 정수형이나 Boolean등도 Coq 내부에 구현된 특별한 자료형이 아닌, 다른 모든 자료형과 동일하다는 뜻입니다.
 
 Boolean이 어떻게 구현돼 있는지 살펴보겠습니다.
 
@@ -23,7 +23,7 @@ Inductive bool : Type :=
   | false.
 ```
 
-Rust에 익숙하신 분이라면 위의 코드를 이해하는 것이 어렵지 않을 것입니다. `bool`이란 type을 정의하고, `bool`에는 `true`와 `false`라는 variant가 있음을 정의합니다. 함수를 정의하는 것도 어렵지 않습니다.
+Rust에 익숙하신 분이라면 위의 코드를 이해하는 것이 어렵지 않을 것입니다. `bool`이란 타입을 정의하고, `bool`에는 `true`와 `false`라는 variant가 있음을 정의합니다. 함수를 정의하는 것도 어렵지 않습니다.
 
 ## `Definition`
 
@@ -92,13 +92,13 @@ Definition orb (b1:bool) (b2:bool) : bool :=
   else b2.
 ```
 
-`if` 문 뒤에 조건이 오고, 그 뒤에 `then`과 `else`가 오는 구조입니다. 위에서도 말했듯, Coq에서 `bool`은 special primitive가 아니기에 `if` 문의 조건에 `bool`만 쓸 수 있게 하는 것은 이치에 맞지 않습니다. 따라서, `if`문의 조건에는 모든 type을 다 사용할 수 있습니다(단, 그 type의 variant가 2개이어야 합니다). 그럼 뭐가 참이고 뭐가 거짓인지 어떻게 구분할지 혼란스러울텐데, `Inductive` 문의 정의 안에서 먼저 정의된 variant를 참으로 간주합니다. [위](#keywordinductive)에서 `true`가 `false`보다 먼저 정의됐으니, 이 코드에서는 `true`가 참으로 간주됩니다.
+`if` 문 뒤에 조건이 오고, 그 뒤에 `then`과 `else`가 오는 구조입니다. 위에서도 말했듯, Coq에서 `bool`은 special primitive가 아니기에 `if` 문의 조건에 `bool`만 쓸 수 있게 하는 것은 이치에 맞지 않습니다. 따라서, `if`문의 조건에는 모든 타입을 다 사용할 수 있습니다(단, 그 타입의 variant가 2개이어야 합니다). 그럼 뭐가 참이고 뭐가 거짓인지 어떻게 구분할지 혼란스러울텐데, `Inductive` 문의 정의 안에서 먼저 정의된 variant를 참으로 간주합니다. [위](#keywordinductive)에서 `true`가 `false`보다 먼저 정의됐으니, 이 코드에서는 `true`가 참으로 간주됩니다.
 
 ## `Check`
 
 [[anchor, id=keyword check]][[/anchor]]
 
-`Check`는 값을 받아서 그 값의 type을 반환하는 명령어[^f]입니다.
+`Check`는 값을 받아서 그 값의 타입을 반환하는 명령어[^f]입니다.
 
 [^f]: `Check`는 일반적인 함수가 아닙니다. 아래에서 자세히 설명하겠습니다. [[br]]*function*이라는 용어는 전부 *함수*로 번역했고, *command*는 전부 *명령어*로 번역했습니다. 문서에서 두 용어를 완전히 구분해서 사용할테니 읽는데 혼동이 없으시길 바라겠습니다.
 
@@ -109,19 +109,19 @@ Check (andb true true).   (* true : bool *)
 (* Coq에서는 함수도 first class object입니다. *)
 Check andb.   (* andb : bool -> bool *)
 
-(* `Check`는 일반적인 함수가 아니기에 type이 없습니다. *)
+(* `Check`는 일반적인 함수가 아니기에 타입이 없습니다. *)
 Check Check.  (* error *)
 ```
 
-혹은 `Check value : Type.`의 형태로 theorem prover에게 type이 맞는지 질의할 수도 있습니다.
+혹은 `Check value : Type.`의 형태로 theorem prover에게 타입이 맞는지 질의할 수도 있습니다.
 
 ```coq, line_num, copy_button(false)
 Check true : bool.
 ```
 
-위와 같이 쓸 경우, `true`가 `bool` type이 맞으면 넘어가고 그렇지 않을 경우 틀렸다고 알려줍니다.
+위와 같이 쓸 경우, `true`가 `bool` 타입이 맞으면 넘어가고 그렇지 않을 경우 틀렸다고 알려줍니다.
 
-문득 Coq의 type이 어떤 식으로 작동하는지 궁금해져서 몇가지 질의를 더 해보았습니다.
+문득 Coq의 타입이 어떤 식으로 작동하는지 궁금해져서 몇가지 질의를 더 해보았습니다.
 
 ```coq, line_num
 Check true.  (* true : bool *)
@@ -130,7 +130,7 @@ Check Set.   (* Set : Type  *)
 Check Type.  (* Type : Type *)
 ```
 
-사용자가 `Inductive` 키워드를 이용해서 정의한 type들은 `Set`이란 type을 가지고 `Set`은 `Type`이란 type을 가집니다.
+사용자가 `Inductive` 키워드를 이용해서 정의한 타입들은 `Set`이란 타입을 가지고 `Set`은 `Type`이란 타입을 가집니다.
 
 ## `Compute`
 
@@ -144,7 +144,7 @@ Compute negb true.  (* = false : bool *)
 
 ## Enums
 
-Rust 혹은 Haskell을 할 줄 아시는 분은 enum을 만들면서 variant 안에 다양한 값을 넣어본 기억이 있으실 겁니다. Coq에서도 비슷한 방식의 type 정의를 지원합니다.
+Rust 혹은 Haskell을 할 줄 아시는 분은 enum을 만들면서 variant 안에 다양한 값을 넣어본 기억이 있으실 겁니다. Coq에서도 비슷한 방식의 타입 정의를 지원합니다.
 
 ```coq, line_num
 Inductive rgb : Type :=
@@ -206,7 +206,7 @@ Check (bits B1 B0 B1 B0)
   : nybble.
 ```
 
-위와 같이 `bit` type 4개로 이뤄진 `bits`라는 type을 정의했습니다.
+위와 같이 `bit` 타입 4개로 이뤄진 `bits`라는 타입을 정의했습니다.
 
 ```coq, line_num
 Definition all_zero (nb : nybble) : bool :=
@@ -218,7 +218,7 @@ Definition all_zero (nb : nybble) : bool :=
 Compute all_zero (bits B0 B0 B0 B0). (* = true : bool *)
 ```
 
-Tuple을 패턴매칭하는 것도 위와 같이 어렵지 않습니다. 꼭 모든 원소들이 동일한 type일 필요는 없습니다. 아래의 예시를 보겠습니다.
+Tuple을 패턴매칭하는 것도 위와 같이 어렵지 않습니다. 꼭 모든 원소들이 동일한 타입일 필요는 없습니다. 아래의 예시를 보겠습니다.
 
 ```coq, line_num
 Inductive complex : Type :=
