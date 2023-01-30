@@ -179,7 +179,7 @@ Compute andb true.   (* fun x => x *)
 Compute andb false.  (* fun _ => false *)
 ```
 
-Type부터가 신기합니다. `bool`을 받아서 `bool -> bool`을 내놓는 함수입니다. 이게 [4단원](Chap4-2.html#functions-that-return-other-functions)에서 봤던 partial application인데요, Coq에서 모든 함수는 인수를 하나만 받습니다. 인수 2개를 받으려면 첫번째 인수를 받아서 그 인수를 처리하는 함수를 만든 뒤, 그 함수가 두번째 인수를 받습니다.
+타입부터가 신기합니다. `bool`을 받아서 `bool -> bool`을 내놓는 함수입니다. 이게 [4단원](Chap4-2.html#functions-that-return-other-functions)에서 봤던 partial application인데요, Coq에서 모든 함수는 인수를 하나만 받습니다. 인수 2개를 받으려면 첫번째 인수를 받아서 그 인수를 처리하는 함수를 만든 뒤, 그 함수가 두번째 인수를 받습니다.
 
 그래서 Coq에게 `andb true false`를 계산하라고 시키면 Coq은 내부적으로 `andb true : bool -> bool`를 만든 뒤, 그 함수에다가 `false`를 집어넣습니다. 즉, `(andb true) false`를 하는 거죠.
 

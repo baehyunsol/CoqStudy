@@ -1,0 +1,69 @@
+<!DOCTYPE html><html>
+
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width"/>
+    
+    <title>Chap15-2</title>
+    
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding&amp;display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'"/>
+    <!--<link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding&amp;display=swap" rel="stylesheet"/> -->
+    
+    <link href="page.css" rel="stylesheet"/><link href="markdown.css" rel="stylesheet"/><link href="nav.css" rel="stylesheet"/><link href="header.css" rel="stylesheet"/>
+    
+</head>
+
+<body>
+
+
+    <header>
+<p><div class="topmenu deactivated"><a href="index.html">Home</a> <a href="index.html#index-by-chapter">단원별 목차</a> <a href="index.html#index-by-keyword">키워드 목차</a> <a href="Appendix.html">부록</a></div><div class="mobileview"><a id="navbutton">&#9776;</a></div></p>
+    </header>
+
+
+
+    <nav>
+<p><a id="settingsopenbutton">&#9728;</a><a href="#top">&#9650;</a><a href="#bottom">&#9660;</a></p><div id="settingsmenubg"><div id="settingsmenu"><table><thead><tr><th colspan="2"><div class="align-right"> <span class="size-giant"><a id="settingsclosebutton">&#10006;</a></span></div></th></tr></thead><tbody><tr><td><div class="align-right">Theme:</div></td><td><div class="align-left"><a id="changethemebutton">Set Light Theme</a></div></td></tr><tr><td><div class="align-right">Horizontal Padding:</div></td><td><div class="align-left"><a id="growhorizontalbutton">Grow</a> <a id="shrinkhorizontalbutton">Shrink</a></div></td></tr><tr><td><div class="align-right">Font Size:</div></td><td><div class="align-left"><a id="growfontbutton">Grow</a> <a id="shrinkfontbutton">Shrink</a></div></td></tr><tr><td><div class="align-right">Settings:</div></td><td><div class="align-left"><a id="savesettingsbutton">Save All</a> <a id="discardsettingsbutton">Discard All</a></div></td></tr></tbody></table></div></div>
+    </nav>
+
+
+    <article class="markdown">
+        <a id="top"></a>
+<table><thead onclick="collapse_table('0')" id="table-collapse-toggle-0" class="collapsible collapsed"><tr><th>목차</th></tr></thead><tbody id="collapsible-table-0" class="invisible"><tr><td><div class="toc"><p>1. <a href="#simply-typed-lambda-calculus">Simply Typed Lambda Calculus</a></p></div></td></tr></tbody></table><h1 id="simply-typed-lambda-calculus">Simply Typed Lambda Calculus</h1><p>이 단원을 공부하기 전에 부록에 있는 <a href="lambda.html">람다대수</a>를 먼저 읽고 오시는 걸 강력하게 권장드립니다.</p><p>이번에도 지난 단원들과 마찬가지로 간단한 언어를 정의한 뒤, 그 언어의 성질들을 위주로 살펴보겠습니다.</p><pre class="fenced-code-block line-num-width-1"><code><span class="code-fence-row"><span class="code-fence-index">1</span><span class="code-fence-code">t ::= x                         (variable)</span></span>
+<span class="code-fence-row"><span class="code-fence-index">2</span><span class="code-fence-code">    | \x:T,t                    (abstraction)</span></span>
+<span class="code-fence-row"><span class="code-fence-index">3</span><span class="code-fence-code">    | t t                       (application)</span></span>
+<span class="code-fence-row"><span class="code-fence-index">4</span><span class="code-fence-code">    | true                      (constant true)</span></span>
+<span class="code-fence-row"><span class="code-fence-index">5</span><span class="code-fence-code">    | false                     (constant false)</span></span>
+<span class="code-fence-row"><span class="code-fence-index">6</span><span class="code-fence-code">    | if t then t else t        (conditional)</span></span>
+<span class="code-fence-row"><span class="code-fence-index">7</span><span class="code-fence-code"></span></span>
+<span class="code-fence-row"><span class="code-fence-index">8</span><span class="code-fence-code">T ::= Bool</span></span>
+<span class="code-fence-row"><span class="code-fence-index">9</span><span class="code-fence-code">    | T -&gt; T</span></span>
+</code><button onclick="copy_code_to_clipboard(0)" class="copy-fenced-code">Copy</button></pre><p>저희가 이번에 새로 정의할 언어입니다. <code class="inline-code-span">t</code>는 값이고 <code class="inline-code-span">T</code>는 타입입니다. 타입은 <code class="inline-code-span">Bool</code>과 함수의 2가지가 있습니다. 부록에서는 함수 정의에 <code class="inline-code-span">.</code>를 썼지만 여기선 <code class="inline-code-span">,</code>를 썼는데, 이는 Coq 문법의 <code class="inline-code-span">.</code>와의 충돌을 피하기위함입니다. 또한, 인수의 타입은 문법에 포함되지만 반환값의 타입은 적어주지 않습니다. 안 적어도 (무조건) 알 수 있거든요.</p><p>부록에서 봤던 함수들을 새로운 문법과 함께 다시 정의해보겠습니다.</p><ul><li><code class="inline-code-span">\x:Bool, x</code><ul><li>항등함수를 정의했습니다.</li></ul></li><li><code class="inline-code-span">(\x:Bool, x) true</code><ul><li>항등함수에 인수로 <code class="inline-code-span">true</code>를 줬습니다.</li></ul></li><li><code class="inline-code-span">\x:Bool, if x then false else true</code><ul><li><code class="inline-code-span">not</code> 함수입니다.</li></ul></li><li><code class="inline-code-span">(\x:Bool, \y:Bool, x) false true</code><ul><li>인수 2개를 받아서 첫번째 인수를 반환하는 함수를 만든 뒤, 인수 2개를 줬습니다.</li></ul></li></ul><hr/><div class="align-center"><p><a href="index.html">메인으로 돌아가기</a></p></div><div class="align-left"><p>&lt;&lt; <a href="Chap15-1.html">Chapter 15-1. Basics</a></p></div><div class="align-right"><p><a href="Chap15-3.html">Chapter 15-3. TODO</a> &gt;&gt;</p></div><script>/*<![CDATA[*/
+const fenced_code_block_contents = ["t ::= x                         (variable)\n    | \\x:T,t                    (abstraction)\n    | t t                       (application)\n    | true                      (constant true)\n    | false                     (constant false)\n    | if t then t else t        (conditional)\n\nT ::= Bool\n    | T -> T"];
+
+function copy_code_to_clipboard(index) {
+    navigator.clipboard.writeText(fenced_code_block_contents[index]);
+}/*]]>*/</script>
+        <a id="bottom"></a>
+    </article>
+
+
+
+
+    <footer class="markdown">
+<p><br/></p><p><br/></p><hr/><div class="align-center"><p>2021 ~ 2023 &copy; Baehyunsol</p></div>
+    </footer>
+
+
+    <script src="colors.js"></script>
+
+    
+    <script src="nav.js"></script>
+    
+    
+    
+    <script src="header.js"></script>
+    
+<script src="collapsible_tables.js"></script></body>
+
+</html>

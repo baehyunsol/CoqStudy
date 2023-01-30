@@ -4,7 +4,7 @@
 
 작성자: 배현솔\
 최초 작성일: 2022.09.02\
-최근 업데이트: 2023.01.19
+최근 업데이트: 2023.01.30
 
 [[/right]]
 
@@ -89,6 +89,7 @@ Coq 언어 자습 문서입니다.
   - [Chapter 14-6. Small-Step Operational Semantics](Chap14-6.html)
 - Chapter 15. Type System
   - [Chapter 15-1. Basics](Chap15-1.html)
+  - [Chapter 15-2. Simply Typed Lambda Calculus](Chap15-2.html)
 - [부록1: 코드 모음](Appendix.html)
 - [부록2: 허충길 교수님 강의](lectures.html)
 - [부록3: Lambda Calculus](lambda.html)

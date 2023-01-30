@@ -7,6 +7,8 @@
 
 이번 단원에서는 프로그래밍 언어의 아주 큰 주제 중 하나인 type system에 대해서 공부하겠습니다. 언제나 그랬듯이 간단한 언어를 하나 정의하고 그 언어를 통해서 개념을 공부하겠습니다.
 
+이번 단원을 공부하기 전에 [부록](lectures.html)에 있는 허충길 교수님의 강의 내용을 읽고 오는 것이 도움이 됩니다.
+
 ## tm
 
 이번에 정의할 언어는 14단원 [끝자락](14-6.html#tm)에서 정의한 tm과 비슷하게 생겼습니다. 다만 tm은 너무 단순해서 타입을 정의할 수가 없으니 bool과 자연수 타입을 가지는 좀 더 복잡한 언어를 정의해봅시다.
@@ -184,7 +186,28 @@ Proof.
   intros Contra. solve_by_inverts 2.  Qed.
 ```
 
-`if false then 0 else true`라는 식의 타입은 정의할 수 없습니다. 하지만 Coq은 이 식의 타입을 정의할 수 없다는 건 안 알려주고 이 식이 `Bool`도 아니고 `Nat`도 아니라고만 합니다.
+`if false then 0 else true`라는 식의 타입은 정의할 수 없습니다. 틀린 식이거든요. 하지만 Coq은 이 식의 타입을 정의할 수 없다는 건 안 알려주고 이 식이 `Bool`도 아니고 `Nat`도 아니라고만 합니다.
+
+새로 정의한 `has_type`의 중요한 성질 몇가지를 보겠습니다.
+
+```coq, line_num
+Theorem progress : forall t T,
+  |- t \in T ->
+  value t \/ exists t', t --> t'.
+
+Theorem preservation : forall t t' T,
+  |- t \in T ->
+  t --> t' ->
+  |- t' \in T.
+```
+
+먼저 `progress`는 타입이 있는 값은 stuck하지 않는다는 성질입니다. tm을 만들면서 `value`가 아니지만 더 이상 step을 못 밟는 경우들을 봤죠? 하지만 `value`가 아니면서 타입이 있는 값은 무조건 step을 밟을 수 있다는게 `progress`가 하는 말입니다.
+
+그다음은 `preservation`이라는 성질입니다. `t`라는 값이 step을 밟아서 `t'`가 될 경우, `t`와 `t'`의 타입은 같다는 성질입니다.
+
+## Type Soundness
+
+방금 정의한 `progress`와 `preservation`을 묶어서 생각하면, 타입이 잘 정해진 값은 step을 아무리 밟아도 stuck하지 않는다는 결론에 도달합니다. 이걸 type soundness라고 합니다.
 
 ---
 
@@ -202,6 +225,6 @@ Proof.
 
 [[right]]
 
-[Chapter 15-2. TODO](Chap15-2.html) >>
+[Chapter 15-2. Simply Typed Lambda Calculus](Chap15-2.html) >>
 
 [[/right]]
