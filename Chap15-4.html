@@ -1,0 +1,105 @@
+<!DOCTYPE html><html>
+
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width"/>
+    
+    <title>Chap15-4</title>
+    
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding&amp;display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'"/>
+    <!--<link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding&amp;display=swap" rel="stylesheet"/> -->
+    
+    <link href="page.css" rel="stylesheet"/><link href="markdown.css" rel="stylesheet"/><link href="nav.css" rel="stylesheet"/><link href="header.css" rel="stylesheet"/>
+    
+</head>
+
+<body>
+
+
+    <header>
+<p><div class="topmenu deactivated"><a href="index.html">Home</a> <a href="index.html#index-by-chapter">단원별 목차</a> <a href="index.html#index-by-keyword">키워드 목차</a> <a href="Appendix.html">부록</a></div><div class="mobileview"><a id="navbutton">&#9776;</a></div></p>
+    </header>
+
+
+
+    <nav>
+<p><a id="settingsopenbutton">&#9728;</a><a href="#top">&#9650;</a><a href="#bottom">&#9660;</a></p><div id="settingsmenubg"><div id="settingsmenu"><table><thead><tr><th colspan="2"><div class="align-right"> <span class="size-giant"><a id="settingsclosebutton">&#10006;</a></span></div></th></tr></thead><tbody><tr><td><div class="align-right">Theme:</div></td><td><div class="align-left"><a id="changethemebutton">Set Light Theme</a></div></td></tr><tr><td><div class="align-right">Horizontal Padding:</div></td><td><div class="align-left"><a id="growhorizontalbutton">Grow</a> <a id="shrinkhorizontalbutton">Shrink</a></div></td></tr><tr><td><div class="align-right">Font Size:</div></td><td><div class="align-left"><a id="growfontbutton">Grow</a> <a id="shrinkfontbutton">Shrink</a></div></td></tr><tr><td><div class="align-right">Settings:</div></td><td><div class="align-left"><a id="savesettingsbutton">Save All</a> <a id="discardsettingsbutton">Discard All</a></div></td></tr></tbody></table></div></div>
+    </nav>
+
+
+    <article class="markdown">
+        <a id="top"></a>
+<table><thead onclick="collapse_table('0')" id="table-collapse-toggle-0" class="collapsible collapsed"><tr><th>목차</th></tr></thead><tbody id="collapsible-table-0" class="invisible"><tr><td><div class="toc"><ol type="1"><li><a href="#subtyping">Subtyping</a><ol type="1"><li><a href="#정의">정의</a></li><li><a href="#성질">성질</a><ol type="1"><li><a href="#records">Records</a></li><li><a href="#top">Top</a></li></ol></li></ol></li></ol></div></td></tr></tbody></table><h1 id="subtyping">Subtyping</h1><p>이번 장에서는 subtyping에 대해서 공부해보겠습니다. 아래의 stlc 코드를 살펴봅시다.</p><pre class="fenced-code-block line-num-width-0"><code><span class="code-fence-row"><span class="code-fence-index">1</span><span class="code-fence-code">Person  = {name:String, age:Nat}</span></span>
+<span class="code-fence-row"><span class="code-fence-index">2</span><span class="code-fence-code">Student = {name:String, age:Nat, gpa:Nat}</span></span>
+<span class="code-fence-row"><span class="code-fence-index">3</span><span class="code-fence-code"></span></span>
+<span class="code-fence-row"><span class="code-fence-index">4</span><span class="code-fence-code">(\r:Person. (r.age)+1) {name=&quot;Pat&quot;,age=21,gpa=1}</span></span>
+</code><button onclick="copy_code_to_clipboard(0)" class="copy-fenced-code">Copy</button></pre><p>4번 줄의 람다함수는 <code class="inline-code-span">Person</code> 하나를 인수로 받아서 그 <code class="inline-code-span">Person</code>의 <code class="inline-code-span">age</code>에 1을 더해서 반환합니다. 그리고 그 함수에 <code class="inline-code-span">Person</code>이 아닌 <code class="inline-code-span">Student</code>를 인수로 줬어요. 저렇게 주면 우리의 stlc 언어는 타입이 맞지 않는다면서 실행을 거부합니다. 근데 직관적으로 생각해보면 저 코드에는 문제가 없어요. 어차피 <code class="inline-code-span">age</code>라는 항목만 있으면 상관없는데 그럼 <code class="inline-code-span">Person</code>이 들어오든 <code class="inline-code-span">Student</code>가 들어오든 상관없는 거 아닌가요?</p><p>이건 모든 프로그래밍 언어에서 아주 중요하게 다루는 문제입니다. <code class="inline-code-span">Duck</code>이라는 타입과 <code class="inline-code-span">Goose</code>라는 타입을 만든다고 치면, 둘은 차이점보다 공통점이 더 많습니다. 둘다 수영도 하고 울음소리도 내는데, 둘을 위해서 동일한 함수를 두번씩 정의하면 너무 귀찮겠죠? 그걸 해결하기 위해 프로그래밍 언어들은 다양한 방법을 제시합니다.</p><p>예를 들어서, 자바/C++등의 객체지향 언어들은 <a href="">상속</a>이란 방법을 사용합니다. <code class="inline-code-span">Bird</code>라는 클래스를 정의해서 새들의 특징을 저 클래스 안에 서술한 뒤, 오리만의 특징은 <code class="inline-code-span">Duck</code>에 서술하고 거위만의 특징은 <code class="inline-code-span">Goose</code>에 서술합니다. 그 뒤, <code class="inline-code-span">Duck</code>이 <code class="inline-code-span">Bird</code>를 상속하고 <code class="inline-code-span">Goose</code>도 <code class="inline-code-span">Bird</code>를 상속하게 함으로써 문제를 해결합니다.</p><p>파이썬/루비처럼 <a href="https://en.wikipedia.org/wiki/Duck_typing">duck-typing</a>을 사용할 수도 있습니다. duck-typing은 인수의 타입을 전혀 신경쓰지 않습니다. 위에서 본 코드의 4번 줄의 함수를 예로 들면, 인수가 <code class="inline-code-span">age</code>라는 멤버를 가지는지만 확인을 하고 코드를 실행시킵니다.</p><p>Rust처럼 <a href="https://en.wikipedia.org/wiki/Object_composition">composition</a>을 사용할 수도 있습니다. 오리의 특징은 여러가지가 있습니다. 날 수 있다는 점을 <code class="inline-code-span">Fly</code>라는 trait에 서술하고, 물에 산다는 점을 <code class="inline-code-span">Aqua</code>라는 trait에 따로 서술합니다. 또, 꽥꽥거린다는 특징은 <code class="inline-code-span">Quack</code>에 서술하고요. <code class="inline-code-span">Duck</code>을 만들 때는 오리가 갖는 특징들을 조합해서 만듭니다. <code class="inline-code-span">Fly</code>, <code class="inline-code-span">Aqua</code>, <code class="inline-code-span">Quack</code>을 조합해서 <code class="inline-code-span">Duck</code>이란 타입을 만들고 <code class="inline-code-span">Swim</code>, <code class="inline-code-span">Aqua</code>를 조합해서 <code class="inline-code-span">Fish</code>를 만드는 식으로요. 상속은 위에서 아래로 내려온다면 composition은 아래에서 위로 올라간다고 볼 수 있습니다.</p><p>저희가 이번 단원에서 배울 subtyping은 상속에 가장 가까운 개념입니다.</p><h2 id="정의">정의</h2><p><code class="inline-code-span">S</code>가 <code class="inline-code-span">T</code>의 subtype일 때, 아래와 같은 표기를 사용하겠습니다.</p><blockquote><code class="inline-code-span">S &lt;: T</code> </blockquote><p>이 경우, <code class="inline-code-span">T</code>를 써야하는 자리에 <code class="inline-code-span">S</code>를 써도 됩니다. <a href="#subtyping">맨 위</a>의 예시에서, <code class="inline-code-span">Person</code> 자리에 <code class="inline-code-span">Student</code>를 써도 되는 것처럼요. 그 성질을 subsumption이라고 부르고 아래와 같이 표기합니다.</p><pre class="fenced-code-block"><code><span class="code-fence-row"><span class="code-fence-code">     Gamma ⊢ t1 ∈ T1     T1 &lt;: T2</span></span>
+<span class="code-fence-row"><span class="code-fence-code">     -------------------------------            (T_Sub)</span></span>
+<span class="code-fence-row"><span class="code-fence-code">           Gamma ⊢ t1 ∈ T2</span></span>
+</code></pre><p>한국말로 풀어보면, <u>Gamma라는 상황에서 <code class="inline-code-span">t1</code>의 타입이 <code class="inline-code-span">T1</code>이고, <code class="inline-code-span">T1</code>이 <code class="inline-code-span">T2</code>의 subtype일 때, <code class="inline-code-span">t1</code>의 타입은 <code class="inline-code-span">T2</code>이다.</u> 정도가 되겠네요.</p><p>예시를 들어보면 <code class="inline-code-span">Goose &lt;: Animal</code> 정도로 들 수 있습니다. <code class="inline-code-span">Animal</code>을 필요로하는 함수가 있으면 걔한테 <code class="inline-code-span">Goose</code>를 줘도 됩니다. <code class="inline-code-span">Animal</code>이 갖는 정보들은 <code class="inline-code-span">Goose</code>도 전부 갖거든요. 이때 <code class="inline-code-span">Goose</code>를 <code class="inline-code-span">Animal</code>의 subtype이라고 합니다.</p><h2 id="성질">성질</h2><p>subtype의 성질들을 설명하겠습니다.</p><pre class="fenced-code-block"><code><span class="code-fence-row"><span class="code-fence-code">    S &lt;: U    U &lt;: T</span></span>
+<span class="code-fence-row"><span class="code-fence-code">    ----------------               (S_Trans)</span></span>
+<span class="code-fence-row"><span class="code-fence-code">         S &lt;: T</span></span>
+<span class="code-fence-row"><span class="code-fence-code"></span></span>
+<span class="code-fence-row"><span class="code-fence-code">         ------                    (S_Refl)</span></span>
+<span class="code-fence-row"><span class="code-fence-code">         T &lt;: T</span></span>
+</code></pre><p>가장 당연한 성질 2개를 먼저 설명하겠습니다. <code class="inline-code-span">S</code>가 <code class="inline-code-span">U</code>의 subtype이고 <code class="inline-code-span">U</code>가 <code class="inline-code-span">T</code>의 subtype이면 <code class="inline-code-span">S</code>는 <code class="inline-code-span">T</code>의 subtype입니다. 또한, 모든 타입은 자기자신의 subtype입니다.</p><pre class="fenced-code-block"><code><span class="code-fence-row"><span class="code-fence-code">    S1 &lt;: T1    S2 &lt;: T2</span></span>
+<span class="code-fence-row"><span class="code-fence-code">    --------------------            (S_Prod)</span></span>
+<span class="code-fence-row"><span class="code-fence-code">     S1 * S2 &lt;: T1 * T2</span></span>
+</code></pre><p>그다음은 product에 관한 성질입니다. <code class="inline-code-span">Student</code> 2개로 이뤄진 tuple은 <code class="inline-code-span">Person</code> 2개로 이뤄진 tuple의 subtype입니다.</p><pre class="fenced-code-block"><code><span class="code-fence-row"><span class="code-fence-code">    T1 &lt;: S1    S2 &lt;: T2</span></span>
+<span class="code-fence-row"><span class="code-fence-code">    --------------------            (S_Arrow)</span></span>
+<span class="code-fence-row"><span class="code-fence-code">    S1 -&gt; S2 &lt;: T1 -&gt; T2</span></span>
+</code></pre><p>마지막으로 함수의 인수/반환값에 관련된 성질입니다. <code class="inline-code-span">S</code>와 <code class="inline-code-span">T</code>는 추상적이라 조금 머리가 안 돌아가니 구체적으로 예시를 들겠습니다.</p><pre class="fenced-code-block"><code><span class="code-fence-row"><span class="code-fence-code">Goose &lt;: Animal    Apple &lt;: Food</span></span>
+<span class="code-fence-row"><span class="code-fence-code">--------------------------------</span></span>
+<span class="code-fence-row"><span class="code-fence-code">Animal -&gt; Apple &lt;: Goose -&gt; Food</span></span>
+</code></pre><p><code class="inline-code-span">Goose -&gt; Food</code>의 함수를 <code class="inline-code-span">f</code>라고 하고, <code class="inline-code-span">Animal -&gt; Apple</code>의 함수를 <code class="inline-code-span">g</code>라고 하겠습니다. <code class="inline-code-span">f</code>의 자리에 <code class="inline-code-span">g</code>를 넣어도 됩니다. <code class="inline-code-span">f</code>의 인수로 <code class="inline-code-span">Goose</code>가 들어올텐데, <code class="inline-code-span">g</code>는 <code class="inline-code-span">Animal</code>을 기대합니다. <code class="inline-code-span">Goose</code>는 <code class="inline-code-span">Animal</code>이니까 <code class="inline-code-span">g</code>는 정상적으로 동작할 수 있습니다. <code class="inline-code-span">f</code>의 반환값을 사용하는 코드들은 <code class="inline-code-span">Food</code>를 기대할텐데, <code class="inline-code-span">g</code>는 <code class="inline-code-span">Apple</code>을 내놓습니다. <code class="inline-code-span">Food</code>로 할 수 있는 건 <code class="inline-code-span">Apple</code>로도 전부 할 수 있으므로 문제가 없습니다.</p><h3 id="records">Records</h3><p>그렇다면 record 타입<span id="footnote-ref-0" class="footnote-ref"><a href="#footnote-cite-0">[0]</a></span>에서는 subtype을 어떻게 정의할까요? 아래의 subtype들은 전부 타당해보입니다.</p><pre class="fenced-code-block"><code><span class="code-fence-row"><span class="code-fence-code">{name: String, age: Nat, gpa: Nat} &lt;: {name: String, age: Nat}</span></span>
+<span class="code-fence-row"><span class="code-fence-code">{name: String, age: Nat} &lt;: {name: String}</span></span>
+</code></pre><p>정보가 추가되는 건 상관이 없거든요. 아래의 subtype도 타당해보입니다.</p><pre class="fenced-code-block"><code><span class="code-fence-row"><span class="code-fence-code">{name: String, pet: Cat} &lt;: {name: String, pet: Animal}</span></span>
+</code></pre><p>멤버의 일부만 subtype으로 바꿨으니 전체도 subtype이 성립합니다. 마지막으로 아래의 경우도 subtype이 성립합니다.</p><pre class="fenced-code-block"><code><span class="code-fence-row"><span class="code-fence-code">{name: String, age: Nat} &lt;: {age: Nat, name: String}</span></span>
+</code></pre><p>어차피 record의 값을 사용할 때는 멤버의 이름만 중요하지, 순서는 중요하지 않습니다. 그래서 순서를 바꿔도 됩니다.</p><p>저 규칙들을 모두 포괄해서 정리해보면 아래와 같습니다.</p><pre class="fenced-code-block"><code><span class="code-fence-row"><span class="code-fence-code">          forall jk in j1..jn,</span></span>
+<span class="code-fence-row"><span class="code-fence-code">      exists ip in i1..im, such that</span></span>
+<span class="code-fence-row"><span class="code-fence-code">            jk=ip and Sp &lt;: Tk</span></span>
+<span class="code-fence-row"><span class="code-fence-code">    ----------------------------------             (S_Rcd)</span></span>
+<span class="code-fence-row"><span class="code-fence-code">    {i1:S1...im:Sm} &lt;: {j1:T1...jn:Tn}</span></span>
+</code></pre><p>아주 강력한 규칙이긴 하지만 너무 장황합니다. 그래서 보통은 3개를 쪼개서 각각의 규칙을 씁니다. 아래처럼요.</p><pre class="fenced-code-block"><code><span class="code-fence-row"><span class="code-fence-code">                           n &gt; m</span></span>
+<span class="code-fence-row"><span class="code-fence-code">             ---------------------------------                 (S_RcdWidth)</span></span>
+<span class="code-fence-row"><span class="code-fence-code">             {i1:T1...in:Tn} &lt;: {i1:T1...im:Tm}</span></span>
+<span class="code-fence-row"><span class="code-fence-code"></span></span>
+<span class="code-fence-row"><span class="code-fence-code">                  S1 &lt;: T1  ...  Sn &lt;: Tn</span></span>
+<span class="code-fence-row"><span class="code-fence-code">             ----------------------------------                (S_RcdDepth)</span></span>
+<span class="code-fence-row"><span class="code-fence-code">             {i1:S1...in:Sn} &lt;: {i1:T1...in:Tn}</span></span>
+<span class="code-fence-row"><span class="code-fence-code"></span></span>
+<span class="code-fence-row"><span class="code-fence-code">    {i1:S1...in:Sn} is a permutation of {j1:T1...jn:Tn}</span></span>
+<span class="code-fence-row"><span class="code-fence-code">    ---------------------------------------------------        (S_RcdPerm)</span></span>
+<span class="code-fence-row"><span class="code-fence-code">             {i1:S1...in:Sn} &lt;: {j1:T1...jn:Tn}</span></span>
+</code></pre><p>교과서에선 subtyping을 이렇게 배우지만 실제 언어에서는 저 subtyping이 모두 구현되지 않는 경우들도 많습니다. 예를 들어서, record의 각 멤버의 순서가 달라도 상관없다고 했지만, 실제로는 안 그럴 때도 많습니다. 컴파일러가 클래스를 만들 때 각 멤버의 순서별로 인덱스를 주는 경우가 대부분이거든요.</p><h3 id="top">Top</h3><pre class="fenced-code-block"><code><span class="code-fence-row"><span class="code-fence-code"></span></span>
+<span class="code-fence-row"><span class="code-fence-code">    --------         (S_Top)</span></span>
+<span class="code-fence-row"><span class="code-fence-code">    S &lt;: Top</span></span>
+</code></pre><p><code class="inline-code-span">Top</code>이라는 타입을 정의한 뒤, 모든 타입은 <code class="inline-code-span">Top</code>의 subtype이라고 정의했습니다. 이런 타입을 정의해두면 때때로 유용합니다. 이는 실제 프로그래밍 언어에서도 자주 쓰이는데, 예를 들면 Java에는 <code class="inline-code-span">Object</code>라는 타입이 있고 모든 타입은 <code class="inline-code-span">Object</code>로부터 상속을 받습니다. </p><hr/><div class="align-center"><p><a href="index.html">메인으로 돌아가기</a></p></div><div class="align-left"><p>&lt;&lt; <a href="Chap15-3.html">Chapter 15-3. ??</a></p></div><div class="align-right"><p>다음 글이 없습니다.</p></div><hr class="footnote-hr"/><div class="mdxt-footnote-cites"><p><div class="footnote-cite"><a id="footnote-cite-0"></a><a href="#footnote-ref-0"> [0]</a> Rust/C의 struct, Python/JAVA/C++의 class, Javascript의 object에 대응됩니다.</div></p></div><script>/*<![CDATA[*/
+const fenced_code_block_contents = ["Person  = {name:String, age:Nat}\nStudent = {name:String, age:Nat, gpa:Nat}\n\n(\\r:Person. (r.age)+1) {name=\"Pat\",age=21,gpa=1}"];
+
+function copy_code_to_clipboard(index) {
+    navigator.clipboard.writeText(fenced_code_block_contents[index]);
+}/*]]>*/</script>
+        <a id="bottom"></a>
+    </article>
+
+
+
+
+    <footer class="markdown">
+<p><br/></p><p><br/></p><hr/><div class="align-center"><p>2021 ~ 2023 &copy; Baehyunsol</p></div>
+    </footer>
+
+
+    <script src="colors.js"></script>
+
+    
+    <script src="nav.js"></script>
+    
+    
+    
+    <script src="header.js"></script>
+    
+<script src="collapsible_tables.js"></script></body>
+
+</html>

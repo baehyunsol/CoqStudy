@@ -34,6 +34,8 @@ T ::= Bool
 - `(\x:Bool, \y:Bool, x) false true`
   - 인수 2개를 받아서 첫번째 인수를 반환하는 함수를 만든 뒤, 인수 2개를 줬습니다.
 
+TODO
+
 ---
 
 [[center]]
